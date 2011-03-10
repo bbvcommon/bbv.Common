@@ -137,6 +137,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.DistributedEvent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.DistributedEventBroker.RhinoEsbAdapter.Test", "bbv.Common.DistributedEventBroker.RhinoEsbAdapter.Test\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.Test.csproj", "{E64FA645-4750-432E-B96B-6B39E3666568}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MappingEventBroker", "MappingEventBroker", "{DC42E019-422A-44F4-83D4-FE90F951DD09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension", "bbv.Common.MappingEventBrokerExtension\bbv.Common.MappingEventBrokerExtension.csproj", "{C36D03B8-D834-4065-89E0-6097F8F36B36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension.Test", "bbv.Common.MappingEventBrokerExtension.Test\bbv.Common.MappingEventBrokerExtension.Test.csproj", "{C196EF11-E897-4E33-94A1-52377DB7F25A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension.Specification", "bbv.Common.MappingEventBrokerExtension.Specification\bbv.Common.MappingEventBrokerExtension.Specification.csproj", "{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoMapper", "AutoMapper", "{74D56E70-10BF-4094-AB2B-3A98C277D04F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.AutoMapperEventBrokerExtension", "bbv.Common.AutoMapperEventBrokerExtension\bbv.Common.AutoMapperEventBrokerExtension.csproj", "{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -432,6 +444,30 @@ Global
 		{E64FA645-4750-432E-B96B-6B39E3666568}.DebugWithCodeAnalysis|Any CPU.Build.0 = DebugWithCodeAnalysis|Any CPU
 		{E64FA645-4750-432E-B96B-6B39E3666568}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E64FA645-4750-432E-B96B-6B39E3666568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.DebugWithCodeAnalysis|Any CPU.ActiveCfg = DebugWithCodeAnalysis|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.DebugWithCodeAnalysis|Any CPU.Build.0 = DebugWithCodeAnalysis|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C36D03B8-D834-4065-89E0-6097F8F36B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.DebugWithCodeAnalysis|Any CPU.ActiveCfg = DebugWithCodeAnalysis|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.DebugWithCodeAnalysis|Any CPU.Build.0 = DebugWithCodeAnalysis|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C196EF11-E897-4E33-94A1-52377DB7F25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.DebugWithCodeAnalysis|Any CPU.ActiveCfg = DebugWithCodeAnalysis|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.DebugWithCodeAnalysis|Any CPU.Build.0 = DebugWithCodeAnalysis|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.DebugWithCodeAnalysis|Any CPU.ActiveCfg = DebugWithCodeAnalysis|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.DebugWithCodeAnalysis|Any CPU.Build.0 = DebugWithCodeAnalysis|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -486,5 +522,10 @@ Global
 		{DB9A05CC-572E-4366-8851-C42E3F3A75D0} = {EE241422-3D98-4644-AC5C-6EA674DB4C13}
 		{8D29971E-0C10-4965-8570-4793E6E8B9A8} = {B066AA5F-4167-4A07-AB17-DAC9FFE8F173}
 		{E64FA645-4750-432E-B96B-6B39E3666568} = {B066AA5F-4167-4A07-AB17-DAC9FFE8F173}
+		{C36D03B8-D834-4065-89E0-6097F8F36B36} = {DC42E019-422A-44F4-83D4-FE90F951DD09}
+		{C196EF11-E897-4E33-94A1-52377DB7F25A} = {DC42E019-422A-44F4-83D4-FE90F951DD09}
+		{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3} = {DC42E019-422A-44F4-83D4-FE90F951DD09}
+		{74D56E70-10BF-4094-AB2B-3A98C277D04F} = {DC42E019-422A-44F4-83D4-FE90F951DD09}
+		{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7} = {74D56E70-10BF-4094-AB2B-3A98C277D04F}
 	EndGlobalSection
 EndGlobal

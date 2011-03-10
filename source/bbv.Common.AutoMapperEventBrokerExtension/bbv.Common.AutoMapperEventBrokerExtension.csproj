@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.AutoMapperEventBrokerExtension</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.1.1.0.118\lib\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoMapperMapper.cs" />
+    <Compile Include="AutoMapperEventBrokerExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.EventBroker\bbv.Common.EventBroker.csproj">
+      <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
+      <Name>bbv.Common.EventBroker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.MappingEventBrokerExtension\bbv.Common.MappingEventBrokerExtension.csproj">
+      <Project>{C36D03B8-D834-4065-89E0-6097F8F36B36}</Project>
+      <Name>bbv.Common.MappingEventBrokerExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>
