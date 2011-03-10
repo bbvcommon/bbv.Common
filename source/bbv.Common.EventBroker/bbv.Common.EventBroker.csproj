@@ -84,8 +84,12 @@
     <Compile Include="UnitTestFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.EventBroker.nuspec" />
     <None Include="EventBroker.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>
