@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.EvaluationEngine</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{845A5452-3D0B-4386-8228-F949D6A371C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AggregatorExtensionMethods.cs" />
+    <Compile Include="EvaluationEngine.cs" />
+    <Compile Include="EvaluationEngineModule.cs" />
+    <Compile Include="EvaluationExpression{TExpressionResult, TParameter}.cs" />
+    <Compile Include="EvaluationExpression{TExpressionResult}.cs" />
+    <Compile Include="Extensions\EmptyLogExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IAggregator.cs" />
+    <Compile Include="IEvaluationEngine.cs" />
+    <Compile Include="ILogExtension.cs" />
+    <Compile Include="IEvaluationEngineModule.cs" />
+    <Compile Include="IExpression.cs" />
+    <Compile Include="Internals\Context.cs" />
+    <Compile Include="Internals\ExpressionProviderSet.cs" />
+    <Compile Include="Internals\IDefinitionFactory.cs" />
+    <Compile Include="Internals\IDefinitionHostProvider.cs" />
+    <Compile Include="Internals\IDefinition{TQuestion, TAnswer, TParameter, TExpressionResult}.cs" />
+    <Compile Include="Internals\IDescriptionProvider.cs" />
+    <Compile Include="Internals\IEngine.cs" />
+    <Compile Include="Internals\IExpressionProviderFactory.cs" />
+    <Compile Include="Internals\IExpressionProviderSet.cs" />
+    <Compile Include="Internals\IExpressionProvider{TQuestion, TAnswer, TExpressionResult}.cs" />
+    <Compile Include="Internals\InlineExpression.cs" />
+    <Compile Include="Internals\InlineExpressionProvider.cs" />
+    <Compile Include="Internals\ISolutionDefinitionHost.cs" />
+    <Compile Include="Internals\MultipleExpressionsProvider.cs" />
+    <Compile Include="Internals\SingleExpressionProvider.cs" />
+    <Compile Include="NoParameterExpression{TExpressionResult}.cs" />
+    <Compile Include="Question{TAnswer, TParameter}.cs" />
+    <Compile Include="Strategies\AggregatorStrategy{TQuestion, TAnswer, TExpressionResult}.cs" />
+    <Compile Include="Strategies\AggregatorStrategy{TQuestion, TAnswer}.cs" />
+    <Compile Include="Internals\DefaultFactory.cs" />
+    <Compile Include="Internals\DefinitionHost.cs" />
+    <Compile Include="Internals\Definition{TQuestion, TAnswer, TExpressionResult}.cs" />
+    <Compile Include="Internals\Engine.cs" />
+    <Compile Include="Aggregators\ExpressionAggregator{TAnswer, TParameter}.cs" />
+    <Compile Include="Aggregators\ExpressionAggregator{TExpressionResult, TAnswer, TParameter}.cs" />
+    <Compile Include="Internals\IDefinition.cs" />
+    <Compile Include="Internals\IDefinitionSyntaxFactory.cs" />
+    <Compile Include="Internals\IDefinitionHost.cs" />
+    <Compile Include="IQuestion{TAnswer}.cs" />
+    <Compile Include="IStrategy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question{TAnswer}.cs" />
+    <Compile Include="Aggregators\SingleExpressionAggregator{TAnswer, TParameter}.cs" />
+    <Compile Include="StrategyExtensionMethods.cs" />
+    <Compile Include="Syntax\DefinitionBuilder{TQuestion, TAnswer, TExpressionResult}.cs" />
+    <Compile Include="Syntax\IDefinitionSyntax.cs" />
+    <Compile Include="Validation\Aggregators\ValidationAggregator.cs" />
+    <Compile Include="Validation\Aggregators\ValidationAggregator{TValidationResult, TValidationViolation}.cs" />
+    <Compile Include="Validation\IValidationResult.cs" />
+    <Compile Include="Validation\IValidationResultFactory{TValidationResult, TValidationViolation{.cs" />
+    <Compile Include="Validation\IValidationResult{TValidationViolation}.cs" />
+    <Compile Include="Validation\IValidationViolation.cs" />
+    <Compile Include="Validation\ValidationFactory.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
+    <Compile Include="Validation\ValidationResult{TValidationViolation}.cs" />
+    <Compile Include="Validation\ValidationViolation.cs" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

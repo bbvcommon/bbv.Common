@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.AsyncModule</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Events\AfterConsumeMessageEventArgs.cs" />
+    <Compile Include="Events\BeforeConsumeMessageEventArgs.cs" />
+    <Compile Include="Events\ConsumeMessageEventArgs.cs" />
+    <Compile Include="Events\ConsumeMessageExceptionEventArgs.cs" />
+    <Compile Include="Events\EnqueueMessageEventArgs.cs" />
+    <Compile Include="Events\UnhandledModuleExceptionEventArgs.cs" />
+    <Compile Include="Extensions\ConsumePendingMessagesBeforeStopExtension.cs" />
+    <Compile Include="Extensions\IModuleExtension.cs" />
+    <Compile Include="Extensions\ModuleExtensionCollection.cs" />
+    <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IModuleController.cs" />
+    <Compile Include="MessageConsumerAttribute.cs" />
+    <Compile Include="ModuleController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

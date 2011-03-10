@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.EvaluationEngine</BbvCommonProjectName>
+    <BbvCommonProjectType>Specification</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{3CA5D628-C2DC-4AD6-A652-B08E1E313689}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\packages\Machine.Specifications.0.4.4.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications.TDNetRunner">
+      <HintPath>..\packages\Machine.Specifications.0.4.4.0\lib\Machine.Specifications.TDNetRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.7.0.1540\lib\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\packages\xunit.extensions.1.7.0.1540\lib\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Concern.cs" />
+    <Compile Include="FruitCountExpression.cs" />
+    <Compile Include="HowManyFruitsAreThere.cs" />
+    <Compile Include="HowManyFruitsAreThereStartingWith.cs" />
+    <Compile Include="HowManyWordsDoesThisTextHave.cs" />
+    <Compile Include="LoggingSpecification.cs" />
+    <Compile Include="ParameterizedFruitExpression.cs" />
+    <Compile Include="StrategySpecification.cs" />
+    <Compile Include="Validation\Concern.cs" />
+    <Compile Include="Validation\ValidationExtensibilitySpecification.cs" />
+    <Compile Include="Validation\ValidationSpecification.cs" />
+    <Compile Include="WhatIsTheText.cs" />
+    <Compile Include="WhatWeekdayIsToday.cs" />
+    <Compile Include="HierarchicalEvaluationEnginesSpecification.cs" />
+    <Compile Include="AnswerQuestionsSpecification.cs" />
+    <Compile Include="NoAggregatorSpecification.cs" />
+    <Compile Include="AnswerParametrizedQuestionsSpecification.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConstraintsSpecification.cs" />
+    <Compile Include="ExpressionDefinitionSpecification.cs" />
+    <Compile Include="ModuleSpecification.cs" />
+    <Compile Include="WordCountExpression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.EvaluationEngine\bbv.Common.EvaluationEngine.csproj">
+      <Project>{845A5452-3D0B-4386-8228-F949D6A371C2}</Project>
+      <Name>bbv.Common.EvaluationEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

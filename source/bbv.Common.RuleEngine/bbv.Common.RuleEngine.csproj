@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.RuleEngine</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{074D5033-F469-455F-8615-6614F723E768}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IAggregator.cs" />
+    <Compile Include="IFactory.cs" />
+    <Compile Include="IValidationRuleSetDescriptor.cs" />
+    <Compile Include="RuleEngineException.cs" />
+    <Compile Include="RuleProviderAttribute.cs" />
+    <Compile Include="ValidationAggregator.cs" />
+    <Compile Include="ValidationFactory.cs" />
+    <Compile Include="IValidationFactory.cs" />
+    <Compile Include="IRule.cs" />
+    <Compile Include="IRuleEngine.cs" />
+    <Compile Include="IRuleSet.cs" />
+    <Compile Include="IRuleSetDescriptor.cs" />
+    <Compile Include="IRulesProvider.cs" />
+    <Compile Include="IRulesProviderFinder.cs" />
+    <Compile Include="IValidationResult.cs" />
+    <Compile Include="IValidationRule.cs" />
+    <Compile Include="IValidationViolation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleEngine.cs" />
+    <Compile Include="RuleSet.cs" />
+    <Compile Include="RulesProviderBase.cs" />
+    <Compile Include="ValidationResult.cs" />
+    <Compile Include="ValidationRuleBase.cs" />
+    <Compile Include="ValidationRuleSet.cs" />
+    <Compile Include="ValidationRuleSetDescriptor.cs" />
+    <Compile Include="ValidationViolation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.Formatters\bbv.Common.Formatters.csproj">
+      <Project>{029DF59B-CB12-45C4-8C00-A5680F5CFF1B}</Project>
+      <Name>bbv.Common.Formatters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="RuleEngine.cd" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.IO</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{2D7E5546-1004-4BC7-96C4-0788FFD35A65}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\DirectoryAccessExtensionBase.cs" />
+    <Compile Include="Extensions\FileAccessExtensionBase.cs" />
+    <Compile Include="Extensions\Log4NetDirectoryAccessExtension.cs" />
+    <Compile Include="Extensions\Log4NetFileAccessExtension.cs" />
+    <Compile Include="Extensions\Log4NetPathAccessExtension.cs" />
+    <Compile Include="Extensions\PathAccessExtensionBase.cs" />
+    <Compile Include="FileActions\FileActionExecutedEventArgs.cs" />
+    <Compile Include="FileActions\FileActionExecutedEventHandler.cs" />
+    <Compile Include="FileActions\FileCopy.cs" />
+    <Compile Include="FileActions\FileGetter.cs" />
+    <Compile Include="FileActions\FileMove.cs" />
+    <Compile Include="FileActions\FileSize.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IDirectoryAccess.g.cs" />
+    <Compile Include="IDirectoryAccessExtension.g.cs" />
+    <Compile Include="IDirectoryInfoAccess.cs" />
+    <Compile Include="IDriveInfoAccess.cs" />
+    <Compile Include="IFileAccess.g.cs" />
+    <Compile Include="IFileAccessExtension.g.cs" />
+    <Compile Include="IFileInfoAccess.g.cs" />
+    <Compile Include="IFileSystemInfoAccess.g.cs" />
+    <Compile Include="IIOAccessFactory.cs" />
+    <Compile Include="Internals\ExtensionProviderExtensions.cs" />
+    <Compile Include="Internals\IExtensionProvider.cs" />
+    <Compile Include="IPathAccess.g.cs" />
+    <None Include="packages.config" />
+    <Compile Include="Internals\DirectoryAccess.cs" />
+    <Compile Include="Internals\DirectoryInfoAccess.cs" />
+    <Compile Include="Internals\DriveInfoAccess.cs" />
+    <Compile Include="DriveUtilities.cs" />
+    <Compile Include="Internals\FileAccess.cs" />
+    <Compile Include="FileActions\FileActionCommand.cs" />
+    <Compile Include="Internals\FileInfoAccess.cs" />
+    <Compile Include="FilesystemHelper.cs" />
+    <Compile Include="Internals\FileSystemInfoAccess.cs" />
+    <Compile Include="FolderWatcher.cs" />
+    <Compile Include="IFolderWatcher.cs" />
+    <Compile Include="IOAccessFactory.cs" />
+    <Compile Include="IPathAccessExtension.g.cs" />
+    <Compile Include="ITextReader.cs" />
+    <Compile Include="ITextWriter.cs" />
+    <Compile Include="Internals\PathAccess.cs" />
+    <Compile Include="FileActions\NumberOfDirsAndFiles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\EmbeddedResourceLoader.cs" />
+    <Compile Include="Resources\FileResourceLoader.cs" />
+    <Compile Include="Resources\IResourceLoader.cs" />
+    <Compile Include="StreamDecoratorStream.cs" />
+    <Compile Include="StreamHelper.cs" />
+    <Compile Include="StreamLoggerStream.cs" />
+    <Compile Include="TextFileReader.cs" />
+    <Compile Include="TextFileWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.Windows\bbv.Common.Windows.csproj">
+      <Project>{2BF0976C-F2BB-4DD3-BA04-D7F116516DCD}</Project>
+      <Name>bbv.Common.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.IO</BbvCommonProjectName>
+    <BbvCommonProjectType>Test</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{A55E6A84-F067-4401-AC58-4E6356E70487}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.3.1.416.3\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NMock2, Version=2.0.0.21893, Culture=neutral, PublicKeyToken=cf53a760d95f4c33, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibs\NMock2.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework, Version=1.0.4000.25744, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit, Version=1.7.0.1540, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.1.7.0.1540\lib\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ByteArrayHelper.cs" />
+    <Compile Include="DriveInfoTest.cs" />
+    <Compile Include="FolderWatcherTest.cs" />
+    <Compile Include="Internals\ExtensionProviderExtensionsTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\EmbeddedResourceLoaderTest.cs" />
+    <Compile Include="Resources\FileResourceLoaderTest.cs" />
+    <Compile Include="StreamDecoratorStreamTest.cs" />
+    <Compile Include="StreamLoggerStreamTest.cs" />
+    <None Include="TextFileReaderWriterTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.IO\bbv.Common.IO.csproj">
+      <Project>{2D7E5546-1004-4BC7-96C4-0788FFD35A65}</Project>
+      <Name>bbv.Common.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.TestUtilities.Log4Net\bbv.Common.TestUtilities.Log4Net.csproj">
+      <Project>{7D67208F-1A0E-4D73-9B11-BBD977E5F83A}</Project>
+      <Name>bbv.Common.TestUtilities.Log4Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.TestUtilities\bbv.Common.TestUtilities.csproj">
+      <Project>{ED79CA88-0C5B-47C3-A1E3-E773B0865671}</Project>
+      <Name>bbv.Common.TestUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.Windows\bbv.Common.Windows.csproj">
+      <Project>{2BF0976C-F2BB-4DD3-BA04-D7F116516DCD}</Project>
+      <Name>bbv.Common.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EmbeddedTestResources\StringResource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EmbeddedTestResources\XmlResource.xml" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

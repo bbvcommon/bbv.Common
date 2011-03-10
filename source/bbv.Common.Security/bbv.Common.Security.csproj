@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.Security</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{B28D16DD-D9FC-49CB-AC27-9372BEA913EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FileHasher.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IFileHasher.cs" />
+    <Compile Include="IHashService.cs" />
+    <Compile Include="IHashAlgorithm.cs" />
+    <Compile Include="HashService.cs" />
+    <Compile Include="MD5Algorithm.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sha1Algorithm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.IO\bbv.Common.IO.csproj">
+      <Project>{2D7E5546-1004-4BC7-96C4-0788FFD35A65}</Project>
+      <Name>bbv.Common.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

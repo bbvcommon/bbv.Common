@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.EventBroker</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{7BB93605-419F-43EB-883F-1319F74F444C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>bbv.Common.EventBroker.Sample</RootNamespace>
+    <AssemblyName>bbv.Common.EventBroker.Sample</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EventTopics.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Ping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ping.Designer.cs">
+      <DependentUpon>Ping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pong.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Ping.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Ping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.EventBroker.Log4Net\bbv.Common.EventBroker.Log4Net.csproj">
+      <Project>{6C0ED873-5D03-4A81-8ADD-9B84EDF2B063}</Project>
+      <Name>bbv.Common.EventBroker.Log4Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.EventBroker\bbv.Common.EventBroker.csproj">
+      <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
+      <Name>bbv.Common.EventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

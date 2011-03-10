@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.StateMachine</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{F324D0C2-81EC-4798-9A17-FA22C591E48A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\ExtensionBase.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Internals\IExtensionHost.cs" />
+    <Compile Include="Internals\IFactory.cs" />
+    <Compile Include="Internals\InitializationInformation.cs" />
+    <Compile Include="Internals\IStateContext.cs" />
+    <Compile Include="Internals\ITransitionContext.cs" />
+    <Compile Include="ExceptionMessages.cs" />
+    <Compile Include="Internals\RecordType.cs" />
+    <Compile Include="Internals\StandardFactory.cs" />
+    <Compile Include="IStateMachineInformation.cs" />
+    <Compile Include="IExtension.cs" />
+    <Compile Include="Internals\ActionHolder.cs" />
+    <Compile Include="Internals\ActionHolder{T}.cs" />
+    <Compile Include="ActiveStateMachine.cs" />
+    <Compile Include="Internals\ContextEventArgs.cs" />
+    <Compile Include="Internals\IActionHolder.cs" />
+    <Compile Include="Internals\StateMachineInitializer.cs" />
+    <Compile Include="Internals\StateMachineReport.cs" />
+    <Compile Include="Internals\StateContext.cs" />
+    <Compile Include="Internals\EventInformation.cs" />
+    <Compile Include="ExceptionEventArgs.cs" />
+    <Compile Include="HistoryType.cs" />
+    <Compile Include="Internals\INotifier.cs" />
+    <Compile Include="Internals\IState.cs" />
+    <Compile Include="Internals\IStateDictionary.cs" />
+    <Compile Include="IStateMachine.cs" />
+    <Compile Include="Internals\Syntax.cs" />
+    <Compile Include="Internals\ITransition.cs" />
+    <Compile Include="Internals\ITransitionResult.cs" />
+    <Compile Include="PassiveStateMachine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Internals\State.cs" />
+    <Compile Include="Internals\StateBuilder.g.cs" />
+    <Compile Include="Internals\StateDictionary.cs" />
+    <Compile Include="Internals\StateMachine.cs" />
+    <Compile Include="Internals\Transition.cs" />
+    <Compile Include="TransitionCompletedEventArgs.cs" />
+    <Compile Include="Internals\TransitionDictionary.cs" />
+    <Compile Include="Internals\TransitionContext.cs" />
+    <Compile Include="TransitionExceptionEventArgs.cs" />
+    <Compile Include="TransitionEventArgs.cs" />
+    <Compile Include="Internals\TransitionResult.cs" />
+    <Compile Include="UnitTestStateMachine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.AsyncModule\bbv.Common.AsyncModule.csproj">
+      <Project>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</Project>
+      <Name>bbv.Common.AsyncModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.Formatters\bbv.Common.Formatters.csproj">
+      <Project>{029DF59B-CB12-45C4-8C00-A5680F5CFF1B}</Project>
+      <Name>bbv.Common.Formatters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

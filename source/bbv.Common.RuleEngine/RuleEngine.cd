@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="bbv.Common.RuleEngine.RuleEngine" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAACgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RuleEngine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="rulesProviderFinder" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.RuleEngineException">
+    <Position X="11.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RuleEngineException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.RuleProviderAttribute">
+    <Position X="9.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RuleProviderAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.RuleSet&lt;TRule&gt;">
+    <Position X="2.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RuleSet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.RulesProviderBase" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="4.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="bbv.Common.RuleEngine.RulesProviderBase.RuleProviderMethod&lt;TRuleSet, T&gt;">
+        <TypeIdentifier>
+          <NewMemberFileName>RulesProviderBase.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIAIAAAAAAEAAAAAAQAAAAAAAAgAAAAAIAAAAAAQAAA=</HashCode>
+      <FileName>RulesProviderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationAggregator" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAIAAACCAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ValidationAggregator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="validationFactory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationFactory" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAIAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>ValidationFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationResult" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>ValidationResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Violations" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationRuleBase" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAIAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ValidationRuleBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ValidationFactory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationRuleSet">
+    <Position X="2.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ValidationRuleSet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationRuleSetDescriptor" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAABAAABAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ValidationRuleSetDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Aggregator" />
+      <Property Name="Factory" />
+      <Property Name="IRuleSetDescriptor&lt;IValidationRule, IValidationResult&gt;.Factory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="bbv.Common.RuleEngine.ValidationViolation" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIEAAAAAAAAAAAAABAEAABAAAAAAAA=</HashCode>
+      <FileName>ValidationViolation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="bbv.Common.RuleEngine.IAggregator&lt;TRule, TAggregationResult&gt;">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IAggregator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IFactory&lt;TRule&gt;">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRule&lt;TResult&gt;">
+    <Position X="2.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRule.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRuleEngine">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRuleEngine.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRuleSet&lt;TRule&gt;">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>IRuleSet.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRuleSetDescriptor&lt;TRule, TAggregationResult&gt;">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRuleSetDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Aggregator" />
+      <Property Name="Factory" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRulesProvider">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRulesProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IRulesProviderFinder">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRulesProviderFinder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IValidationFactory">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <InheritanceLine Type="bbv.Common.RuleEngine.IFactory&lt;TRule&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="1.481" />
+        <Point X="6.5" Y="4.938" />
+        <Point X="5.5" Y="4.938" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>IValidationFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IValidationResult">
+    <Position X="11.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>IValidationResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Violations" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IValidationRule">
+    <Position X="2.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IValidationRuleSetDescriptor">
+    <Position X="4" Y="3.25" Width="2.25" />
+    <AssociationLine Name="Factory" Type="bbv.Common.RuleEngine.IValidationFactory" FixedFromPoint="true">
+      <Path>
+        <Point X="5.125" Y="4.158" />
+        <Point X="5.125" Y="4.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.617" Y="-0.682" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IValidationRuleSetDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Factory" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="bbv.Common.RuleEngine.IValidationViolation">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAABAEAABAAAAAAAA=</HashCode>
+      <FileName>IValidationViolation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

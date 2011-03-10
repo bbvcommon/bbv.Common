@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Custom bbvCommon properties. -->
+  <PropertyGroup>
+    
+    <!-- Specifies the name of the Project. -->
+    <BbvCommonProjectName Condition="'$(BbvCommonProjectName)' == ''">Project.Name</BbvCommonProjectName>
+
+    <!-- Specifies the type of the Project (Source, Test, Specification). -->
+    <BbvCommonProjectType Condition="'$(BbvCommonProjectType)' == ''">Source</BbvCommonProjectType>
+
+    <!-- Root path to the source code-->
+    <BbvCommonSourcePath>..\</BbvCommonSourcePath>
+
+    <!-- Path to the results directory -->
+    <BbvCommonResultsPath>bin\</BbvCommonResultsPath>
+	
+  </PropertyGroup>
+
+  <!-- Default Visual Studio Project properties. -->
+  <PropertyGroup>
+
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+
+    <FileAlignment>512</FileAlignment>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+
+    <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == ''">..\bbv.Common.snk</AssemblyOriginatorKeyFile>
+	
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+
+  
+  <!-- Default Visual Studio Project properties customized for bbv.Common. -->
+  <PropertyGroup>
+    
+    <!-- Root Namespace is set to Project Name (overridable in Project File). -->
+    <RootNamespace Condition="'$(RootNamespace)' == ''">$(BbvCommonProjectName)</RootNamespace>
+
+    <!-- Output Path is set ResultsPath\Configuration\ (\debug\). -->
+    <OutputPath>$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
+
+    <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <CodeAnalysisRuleSet Condition="'$(CodeAnalysisRuleSet)' == ''">$(BbvCommonSourcePath)bbv.Common.ruleset</CodeAnalysisRuleSet>
+    <SourceAnalysisOverrideSettingsFile Condition="'$(StyleCopOverrideSettingsFile)' == ''">$(BbvCommonSourcePath)bbv.Common.$(BbvCommonProjectType).stylecop</SourceAnalysisOverrideSettingsFile>
+  </PropertyGroup>
+
+  
+  <!-- Default Visual Studio Project properties when project type is 'Source'. -->
+  <PropertyGroup Condition="'$(BbvCommonProjectType)' == 'Source'">
+
+    <!-- Assembly Name is set to Project Name (overridable in Project File). -->
+    <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName)</AssemblyName>
+	
+	<!-- Surpesses warning when informational version is set. -->
+	<NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
+  </PropertyGroup>
+  
+  <!-- Default Visual Studio Project properties when project type is 'Test'. -->
+  <PropertyGroup Condition="'$(BbvCommonProjectType)' == 'Test'">
+
+    <!-- Assembly Name is set to Project Name + '.Test' (overridable in Project File). -->
+    <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName).Test</AssemblyName>
+  </PropertyGroup>
+
+  <!-- Default Visual Studio Project properties when project type is 'Specification'. -->
+  <PropertyGroup Condition="'$(BbvCommonProjectType)' == 'Specification'">
+    
+    <!-- Assembly Name is set to Project Name + '.Specification' (overridable in Project File). -->
+    <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName).Specification</AssemblyName>
+
+    <!-- Disable Warning 169 (Field never used) -->
+    <NoWarn>169</NoWarn>
+  </PropertyGroup>
+  
+  <!-- 
+  		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+  -->
+
+  <!-- Default Visual Studio Project properties when configuration is 'Debug'. -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    
+    <!-- Set Conditional Constants. -->
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+
+    <!-- Set Debugging Options. -->
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+
+    <!-- Do not treat warnings as errors. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <SourceAnalysisTreatWarningsAsErrors>false</SourceAnalysisTreatWarningsAsErrors>
+
+    <!-- Disable Source Analysis. -->
+    <RunSourceAnalysis>true</RunSourceAnalysis>
+
+    <!-- Disable Code Analysis. -->
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+
+  <!-- Default Visual Studio Project properties when configuration is 'DebugWithCodeAnalysis'. -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithCodeAnalysis|AnyCPU'">
+
+    <!-- Set Conditional Constants. -->
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+
+    <!-- Set Debugging Options. -->
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+
+    <!-- Do not treat warnings as errors. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <SourceAnalysisTreatWarningsAsErrors>false</SourceAnalysisTreatWarningsAsErrors>
+
+    <!-- Enable Source Analysis. -->
+    <RunSourceAnalysis>true</RunSourceAnalysis>
+
+    <!-- Enable Code Analysis when Project Type is 'Source'. -->
+    <RunCodeAnalysis Condition="'$(BbvCommonProjectType)' == 'Source'">true</RunCodeAnalysis>
+  </PropertyGroup>
+
+
+  <!-- Default Visual Studio Project properties when configuration is 'Release'. -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+
+    <!-- Set Conditional Constants -->
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+
+    <!-- Set Debugging Options. -->
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+
+    <!-- Treat all warnings as errors. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+
+    <!-- Enable Source Analysis. -->
+    <RunSourceAnalysis>true</RunSourceAnalysis>
+
+    <!-- Enable Code Analysis when Project Type is 'Source'. -->
+    <RunCodeAnalysis Condition="'$(BbvCommonProjectType)' == 'Source' And '$(RunCodeAnalysis)' == ''">true</RunCodeAnalysis>
+
+    <!-- Documentation File is set ResultsPath\Configuration\DeploymentType\AssemblyName.xml when Project Type is 'Source'. -->
+    <DocumentationFile Condition="'$(BbvCommonProjectType)' == 'Source'">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  
+  <!-- Common linked files for each project. -->
+  <ItemGroup>
+    <Compile Include="$(BbvCommonSourcePath)GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="$(BbvCommonSourcePath)$(BbvCommonProjectName).VersionInfo.g.cs">
+      <Link>Properties\$(BbvCommonProjectName).VersionInfo.g.cs</Link>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(BbvCommonProjectType)' == 'Source'">
+    <Content Include="Version.txt" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(BbvCommonProjectType)' == 'Source'">
+    <None Include="..\bbv.Common.snk">
+      <Link>bbv.Common.snk</Link>
+    </None>
+  </ItemGroup>
+
+  <!-- Custom Dictionary linked files for all Projects of Type 'Source'. -->
+  <ItemGroup Condition="'$(BbvCommonProjectType)' == 'Source'">
+    <CodeAnalysisDictionary Include="$(BbvCommonSourcePath)CodeAnalysisDictionary.xml">
+      <Link>Properties\CodeAnalysisDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+  <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
+
+  <!--<Target Name="BeforeBuild"></Target>
+  <Target Name="AfterBuild"></Target>-->
+</Project>

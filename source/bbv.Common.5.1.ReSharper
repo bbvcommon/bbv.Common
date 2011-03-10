@@ -1,0 +1,609 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates>
+      <Template uid="91d09222-88d8-4712-9a3b-8991bf9b66ea" shortcut="fact" description="Create a fact test method" text="[Xunit.Fact]&#xD;&#xA;public void $FactMethodName$()&#xD;&#xA;{&#xD;&#xA;$END$&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="FactMethodName" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="58defe14-2132-4e4e-8126-5fa7e9a8f472" shortcut="theory" description="Create theory method" text="[Xunit.Extensions.Theory]&#xD;&#xA;[$DataAttribute$]&#xD;&#xA;public void $TheoryMethodName$()&#xD;&#xA;{&#xD;&#xA;$END$&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="TheoryMethodName" expression="" initialRange="0" />
+          <Variable name="DataAttribute" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="b1a7ea77-7a24-4cea-af40-4104d3b32073" shortcut="xc" description="xUnit.net Assert.Contains" text="Xunit.Assert.Contains($expected$, $actual$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="expected" expression="completeSmart()" initialRange="0" />
+          <Variable name="actual" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="7efea864-4ec6-4c20-ac13-6c38cff777a4" shortcut="xt" description="xUnit.net Assert.True" text="Xunit.Assert.True($condition$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="condition" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="38072922-793e-4b0c-8d2d-95e3a34dffe2" shortcut="xe" description="xUnit.net Assert.Equal" text="Xunit.Assert.Equal($expected$,$actual$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="expected" expression="completeSmart()" initialRange="0" />
+          <Variable name="actual" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="250b821b-58f2-4aee-a00c-bdc41147020a" shortcut="xf" description="xUnit.net Assert.False" text="Xunit.Assert.False($condition$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="condition" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="fa9e4737-0e4b-4f93-8dea-8c0f0a59e92d" shortcut="xiaf" description="xUnit.net Assert.IsAssignableFrom" text="Xunit.Assert.IsAssignableFrom&lt;$T$&gt;($OBJECT$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="OBJECT" expression="completeSmart()" initialRange="0" />
+          <Variable name="T" expression="guessExpectedType()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="aef59266-05cf-4dba-ba8b-42bdb326a043" shortcut="xit" description="xUnit.net Assert.IsType" text="Xunit.Assert.IsType&lt;$T$&gt;($OBJECT$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="OBJECT" expression="completeSmart()" initialRange="0" />
+          <Variable name="T" expression="guessExpectedType()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="139c10fc-dfcf-4e33-9544-f78fc7874784" shortcut="xnn" description="xUnit.net Assert.NotNull" text="Assert.NotNull($Object$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="Object" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="834b641a-60f6-49b7-8ebf-db143fbc2fd5" shortcut="xthr" description="xUnit.net Assert.Throws" text="Xunit.Assert.Throws&lt;$TException$&gt;($func$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="3.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="TException" expression="completeSmart()" initialRange="0" />
+          <Variable name="func" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="d3267f83-df1b-4d32-9c3d-68d8561a94b3" shortcut="xn" description="xUnit.net Assert.Null" text="Xunit.Assert.Null($Object$);$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Statement" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="Object" expression="completeSmart()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="5ec342ee-0b76-4d52-9484-93fc6146d8ca" shortcut="fa" description="xUnit.net FactAttribute" text="[Xunit.Fact]" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="3908dcc6-0737-47b5-a2a6-0f26f43c8ce3" shortcut="ida" description="xUnit.net InlineDataAttribute" text="[Xunit.Extensions.InlineData($data$)]$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="data" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="b63adf33-d8ff-4a44-bcfb-df89725eb0be" shortcut="ta" description="xUnit.net TheoryAttribute" text="[Xunit.Extensions.Theory]$END$" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="4af5dfe9-8f26-4e86-9f21-b428021fbcdf" shortcut="subject" description="" text="[Subject(&quot;$subject$&quot;)]&#xD;&#xA;public class when_$when$&#xD;&#xA;{&#xD;&#xA;	Establish context =()=&gt;	{$END$};&#xD;&#xA;&#xD;&#xA;	Because of =()=&gt; {};		&#xD;&#xA;	&#xD;&#xA;	It should_$should$;&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Categories />
+        <Variables>
+          <Variable name="subject" expression="" initialRange="0" />
+          <Variable name="when" expression="" initialRange="0" />
+          <Variable name="should" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="99ee1650-004d-4404-9da8-eb6b4e69d94f" shortcut="context" description="" text="public class $context$&#xD;&#xA;{&#xD;&#xA;    public static $type$ $name$;&#xD;&#xA;&#xD;&#xA;    private Establish context = () =&gt;&#xD;&#xA;    {&#xD;&#xA;        $name$ = new $type$&#xD;&#xA;        {&#xD;&#xA;			$END$&#xD;&#xA;        };&#xD;&#xA;    };&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Categories />
+        <Variables>
+          <Variable name="context" expression="" initialRange="0" />
+          <Variable name="type" expression="" initialRange="0" />
+          <Variable name="name" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="40225f53-9e0e-46e2-ae2a-e47c84a72673" shortcut="should" description="" text="It should_$should$$END$;" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="3.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="should" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="099abb29-48f2-4ba2-9f2a-be77075482e2" shortcut="fhdr" description="File Header" text="//-------------------------------------------------------------------------------&#xD;&#xA;// &lt;copyright file=&quot;$sourcefilename$&quot; company=&quot;bbv Software Services AG&quot;&gt;&#xD;&#xA;//   Copyright (c) 2008-2011 bbv Software Services AG&#xD;&#xA;//&#xD;&#xA;//   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#xD;&#xA;//   you may not use this file except in compliance with the License.&#xD;&#xA;//   You may obtain a copy of the License at&#xD;&#xA;//&#xD;&#xA;//       http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;//&#xD;&#xA;//   Unless required by applicable law or agreed to in writing, software&#xD;&#xA;//   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xD;&#xA;//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xD;&#xA;//   See the License for the specific language governing permissions and&#xD;&#xA;//   limitations under the License.&#xD;&#xA;// &lt;/copyright&gt;&#xD;&#xA;//-------------------------------------------------------------------------------" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="sourcefilename" expression="getFileName()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+      <Template uid="a1a5236f-2e15-4cd0-a8dc-3d252c757677" shortcut="afhdr" description="File Header for Acceptance Tests" text="//-------------------------------------------------------------------------------&#xD;&#xA;// &lt;copyright file=&quot;$sourcefilename$&quot; company=&quot;bbv Software Services AG&quot;&gt;&#xD;&#xA;//   Copyright (c) 2008-2011 bbv Software Services AG&#xD;&#xA;//&#xD;&#xA;//   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#xD;&#xA;//   you may not use this file except in compliance with the License.&#xD;&#xA;//   You may obtain a copy of the License at&#xD;&#xA;//&#xD;&#xA;//       http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;//&#xD;&#xA;//   Unless required by applicable law or agreed to in writing, software&#xD;&#xA;//   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xD;&#xA;//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xD;&#xA;//   See the License for the specific language governing permissions and&#xD;&#xA;//   limitations under the License.&#xD;&#xA;// &lt;/copyright&gt;&#xD;&#xA;//-------------------------------------------------------------------------------&#xD;&#xA;&#xD;&#xA;// ReSharper disable InconsistentNaming&#xD;&#xA;// ReSharper disable UnusedMember.Global&#xD;&#xA;// ReSharper disable ConvertToLambdaExpression&#xD;&#xA;&#xD;&#xA;#pragma warning disable 169" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="sourcefilename" expression="getFileName()" initialRange="0" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+    </LiveTemplates>
+  </SharedSolutionTemplateManager>
+  <CodeStyleSettings>
+    <ExternalPath IsNull="False">
+    </ExternalPath>
+    <Sharing>SOLUTION</Sharing>
+    <CSharp>
+      <FormatSettings>
+        <ALIGN_MULTILINE_ARGUMENT>False</ALIGN_MULTILINE_ARGUMENT>
+        <BLANK_LINES_AROUND_SINGLE_LINE_FIELD>1</BLANK_LINES_AROUND_SINGLE_LINE_FIELD>
+        <BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE>1</BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE>
+        <BLANK_LINES_BETWEEN_USING_GROUPS>1</BLANK_LINES_BETWEEN_USING_GROUPS>
+        <FORCE_ATTRIBUTE_STYLE>SEPARATE</FORCE_ATTRIBUTE_STYLE>
+        <FORCE_FOR_BRACES_STYLE>ALWAYS_ADD</FORCE_FOR_BRACES_STYLE>
+        <FORCE_FOREACH_BRACES_STYLE>ALWAYS_ADD</FORCE_FOREACH_BRACES_STYLE>
+        <FORCE_IFELSE_BRACES_STYLE>ALWAYS_ADD</FORCE_IFELSE_BRACES_STYLE>
+        <FORCE_WHILE_BRACES_STYLE>ALWAYS_ADD</FORCE_WHILE_BRACES_STYLE>
+        <INDENT_ANONYMOUS_METHOD_BLOCK>False</INDENT_ANONYMOUS_METHOD_BLOCK>
+        <INDENT_EMBRACED_INITIALIZER_BLOCK>False</INDENT_EMBRACED_INITIALIZER_BLOCK>
+        <KEEP_BLANK_LINES_IN_CODE>1</KEEP_BLANK_LINES_IN_CODE>
+        <KEEP_BLANK_LINES_IN_DECLARATIONS>1</KEEP_BLANK_LINES_IN_DECLARATIONS>
+        <KEEP_USER_LINEBREAKS>False</KEEP_USER_LINEBREAKS>
+        <MODIFIERS_ORDER IsNull="False">
+          <Item>public</Item>
+          <Item>protected</Item>
+          <Item>internal</Item>
+          <Item>private</Item>
+          <Item>new</Item>
+          <Item>abstract</Item>
+          <Item>virtual</Item>
+          <Item>override</Item>
+          <Item>sealed</Item>
+          <Item>static</Item>
+          <Item>readonly</Item>
+          <Item>extern</Item>
+          <Item>unsafe</Item>
+          <Item>volatile</Item>
+        </MODIFIERS_ORDER>
+        <PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE>False</PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE>
+        <PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>False</PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>
+        <PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>False</PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>
+        <PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>False</PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>
+        <PLACE_WHILE_ON_NEW_LINE>True</PLACE_WHILE_ON_NEW_LINE>
+        <REDUNDANT_THIS_QUALIFIER_STYLE>ALWAYS_USE</REDUNDANT_THIS_QUALIFIER_STYLE>
+        <SIMPLE_EMBEDDED_STATEMENT_STYLE>ON_SINGLE_LINE</SIMPLE_EMBEDDED_STATEMENT_STYLE>
+        <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
+        <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
+        <SPACE_BEFORE_SIZEOF_PARENTHESES>False</SPACE_BEFORE_SIZEOF_PARENTHESES>
+        <SPACE_BEFORE_TYPEOF_PARENTHESES>False</SPACE_BEFORE_TYPEOF_PARENTHESES>
+        <SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>True</SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>
+        <STICK_COMMENT>False</STICK_COMMENT>
+        <WRAP_AFTER_DECLARATION_LPAR>True</WRAP_AFTER_DECLARATION_LPAR>
+        <WRAP_AFTER_INVOCATION_LPAR>True</WRAP_AFTER_INVOCATION_LPAR>
+        <WRAP_ARGUMENTS_STYLE>CHOP_IF_LONG</WRAP_ARGUMENTS_STYLE>
+        <WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>True</WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>
+        <WRAP_EXTENDS_LIST_STYLE>CHOP_IF_LONG</WRAP_EXTENDS_LIST_STYLE>
+        <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
+      </FormatSettings>
+      <UsingsSettings>
+        <AddImportsToDeepestScope>True</AddImportsToDeepestScope>
+        <QualifiedUsingAtNestedScope>True</QualifiedUsingAtNestedScope>
+      </UsingsSettings>
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+        <ExceptionName IsNull="False">
+        </ExceptionName>
+        <OverrideDefaultSettings>True</OverrideDefaultSettings>
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+        <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+        <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="LocalConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateStaticReadonly" />
+        <UserRule Inspect="True" Prefix="" Suffix="" Style="aaBb" StaticnessKind="Static, Instance" AccessRight="Private, Protected, ProtectedInternal, Internal, Public" Description="Machine.Specification">
+          <ElementKinds>
+            <Kind Name="Machine.Specifications_Behavior" />
+            <Kind Name="Machine.Specifications_Context" />
+            <Kind Name="Machine.Specifications_ContextBase" />
+            <Kind Name="Machine.Specifications_Specification" />
+            <Kind Name="Machine.Specifications_SupportingField" />
+            <Kind Name="Machine.Specifications_Field" />
+            <Kind Name="Machine.Specifications_Constant" />
+            <Kind Name="Machine.Specifications_Local" />
+          </ElementKinds>
+          <ExtraRule Prefix="" Suffix="" Style="Aa_bb" />
+          <ExtraRule Prefix="" Suffix="" Style="aa_bb" />
+          <ExtraRule Prefix="" Suffix="" Style="AaBb" />
+        </UserRule>
+        <Abbreviation Text="IP" />
+      </Naming2>
+      <CustomMemberReorderingPatterns><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
+
+    <!-- Do not reorder COM interfaces -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Kind Is="interface"/>
+                <HasAttribute CLRName="System.Runtime.InteropServices.InterfaceTypeAttribute"
+                              Inherit="true"/>
+            </And>
+        </Match>
+    </Pattern>
+
+    <!-- Do not reorder P/Invoke structs -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Or>
+                    <Kind Is="struct"/>
+                    <Kind Is="class"/>
+                </Or>
+                <HasAttribute CLRName="System.Runtime.InteropServices.StructLayoutAttribute"
+                              Inherit="true"/>
+            </And>
+        </Match>
+    </Pattern>
+
+    <!-- Do not reorder P/Invoke classes (called xxxNativeMethods) -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Kind Is="class"/>
+                <Name Is=".*NativeMethods" />
+            </And>
+        </Match>
+    </Pattern>
+
+    <!-- StyleCop pattern -->
+    <Pattern RemoveAllRegions="true">
+        <Match>
+            <Or Weight="1000" >
+                <Kind Is="class" />
+                <Kind Is="struct" />
+                <Kind Is="interface"/>
+            </Or>
+        </Match>
+
+        <!-- constants and fields -->
+        <Entry>
+            <Match>
+                <Or>
+                    <Kind Is="constant"/>
+                    <Kind Is="field"/>
+                </Or>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Kind Order="constant field"/>
+                <Readonly/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Constants and Fields"/>
+        </Entry>
+
+        <!-- constructors -->
+        <Entry>
+            <Match>
+                <Or Weight="200">
+                    <Kind Is="constructor"/>
+                    <Kind Is="destructor"/>
+                </Or>
+            </Match>
+            <Sort>
+                <Static/>
+                <Kind Order="constructor destructor"/>
+                <Access Order="public internal protected-internal protected private"/>
+            </Sort>
+            <Group Region="Constructors and Destructors"/>
+        </Entry>
+
+        <!-- delegates -->
+        <Entry>
+            <Match>
+                <Kind Is="delegate"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static />
+                <Name/>
+            </Sort>
+            <Group Region="Delegates"/>
+        </Entry>
+
+        <!-- events -->
+        <Entry>
+            <Match>
+                <Kind Is="event"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static />
+                <Name/>
+            </Sort>
+            <Group Region="Events"/>
+        </Entry>
+
+        <!-- enum -->
+        <Entry>
+            <Match>
+                <Kind Is="enum"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+            <Group Region="Enums"/>
+        </Entry>
+
+        <!-- interfaces -->
+        <Entry>
+            <Match>
+                <Kind Is="interface" />
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+            <Group Region="Interfaces"/>
+        </Entry>
+
+        <!-- properties -->
+        <Entry>
+            <Match>
+                <Kind Is="property"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Properties"/>
+        </Entry>
+
+        <!-- indexers -->
+        <Entry>
+            <Match>
+                <Kind Is="indexer"
+                      Weight="300" />
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Indexers"/>
+        </Entry>
+
+        <!-- operator -->
+        <Entry>
+            <Match>
+                <Kind Is="operator"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Operators"/>
+        </Entry>
+
+        <!-- public methods -->
+        <Entry>
+            <Match>
+                <And>
+                    <Kind Is="method"/>
+                    <Access Is="public"/>
+                </And>
+            </Match>
+            <Sort>
+                <Access Order="public"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Public Methods"/>
+        </Entry>
+
+        <!-- Implemented Interfaces -->
+        <Entry>
+            <Match>
+                <And Weight="500">
+                    <Kind Is="method"/>
+                    <ImplementsInterface CLRName=".*"/>
+                </And>
+            </Match>
+            <Sort>
+                <ImplementsInterface />
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Implemented Interfaces">
+                <ImplementsInterface Region="${ImplementsInterface}" />
+            </Group>
+        </Entry>
+
+        <!-- other methods -->
+        <Entry>
+            <Match>
+                <Kind Is="method"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <Group Region="Methods"/>
+        </Entry>
+
+        <!-- Nested structs -->
+        <Entry>
+            <Match>
+                <Kind Is="struct"
+                      Weight="600" />
+            </Match>
+            <Sort>
+                <Static />
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+        </Entry>
+
+        <!-- Nested classes -->
+        <Entry>
+            <Match>
+                <Kind Is="class"
+                      Weight="700" />
+            </Match>
+            <Sort>
+                <Static />
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+        </Entry>
+
+        <!-- all other members -->
+        <Entry/>
+
+    </Pattern>
+</Patterns>
+]]></CustomMemberReorderingPatterns>
+    </CSharp>
+    <VB>
+      <FormatSettings />
+      <ImportsSettings />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
+    </VB>
+    <Web>
+      <Naming2 />
+    </Web>
+    <Xaml>
+      <Naming2>
+        <UserRule Name="XAML_FIELD" Inspect="True" Prefix="_" Suffix="" Style="aaBb" />
+        <UserRule Name="NAMESPACE_ALIAS" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="XAML_RESOURCE" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+      </Naming2>
+    </Xaml>
+    <XML>
+      <FormatSettings>
+        <TagAttributesFormat>FirstAttributeOnSingleLine</TagAttributesFormat>
+      </FormatSettings>
+    </XML>
+    <GenerateMemberBody />
+    <Naming2>
+      <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+      <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      <ExceptionName IsNull="False">
+      </ExceptionName>
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+      <PredefinedRule Inspect="False" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+      <PredefinedRule Inspect="False" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+      <UserRule Inspect="True" Prefix="" Suffix="" Style="AaBb" StaticnessKind="Static, Instance" AccessRight="Private, Protected, ProtectedInternal, Internal, Public" Description="Machine.Specifications Rules">
+        <ElementKinds>
+          <Kind Name="CLASS" />
+          <Kind Name="Machine.Specifications_Behavior" />
+          <Kind Name="Machine.Specifications_Context" />
+          <Kind Name="Machine.Specifications_ContextBase" />
+          <Kind Name="Machine.Specifications_Specification" />
+          <Kind Name="Machine.Specifications_SupportingField" />
+          <Kind Name="Machine.Specifications_Field" />
+          <Kind Name="Machine.Specifications_Constant" />
+          <Kind Name="Machine.Specifications_Local" />
+        </ElementKinds>
+        <ExtraRule Prefix="" Suffix="" Style="aa_bb" />
+      </UserRule>
+    </Naming2>
+  </CodeStyleSettings>
+</Configuration>
