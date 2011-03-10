@@ -23,7 +23,7 @@
     <property name="git" value="${tools_dir}\git\git.exe" />
     <property name="nuget.console" value="${tools_dir}\NuGet\nuget.exe" />
   
-  	<property name="version" value="0.0.0" />
+  	<property name="version" value="0" />
 
     <property name="build_config" value="Release" />
     <property name="build_succeeded" value="false" />
@@ -42,6 +42,7 @@
 	
 	<target name="publish" depends="clean" 
 	        description="Builds a publish version with version number.">
+    
     <mkdir dir="${publish}" />
    
     <call target="set_version" />  
@@ -188,7 +189,8 @@
 	</target>
 	
 	<target name="nuget" description="Copies the nuget output to the top bin directory" >
-		<property name="nuget.basedir" value="${publish}\NuGet\${project.name}\${version}.0.${timestamp}\" />
+   
+		<property name="nuget.basedir" value="${publish}\NuGet" />
 		<mkdir dir="${nuget.basedir}" />
 		<delete>
 			<fileset basedir="${nuget.basedir}\lib\NET4">
@@ -197,29 +199,62 @@
 				<include name="*.pdb" />
 			</fileset>
 		</delete>
-		<copy overwrite="false" todir="${nuget.basedir}\lib\NET4" flatten="true">
-			<fileset basedir="${binaries}\Release">
-				<include name="**/bbv.Common*.dll" />
-				<include name="**/bbv.Common*.xml" />
-				<include name="**/bbv.Common*.pdb" />
-				<exclude name="**/bbv.Common*.Test.*" />
-				<exclude name="**/bbv.Common*.Sample*" />
-				<exclude name="**/bbv.Common*.Specification.*" />
-			</fileset>
-		</copy>
-		<copy overwrite="false" todir="${nuget.basedir}">
-			<fileset basedir="${base_dir}\Scripts\">
-				<include name="${project.name}.nuspec" />
-				<include name="License.txt" />
-			</fileset>
-		</copy>
-		<xmlpoke file="${nuget.basedir}\${project.name}.nuspec" xpath="/package/metadata/version" value="${version}.0.${timestamp}" />
-		<exec program="${nuget.console}" commandline="pack ${nuget.basedir}\${project.name}.nuspec" />
-		<move todir="${publish}\NuGet\">
-			<fileset basedir="${base_dir}\Scripts\">
-				<include name="*.nupkg" />
-			</fileset>
-		</move>
+    
+    <foreach item="Folder" property="folder">
+      <in>
+        <items>
+          <exclude name="${sources}\bbv.Common.Test" />
+          <exclude name="${sources}\bbv.Common.*.Test" />
+          <exclude name="${sources}\bbv.Common.*.Specification" />
+          <exclude name="${sources}\bbv.Common.*.Sample" />
+          <exclude name="${sources}\.*" />
+          <include name="${sources}\bbv.Common*" />
+        </items>
+      </in>
+      <do>
+        <property name="project" value="${path::get-file-name(folder)}" />
+        <property name="nugetFolder" value="${nuget.basedir}\${project}${version}.0.${timestamp}" />
+        <echo message="${project}" />
+
+        <property name="nuspecfile" value="${folder}\${project}.nuspec" />
+        <echo message="${nuspecfile}" />
+        <if test="${file::exists(nuspecfile)}">
+          
+          <copy overwrite="false" todir="${nugetFolder}\lib\NET4" flatten="true">
+            <fileset basedir="${folder}\bin\Release">
+              <include name="${project}.dll" />
+              <include name="${project}.xml" />
+              <include name="${project}.pdb" />
+            </fileset>
+          </copy>
+
+          <loadfile file="${nuspecfile}" property="nuspec" />
+          <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion">
+            <do>
+              <property name="nuspec" value="${string::replace(nuspec, '%' + projectname + '%', projectversion)}" />
+            </do>
+          </foreach>
+          <echo message="${nuspec}" file="${nugetFolder}\${project}.nuspec" />
+
+          <copy overwrite="false" todir="${nugetFolder}">
+            <fileset basedir="${base_dir}\Scripts\">
+              <include name="License.txt" />
+            </fileset>
+          </copy>
+
+          <echo message="packing ${project} with ${nugetFolder}\${project}.nuspec" />
+          <exec program="${nuget.console}" commandline="pack ${nugetFolder}\${project}.nuspec" />
+
+        </if>
+      </do>
+    </foreach>
+
+    <move todir="${publish}\NuGet\">
+      <fileset basedir="${base_dir}\Scripts\">
+        <include name="*.nupkg" />
+      </fileset>
+    </move>
+    
 	</target>
 
 	<target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
@@ -260,6 +295,8 @@
             <attribute type="AssemblyFileVersionAttribute" value="${version}.${projversion}.${timestamp}" />
           </attributes>
         </asminfo>
+
+        <echo append="true" message="${path::get-file-name(foldername)},${version}.${projversion}.0.0${environment::newline()}" file="${publish}\versions.txt" />
       </do>
     </foreach>
 	</target>

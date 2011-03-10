@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>bbv.Common.EventBroker</id>
+		<version>%bbv.Common.EventBroker%</version>
+		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
+		<authors>bbv Software Services AG</authors>
+		<description>Notification component for synchronous and asynchronous loosly coupled notification with automatic thread switching:
+      * Synchronous and asynchronous notification
+      * Automatic thread switching: to background or UI thread
+      * Loose coupling of event topic publishers and subscribers
+      * Publishers and subscribers are referenced by weak references. Therefore they can be garbage collected
+      * Multiple publishers and/or subscribers for a single event topic
+      * Matchers for publications and subscriptions
+      * Thorough customizable logging
+      * Extension support
+
+      bbv.Common.EventBroker is a part of bbv.Common, a library of .NET components and functionality including:
+      * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
+      * hierarchical state machine with fluent definition syntax,
+      * programmatic, loosely coupled, context based rule engine,
+      * support for active objects to build multi-threaded applications</description>
+		<language>en-US</language>
+	</metadata>
+</package>
