@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.DistributedEventBroker.RhinoEsbAdapter</BbvCommonProjectName>
+    <BbvCommonProjectType>Test</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{E64FA645-4750-432E-B96B-6B39E3666568}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.ServiceBus">
+      <HintPath>..\bbv.Common.DistributedEventBroker.RhinoEsbAdapter\Libs\Rhino.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.7.0.1540\lib\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Handlers\RhinoEsbEventFiredHandlerTest.cs" />
+    <Compile Include="RhinoEsbEventBrokerBusTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker.RhinoEsbAdapter\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.csproj">
+      <Project>{8D29971E-0C10-4965-8570-4793E6E8B9A8}</Project>
+      <Name>bbv.Common.DistributedEventBroker.RhinoEsbAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker\bbv.Common.DistributedEventBroker.csproj">
+      <Project>{42B574BD-F712-430F-8606-0496F9EFF8B6}</Project>
+      <Name>bbv.Common.DistributedEventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

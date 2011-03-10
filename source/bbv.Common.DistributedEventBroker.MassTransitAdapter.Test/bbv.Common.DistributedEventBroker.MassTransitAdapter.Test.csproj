@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.DistributedEventBroker.MassTransitAdapter</BbvCommonProjectName>
+    <BbvCommonProjectType>Test</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{DB9A05CC-572E-4366-8851-C42E3F3A75D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MassTransit">
+      <HintPath>..\bbv.Common.DistributedEventBroker.MassTransitAdapter\Libs\MassTransit.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.7.0.1540\lib\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Handlers\MassTransitEventFiredHandlerTest.cs" />
+    <Compile Include="MassTransitEventBrokerBusTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker.MassTransitAdapter\bbv.Common.DistributedEventBroker.MassTransitAdapter.csproj">
+      <Project>{9C4A0037-401F-4E3A-9445-A4DA6F924C8F}</Project>
+      <Name>bbv.Common.DistributedEventBroker.MassTransitAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker\bbv.Common.DistributedEventBroker.csproj">
+      <Project>{42B574BD-F712-430F-8606-0496F9EFF8B6}</Project>
+      <Name>bbv.Common.DistributedEventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

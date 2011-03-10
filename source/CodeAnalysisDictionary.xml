@@ -22,6 +22,7 @@
       <!-- <Word>accessor</Word> -->
 	  <Word>bbv</Word>
 	  <Word>notifier</Word>
+	  <Word>esb</Word>
     </Recognized>
     <Deprecated>
       <!-- 
@@ -65,6 +66,7 @@
       <!-- <Acronym>NESW</Acronym> -->
       <!-- North East South West -->
 	  <Acronym>bbv</Acronym>
+	  <Acronym>esb</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

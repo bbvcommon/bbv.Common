@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.DistributedEventBroker.NServiceBusAdapter</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{6C341C43-7470-40D1-B799-63AC6CBA4F0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NServiceBus">
+      <HintPath>Libs\NServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factories\NServiceBusDistributedFactory.cs" />
+    <Compile Include="Handlers\NServiceBusEventFiredHandler.cs" />
+    <Compile Include="Messages\NServiceBusEventFired.cs" />
+    <Compile Include="Messages\INServiceBusEventFired.cs" />
+    <Compile Include="NServiceBusEventBrokerBus.cs" />
+    <Compile Include="NServiceBusDistributedEventBrokerExtension.cs" />
+    <Compile Include="Factories\NServiceBusEventMessageFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker\bbv.Common.DistributedEventBroker.csproj">
+      <Project>{42B574BD-F712-430F-8606-0496F9EFF8B6}</Project>
+      <Name>bbv.Common.DistributedEventBroker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.EventBroker\bbv.Common.EventBroker.csproj">
+      <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
+      <Name>bbv.Common.EventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

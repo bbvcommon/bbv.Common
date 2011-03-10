@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.DistributedEventBroker</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{42B574BD-F712-430F-8606-0496F9EFF8B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="EventBrokerExtensionsForDistribution.cs" />
+    <Compile Include="Factories\DefaultDistributedFactory.cs" />
+    <Compile Include="Factories\DefaultEventMessageFactory.cs" />
+    <Compile Include="DistributedEventBrokerExtensionBase.cs" />
+    <Compile Include="Factories\AbstractEventMessageFactory.cs" />
+    <Compile Include="Handlers\EventFiredHandlerBase.cs" />
+    <Compile Include="IDistributedEventBrokerExtension.cs" />
+    <Compile Include="IDistributedFactory.cs" />
+    <Compile Include="IEventArgsSerializer.cs" />
+    <Compile Include="IEventBrokerBus.cs" />
+    <Compile Include="IEventMessageFactory.cs" />
+    <Compile Include="IManageEventBroker.cs" />
+    <Compile Include="ITopicSelectionStrategy.cs" />
+    <Compile Include="Messages\EventFired.cs" />
+    <Compile Include="Messages\IEventFired.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer\BinaryEventArgsSerializer.cs" />
+    <Compile Include="Serializer\DataContractEventArgsSerializer.cs" />
+    <Compile Include="Serializer\XmlEventArgsSerializer.cs" />
+    <Compile Include="Strategies\DefaultTopicSelectionStrategy.cs" />
+    <Compile Include="Strategies\FuncTopicSelectionStrategy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.EventBroker\bbv.Common.EventBroker.csproj">
+      <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
+      <Name>bbv.Common.EventBroker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>

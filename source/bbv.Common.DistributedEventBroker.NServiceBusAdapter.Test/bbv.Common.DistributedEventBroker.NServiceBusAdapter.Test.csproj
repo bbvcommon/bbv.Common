@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.DistributedEventBroker.NServiceBusAdapter</BbvCommonProjectName>
+    <BbvCommonProjectType>Test</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{18AE8BFD-BAE7-438F-9553-B9F9B9891893}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus">
+      <HintPath>..\bbv.Common.DistributedEventBroker.NServiceBusAdapter\Libs\NServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core">
+      <HintPath>..\bbv.Common.DistributedEventBroker.NServiceBusAdapter\Libs\NServiceBus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.7.0.1540\lib\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factories\NServiceBusDistributedFactoryTest.cs" />
+    <Compile Include="Factories\NServiceBusEventMessageFactoryTest.cs" />
+    <Compile Include="NServiceBusEventBrokerBusTest.cs" />
+    <Compile Include="Handlers\NServiceBusEventFiredHandlerTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker.NServiceBusAdapter\bbv.Common.DistributedEventBroker.NServiceBusAdapter.csproj">
+      <Project>{6C341C43-7470-40D1-B799-63AC6CBA4F0E}</Project>
+      <Name>bbv.Common.DistributedEventBroker.NServiceBusAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.DistributedEventBroker\bbv.Common.DistributedEventBroker.csproj">
+      <Project>{42B574BD-F712-430F-8606-0496F9EFF8B6}</Project>
+      <Name>bbv.Common.DistributedEventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>
