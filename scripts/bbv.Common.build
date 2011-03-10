@@ -10,26 +10,20 @@
 	</description>
 
     <property name="project.name" value="bbv.Common"/>
-	
-    <property name="svnusername" value="" readonly="false"  />
-    <property name="svnpassword" value="" readonly="false"  />
   
     <property name="nant.settings.currentframework" value="net-4.0" />
   
     <property name="base_dir" value="${project::get-base-directory()}\.." readonly="true" />
-	<property name="binaries" value="${base_dir}\Binaries" readonly="true" />
-	<property name="sources" value="${base_dir}\Source" readonly="true" />
-	<property name="publish" value="${base_dir}\Publish" readonly="true" />
-	<property name="export" value="${base_dir}\Export" readonly="true" />
-    <property name="tools_dir" value="${base_dir}\Tools" />
+	  <property name="binaries" value="${base_dir}\binaries" readonly="true" />
+	  <property name="sources" value="${base_dir}\source" readonly="true" />
+	  <property name="publish" value="${base_dir}\publish" readonly="true" />
+    <property name="tools_dir" value="${base_dir}\tools" />
     <property name="xUnitConsole" value="${tools_dir}\xUnit\xunit.console.clr4.x86.exe" />
     <property name="mspec" value="${tools_dir}\mspec\mspec-clr4.exe" />
-    <property name="svn" value="${tools_dir}\svn\svn.exe" />
+    <property name="git" value="${tools_dir}\git\git.exe" />
     <property name="nuget.console" value="${tools_dir}\NuGet\nuget.exe" />
   
-	<property name="version" value="0.0.0" />
-	<property name="revision" value=".0" />
-	<property name="release.version" value="${version}.${revision}" dynamic="true"/>
+  	<property name="version" value="0.0.0" />
 
     <property name="build_config" value="Release" />
     <property name="build_succeeded" value="false" />
@@ -46,26 +40,21 @@
 	        description="Build and exectute unit tests for developers before commit their changes.">
 	</target>
 	
-	<target name="publish" depends="clean, setupSvnCredentials" 
+	<target name="publish" depends="clean" 
 	        description="Builds a publish version with version number.">
-        <mkdir dir="${publish}" />
+    <mkdir dir="${publish}" />
    
-        <call target="set_version" />  
-        <call target="build_release" />
+    <call target="set_version" />  
+    <call target="build_release" />
 		<call target="unittest" />
 		<call target="copy_bin" />
 		<call target="build" />
 		<call target="copy_bin" />
 		<call target="revert_version" />
-		<call target="release_notes" />
-		<call target="exportsourcecode" />
 		<call target="package" />
 		<call target="nuget" />
 
-		<sleep milliseconds="10" /> <!-- due to timing issues with the file system (random fails) -->
-		<delete dir="${export}" includeemptydirs="true" />
-
-		<echo message="built version ${version}.${revision}." />
+		<echo message="built version ${version}.0.${timestamp}." />
 	</target>
 	
 	<!--
@@ -87,9 +76,6 @@
   internal targets
   ========================================================= 
    -->
-	<target name="setupSvnCredentials" unless="${string::get-length(svnusername) == 0}" >
-		<exec program="${svn}" commandline="log -l 1 --username ${svnusername} --password ${svnpassword} --non-interactive" />
-	</target>	
 
 	<target name="clean" description="Cleans all files">
 		<echo message="Starting cleaning of solutions" />
@@ -194,30 +180,24 @@
 	</target>
 
 	<target name="package">
-		<zip zipfile="${publish}\${project.name}-Binaries-${version}.${revision}.zip">
+		<zip zipfile="${publish}\${project.name}-Binaries-${version}.0.${timestamp}.zip">
 			<fileset basedir="${binaries}">
-				<include name="**/*" />
-			</fileset>
-		</zip>
-
-		<zip zipfile="${publish}\${project.name}-Source-${version}.${revision}.zip">
-			<fileset basedir="${export}">
 				<include name="**/*" />
 			</fileset>
 		</zip>
 	</target>
 	
 	<target name="nuget" description="Copies the nuget output to the top bin directory" >
-		<property name="nuget.basedir" value="${publish}\NuGet\${project.name}\${release.version}\" />
+		<property name="nuget.basedir" value="${publish}\NuGet\${project.name}\${version}.0.${timestamp}\" />
 		<mkdir dir="${nuget.basedir}" />
 		<delete>
-			<fileset basedir="${nuget.basedir}\lib\NET35">
+			<fileset basedir="${nuget.basedir}\lib\NET4">
 				<include name="*.dll" />
 				<include name="*.xml" />
 				<include name="*.pdb" />
 			</fileset>
 		</delete>
-		<copy overwrite="false" todir="${nuget.basedir}\lib\NET35" flatten="true">
+		<copy overwrite="false" todir="${nuget.basedir}\lib\NET4" flatten="true">
 			<fileset basedir="${binaries}\Release">
 				<include name="**/bbv.Common*.dll" />
 				<include name="**/bbv.Common*.xml" />
@@ -233,7 +213,7 @@
 				<include name="License.txt" />
 			</fileset>
 		</copy>
-		<xmlpoke file="${nuget.basedir}\${project.name}.nuspec" xpath="/package/metadata/version" value="${release.version}" />
+		<xmlpoke file="${nuget.basedir}\${project.name}.nuspec" xpath="/package/metadata/version" value="${version}.0.${timestamp}" />
 		<exec program="${nuget.console}" commandline="pack ${nuget.basedir}\${project.name}.nuspec" />
 		<move todir="${publish}\NuGet\">
 			<fileset basedir="${base_dir}\Scripts\">
@@ -242,33 +222,46 @@
 		</move>
 	</target>
 
-	<target name="set_version" depends="get_headrevision" description="adds the svn revision to the GlobalAssemblyInfo.cs.">
-		<!-- 
-        [assembly: AssemblyVersion("?.?.?.?")]
-        [assembly: AssemblyFileVersion("?.?.?.?")]
-        -->
-        <delete file="${binaries}\Versions.txt" />
-    
-		<loadfile file="${base_dir}\Scripts\Version.txt" property="version" />
-		<loadfile file="${base_dir}\Scripts\VersionTypeNumeric.txt" property="versionTypeNumeric" />
-		<property name="versionsfile" value="${base_dir}\Scripts\Versions.txt" />
-		<foreach item="Line" in="${versionsfile}" delim="," property="directory,projrevision">
-			<property name="infoname" value="${path::get-file-name(directory)}" />
-			<asminfo language="CSharp" output="${sources}\${infoname}.VersionInfo.g.cs">
-				<imports>
-					<import namespace="System" />
-					<import namespace="System.Reflection" />
-				</imports>
-				<attributes>
-					<attribute type="AssemblyVersionAttribute" value="${version}.0.0" />
-					<attribute type="AssemblyFileVersionAttribute" value="${version}.${projrevision}.${versionTypeNumeric}" />
-				</attributes>
-			</asminfo>
+	<target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
 
-            <echo append="true" file="${binaries}\Versions.txt" 
-	              message="${infoname} ${version}.${projrevision}.${versionTypeNumeric}${environment::newline()}" />
-        </foreach>
-		<delete file="${versionsfile}" />
+    <property name="now" value="${datetime::now()}" />
+    <property name="year" value="${datetime::get-year(now)}" />
+    <property name="day" value="${datetime::get-day-of-year(now)} " />
+    <property name="hour" value="${datetime::get-hour(now)} " />
+    <property name="min" value="${datetime::get-minute(now)} " />
+
+    <property name="time" value="${year}${day}.${hour}${min}" />
+    <property name="t" value="${string::replace(time, ' ', '')}" />
+    <property name="timestamp" value="${string::substring(t, 2, string::get-length(t) - 2)}" />
+
+    <loadfile file="${base_dir}\Scripts\Version.txt" property="version" />
+
+    <foreach item="Folder" property="foldername">
+      <in>
+        <items>
+          <exclude name="${sources}\bbv.Common.Test" />
+          <exclude name="${sources}\bbv.Common.*.Test" />
+          <exclude name="${sources}\bbv.Common.*.Specification" />
+          <exclude name="${sources}\bbv.Common.*.Sample" />
+          <exclude name="${sources}\.*" />
+          <include name="${sources}\bbv.Common*" />
+        </items>
+      </in>
+      <do>
+        <loadfile file="${foldername}\Version.txt" property="projversion" />
+        
+        <asminfo language="CSharp" output="${foldername}.VersionInfo.g.cs">
+          <imports>
+            <import namespace="System" />
+            <import namespace="System.Reflection" />
+          </imports>
+          <attributes>
+            <attribute type="AssemblyVersionAttribute" value="${version}.${projversion}.0.0" />
+            <attribute type="AssemblyFileVersionAttribute" value="${version}.${projversion}.${timestamp}" />
+          </attributes>
+        </asminfo>
+      </do>
+    </foreach>
 	</target>
 
 	<target name="revert_version" description="reverts the changes made to VersionAssemblyInfo.">
@@ -280,52 +273,11 @@
 			</in>
 			<do>
         <echo message="reverting ${filename}"/>
-				<exec program="${svn}" commandline="revert ${filename}" />
+        <exec
+          program="${git}"
+          commandline='checkout "${filename}"'
+          failonerror="false"/>
 			</do>
 		</foreach>
 	</target>
-
-	<target name="get_headrevision" description="gets the head revision from subversion.">
-		<foreach item="Folder" property="foldername">
-			<in>
-				<items>
-					<exclude name="${sources}\bbv.Common.Test" />
-					<exclude name="${sources}\bbv.Common.*.Test" />
-					<exclude name="${sources}\bbv.Common.*.Specification" />
-                    <exclude name="${sources}\bbv.Common.*.Sample" />
-                    <exclude name="${sources}\.*" />
-					<include name="${sources}\bbv.Common*" />
-				</items>
-			</in>
-			<do>
-				<echo message="${foldername}" />
-				<loadfile file="${foldername}\Version.txt" property="version" />
-				<property name="tempfile" value="${foldername}\_version.txt" />
-				<exec program="${svn}" commandline="info --xml --revision HEAD ${foldername}" output="${tempfile}" />
-				<xmlpeek file="${tempfile}" property="revision" xpath="/info/entry/commit/@revision" />
-				<delete file="${tempfile}" />
-				<echo append="true" file="${base_dir}\Scripts\Versions.txt" message="${foldername},${version}.${revision}${environment::newline()}" />
-			</do>
-		</foreach>
-
-        <!-- save head revision in ${revision} to version release -->
-        <property name="tempfile" value="${publish}\_version.txt" />
-        <exec program="${svn}" commandline="info --xml --revision HEAD ${base_dir}" output="${tempfile}" />
-        <xmlpeek file="${tempfile}" property="revision" xpath="/info/entry/commit/@revision" />
-        <delete file="${tempfile}" />
-	</target>
-
-	<target name="release_notes">
-
-		<exec program="${svn}" commandline="log ${base_dir} -r HEAD:1 --xml" output="${binaries}\Revisions.xml" />
-		<exec program="${base_dir}\Tools\nxslt3\nxslt3" 
-		      commandline="${binaries}\Revisions.xml ${base_dir}\Scripts\ReleaseNotes.xsl -o ${binaries}\ReleaseNotes.html"/>
-		<exec program="${svn}" commandline="log ${base_dir} -r HEAD:1" output="${publish}\ChangeLog-${version}.${revision}.txt" />
-		<delete file="${binaries}\Revisions.xml" />
-	</target>
-
-	<target name="exportsourcecode">
-		<exec program="${svn}" commandline="export ..\. ..\Export --force" />
-	</target>
-
 </project>
