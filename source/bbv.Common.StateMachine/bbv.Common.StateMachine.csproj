@@ -73,10 +73,6 @@
       <Project>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</Project>
       <Name>bbv.Common.AsyncModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\bbv.Common.Formatters\bbv.Common.Formatters.csproj">
-      <Project>{029DF59B-CB12-45C4-8C00-A5680F5CFF1B}</Project>
-      <Name>bbv.Common.Formatters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
       <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
       <Name>bbv.Common</Name>

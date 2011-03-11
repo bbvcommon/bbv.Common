@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>bbv.Common.EventBroker</id>
-		<version>%bbv.Common.EventBroker%</version>
+		<version>%bbv.Common.EventBrokerFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG</authors>
 		<description>Notification component for synchronous and asynchronous loosly coupled notification with automatic thread switching:
@@ -21,5 +21,7 @@
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
 		<language>en-US</language>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
 	</metadata>
 </package>

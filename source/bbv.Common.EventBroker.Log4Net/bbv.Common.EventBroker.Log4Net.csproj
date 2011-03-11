@@ -30,6 +30,7 @@
     <Content Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.EventBroker.Log4Net.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

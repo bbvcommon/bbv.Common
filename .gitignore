@@ -5,4 +5,5 @@ bin/
 obj/
 _ReSharper*/
 *.Cache
+*.cache
 /msbuild.log

@@ -19,6 +19,9 @@
   <ItemGroup>
     <Compile Include="DateTimeProvider.cs" />
     <Compile Include="Ensure.cs" />
+    <Compile Include="Formatters\FormatHelper.cs" />
+    <Compile Include="Formatters\GlobalSuppressions.cs" />
+    <Compile Include="Formatters\StringTruncationFormatter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Events\EventArgs.cs" />
     <Compile Include="Events\EventFilter.cs" />

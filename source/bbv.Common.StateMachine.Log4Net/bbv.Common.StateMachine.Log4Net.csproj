@@ -26,10 +26,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\bbv.Common.Formatters\bbv.Common.Formatters.csproj">
-      <Project>{029DF59B-CB12-45C4-8C00-A5680F5CFF1B}</Project>
-      <Name>bbv.Common.Formatters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\bbv.Common.StateMachine\bbv.Common.StateMachine.csproj">
       <Project>{F324D0C2-81EC-4798-9A17-FA22C591E48A}</Project>
       <Name>bbv.Common.StateMachine</Name>

@@ -43,6 +43,8 @@
     <Compile Include="DateTimeProviderTest.cs" />
     <Compile Include="EnsureTest.cs" />
     <Compile Include="Events\EventFilterTest.cs" />
+    <Compile Include="Formatters\FormatHelperTest.cs" />
+    <Compile Include="Formatters\StringTruncationFormatterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

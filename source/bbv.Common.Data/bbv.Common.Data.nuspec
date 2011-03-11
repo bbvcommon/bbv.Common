@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>bbv.Common.Data</id>
-		<version>%bbv.Common.Data%</version>
+		<version>%bbv.Common.DataFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG</authors>
 		<description>Provides CSV parser and writer, helper functionality for dataset and datetime operations.
@@ -13,5 +13,7 @@ bbv.Common.Data is a part of bbv.Common, a library of .NET components and functi
     * programmatic, loosely coupled, context based rule engine,
     * support for active objects to build multi-threaded applications</description>
 		<language>en-US</language>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
 	</metadata>
 </package>
