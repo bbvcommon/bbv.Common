@@ -46,13 +46,13 @@
     <mkdir dir="${publish}" />
    
     <call target="set_version" />  
-    <!--<call target="build_release" />
+    <call target="build_release" />
 		<call target="unittest" />
 		<call target="copy_bin" />
 		<call target="build" />
 		<call target="copy_bin" />
 		<call target="revert_version" />
-		<call target="package" />-->
+		<call target="package" />
 		<call target="nuget" />
 
 		<echo message="built version ${version}.0.${timestamp}." />
@@ -79,7 +79,7 @@
    -->
 
 	<target name="clean" description="Cleans all files">
-		<!--<echo message="Starting cleaning of solutions" />
+		<echo message="Starting cleaning of solutions" />
 		<delete failonerror="false">
 			<fileset basedir="${publish}">
 				<include name="**/*" />
@@ -95,7 +95,7 @@
 				<delete dir="${foldername}" failonerror="false" />
 			</do>
 		</foreach>
-		<echo message="Completion cleaning of solutions" />-->
+		<echo message="Completion cleaning of solutions" />
 	</target>	
 	
 	<target name="build_bbvCommon" description="Builds all projects of the bbv.Common solution">	
