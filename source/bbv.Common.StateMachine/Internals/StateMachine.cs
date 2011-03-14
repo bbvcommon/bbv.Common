@@ -325,13 +325,14 @@ namespace bbv.Common.StateMachine.Internals
         }
 
         /// <summary>
-        /// Returns a string that describes this state machine.
+        /// Creates a report with the specified generator.
         /// </summary>
-        /// <returns>Description of the state machine</returns>
-        public string Report()
+        /// <param name="reportGenerator">The report generator.</param>
+        public void Report(IStateMachineReport<TState, TEvent> reportGenerator)
         {
-            var report = this.factory.CreateStateMachineReport();
-            return report.Report(this.ToString(), this.states.GetStates(), this.initialStateId);
+            Ensure.ArgumentNotNull(reportGenerator, "reportGenerator");
+
+            reportGenerator.Report(this.ToString(), this.states.GetStates(), this.initialStateId);
         }
 
         /// <summary>

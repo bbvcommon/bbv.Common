@@ -121,9 +121,9 @@ namespace bbv.Common.StateMachine
         void ClearExtensions();
 
         /// <summary>
-        /// Returns a report of this state machine with all states and transitions.
+        /// Creates a state machine report with the specified generator.
         /// </summary>
-        /// <returns>A string containing a report of this state machine with all states and transitions.</returns>
-        string Report();
+        /// <param name="reportGenerator">The report generator.</param>
+        void Report(IStateMachineReport<TState, TEvent> reportGenerator);
     }
 }

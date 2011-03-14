@@ -25,22 +25,27 @@ namespace bbv.Common.StateMachine.Internals
     using System.Text;
 
     /// <summary>
-    /// Creates reports of state machines.
+    /// Creates a textual report of a state machine.
     /// </summary>
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
-    public class StateMachineReport<TState, TEvent>
+    public class StateMachineReport<TState, TEvent> : IStateMachineReport<TState, TEvent>
         where TState : struct, IComparable
         where TEvent : struct, IComparable
     {
         /// <summary>
-        /// Returns a string that describes this state machine.
+        /// Gets the resulting report.
+        /// </summary>
+        /// <value>The result.</value>
+        public string Result { get; private set; }
+
+        /// <summary>
+        /// Generates a report of the state machine.
         /// </summary>
         /// <param name="name">The name of the state machine.</param>
         /// <param name="states">The states.</param>
         /// <param name="initialStateId">The initial state id.</param>
-        /// <returns>Description of the state machine</returns>
-        public string Report(string name, IEnumerable<IState<TState, TEvent>> states, TState? initialStateId)
+        public void Report(string name, IEnumerable<IState<TState, TEvent>> states, TState? initialStateId)
         {
             Ensure.ArgumentNotNull(states, "states");
 
@@ -59,7 +64,7 @@ namespace bbv.Common.StateMachine.Internals
                 }
             }
 
-            return report.ToString();
+            this.Result = report.ToString();
         }
 
         /// <summary>

@@ -77,12 +77,6 @@ namespace bbv.Common.StateMachine.Internals
         ITransitionContext<TState, TEvent> CreateTransitionContext(IState<TState, TEvent> state, TEvent eventId, object[] eventArguments, INotifier<TState, TEvent> notifier);
 
         /// <summary>
-        /// Creates a state machine report.
-        /// </summary>
-        /// <returns>A newly created state machine report.</returns>
-        StateMachineReport<TState, TEvent> CreateStateMachineReport();
-
-        /// <summary>
         /// Creates a state machine initializer.
         /// </summary>
         /// <param name="initialState">The initial state.</param>

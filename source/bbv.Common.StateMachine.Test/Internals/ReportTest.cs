@@ -27,7 +27,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <summary>
         /// Object under test.
         /// </summary>
-        private StateMachine<States, Events> testee;
+        private readonly StateMachine<States, Events> testee;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportTest"/> class.
@@ -68,7 +68,10 @@ namespace bbv.Common.StateMachine.Internals
             
             this.testee.Initialize(States.A);
 
-            string report = this.testee.Report();
+            var generator = new StateMachineReport<States, Events>();
+            this.testee.Report(generator);
+
+            string report = generator.Result;
 
             const string ExpectedReport =
 @"Test Machine: initial state = A

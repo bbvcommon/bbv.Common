@@ -109,15 +109,6 @@ namespace bbv.Common.StateMachine.Internals
         }
 
         /// <summary>
-        /// Creates a state machine report.
-        /// </summary>
-        /// <returns>A newly created state machine report.</returns>
-        public StateMachineReport<TState, TEvent> CreateStateMachineReport()
-        {
-            return new StateMachineReport<TState, TEvent>();
-        }
-
-        /// <summary>
         /// Creates a state machine initializer.
         /// </summary>
         /// <param name="initialState">The initial state.</param>
