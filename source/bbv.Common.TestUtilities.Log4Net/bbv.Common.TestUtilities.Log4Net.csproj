@@ -25,7 +25,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.TestUtilities.Log4Net.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>

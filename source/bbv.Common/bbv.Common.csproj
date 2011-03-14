@@ -30,5 +30,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidatedNotNullAttribute.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

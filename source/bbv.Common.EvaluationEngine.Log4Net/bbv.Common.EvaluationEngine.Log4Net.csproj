@@ -24,6 +24,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.EvaluationEngine.Log4Net.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

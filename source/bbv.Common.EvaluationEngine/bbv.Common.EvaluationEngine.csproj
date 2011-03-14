@@ -76,5 +76,11 @@
     <Compile Include="Validation\ValidationResult{TValidationViolation}.cs" />
     <Compile Include="Validation\ValidationViolation.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.EvaluationEngine.nuspec" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

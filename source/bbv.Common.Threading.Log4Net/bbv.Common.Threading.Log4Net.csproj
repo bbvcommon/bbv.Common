@@ -27,6 +27,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.Threading.Log4Net.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

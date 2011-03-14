@@ -24,5 +24,11 @@
     <Compile Include="ThreadHelper.cs" />
     <Compile Include="UserInterfaceThreadSynchronizer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.Threading.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

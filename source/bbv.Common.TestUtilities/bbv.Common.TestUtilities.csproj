@@ -41,5 +41,11 @@
       <Name>bbv.Common.IO</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.TestUtilities.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

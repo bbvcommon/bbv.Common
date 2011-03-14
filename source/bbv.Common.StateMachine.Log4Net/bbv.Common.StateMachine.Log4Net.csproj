@@ -23,6 +23,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bbv.Common.StateMachine.Log4Net.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +35,9 @@
       <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
       <Name>bbv.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>

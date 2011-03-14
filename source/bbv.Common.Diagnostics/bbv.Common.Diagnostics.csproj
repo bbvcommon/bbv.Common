@@ -18,7 +18,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationHelper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HighResolutionStopWatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

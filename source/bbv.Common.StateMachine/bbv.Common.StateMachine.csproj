@@ -79,5 +79,11 @@
       <Name>bbv.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.StateMachine.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

@@ -45,6 +45,7 @@
     <Compile Include="Internals\ExtensionProviderExtensions.cs" />
     <Compile Include="Internals\IExtensionProvider.cs" />
     <Compile Include="IPathAccess.g.cs" />
+    <None Include="bbv.Common.IO.nuspec" />
     <None Include="packages.config" />
     <Compile Include="Internals\DirectoryAccess.cs" />
     <Compile Include="Internals\DirectoryInfoAccess.cs" />
@@ -82,6 +83,9 @@
       <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
       <Name>bbv.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

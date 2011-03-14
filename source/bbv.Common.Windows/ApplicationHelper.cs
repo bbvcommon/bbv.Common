@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Diagnostics
+namespace bbv.Common.Windows
 {
     using System;
     using System.Diagnostics;
