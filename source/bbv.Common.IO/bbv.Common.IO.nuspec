@@ -21,6 +21,7 @@ bbv.Common.IO is a part of bbv.Common, a library of .NET components and function
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <dependencies>
+      <dependency id="bbv.Common" version="%bbv.Common%"/>
       <dependency id="log4net" version="1.2.10" />
     </dependencies>
   </metadata>

@@ -5,7 +5,7 @@
     <version>%bbv.Common.TestUtilities.Log4NetFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG</authors>
-    <description>log4net logging extension for bbv.Common.TestUtilities.
+    <description>Functionality to test log4net log messages.
 
       bbv.Common.TestUtilities is a part of bbv.Common, a library of .NET components and functionality including:
       * (a)synchronous notification component with thread switching using publisher-subscriber pattern,

@@ -16,6 +16,7 @@ bbv.Common.EvaluationEngine is a part of bbv.Common, a library of .NET component
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <dependencies>
+      <dependency id="bbv.Common.EvaluationEngine" version="%bbv.Common.EvaluationEngine%"/>
       <dependency id="log4net" version="1.2.10" />
     </dependencies>
   </metadata>

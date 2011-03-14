@@ -17,5 +17,8 @@ bbv.Common.TestUtilities is a part of bbv.Common, a library of .NET components a
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="bbv.Common.IO" version="%bbv.Common.IO%"/>
+    </dependencies>
   </metadata>
 </package>

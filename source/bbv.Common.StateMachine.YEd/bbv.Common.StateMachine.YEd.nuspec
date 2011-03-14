@@ -15,5 +15,9 @@ bbv.Common.StateMachine.YEd is a part of bbv.Common, a library of .NET component
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="bbv.Common" version="%bbv.Common%"/>
+      <dependency id="bbv.Common.StateMachine" version="%bbv.Common.StateMachine%"/>
+    </dependencies>
   </metadata>
 </package>
