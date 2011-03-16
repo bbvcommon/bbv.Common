@@ -33,8 +33,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class YEdStateMachineReportGenerator<TState, TEvent> : IStateMachineReport<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         private static readonly XNamespace n = "http://graphml.graphdrawing.org/xmlns";
         private static readonly XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
@@ -46,7 +46,7 @@ namespace bbv.Common.StateMachine
 
         private int edgeId;
 
-        private TState? initialStateId;
+        private Initializable<TState> initialStateId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YEdStateMachineReportGenerator&lt;TState, TEvent&gt;"/> class.
@@ -63,7 +63,7 @@ namespace bbv.Common.StateMachine
         /// <param name="name">The name of the state machine.</param>
         /// <param name="states">The states.</param>
         /// <param name="initialStateId">The initial state id.</param>
-        public void Report(string name, IEnumerable<IState<TState, TEvent>> states, TState? initialStateId)
+        public void Report(string name, IEnumerable<IState<TState, TEvent>> states, Initializable<TState> initialStateId)
         {
             this.edgeId = 0;
 
@@ -132,7 +132,7 @@ namespace bbv.Common.StateMachine
         {
             var node = new XElement(n + "node", new XAttribute("id", state.Id.ToString()));
 
-            bool initialState = (this.initialStateId.HasValue && state.Id.ToString() == this.initialStateId.Value.ToString()) || (state.SuperState != null && state.SuperState.InitialState == state);
+            bool initialState = (this.initialStateId.IsInitialized && state.Id.ToString() == this.initialStateId.Value.ToString()) || (state.SuperState != null && state.SuperState.InitialState == state);
 
             if (state.SubStates.Any())
             {

@@ -27,8 +27,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public interface IStateMachine<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Occurs when no transition could be executed.

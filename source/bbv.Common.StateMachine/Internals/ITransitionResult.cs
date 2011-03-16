@@ -26,8 +26,8 @@ namespace bbv.Common.StateMachine.Internals
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public interface ITransitionResult<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Gets a value indicating whether this <see cref="ITransitionResult{TState, TEvent}"/> is fired.

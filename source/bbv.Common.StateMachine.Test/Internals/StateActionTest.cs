@@ -44,6 +44,8 @@ namespace bbv.Common.StateMachine.Internals
 
             this.testee.Initialize(States.A);
 
+            this.testee.EnterInitialState();
+
             Assert.True(entered, "entry action was not executed.");
         }
 
@@ -60,6 +62,8 @@ namespace bbv.Common.StateMachine.Internals
 
             this.testee.Initialize(States.A);
 
+            this.testee.EnterInitialState();
+
             entered1.Should().BeTrue("entry action was not executed.");
             entered2.Should().BeTrue("entry action was not executed.");
         }
@@ -74,6 +78,8 @@ namespace bbv.Common.StateMachine.Internals
 
             this.testee.Initialize(States.A);
 
+            this.testee.EnterInitialState();
+
             Assert.Equal(3, i);
         }
 
@@ -87,6 +93,8 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.B).Goto(States.B);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B);
 
             Assert.True(exit, "exit action was not executed.");
@@ -105,6 +113,8 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.B).Goto(States.B);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B);
 
             exit1.Should().BeTrue("exit action was not executed.");
@@ -121,6 +131,8 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.B).Goto(States.B);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B);
 
             Assert.Equal(i, 3);

@@ -27,8 +27,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public interface IExtension<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Called after the state machine was started.
@@ -82,12 +82,25 @@ namespace bbv.Common.StateMachine
         /// Called when the state machine was initialized.
         /// </summary>
         /// <param name="stateMachine">The state machine.</param>
-        /// <param name="stateContext">The state context of the initial state.</param>
         /// <param name="initialState">The initial state.</param>
         void InitializedStateMachine(
             IStateMachineInformation<TState, TEvent> stateMachine, 
-            IStateContext<TState, TEvent> stateContext, 
             TState initialState);
+
+        /// <summary>
+        /// Called when the state machine enters the initial state.
+        /// </summary>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <param name="state">The state.</param>
+        void EnteringInitialState(IStateMachineInformation<TState, TEvent> stateMachine, TState state);
+
+        /// <summary>
+        /// Called when the state machine entered the initial state.
+        /// </summary>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="stateContext">The state context.</param>
+        void EnteredInitialState(IStateMachineInformation<TState, TEvent> stateMachine, TState state, IStateContext<TState, TEvent> stateContext);
 
         /// <summary>
         /// Called when an event is firing on the state machine.

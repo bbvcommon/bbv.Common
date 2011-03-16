@@ -1,6 +1,6 @@
 
-/Binaries
-/Publish
+/binaries
+/publish
 bin/
 obj/
 _ReSharper*/

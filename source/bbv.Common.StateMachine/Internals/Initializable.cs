@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ContextEventArgs.cs" company="bbv Software Services AG">
+// <copyright file="Initializable.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,36 +21,47 @@ namespace bbv.Common.StateMachine.Internals
     using System;
 
     /// <summary>
-    /// Event arguments holding context information.
+    /// An initializable value.
     /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    /// <typeparam name="TEvent">The type of the event.</typeparam>
-    public class ContextEventArgs<TState, TEvent>
-        : EventArgs
-        where TState : IComparable
-        where TEvent : IComparable
+    /// <typeparam name="T">Type of the value.</typeparam>
+    public class Initializable<T>
     {
-        /// <summary>
-        /// The context.
-        /// </summary>
-        private readonly IStateContext<TState, TEvent> stateContext;
+        private T value;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContextEventArgs{TState, TEvent}"/> class.
+        /// Gets or sets the value.
         /// </summary>
-        /// <param name="stateContext">The event context.</param>
-        protected ContextEventArgs(IStateContext<TState, TEvent> stateContext)
+        /// <value>The value.</value>
+        public T Value
         {
-            this.stateContext = stateContext;
+            get
+            {
+                this.CheckInitialized();
+
+                return this.value;
+            }
+
+            set
+            {
+                this.IsInitialized = true;
+
+                this.value = value;
+            }
         }
 
         /// <summary>
-        /// Gets the event context.
+        /// Gets a value indicating whether this instance is initialized (has a set value).
         /// </summary>
-        /// <value>The event context.</value>
-        protected IStateContext<TState, TEvent> StateContext
+        /// <value><c>true</c> if this instance is initialized; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsInitialized { get; private set; }
+
+        private void CheckInitialized()
         {
-            get { return this.stateContext; }
+            if (!this.IsInitialized)
+            {
+                throw new InvalidOperationException(ExceptionMessages.ValueNotInitialized);
+            }
         }
     }
 }

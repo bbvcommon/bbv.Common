@@ -32,8 +32,8 @@ namespace bbv.Common.StateMachine.Internals
         INotifier<TState, TEvent>, 
         IStateMachineInformation<TState, TEvent>,
         IExtensionHost<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// The dictionary of all states.
@@ -41,6 +41,11 @@ namespace bbv.Common.StateMachine.Internals
         private readonly IStateDictionary<TState, TEvent> states;
 
         private readonly IFactory<TState, TEvent> factory;
+
+        /// <summary>
+        /// The initial state of the state machine.
+        /// </summary>
+        private readonly Initializable<TState> initialStateId;
 
         /// <summary>
         /// Name of this state machine used in log messages.
@@ -56,11 +61,6 @@ namespace bbv.Common.StateMachine.Internals
         /// The current state.
         /// </summary>
         private IState<TState, TEvent> currentState;
-
-        /// <summary>
-        /// The initial state of the state machine.
-        /// </summary>
-        private TState? initialStateId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateMachine{TState,TEvent}"/> class.
@@ -91,7 +91,7 @@ namespace bbv.Common.StateMachine.Internals
             this.states = new StateDictionary<TState, TEvent>(this.factory);
             this.extensions = new List<IExtension<TState, TEvent>>();
 
-            this.Initialized = false;
+            this.initialStateId = new Initializable<TState>();
         }
 
         /// <summary>
@@ -132,16 +132,10 @@ namespace bbv.Common.StateMachine.Internals
         /// Gets the id of the current state.
         /// </summary>
         /// <value>The id of the current state.</value>
-        public TState? CurrentStateId
+        public TState CurrentStateId
         {
             get { return this.CurrentState.Id; }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this state machine was initialized.
-        /// </summary>
-        /// <value><c>true</c> if initialized; otherwise, <c>false</c>.</value>
-        public bool Initialized { get; private set; }
 
         /// <summary>
         /// Gets or sets the state of the current.
@@ -152,6 +146,7 @@ namespace bbv.Common.StateMachine.Internals
             get
             {
                 this.CheckThatStateMachineIsInitialized();
+                this.CheckThatStateMachineHasEnteredInitialState();
 
                 return this.currentState;
             }
@@ -212,10 +207,24 @@ namespace bbv.Common.StateMachine.Internals
         {
             this.extensions.ForEach(extension => extension.InitializingStateMachine(this, ref initialState));
 
-            IStateContext<TState, TEvent> stateContext = this.factory.CreateStateContext(null, this);
-            this.Initialize(this.states[initialState], stateContext);
+            this.Initialize(this.states[initialState]);
 
-            this.extensions.ForEach(extension => extension.InitializedStateMachine(this, stateContext, initialState));
+            this.extensions.ForEach(extension => extension.InitializedStateMachine(this, initialState));
+        }
+
+        /// <summary>
+        /// Enters the initial state that was previously set with <see cref="Initialize(TState)"/>.
+        /// </summary>
+        public void EnterInitialState()
+        {
+            this.CheckThatStateMachineIsInitialized();
+
+            this.extensions.ForEach(extension => extension.EnteringInitialState(this, this.initialStateId.Value));
+
+            IStateContext<TState, TEvent> stateContext = this.factory.CreateStateContext(null, this);
+            this.EnterInitialState(this.states[this.initialStateId.Value], stateContext);
+
+            this.extensions.ForEach(extension => extension.EnteredInitialState(this, this.initialStateId.Value, stateContext));
         }
 
         /// <summary>
@@ -235,6 +244,7 @@ namespace bbv.Common.StateMachine.Internals
         public void Fire(TEvent eventId, object[] eventArguments)
         {
             this.CheckThatStateMachineIsInitialized();
+            this.CheckThatStateMachineHasEnteredInitialState();
 
             this.extensions.ForEach(extension => extension.FiringEvent(this, ref eventId, ref eventArguments));
 
@@ -372,18 +382,14 @@ namespace bbv.Common.StateMachine.Internals
         /// Initializes the state machine by setting the specified initial state.
         /// </summary>
         /// <param name="initialState">The initial state.</param>
-        /// <param name="stateContext">The event context.</param>
-        private void Initialize(IState<TState, TEvent> initialState, IStateContext<TState, TEvent> stateContext)
+        private void Initialize(IState<TState, TEvent> initialState)
         {
-            if (this.Initialized)
+            if (this.initialStateId.IsInitialized)
             {
                 throw new InvalidOperationException(ExceptionMessages.StateMachineIsAlreadyInitialized);
             }
 
-            this.Initialized = true;
-            this.initialStateId = initialState.Id;
-
-            this.EnterInitialState(initialState, stateContext);
+            this.initialStateId.Value = initialState.Id;
         }
 
         private void EnterInitialState(IState<TState, TEvent> initialState, IStateContext<TState, TEvent> stateContext)
@@ -425,9 +431,17 @@ namespace bbv.Common.StateMachine.Internals
 
         private void CheckThatStateMachineIsInitialized()
         {
-            if (!this.Initialized)
+            if (!this.initialStateId.IsInitialized)
             {
                 throw new InvalidOperationException(ExceptionMessages.StateMachineNotInitialized);
+            }
+        }
+
+        private void CheckThatStateMachineHasEnteredInitialState()
+        {
+            if (this.currentState == null)
+            {
+                throw new InvalidOperationException(ExceptionMessages.StateMachineHasNotYetEnteredInitialState);
             }
         }
 

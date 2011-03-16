@@ -51,6 +51,7 @@ namespace bbv.Common.StateMachine.Internals
                     .If(argument => false).Goto(States.D);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.A);
 
@@ -66,6 +67,7 @@ namespace bbv.Common.StateMachine.Internals
                     .Otherwise().Goto(States.C);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.A);
 
@@ -92,6 +94,7 @@ namespace bbv.Common.StateMachine.Internals
                     .Goto(States.B);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.A, originalEventArguments);
 
@@ -113,6 +116,7 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.A).If(eventArguments => false).Goto(States.C);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.A);
 

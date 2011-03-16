@@ -19,24 +19,9 @@
 namespace bbv.Common.StateMachine.Internals
 {
     /// <summary>
-    /// Holds information about the state into which to initialize the state machine on first Start.
+    /// Message used to delay entering initial state in active state machine.
     /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    public class InitializationInformation<TState>
+    public class InitializationInformation
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InitializationInformation&lt;TState&gt;"/> class.
-        /// </summary>
-        /// <param name="initialState">Initial state.</param>
-        public InitializationInformation(TState initialState)
-        {
-            this.InitialState = initialState;
-        }
-
-        /// <summary>
-        /// Gets the initial state.
-        /// </summary>
-        /// <value>The initial state.</value>
-        public TState InitialState { get; private set; }
     }
 }

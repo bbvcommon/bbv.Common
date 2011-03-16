@@ -63,8 +63,27 @@ namespace bbv.Common.StateMachine
                 e =>
                 e.InitializedStateMachine(
                     this.testee,
-                    It.Is<StateContext<States, Events>>(context => context.State == null),
                     initialState));
+        }
+
+        [Fact]
+        public void EnterInitialState()
+        {
+            States initialState = States.A;
+
+            this.testee.Initialize(initialState);
+            this.testee.EnterInitialState();
+
+            this.extension.Verify(
+                e =>
+                e.EnteringInitialState(this.testee, initialState));
+
+            this.extension.Verify(
+                e =>
+                e.EnteredInitialState(
+                    this.testee,
+                    initialState,
+                    It.Is<StateContext<States, Events>>(context => context.State == null)));
         }
 
         /// <summary>
@@ -76,6 +95,7 @@ namespace bbv.Common.StateMachine
             this.overrideExtension.OverriddenState = States.B;
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             States? actualState = this.testee.CurrentStateId;
 
@@ -90,6 +110,7 @@ namespace bbv.Common.StateMachine
         {
             this.testee.In(States.A).On(Events.B).Goto(States.B);
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             Events eventId = Events.B;
             var eventArguments = new object[] { };
@@ -115,6 +136,7 @@ namespace bbv.Common.StateMachine
                 .On(Events.C).Goto(States.C);
        
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             const Events NewEvent = Events.C;
             var newEventArguments = new object[] { };
@@ -140,6 +162,7 @@ namespace bbv.Common.StateMachine
 
             this.testee.In(States.A).On(Events.B).If(arguments => { throw exception; }).Execute(arguments => { });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.B);
 
@@ -171,6 +194,7 @@ namespace bbv.Common.StateMachine
 
             this.testee.In(States.A).On(Events.B).If(arguments => { throw exception; }).Execute(arguments => { });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.overrideExtension.OverriddenException = overriddenException;
 
@@ -195,6 +219,7 @@ namespace bbv.Common.StateMachine
             
             this.testee.In(States.A).On(Events.B).Execute(arguments => { throw exception; });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.B);
 
@@ -226,6 +251,7 @@ namespace bbv.Common.StateMachine
 
             this.testee.In(States.A).On(Events.B).Execute(arguments => { throw exception; });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.overrideExtension.OverriddenException = overriddenException;
 
@@ -252,6 +278,7 @@ namespace bbv.Common.StateMachine
             this.testee.In(States.A).On(Events.B).Goto(States.B);
             this.testee.In(States.B).ExecuteOnEntry(() => { throw exception; });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.B);
 
@@ -284,6 +311,7 @@ namespace bbv.Common.StateMachine
             this.testee.In(States.A).On(Events.B).Goto(States.B);
             this.testee.In(States.B).ExecuteOnEntry(() => { throw exception; });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.overrideExtension.OverriddenException = overriddenException;
 
@@ -312,6 +340,7 @@ namespace bbv.Common.StateMachine
                 .On(Events.B).Goto(States.B);
                 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.B);
 
@@ -345,6 +374,7 @@ namespace bbv.Common.StateMachine
                 .ExecuteOnExit(() => { throw exception; })
                 .On(Events.B).Goto(States.B);
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.overrideExtension.OverriddenException = overriddenException;
 
@@ -370,6 +400,7 @@ namespace bbv.Common.StateMachine
 
             this.testee.In(States.A).ExecuteOnEntry(() => { throw exception; });
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.extension.Verify(
                 e => e.HandlingEntryActionException(

@@ -26,8 +26,8 @@ namespace bbv.Common.StateMachine.Internals
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public interface IExtensionHost<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Executes the specified action for all extensions.

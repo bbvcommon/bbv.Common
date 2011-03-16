@@ -27,6 +27,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Internals\IExtensionHost.cs" />
     <Compile Include="Internals\IFactory.cs" />
+    <Compile Include="Internals\Initializable.cs" />
     <Compile Include="Internals\InitializationInformation.cs" />
     <Compile Include="Internals\IStateContext.cs" />
     <Compile Include="Internals\ITransitionContext.cs" />

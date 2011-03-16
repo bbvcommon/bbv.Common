@@ -20,9 +20,10 @@
     -->
     <Recognized>
       <!-- <Word>accessor</Word> -->
-	  <Word>bbv</Word>
-	  <Word>notifier</Word>
-	  <Word>esb</Word>
+      <Word>bbv</Word>
+      <Word>notifier</Word>
+      <Word>esb</Word>
+      <Word>Initializable</Word>  
     </Recognized>
     <Deprecated>
       <!-- 
@@ -65,8 +66,8 @@
     <CasingExceptions>
       <!-- <Acronym>NESW</Acronym> -->
       <!-- North East South West -->
-	  <Acronym>bbv</Acronym>
-	  <Acronym>esb</Acronym>
+    <Acronym>bbv</Acronym>
+    <Acronym>esb</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

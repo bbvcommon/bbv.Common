@@ -30,8 +30,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class ActiveStateMachine<TState, TEvent> : IStateMachine<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// The internal state machine.
@@ -184,7 +184,9 @@ namespace bbv.Common.StateMachine
 
             this.initialized = true;
 
-            this.moduleController.EnqueueMessage(new InitializationInformation<TState>(initialState));
+            this.stateMachine.Initialize(initialState);
+
+            this.moduleController.EnqueueMessage(new InitializationInformation());
         }
 
         /// <summary>
@@ -254,11 +256,11 @@ namespace bbv.Common.StateMachine
         /// </summary>
         /// <param name="message">The message containing the initial state.</param>
         [MessageConsumer]
-        public void Initialize(InitializationInformation<TState> message)
+        public void Initialize(InitializationInformation message)
         {
             Ensure.ArgumentNotNull(message, "message");
 
-            this.stateMachine.Initialize(message.InitialState);
+            this.stateMachine.EnterInitialState();
         }
 
         /// <summary>

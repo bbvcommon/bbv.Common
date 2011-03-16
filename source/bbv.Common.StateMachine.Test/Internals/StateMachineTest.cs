@@ -129,6 +129,14 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.E).Goto(States.E);
         }
 
+        [Fact]
+        public void InitializationWhenInitialStateIsNotYetEnteredThenNoActionIsPerformed()
+        {
+            this.testee.Initialize(States.A);
+
+            this.CheckNoRemainingRecords();
+        }
+
         /// <summary>
         /// After initialization the state machine is in the initial state and the initial state is entered.
         /// </summary>
@@ -136,6 +144,7 @@ namespace bbv.Common.StateMachine.Internals
         public void InitializeToTopLevelState()
         {
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             Assert.Equal(States.A, this.testee.CurrentStateId);
             
@@ -151,6 +160,7 @@ namespace bbv.Common.StateMachine.Internals
         public void InitializeToNestedState()
         {
             this.testee.Initialize(States.D1b);
+            this.testee.EnterInitialState();
 
             Assert.Equal(States.D1b, this.testee.CurrentStateId);
 
@@ -168,6 +178,7 @@ namespace bbv.Common.StateMachine.Internals
         public void InitializeStateWithSubStates()
         {
             this.testee.Initialize(States.D);
+            this.testee.EnterInitialState();
 
             Assert.Equal(States.D1a, this.testee.CurrentStateId);
 
@@ -187,6 +198,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransition()
         {
             this.testee.Initialize(States.E);
+            this.testee.EnterInitialState();
 
             this.ClearRecords();
 
@@ -208,6 +220,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionBetweenStatesWithSameSuperState()
         {
             this.testee.Initialize(States.B1);
+            this.testee.EnterInitialState();
 
             this.ClearRecords();
 
@@ -229,6 +242,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionBetweenStatesOnDifferentLevelsDownwards()
         {
             this.testee.Initialize(States.B2);
+            this.testee.EnterInitialState();
             
             this.ClearRecords();
             
@@ -253,6 +267,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionBetweenStatesOnDifferentLevelsUpwards()
         {
             this.testee.Initialize(States.D1b);
+            this.testee.EnterInitialState();
 
             this.ClearRecords();
 
@@ -276,6 +291,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionWithInitialSubState()
         {
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.ClearRecords();
 
@@ -297,6 +313,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionWithHistoryTypeNone()
         {
             this.testee.Initialize(States.B2);
+            this.testee.EnterInitialState();
             this.testee.Fire(Events.A);
 
             this.ClearRecords();
@@ -317,6 +334,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionWithHistoryTypeShallow()
         {
             this.testee.Initialize(States.C1b);
+            this.testee.EnterInitialState();
             this.testee.Fire(Events.A);
 
             this.ClearRecords();
@@ -340,6 +358,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionWithHistoryTypeDeep()
         {
             this.testee.Initialize(States.D1b);
+            this.testee.EnterInitialState();
             this.testee.Fire(Events.A);
 
             this.ClearRecords();
@@ -362,6 +381,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionHandledBySuperState()
         {
             this.testee.Initialize(States.C1b);
+            this.testee.EnterInitialState();
             
             this.ClearRecords();
 
@@ -383,6 +403,7 @@ namespace bbv.Common.StateMachine.Internals
         public void InternalTransition()
         {
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
             this.ClearRecords();
 
             this.testee.Fire(Events.A);
@@ -394,6 +415,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteSelfTransition()
         {
             this.testee.Initialize(States.E);
+            this.testee.EnterInitialState();
             this.ClearRecords();
 
             this.testee.Fire(Events.E);
@@ -409,6 +431,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExecuteTransitionToNephew()
         {
             this.testee.Initialize(States.C1a);
+            this.testee.EnterInitialState();
             this.ClearRecords();
 
             this.testee.Fire(Events.C1b);

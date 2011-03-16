@@ -31,6 +31,11 @@ namespace bbv.Common.StateMachine
     public static class ExceptionMessages
     {
         /// <summary>
+        /// Value is not initialized.
+        /// </summary>
+        public const string ValueNotInitialized = "Value is not initialized";
+
+        /// <summary>
         /// State machine is already initialized.
         /// </summary>
         public const string StateMachineIsAlreadyInitialized = "state machine is already initialized";
@@ -39,6 +44,11 @@ namespace bbv.Common.StateMachine
         /// State machine is not initialized.
         /// </summary>
         public const string StateMachineNotInitialized = "state machine is not initialized";
+
+        /// <summary>
+        /// State machine has not yet entered initial state.
+        /// </summary>
+        public const string StateMachineHasNotYetEnteredInitialState = "Initial state is not yet entered.";
 
         /// <summary>
         /// State cannot be its own super-state..
@@ -86,8 +96,8 @@ namespace bbv.Common.StateMachine
         /// <param name="statesAlreadyHavingASuperState">State of the states already having A super.</param>
         /// <returns>error message</returns>
         public static string CannotSetStateAsASuperStateBecauseASuperStateIsAlreadySet<TState, TEvent>(TState newSuperStateId, IEnumerable<IState<TState, TEvent>> statesAlreadyHavingASuperState)
-            where TState : struct, IComparable
-            where TEvent : struct, IComparable
+            where TState : IComparable
+            where TEvent : IComparable
         {
             var statesWithSuperStates = from m in statesAlreadyHavingASuperState select new { m.Id, SuperStateId = m.SuperState.Id };
             string message = statesWithSuperStates.Aggregate(string.Empty, (acc, info) => acc + " state = " + info.Id + " super state = " + info.SuperStateId + ";");
@@ -108,8 +118,8 @@ namespace bbv.Common.StateMachine
         /// <param name="state">The state.</param>
         /// <returns>error message</returns>
         public static string TransitionDoesAlreadyExist<TState, TEvent>(ITransition<TState, TEvent> transition, IState<TState, TEvent> state)
-            where TState : struct, IComparable
-            where TEvent : struct, IComparable
+            where TState : IComparable
+            where TEvent : IComparable
         {
             Ensure.ArgumentNotNull(transition, "transition");
 

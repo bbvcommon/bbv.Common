@@ -30,8 +30,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class TransitionEventArgs<TState, TEvent>
         : ContextEventArgs<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransitionEventArgs&lt;TState, TEvent&gt;"/> class.
@@ -55,7 +55,7 @@ namespace bbv.Common.StateMachine
         /// Gets the event id.
         /// </summary>
         /// <value>The event id.</value>
-        public TEvent? EventId
+        public TEvent EventId
         {
             get { return this.TransitionContext.EventId; }
         }

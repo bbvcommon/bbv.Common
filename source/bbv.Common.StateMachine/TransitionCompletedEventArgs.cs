@@ -28,20 +28,20 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class TransitionCompletedEventArgs<TState, TEvent>
         : TransitionEventArgs<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// The new state the state machine is in after the transition.
         /// </summary>
-        private readonly TState? newStateId;
+        private readonly TState newStateId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransitionCompletedEventArgs&lt;TState, TEvent&gt;"/> class.
         /// </summary>
         /// <param name="newStateId">The new state id.</param>
         /// <param name="context">The context.</param>
-        public TransitionCompletedEventArgs(TState? newStateId, ITransitionContext<TState, TEvent> context) : base(context)
+        public TransitionCompletedEventArgs(TState newStateId, ITransitionContext<TState, TEvent> context) : base(context)
         {
             this.newStateId = newStateId;
         }
@@ -50,7 +50,7 @@ namespace bbv.Common.StateMachine
         /// Gets the new state id the state machine is in after the transition.
         /// </summary>
         /// <value>The new state id the state machine is in after the transition.</value>
-        public TState? NewStateId
+        public TState NewStateId
         {
             get { return this.newStateId; }
         }

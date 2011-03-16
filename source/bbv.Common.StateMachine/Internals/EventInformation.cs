@@ -25,7 +25,7 @@ namespace bbv.Common.StateMachine.Internals
     /// </summary>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class EventInformation<TEvent>
-        where TEvent : struct, IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EventInformation&lt;TEvent&gt;"/> class.

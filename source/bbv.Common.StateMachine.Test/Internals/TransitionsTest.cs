@@ -57,6 +57,7 @@ namespace bbv.Common.StateMachine.Internals
                                                   };
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             this.testee.Fire(Events.C);
 
@@ -79,6 +80,7 @@ namespace bbv.Common.StateMachine.Internals
                 arguments => { action2Arguments = arguments; });
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
 
             var eventArguments = new object[] { 1, 2, 3, "test" };
             this.testee.Fire(Events.B, eventArguments);
@@ -100,6 +102,8 @@ namespace bbv.Common.StateMachine.Internals
             this.testee.In(States.A)
                 .On(Events.A).Execute(eventArguments => executed = true);
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.A);
 
             Assert.True(executed, "internal transition was not executed.");

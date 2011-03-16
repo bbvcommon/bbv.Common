@@ -112,6 +112,8 @@ namespace bbv.Common.StateMachine.Internals
             this.testee.TransitionDeclined += (sender, e) => transitionDeclined = true;
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B, eventArguments);
 
             this.AssertException(States.A, Events.B, eventArguments, exception);
@@ -136,6 +138,8 @@ namespace bbv.Common.StateMachine.Internals
                                                          });
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B, eventArguments);
 
             this.AssertException(States.A, Events.B, eventArguments, exception);
@@ -158,6 +162,8 @@ namespace bbv.Common.StateMachine.Internals
                                     });
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B, eventArguments);
 
             this.AssertException(States.A, Events.B, eventArguments, exception);
@@ -178,6 +184,8 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.B).Goto(States.B);
 
             this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
             this.testee.Fire(Events.B, eventArguments);
 
             this.AssertException(States.A, Events.B, eventArguments, exception);

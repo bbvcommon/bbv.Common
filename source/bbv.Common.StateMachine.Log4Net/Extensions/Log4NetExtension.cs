@@ -82,12 +82,29 @@ namespace bbv.Common.StateMachine.Extensions
         /// Called when the state machine was initialized.
         /// </summary>
         /// <param name="stateMachine">The state machine.</param>
-        /// <param name="stateContext">The state context of the initial state.</param>
         /// <param name="initialState">The initial state.</param>
-        public override void InitializedStateMachine(
-            IStateMachineInformation<TState, TEvent> stateMachine, 
-            IStateContext<TState, TEvent> stateContext,
-            TState initialState)
+        public override void InitializedStateMachine(IStateMachineInformation<TState, TEvent> stateMachine, TState initialState)
+        {
+            this.log.InfoFormat("State machine {0} initialized to state {1}", stateMachine, initialState);
+        }
+
+        /// <summary>
+        /// Called when the state machine enters the initial state.
+        /// </summary>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <param name="state">The state.</param>
+        public override void EnteringInitialState(IStateMachineInformation<TState, TEvent> stateMachine, TState state)
+        {
+            this.log.InfoFormat("State machine {0} enters initialstate {1}.", stateMachine, state);
+        }
+
+        /// <summary>
+        /// Called when the state machine entered the initial state.
+        /// </summary>
+        /// <param name="stateMachine">The state machine.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="stateContext">The state context.</param>
+        public override void EnteredInitialState(IStateMachineInformation<TState, TEvent> stateMachine, TState state, IStateContext<TState, TEvent> stateContext)
         {
             Ensure.ArgumentNotNull(stateContext, "stateContext");
 

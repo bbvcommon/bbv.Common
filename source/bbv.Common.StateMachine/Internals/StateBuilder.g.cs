@@ -33,8 +33,8 @@ namespace bbv.Common.StateMachine.Internals
         IGotoSyntax<TState, TEvent>,
         IIfSyntax<TState, TEvent>,
         IOnSyntax<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         private readonly IState<TState, TEvent> state;
 

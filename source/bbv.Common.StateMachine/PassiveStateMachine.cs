@@ -29,8 +29,8 @@ namespace bbv.Common.StateMachine
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class PassiveStateMachine<TState, TEvent> : IStateMachine<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// The internal state machine.
@@ -48,14 +48,11 @@ namespace bbv.Common.StateMachine
         private bool initialized;
         
         /// <summary>
-        /// Information about the initial state (when state machine is started).
-        /// </summary>
-        private InitializationInformation<TState> initializationInformation;
-
-        /// <summary>
         /// Whether this state machine is executing an event. Allows that events can be added while executing.
         /// </summary>
         private bool executing;
+
+        private bool pendingInitialization;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PassiveStateMachine&lt;TState, TEvent&gt;"/> class.
@@ -198,7 +195,9 @@ namespace bbv.Common.StateMachine
             this.CheckThatNotAlreadyInitialized();
 
             this.initialized = true;
-            this.initializationInformation = new InitializationInformation<TState>(initialState);
+            this.pendingInitialization = true;
+
+            this.stateMachine.Initialize(initialState);
         }
 
         /// <summary>
@@ -306,11 +305,11 @@ namespace bbv.Common.StateMachine
 
         private void InitializeStateMachineIfInitializationIsPending()
         {
-            if (this.initializationInformation != null)
+            if (this.pendingInitialization)
             {
-                this.stateMachine.Initialize(this.initializationInformation.InitialState);
+                this.stateMachine.EnterInitialState();
 
-                this.initializationInformation = null;
+                this.pendingInitialization = false;
             }
         }
 

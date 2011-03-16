@@ -30,8 +30,8 @@ namespace bbv.Common.StateMachine.Internals
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     public class StateMachineReport<TState, TEvent> : IStateMachineReport<TState, TEvent>
-        where TState : struct, IComparable
-        where TEvent : struct, IComparable
+        where TState : IComparable
+        where TEvent : IComparable
     {
         /// <summary>
         /// Gets the resulting report.
@@ -45,15 +45,16 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="name">The name of the state machine.</param>
         /// <param name="states">The states.</param>
         /// <param name="initialStateId">The initial state id.</param>
-        public void Report(string name, IEnumerable<IState<TState, TEvent>> states, TState? initialStateId)
+        public void Report(string name, IEnumerable<IState<TState, TEvent>> states, Initializable<TState> initialStateId)
         {
             Ensure.ArgumentNotNull(states, "states");
+            Ensure.ArgumentNotNull(initialStateId, "initialStateId");
 
             var report = new StringBuilder();
 
             const string Indentation = "    ";
 
-            report.AppendFormat("{0}: initial state = {1}{2}", name, initialStateId.HasValue ? initialStateId.ToString() : "none", Environment.NewLine);
+            report.AppendFormat("{0}: initial state = {1}{2}", name, initialStateId.IsInitialized ? initialStateId.Value.ToString() : "none", Environment.NewLine);
 
             // write states
             foreach (var state in states)
