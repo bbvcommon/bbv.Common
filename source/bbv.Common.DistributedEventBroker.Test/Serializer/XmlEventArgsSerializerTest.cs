@@ -19,6 +19,10 @@
 namespace bbv.Common.DistributedEventBroker.Serializer
 {
     using System.ComponentModel;
+    using System.IO;
+    using System.Linq;
+    using System.Xml.Linq;
+
     using Xunit;
 
     public class XmlEventArgsSerializerTest
@@ -42,7 +46,9 @@ namespace bbv.Common.DistributedEventBroker.Serializer
 
             var result = this.testee.Serialize(eventArgs);
 
-            Assert.Equal(InputAndOutput, result);
+            var cancel = XDocument.Load(new StringReader(result)).Descendants("Cancel").Select(x => bool.Parse(x.Value)).Single();
+
+            Assert.True(cancel);
         }
 
         [Fact]
