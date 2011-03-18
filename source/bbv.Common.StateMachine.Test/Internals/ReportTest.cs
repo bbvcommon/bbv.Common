@@ -17,6 +17,8 @@
 //-------------------------------------------------------------------------------
 namespace bbv.Common.StateMachine.Internals
 {
+    using FluentAssertions;
+
     using Xunit;
 
     /// <summary>
@@ -24,23 +26,14 @@ namespace bbv.Common.StateMachine.Internals
     /// </summary>
     public class ReportTest
     {
-        /// <summary>
-        /// Object under test.
-        /// </summary>
         private readonly StateMachine<States, Events> testee;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReportTest"/> class.
-        /// </summary>
         public ReportTest()
         {
             this.testee = new StateMachine<States, Events>("Test Machine");
         }
 
-        /// <summary>
-        /// The report can be created.
-        /// </summary>
-        [Fact(Skip = "Currently does not run on codebetter. Need investigate")]
+        [Fact]
         public void Report()
         {
             this.testee.DefineHierarchyOn(States.B, States.B1, HistoryType.None, States.B1, States.B2);
@@ -65,7 +58,7 @@ namespace bbv.Common.StateMachine.Internals
 
             this.testee.In(States.B2)
                 .On(Events.B1).Goto(States.B2);
-            
+
             this.testee.Initialize(States.A);
 
             var generator = new StateMachineReport<States, Events>();
@@ -125,7 +118,8 @@ namespace bbv.Common.StateMachine.Internals
         C -> C1 actions: 0 guard:True
         C -> C2 actions: 0 guard:True
 ";
-            Assert.Equal(ExpectedReport, report);
+            report.Replace("\n", string.Empty).Replace("\r", string.Empty)
+                .Should().Be(ExpectedReport.Replace("\n", string.Empty).Replace("\r", string.Empty));
         }
     }
 }
