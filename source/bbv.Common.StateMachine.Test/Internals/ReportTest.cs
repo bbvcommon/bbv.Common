@@ -17,6 +17,8 @@
 //-------------------------------------------------------------------------------
 namespace bbv.Common.StateMachine.Internals
 {
+    using FluentAssertions;
+
     using Xunit;
 
     /// <summary>
@@ -40,7 +42,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <summary>
         /// The report can be created.
         /// </summary>
-        [Fact(Skip = "Currently does not run on codebetter. Need investigate")]
+        [Fact()]
         public void Report()
         {
             this.testee.DefineHierarchyOn(States.B, States.B1, HistoryType.None, States.B1, States.B2);
@@ -126,6 +128,97 @@ namespace bbv.Common.StateMachine.Internals
         C -> C2 actions: 0 guard:True
 ";
             Assert.Equal(ExpectedReport, report);
+        }
+
+        /// <summary>
+        /// The report can be created.
+        /// </summary>
+        [Fact()]
+        public void ReportVariant()
+        {
+            this.testee.DefineHierarchyOn(States.B, States.B1, HistoryType.None, States.B1, States.B2);
+            this.testee.DefineHierarchyOn(States.C, States.C1, HistoryType.Shallow, States.C1, States.C2);
+            this.testee.DefineHierarchyOn(States.C1, States.C1a, HistoryType.Shallow, States.C1a, States.C1b);
+            this.testee.DefineHierarchyOn(States.D, States.D1, HistoryType.Deep, States.D1, States.D2);
+            this.testee.DefineHierarchyOn(States.D1, States.D1a, HistoryType.Deep, States.D1a, States.D1b);
+
+            this.testee.In(States.A)
+                .ExecuteOnEntry(() => { })
+                .ExecuteOnExit(() => { })
+                .On(Events.A)
+                .On(Events.B).Goto(States.B)
+                .On(Events.C).If(eventArguments => true).Goto(States.C1)
+                .On(Events.C).If(eventArguments => false).Goto(States.C2);
+
+            this.testee.In(States.B)
+                .On(Events.A).Goto(States.A);
+
+            this.testee.In(States.B1)
+                .On(Events.B2).Goto(States.B1);
+
+            this.testee.In(States.B2)
+                .On(Events.B1).Goto(States.B2);
+
+            this.testee.Initialize(States.A);
+
+            var generator = new StateMachineReport<States, Events>();
+            this.testee.Report(generator);
+
+            string report = generator.Result;
+
+            const string ExpectedReport =
+@"Test Machine: initial state = A
+    B: initial state = B1 history type = None
+        entry action: False
+        exit action: False
+        A -> A actions: 0 guard:False
+        B1: initial state = None history type = None
+            entry action: False
+            exit action: False
+            B2 -> B1 actions: 0 guard:False
+        B2: initial state = None history type = None
+            entry action: False
+            exit action: False
+            B1 -> B2 actions: 0 guard:False
+    C: initial state = C1 history type = Shallow
+        entry action: False
+        exit action: False
+        C1: initial state = C1a history type = Shallow
+            entry action: False
+            exit action: False
+            C1a: initial state = None history type = None
+                entry action: False
+                exit action: False
+            C1b: initial state = None history type = None
+                entry action: False
+                exit action: False
+        C2: initial state = None history type = None
+            entry action: False
+            exit action: False
+    D: initial state = D1 history type = Deep
+        entry action: False
+        exit action: False
+        D1: initial state = D1a history type = Deep
+            entry action: False
+            exit action: False
+            D1a: initial state = None history type = None
+                entry action: False
+                exit action: False
+            D1b: initial state = None history type = None
+                entry action: False
+                exit action: False
+        D2: initial state = None history type = None
+            entry action: False
+            exit action: False
+    A: initial state = None history type = None
+        entry action: True
+        exit action: True
+        A -> internal actions: 0 guard:False
+        B -> B actions: 0 guard:False
+        C -> C1 actions: 0 guard:True
+        C -> C2 actions: 0 guard:True
+";
+            report.Should().Be(ExpectedReport);
         }
     }
 }
