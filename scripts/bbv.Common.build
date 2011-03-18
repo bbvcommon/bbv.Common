@@ -47,8 +47,8 @@
    
     <call target="set_version" />  
     <call target="build_release" />
-		<call target="unittest" />
 		<call target="copy_bin" />
+    <call target="unittest" />
 		<call target="build" />
 		<call target="copy_bin" />
 		<call target="revert_version" />
@@ -171,6 +171,7 @@
 				<include name="*.pdb" />
 			</fileset>
 		</delete>
+    <echo message="copying files to ${binaries}\${build_config}\" />
 		<copy overwrite="false" todir="${binaries}\${build_config}\" flatten="true">
 			<fileset basedir="${sources}">
 				<include name="**/bin/${build_config}/*.dll" />
