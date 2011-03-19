@@ -41,7 +41,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
   </PropertyGroup>
 
-  
   <!-- Default Visual Studio Project properties customized for bbv.Common. -->
   <PropertyGroup>
     
@@ -50,7 +49,7 @@
 
     <!-- Output Path is set ResultsPath\Configuration\ (\debug\). -->
     <OutputPath>$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
-
+ 
     <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
     <CodeAnalysisRuleSet Condition="'$(CodeAnalysisRuleSet)' == ''">$(BbvCommonSourcePath)bbv.Common.ruleset</CodeAnalysisRuleSet>
@@ -195,7 +194,9 @@
   
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
   <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
-
-  <!--<Target Name="BeforeBuild"></Target>
-  <Target Name="AfterBuild"></Target>-->
+  
+  <Target Name="BeforeBuild">
+    <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages"/>
+  </Target>
+  <!--<Target Name="AfterBuild"></Target>-->
 </Project>
