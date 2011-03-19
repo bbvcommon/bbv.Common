@@ -9,6 +9,9 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
@@ -46,6 +49,7 @@
     <Compile Include="DriveInfoTest.cs" />
     <Compile Include="FolderWatcherTest.cs" />
     <Compile Include="Internals\ExtensionProviderExtensionsTest.cs" />
+    <Compile Include="ObserveFolderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\EmbeddedResourceLoaderTest.cs" />
     <Compile Include="Resources\FileResourceLoaderTest.cs" />
