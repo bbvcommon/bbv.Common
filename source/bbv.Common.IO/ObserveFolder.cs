@@ -29,6 +29,9 @@ namespace bbv.Common.IO
     {
         private readonly Func<IFolderWatcher> folderWatcherFactory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObserveFolder"/> class.
+        /// </summary>
         public ObserveFolder()
             : this(() => new FolderWatcher())
         {
