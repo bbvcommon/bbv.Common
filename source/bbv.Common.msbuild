@@ -196,7 +196,7 @@
   <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
   
   <Target Name="BeforeBuild">
-    <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages"/>
+    <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages" CustomErrorRegularExpression="*unreachable"/>
   </Target>
   <!--<Target Name="AfterBuild"></Target>-->
 </Project>
