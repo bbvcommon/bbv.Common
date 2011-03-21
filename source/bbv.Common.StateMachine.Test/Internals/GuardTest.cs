@@ -123,5 +123,47 @@ namespace bbv.Common.StateMachine.Internals
             Assert.Equal(States.A, this.testee.CurrentStateId);
             Assert.True(transitionDeclined, "transition was not declined.");
         }
+
+        [Fact]
+        public void GuardWithoutArguments()
+        {
+            this.testee.In(States.A)
+                .On(Events.B)
+                    .If(() => false).Goto(States.C)
+                    .If(() => true).Goto(States.B);
+
+            this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+            this.testee.Fire(Events.B);
+
+            Assert.Equal(States.B, this.testee.CurrentStateId);
+        }
+
+        [Fact]
+        public void GuardWithASingleArgument()
+        {
+            this.testee.In(States.A)
+                .On(Events.B)
+                    .If<int>(SingleIntArgumentGuardReturningFalse).Goto(States.C)
+                    .If(arguments => false).Goto(States.D)
+                    .If(() => false).Goto(States.E)
+                    .If<int>(SingleIntArgumentGuardReturningTrue).Goto(States.B);
+
+            this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+            this.testee.Fire(Events.B, new object[] { 3 });
+
+            Assert.Equal(States.B, this.testee.CurrentStateId);
+        }
+
+        private static bool SingleIntArgumentGuardReturningTrue(int i)
+        {
+            return true;
+        }
+
+        private static bool SingleIntArgumentGuardReturningFalse(int i)
+        {
+            return false;
+        }
     }
 }

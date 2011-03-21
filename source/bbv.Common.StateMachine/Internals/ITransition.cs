@@ -46,13 +46,13 @@ namespace bbv.Common.StateMachine.Internals
         /// Gets the actions of this transaction.
         /// </summary>
         /// <value>The actions.</value>
-        ICollection<Action<object[]>> Actions { get; }
+        ICollection<ITransitionActionHolder> Actions { get; }
 
         /// <summary>
         /// Gets or sets the guard of this transition.
         /// </summary>
         /// <value>The guard.</value>
-        Func<object[], bool> Guard { get; set; }
+        IGuardHolder Guard { get; set; }
 
         /// <summary>
         /// Fires the transition.

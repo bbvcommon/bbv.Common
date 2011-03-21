@@ -25,15 +25,23 @@
   <ItemGroup>
     <Compile Include="Extensions\ExtensionBase.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Internals\ArgumentLessGuardHolder.cs" />
+    <Compile Include="Internals\ArgumentLessTransitionActionHolder.cs" />
+    <Compile Include="Internals\GuardHolder.cs" />
     <Compile Include="Internals\IExtensionHost.cs" />
     <Compile Include="Internals\IFactory.cs" />
+    <Compile Include="Internals\IGuardHolder.cs" />
     <Compile Include="Internals\Initializable.cs" />
     <Compile Include="Internals\InitializationInformation.cs" />
     <Compile Include="Internals\IStateContext.cs" />
+    <Compile Include="Internals\ITransitionActionHolder.cs" />
     <Compile Include="Internals\ITransitionContext.cs" />
     <Compile Include="ExceptionMessages.cs" />
     <Compile Include="Internals\RecordType.cs" />
+    <Compile Include="Internals\SingleArgumentGuardHolder.cs" />
+    <Compile Include="Internals\SingleArgumentTransitionActionHolder.cs" />
     <Compile Include="Internals\StandardFactory.cs" />
+    <Compile Include="Internals\TransitionActionHolder.cs" />
     <Compile Include="IStateMachineInformation.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="Internals\ActionHolder.cs" />

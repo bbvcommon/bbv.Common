@@ -1,5 +1,5 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IActionHolder.cs" company="bbv Software Services AG">
+//-------------------------------------------------------------------------------
+// <copyright file="IGuardHolder.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,24 +14,26 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 
 namespace bbv.Common.StateMachine.Internals
 {
     /// <summary>
-    /// Wrapper for parameterless actions and actions with parameters.
+    /// Holds a guard.
     /// </summary>
-    public interface IActionHolder
+    public interface IGuardHolder
     {
         /// <summary>
-        /// Executes the wrapped action.
+        /// Executes the guard.
         /// </summary>
-        void Execute();
+        /// <param name="arguments">The state machine event arguments.</param>
+        /// <returns>Result of the guard execution.</returns>
+        bool Execute(object[] arguments);
 
         /// <summary>
-        /// Describes the action.
+        /// Describes the guard.
         /// </summary>
-        /// <returns>Description of the action.</returns>
+        /// <returns>Description of the guard.</returns>
         string Describe();
     }
 }

@@ -50,15 +50,15 @@ namespace bbv.Common.StateMachine.Internals
             this.testee.DefineHierarchyOn(States.D1, States.D1a, HistoryType.Deep, States.D1a, States.D1b);
 
             this.testee.In(States.A)
-                .ExecuteOnEntry(() => { })
-                .ExecuteOnExit(() => { })
+                .ExecuteOnEntry(EnterA)
+                .ExecuteOnExit(ExitA)
                 .On(Events.A)
                 .On(Events.B).Goto(States.B)
                 .On(Events.C).If(eventArguments => true).Goto(States.C1)
                 .On(Events.C).If(eventArguments => false).Goto(States.C2);
 
             this.testee.In(States.B)
-                .On(Events.A).Goto(States.A);
+                .On(Events.A).Goto(States.A).Execute(Action);
 
             this.testee.In(States.B1)
                 .On(Events.B2).Goto(States.B1);
@@ -76,56 +76,68 @@ namespace bbv.Common.StateMachine.Internals
             const string ExpectedReport =
 @"Test Machine: initial state = A
     B: initial state = B1 history type = None
-        entry action: False
-        exit action: False
-        A -> A actions: 0 guard:False
+        entry action: 
+        exit action: 
+        A -> A actions: Action guard:
         B1: initial state = None history type = None
-            entry action: False
-            exit action: False
-            B2 -> B1 actions: 0 guard:False
+            entry action: 
+            exit action: 
+            B2 -> B1 actions:  guard:
         B2: initial state = None history type = None
-            entry action: False
-            exit action: False
-            B1 -> B2 actions: 0 guard:False
+            entry action: 
+            exit action: 
+            B1 -> B2 actions:  guard:
     C: initial state = C1 history type = Shallow
-        entry action: False
-        exit action: False
+        entry action: 
+        exit action: 
         C1: initial state = C1a history type = Shallow
-            entry action: False
-            exit action: False
+            entry action: 
+            exit action: 
             C1a: initial state = None history type = None
-                entry action: False
-                exit action: False
+                entry action: 
+                exit action: 
             C1b: initial state = None history type = None
-                entry action: False
-                exit action: False
+                entry action: 
+                exit action: 
         C2: initial state = None history type = None
-            entry action: False
-            exit action: False
+            entry action: 
+            exit action: 
     D: initial state = D1 history type = Deep
-        entry action: False
-        exit action: False
+        entry action: 
+        exit action: 
         D1: initial state = D1a history type = Deep
-            entry action: False
-            exit action: False
+            entry action: 
+            exit action: 
             D1a: initial state = None history type = None
-                entry action: False
-                exit action: False
+                entry action: 
+                exit action: 
             D1b: initial state = None history type = None
-                entry action: False
-                exit action: False
+                entry action: 
+                exit action: 
         D2: initial state = None history type = None
-            entry action: False
-            exit action: False
+            entry action: 
+            exit action: 
     A: initial state = None history type = None
-        entry action: True
-        exit action: True
-        A -> internal actions: 0 guard:False
-        B -> B actions: 0 guard:False
-        C -> C1 actions: 0 guard:True
-        C -> C2 actions: 0 guard:True
+        entry action: EnterA
+        exit action: ExitA
+        A -> internal actions:  guard:
+        B -> B actions:  guard:
+        C -> C1 actions:  guard:anonymous
+        C -> C2 actions:  guard:anonymous
 ";
             Assert.Equal(ExpectedReport, report);
+        }
+
+        private static void EnterA()
+        {
+        }
+
+        private static void ExitA()
+        {
+        }
+
+        private static void Action()
+        {
         }
     }
 }

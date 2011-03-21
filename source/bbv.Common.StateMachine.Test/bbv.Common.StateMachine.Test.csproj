@@ -44,6 +44,8 @@
     <Compile Include="ExtensionTest.cs" />
     <Compile Include="Internals\ExceptionCasesTest.cs" />
     <Compile Include="Internals\GuardTest.cs" />
+    <Compile Include="Internals\SingleArgumentGuardHolderTest.cs" />
+    <Compile Include="Internals\SingleArgumentTransitionActionHolderTest.cs" />
     <Compile Include="Internals\StateTest.cs" />
     <Compile Include="Internals\SyntaxTest.cs" />
     <Compile Include="Internals\TransitionDictionaryTest.cs" />

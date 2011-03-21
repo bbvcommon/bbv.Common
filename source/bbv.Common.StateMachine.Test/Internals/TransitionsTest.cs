@@ -109,5 +109,38 @@ namespace bbv.Common.StateMachine.Internals
             Assert.True(executed, "internal transition was not executed.");
             Assert.Equal(States.A, this.testee.CurrentStateId);
         }
+
+        [Fact]
+        public void ActionsWithoutArguments()
+        {
+            bool executed = false;
+
+            this.testee.In(States.A)
+                .On(Events.B).Execute(() => executed = true);
+
+            this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
+            this.testee.Fire(Events.B);
+
+            Assert.True(executed);
+        }
+
+        [Fact]
+        public void ActionsWithOneArgument()
+        {
+            const int ExpectedValue = 1;
+            int value = 0;
+
+            this.testee.In(States.A)
+                .On(Events.B).Execute<int>(v => value = v);
+
+            this.testee.Initialize(States.A);
+            this.testee.EnterInitialState();
+
+            this.testee.Fire(Events.B, new object[] { ExpectedValue });
+
+            Assert.Equal(value, ExpectedValue);
+        }
     }
 }

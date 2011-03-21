@@ -67,7 +67,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>A newly created action holder.</returns>
-        public ActionHolder CreateActionHolder(Action action)
+        public IActionHolder CreateActionHolder(Action action)
         {
             return new ActionHolder(action);
         }
@@ -79,9 +79,71 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="action">The action.</param>
         /// <param name="parameter">The parameter.</param>
         /// <returns>A newly created action holder.</returns>
-        public ActionHolder<T> CreateActionHolder<T>(Action<T> action, T parameter)
+        public IActionHolder CreateActionHolder<T>(Action<T> action, T parameter)
         {
             return new ActionHolder<T>(action, parameter);    
+        }
+
+        /// <summary>
+        /// Creates a transition action holder.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>A newly created transition action holder.</returns>
+        public ITransitionActionHolder CreateTransitionActionHolder(Action<object[]> action)
+        {
+            return new TransitionActionHolder(action);
+        }
+
+        /// <summary>
+        /// Creates the transition action holder.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>A newly created transition action holder.</returns>
+        public ITransitionActionHolder CreateTransitionActionHolder(Action action)
+        {
+            return new ArgumentLessTransitionActionHolder(action);
+        }
+
+        /// <summary>
+        /// Creates the transition action holder.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>A newly created transition action holder.</returns>
+        public ITransitionActionHolder CreateTransitionActionHolder<T>(Action<T> action)
+        {
+            return new SingleArgumentTransitionActionHolder<T>(action);
+        }
+
+        /// <summary>
+        /// Creates a guard holder.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        public IGuardHolder CreateGuardHolder(Func<object[], bool> guard)
+        {
+            return new GuardHolder(guard);
+        }
+
+        /// <summary>
+        /// Creates the guard holder.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        public IGuardHolder CreateGuardHolder(Func<bool> guard)
+        {
+            return new ArgumentLessGuardHolder(guard);
+        }
+
+        /// <summary>
+        /// Creates the guard holder.
+        /// </summary>
+        /// <typeparam name="T">The type of the guard argument.</typeparam>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        public IGuardHolder CreateGuardHolder<T>(Func<T, bool> guard)
+        {
+            return new SingleArgumentGuardHolder<T>(guard);
         }
 
         /// <summary>

@@ -20,8 +20,7 @@ namespace bbv.Common.StateMachine.Internals
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
-
+    
     /// <summary>
     /// Manages the transitions of a state.
     /// </summary>
@@ -135,7 +134,7 @@ namespace bbv.Common.StateMachine.Internals
         {
             foreach (var transition in this.transitions[eventId])
             {
-                list.Add(new TransitionInfo(eventId, transition.Source, transition.Target, transition.Guard != null, transition.Actions.Count));
+                list.Add(new TransitionInfo(eventId, transition.Source, transition.Target, transition.Guard, transition.Actions));
             }
         }
 
@@ -150,14 +149,14 @@ namespace bbv.Common.StateMachine.Internals
             /// <param name="eventId">The event id.</param>
             /// <param name="source">The source.</param>
             /// <param name="target">The target.</param>
-            /// <param name="hasGuard">Whether the transition has a guard or not.</param>
-            /// <param name="actions">The number actions.</param>
-            public TransitionInfo(TEvent eventId, IState<TState, TEvent> source, IState<TState, TEvent> target, bool hasGuard, int actions)
+            /// <param name="guard">The guard.</param>
+            /// <param name="actions">The actions.</param>
+            public TransitionInfo(TEvent eventId, IState<TState, TEvent> source, IState<TState, TEvent> target, IGuardHolder guard, IEnumerable<ITransitionActionHolder> actions)
             {
                 this.EventId = eventId;
                 this.Source = source;
                 this.Target = target;
-                this.HasGuard = hasGuard;
+                this.Guard = guard;
                 this.Actions = actions;
             }
 
@@ -189,19 +188,19 @@ namespace bbv.Common.StateMachine.Internals
             }
 
             /// <summary>
-            /// Gets a value indicating whether this instance has a guard.
+            /// Gets the guard.
             /// </summary>
-            /// <value><c>true</c> if this instance has a guard; otherwise, <c>false</c>.</value>
-            public bool HasGuard
+            /// <value>The guard.</value>
+            public IGuardHolder Guard
             {
                 get; private set;
             }
 
             /// <summary>
-            /// Gets the number of actions.
+            /// Gets the actions.
             /// </summary>
             /// <value>The actions.</value>
-            public int Actions
+            public IEnumerable<ITransitionActionHolder> Actions
             {
                 get; private set;
             }

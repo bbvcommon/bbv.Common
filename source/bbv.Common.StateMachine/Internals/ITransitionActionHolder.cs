@@ -1,5 +1,5 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IActionHolder.cs" company="bbv Software Services AG">
+//-------------------------------------------------------------------------------
+// <copyright file="ITransitionActionHolder.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,19 +14,20 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 
 namespace bbv.Common.StateMachine.Internals
 {
     /// <summary>
-    /// Wrapper for parameterless actions and actions with parameters.
+    /// Holds a transition action.
     /// </summary>
-    public interface IActionHolder
+    public interface ITransitionActionHolder
     {
         /// <summary>
-        /// Executes the wrapped action.
+        /// Executes the transition action.
         /// </summary>
-        void Execute();
+        /// <param name="arguments">The state machine event arguments.</param>
+        void Execute(object[] arguments);
 
         /// <summary>
         /// Describes the action.

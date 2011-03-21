@@ -24,6 +24,8 @@ namespace bbv.Common.StateMachine.Internals
     using System.Linq;
     using System.Text;
 
+    using bbv.Common.Formatters;
+
     /// <summary>
     /// Creates a textual report of a state machine.
     /// </summary>
@@ -85,8 +87,18 @@ namespace bbv.Common.StateMachine.Internals
                 state.HistoryType,
                 Environment.NewLine);
             indentation += "    ";
-            report.AppendFormat("{0}entry action: {1}{2}", indentation, state.EntryActions.Any(), Environment.NewLine);
-            report.AppendFormat("{0}exit action: {1}{2}", indentation, state.ExitActions.Any(), Environment.NewLine);
+
+            report.AppendFormat(
+                "{0}entry action: {1}{2}", 
+                indentation,
+                FormatHelper.ConvertToString(state.EntryActions.Select(action => action.Describe()), ", "), 
+                Environment.NewLine);
+            
+            report.AppendFormat(
+                "{0}exit action: {1}{2}", 
+                indentation,
+                FormatHelper.ConvertToString(state.ExitActions.Select(action => action.Describe()), ", "), 
+                Environment.NewLine);
         }
 
         /// <summary>
@@ -103,8 +115,8 @@ namespace bbv.Common.StateMachine.Internals
                 indentation,
                 transition.EventId,
                 transition.Target != null ? transition.Target.ToString() : "internal",
-                transition.Actions,
-                transition.HasGuard,
+                FormatHelper.ConvertToString(transition.Actions.Select(action => action.Describe()), ", "),
+                transition.Guard != null ? transition.Guard.Describe() : string.Empty,
                 Environment.NewLine);
         }
 

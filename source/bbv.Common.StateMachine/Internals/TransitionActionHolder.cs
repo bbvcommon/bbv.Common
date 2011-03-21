@@ -1,5 +1,5 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ActionHolder.cs" company="bbv Software Services AG">
+//-------------------------------------------------------------------------------
+// <copyright file="TransitionActionHolder.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 
 namespace bbv.Common.StateMachine.Internals
 {
@@ -23,30 +23,28 @@ namespace bbv.Common.StateMachine.Internals
     using System.Runtime.CompilerServices;
 
     /// <summary>
-    /// Wraps a parameterless action.
+    /// Holds a transition action.
     /// </summary>
-    public class ActionHolder : IActionHolder
+    public class TransitionActionHolder : ITransitionActionHolder
     {
-        /// <summary>
-        /// the wrapped action.
-        /// </summary>
-        private readonly Action action;
+        private readonly Action<object[]> action;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ActionHolder"/> class.
+        /// Initializes a new instance of the <see cref="TransitionActionHolder"/> class.
         /// </summary>
-        /// <param name="action">The wrapped action.</param>
-        public ActionHolder(Action action)
+        /// <param name="action">The action.</param>
+        public TransitionActionHolder(Action<object[]> action)
         {
             this.action = action;
         }
 
         /// <summary>
-        /// Executes the wrapped action.
+        /// Executes the transition action.
         /// </summary>
-        public void Execute()
+        /// <param name="arguments">The state machine event arguments.</param>
+        public void Execute(object[] arguments)
         {
-            this.action();
+            this.action(arguments);
         }
 
         /// <summary>

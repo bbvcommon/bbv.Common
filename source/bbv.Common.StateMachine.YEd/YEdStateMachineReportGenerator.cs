@@ -70,35 +70,71 @@ namespace bbv.Common.StateMachine
             this.initialStateId = initialStateId;
             Ensure.ArgumentNotNull(states, "states");
 
-            var graph = new XElement(n + "graph", new XAttribute("edgedefault", "directed"), new XAttribute("id", "G"));
+            XElement graph = CreateGraph();
 
             this.AddNodes(graph, states);
             this.AddEdges(graph, states);
             
+            XDocument doc = CreateXmlDocument(graph);
+
+            doc.Save(this.outputStream);
+        }
+
+        private static XElement CreateGraph()
+        {
+            return new XElement(n + "graph", new XAttribute("edgedefault", "directed"), new XAttribute("id", "G"));
+        }
+
+        private static XDocument CreateXmlDocument(XElement graph)
+        {
             var doc = new XDocument(
                 new XElement(
-                        n + "graphml",
-                        new XComment("Created by Urs"),
-                        new XElement(n + "key", new XAttribute("for", "graphml"), new XAttribute("id", "d0"), new XAttribute("yfiles.type", "resources")),
-                        new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d1"), new XAttribute("yfiles.type", "portgraphics")),
-                        new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d2"), new XAttribute("yfiles.type", "portgeometry")),
-                        new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d3"), new XAttribute("yfiles.type", "portuserdata")),
-                        new XElement(n + "key", new XAttribute("attr.name", "url"), new XAttribute("attr.type", "string"), new XAttribute("for", "node"), new XAttribute("id", "d4")),
-                        new XElement(n + "key", new XAttribute("attr.name", "description"), new XAttribute("attr.type", "string"), new XAttribute("for", "node"), new XAttribute("id", "d5")),
-                        new XElement(n + "key", new XAttribute("for", "node"), new XAttribute("id", "d6"), new XAttribute("yfiles.type", "nodegraphics")),
-                        new XElement(n + "key", new XAttribute("attr.name", "Beschreibung"), new XAttribute("attr.type", "string"), new XAttribute("for", "graph"), new XAttribute("id", "d7"), new XElement(n + "default")),
-                        new XElement(n + "key", new XAttribute("attr.name", "url"), new XAttribute("attr.type", "string"), new XAttribute("for", "edge"), new XAttribute("id", "d8")),
-                        new XElement(n + "key", new XAttribute("attr.name", "description"), new XAttribute("attr.type", "string"), new XAttribute("for", "edge"), new XAttribute("id", "d9")),
-                        new XElement(n + "key", new XAttribute("for", "edge"), new XAttribute("id", "d10"), new XAttribute("yfiles.type", "edgegraphics")),
-                        graph,    
-                        new XElement(n + "data", new XAttribute("key", "d0"), new XElement(y + "Resources"))));
+                    n + "graphml",
+                    new XComment("Created by bbv.Common.StateMachine.YEdStateMachineReportGenerator"),
+                    new XElement(n + "key", new XAttribute("for", "graphml"), new XAttribute("id", "d0"), new XAttribute("yfiles.type", "resources")),
+                    new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d1"), new XAttribute("yfiles.type", "portgraphics")),
+                    new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d2"), new XAttribute("yfiles.type", "portgeometry")),
+                    new XElement(n + "key", new XAttribute("for", "port"), new XAttribute("id", "d3"), new XAttribute("yfiles.type", "portuserdata")),
+                    new XElement(n + "key", new XAttribute("attr.name", "url"), new XAttribute("attr.type", "string"), new XAttribute("for", "node"), new XAttribute("id", "d4")),
+                    new XElement(n + "key", new XAttribute("attr.name", "description"), new XAttribute("attr.type", "string"), new XAttribute("for", "node"), new XAttribute("id", "d5")),
+                    new XElement(n + "key", new XAttribute("for", "node"), new XAttribute("id", "d6"), new XAttribute("yfiles.type", "nodegraphics")),
+                    new XElement(n + "key", new XAttribute("attr.name", "Beschreibung"), new XAttribute("attr.type", "string"), new XAttribute("for", "graph"), new XAttribute("id", "d7"), new XElement(n + "default")),
+                    new XElement(n + "key", new XAttribute("attr.name", "url"), new XAttribute("attr.type", "string"), new XAttribute("for", "edge"), new XAttribute("id", "d8")),
+                    new XElement(n + "key", new XAttribute("attr.name", "description"), new XAttribute("attr.type", "string"), new XAttribute("for", "edge"), new XAttribute("id", "d9")),
+                    new XElement(n + "key", new XAttribute("for", "edge"), new XAttribute("id", "d10"), new XAttribute("yfiles.type", "edgegraphics")),
+                    graph,    
+                    new XElement(n + "data", new XAttribute("key", "d0"), new XElement(y + "Resources"))));
 
             doc.Root.SetAttributeValue(XNamespace.Xmlns + "y", y);
             doc.Root.SetAttributeValue(XNamespace.Xmlns + "xsi", xsi);
             doc.Root.SetAttributeValue(XNamespace.Xmlns + "yed", yed);
             doc.Root.SetAttributeValue(XNamespace.Xmlns + "schemaLocation", schemaLocation);
 
-            doc.Save(this.outputStream);
+            return doc;
+        }
+
+        private static string CreateExitActionsDescription(IState<TState, TEvent> state)
+        {
+            return state.ExitActions.Any()
+                       ? (state.ExitActions.Aggregate(Environment.NewLine + "(", (aggregate, action) => (aggregate.Length > 3 ? aggregate + ", " : aggregate) + action.Describe()) + ")")
+                       : string.Empty;
+        }
+
+        private static string CreateEntryActionDescription(IState<TState, TEvent> state)
+        {
+            return state.EntryActions.Any() 
+                       ? (state.EntryActions.Aggregate("(", (aggregate, action) => (aggregate.Length > 1 ? aggregate + ", " : aggregate) + action.Describe()) + ")" + Environment.NewLine) 
+                       : string.Empty;
+        }
+
+        private static string CreateGuardDescription(TransitionDictionary<TState, TEvent>.TransitionInfo transition)
+        {
+            return transition.Guard != null ? "[" + transition.Guard.Describe() + "]" : string.Empty;
+        }
+
+        private static string CreateActionsDescription(TransitionDictionary<TState, TEvent>.TransitionInfo transition)
+        {
+            return transition.Actions.Any() ? (transition.Actions.Aggregate("(", (aggregate, action) => (aggregate.Length > 1 ? aggregate + ", " : aggregate) + action.Describe()) + ")") : string.Empty;
         }
 
         private void AddEdges(XElement graph, IEnumerable<IState<TState, TEvent>> states)
@@ -114,9 +150,36 @@ namespace bbv.Common.StateMachine
 
         private void AddEdge(XElement graph, TransitionDictionary<TState, TEvent>.TransitionInfo transition)
         {
-            var edge = new XElement(n + "edge", new XAttribute("id", transition.EventId + (this.edgeId++).ToString(CultureInfo.InvariantCulture)), new XAttribute("source", transition.Source.Id), new XAttribute("target", (transition.Target ?? transition.Source).Id));
-            edge.Add(new XElement(n + "data", new XAttribute("key", "d10"), new XElement(y + "PolyLineEdge", new XElement(y + "Arrows", new XAttribute("source", "none"), new XAttribute("target", "standard")), new XElement(y + "EdgeLabel", (transition.HasGuard ? "[Guard]" : string.Empty) + transition.EventId))));
+            string actions = CreateActionsDescription(transition);
+            string guard = CreateGuardDescription(transition);
 
+            string arrow;
+            string lineStyle;
+            string targetId;
+            if (transition.Target != null)
+            {
+                arrow = "standard";
+                lineStyle = "line";
+                targetId = transition.Target.Id.ToString();
+            }
+            else
+            {
+                arrow = "plain";
+                lineStyle = "dashed";
+                targetId = transition.Source.Id.ToString();
+            }
+
+            var edge = new XElement(
+                n + "edge", 
+                new XAttribute("id", transition.EventId + (this.edgeId++).ToString(CultureInfo.InvariantCulture)), 
+                new XAttribute("source", transition.Source.Id), 
+                new XAttribute("target", targetId));
+ 
+            edge.Add(new XElement(
+                n + "data", 
+                new XAttribute("key", "d10"), 
+                new XElement(y + "PolyLineEdge", new XElement(y + "LineStyle", new XAttribute("type", lineStyle)), new XElement(y + "Arrows", new XAttribute("source", "none"), new XAttribute("target", arrow)), new XElement(y + "EdgeLabel", guard + transition.EventId + actions))));
+            
             graph.Add(edge);
         }
 
@@ -132,12 +195,14 @@ namespace bbv.Common.StateMachine
         {
             var node = new XElement(n + "node", new XAttribute("id", state.Id.ToString()));
 
-            bool initialState = (this.initialStateId.IsInitialized && state.Id.ToString() == this.initialStateId.Value.ToString()) || (state.SuperState != null && state.SuperState.InitialState == state);
+            bool initialState = this.DetermineWhetherThisIsAnInitialState(state);
 
+            string entryActions = CreateEntryActionDescription(state);
+            string exitActions = CreateExitActionsDescription(state);
+            
             if (state.SubStates.Any())
             {
-                // alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" modelName="internal" modelPosition="t"
-                var label = new XElement(y + "NodeLabel", state.Id, new XAttribute("alignment", "right"), new XAttribute("autoSizePolicy", "node_width"), new XAttribute("backgroundColor", "#EBEBEB"), new XAttribute("modelName", "internal"), new XAttribute("modelPosition", "t"));
+                var label = new XElement(y + "NodeLabel", entryActions + state.Id + exitActions, new XAttribute("alignment", "right"), new XAttribute("autoSizePolicy", "node_width"), new XAttribute("backgroundColor", "#EBEBEB"), new XAttribute("modelName", "internal"), new XAttribute("modelPosition", "t"));
 
                 var groupNode = new XElement(y + "GroupNode", label, new XElement(y + "State", new XAttribute("closed", "false"), new XAttribute("innerGraphDisplayEnabled", "true")));
                 node.Add(new XElement(n + "data", new XAttribute("key", "d6"), new XElement(y + "ProxyAutoBoundsNode", new XElement(y + "Realizers", new XAttribute("active", "0"), groupNode))));
@@ -158,7 +223,7 @@ namespace bbv.Common.StateMachine
             {
                 var shape = new XElement(
                     y + "ShapeNode", 
-                    new XElement(y + "NodeLabel", state.Id),
+                    new XElement(y + "NodeLabel", entryActions + state.Id + exitActions),
                     new XElement(y + "Shape", new XAttribute("type", "ellipse")));
 
                 if (initialState)
@@ -170,6 +235,11 @@ namespace bbv.Common.StateMachine
             }
 
             graph.Add(node);
+        }
+
+        private bool DetermineWhetherThisIsAnInitialState(IState<TState, TEvent> state)
+        {
+            return (this.initialStateId.IsInitialized && state.Id.ToString() == this.initialStateId.Value.ToString()) || (state.SuperState != null && state.SuperState.InitialState == state);
         }
     }
 }

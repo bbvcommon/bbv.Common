@@ -47,7 +47,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>A newly created action holder.</returns>
-        ActionHolder CreateActionHolder(Action action);
+        IActionHolder CreateActionHolder(Action action);
 
         /// <summary>
         /// Creates an action holder.
@@ -56,7 +56,53 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="action">The action.</param>
         /// <param name="parameter">The parameter.</param>
         /// <returns>A newly created action holder.</returns>
-        ActionHolder<T> CreateActionHolder<T>(Action<T> action, T parameter);
+        IActionHolder CreateActionHolder<T>(Action<T> action, T parameter);
+
+        /// <summary>
+        /// Creates a transition action holder.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>A newly created transition action holder.</returns>
+        ITransitionActionHolder CreateTransitionActionHolder(Action<object[]> action);
+
+        /// <summary>
+        /// Creates a transition action holder.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>A newly created transition action holder.</returns>
+        ITransitionActionHolder CreateTransitionActionHolder(Action action);
+
+        /// <summary>
+        /// Creates a transition action holder.
+        /// </summary>
+        /// <typeparam name="T">Type of the action argument.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        /// A newly created transition action holder.
+        /// </returns>
+        ITransitionActionHolder CreateTransitionActionHolder<T>(Action<T> action);
+
+        /// <summary>
+        /// Creates a guard holder.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        IGuardHolder CreateGuardHolder(Func<object[], bool> guard);
+
+        /// <summary>
+        /// Creates a guard holder.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        IGuardHolder CreateGuardHolder(Func<bool> guard);
+
+        /// <summary>
+        /// Creates a guard holder.
+        /// </summary>
+        /// <typeparam name="T">Type of the guard argument.</typeparam>
+        /// <param name="guard">The guard.</param>
+        /// <returns>A newly created guard holder.</returns>
+        IGuardHolder CreateGuardHolder<T>(Func<T, bool> guard);
 
         /// <summary>
         /// Creates a state context.

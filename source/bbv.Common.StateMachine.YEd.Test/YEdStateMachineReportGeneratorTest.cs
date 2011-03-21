@@ -86,7 +86,7 @@ namespace bbv.Common.StateMachine.YEd
         public void YEdGraphML()
         {
             var elevator = new PassiveStateMachine<States, Events>("Elevator");
-            
+
             elevator.DefineHierarchyOn(States.Healthy, States.OnFloor, HistoryType.Deep, States.OnFloor, States.Moving);
             elevator.DefineHierarchyOn(States.Moving, States.MovingUp, HistoryType.Shallow, States.MovingUp, States.MovingDown);
             elevator.DefineHierarchyOn(States.OnFloor, States.DoorClosed, HistoryType.None, States.DoorClosed, States.DoorOpen);
@@ -95,23 +95,26 @@ namespace bbv.Common.StateMachine.YEd
                 .On(Events.ErrorOccured).Goto(States.Error);
 
             elevator.In(States.Error)
-                .On(Events.Reset).Goto(States.Healthy);
+                .On(Events.Reset).Goto(States.Healthy)
+                .On(Events.ErrorOccured);
 
             elevator.In(States.OnFloor)
+                .ExecuteOnEntry(this.AnnounceFloor)
+                .ExecuteOnExit(Beep, Beep)
                 .On(Events.CloseDoor).Goto(States.DoorClosed)
                 .On(Events.OpenDoor).Goto(States.DoorOpen)
                 .On(Events.GoUp)
                     .If(CheckOverload).Goto(States.MovingUp)
-                    .Otherwise()
+                    .Otherwise().Execute(this.AnnounceOverload, Beep)
                 .On(Events.GoDown)
                     .If(CheckOverload).Goto(States.MovingDown)
-                    .Otherwise();
+                    .Otherwise().Execute(this.AnnounceOverload);
 
             elevator.In(States.Moving)
                 .On(Events.Stop).Goto(States.OnFloor);
 
             elevator.Initialize(States.OnFloor);
-            
+
             var stream = new MemoryStream();
             var testee = new YEdStateMachineReportGenerator<States, Events>(stream);
 
@@ -122,9 +125,25 @@ namespace bbv.Common.StateMachine.YEd
             Console.WriteLine(reader.ReadToEnd());
         }
 
+        private static void Beep()
+        {
+        }
+
         private static bool CheckOverload(object[] arg)
         {
             return true;
+        }
+
+        private void AnnounceFloor()
+        {
+        }
+
+        private void AnnounceOverload(object[] arguments)
+        {
+        }
+
+        private void Beep(object[] arguments)
+        {
         }
     }
 }
