@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Async
+namespace bbv.Common
 {
     using System;
     using NUnit.Framework;
