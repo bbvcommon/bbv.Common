@@ -64,19 +64,21 @@ namespace bbv.Common.StateMachine.Reports
 
         private void WriteStatesHeader()
         {
-            this.writer.WriteLine("Source;Entry;Exit");
+            this.writer.WriteLine("Source;Entry;Exit;Children");
         }
 
         private void ReportState(IState<TState, TEvent> state)
         {
             string entry = FormatHelper.ConvertToString(state.EntryActions.Select(action => action.Describe()), ",");
             string exit = FormatHelper.ConvertToString(state.ExitActions.Select(action => action.Describe()), ",");
+            string children = FormatHelper.ConvertToString(state.SubStates.Select(s => s.Id.ToString()), ", ");
 
             this.writer.WriteLine(
-                "{0};{1};{2}",
+                "{0};{1};{2};{3}",
                 state.Id,
                 entry,
-                exit);
+                exit,
+                children);
         }
     }
 }
