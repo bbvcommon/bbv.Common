@@ -52,6 +52,16 @@ namespace bbv.Common.StateMachine
         public const string StateMachineHasNotYetEnteredInitialState = "Initial state is not yet entered.";
 
         /// <summary>
+        /// There must not be more than one transition for a single event of a state with no guard.
+        /// </summary>
+        public const string OnlyOneTransitionMayHaveNoGuard = "There must not be more than one transition for a single event of a state with no guard.";
+
+        /// <summary>
+        /// Transition without guard has to be last declared one.
+        /// </summary>
+        public const string TransitionWithoutGuardHasToBeLast = "The transition without guard has to be the last defined transition because state machine checks transitions in order of declaration.";
+
+        /// <summary>
         /// State cannot be its own super-state..
         /// </summary>
         /// <param name="state">The state.</param>

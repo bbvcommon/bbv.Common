@@ -39,6 +39,14 @@ namespace bbv.Common.StateMachine.Internals
             this.testee = new SingleArgumentGuardHolder<IBase>(guard);
         }
 
+        public interface IBase
+        {
+        }
+
+        public interface IDerived : IBase
+        {
+        }
+
         [Fact]
         public void Execute()
         {
@@ -79,14 +87,6 @@ namespace bbv.Common.StateMachine.Internals
             action
                 .ShouldThrow<ArgumentException>()
                 .WithMessage(ExceptionMessages.CannotPassMultipleArgumentsToSingleArgumentGuard(arguments, this.testee.Describe()));
-        }
-
-        public interface IBase
-        {
-        }
-
-        public interface IDerived : IBase
-        {
         }
     }
 }

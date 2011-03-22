@@ -20,6 +20,7 @@ namespace bbv.Common.StateMachine.Internals
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Provides operations to build a state machine.
@@ -258,6 +259,8 @@ namespace bbv.Common.StateMachine.Internals
             {
                 this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
             }
+
+            this.CheckGuards();
             
             return this;
         }
@@ -274,6 +277,8 @@ namespace bbv.Common.StateMachine.Internals
                 this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
             }
 
+            this.CheckGuards();
+
             return this;
         }
 
@@ -286,8 +291,10 @@ namespace bbv.Common.StateMachine.Internals
 
             foreach (var action in actions)
             {
-                this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder<T>(action));
+                this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
             }
+
+            this.CheckGuards();
 
             return this;
         }
@@ -370,6 +377,29 @@ namespace bbv.Common.StateMachine.Internals
         private void SetTargetState(TState target)
         {
             this.currentTransition.Target = this.stateDictionary[target];
+
+            this.CheckGuards();
+        }
+
+        private void CheckGuards()
+        {
+            var byEvent = this.state.Transitions.GetTransitions().GroupBy(t => t.EventId);
+            var withMoreThenOneTransitionWithoutGuard = byEvent.Where(g => g.Count(t => t.Guard == null) > 1);
+
+            if (withMoreThenOneTransitionWithoutGuard.Any())
+            {
+                throw new InvalidOperationException(ExceptionMessages.OnlyOneTransitionMayHaveNoGuard);
+            }
+
+            foreach (var group in byEvent)
+            {
+                var transition = group.SingleOrDefault(t => t.Guard == null);
+
+                if (transition != null && group.LastOrDefault() != transition)
+                {
+                    throw new InvalidOperationException(ExceptionMessages.TransitionWithoutGuardHasToBeLast);
+                }
+            }
         }
     }
 }
