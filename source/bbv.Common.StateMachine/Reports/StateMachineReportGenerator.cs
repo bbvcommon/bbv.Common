@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="StateMachineReport.cs" company="bbv Software Services AG">
+// <copyright file="StateMachineReportGenerator.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.StateMachine.Internals
+namespace bbv.Common.StateMachine.Reports
 {
     using System;
     using System.Collections.Generic;
@@ -25,13 +25,14 @@ namespace bbv.Common.StateMachine.Internals
     using System.Text;
 
     using bbv.Common.Formatters;
+    using bbv.Common.StateMachine.Internals;
 
     /// <summary>
     /// Creates a textual report of a state machine.
     /// </summary>
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
-    public class StateMachineReport<TState, TEvent> : IStateMachineReport<TState, TEvent>
+    public class StateMachineReportGenerator<TState, TEvent> : IStateMachineReport<TState, TEvent>
         where TState : IComparable
         where TEvent : IComparable
     {

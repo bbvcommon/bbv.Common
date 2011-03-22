@@ -50,7 +50,10 @@
     <Compile Include="Internals\ContextEventArgs.cs" />
     <Compile Include="Internals\IActionHolder.cs" />
     <Compile Include="Internals\StateMachineInitializer.cs" />
-    <Compile Include="Internals\StateMachineReport.cs" />
+    <Compile Include="Reports\CsvStateMachineReportGenerator.cs" />
+    <Compile Include="Reports\CsvStatesWriter.cs" />
+    <Compile Include="Reports\CsvTransitionsWriter.cs" />
+    <Compile Include="Reports\StateMachineReportGenerator.cs" />
     <Compile Include="Internals\StateContext.cs" />
     <Compile Include="Internals\EventInformation.cs" />
     <Compile Include="ExceptionEventArgs.cs" />

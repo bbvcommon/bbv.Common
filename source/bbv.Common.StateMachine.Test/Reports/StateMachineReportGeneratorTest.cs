@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ReportTest.cs" company="bbv Software Services AG">
+// <copyright file="StateMachineReportGeneratorTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,34 +15,33 @@
 //   limitations under the License.
 // </copyright>
 //-------------------------------------------------------------------------------
-namespace bbv.Common.StateMachine.Internals
+namespace bbv.Common.StateMachine.Reports
 {
+    using bbv.Common.StateMachine.Internals;
+
     using FluentAssertions;
 
     using Xunit;
 
-    /// <summary>
-    /// Tests the report functionality of the state machine.
-    /// </summary>
-    public class ReportTest
+    public class StateMachineReportGeneratorTest
     {
-        private readonly StateMachine<States, Events> testee;
+        private readonly StateMachine<States, Events> machine;
 
-        public ReportTest()
+        public StateMachineReportGeneratorTest()
         {
-            this.testee = new StateMachine<States, Events>("Test Machine");
+            this.machine = new StateMachine<States, Events>("Test Machine");
         }
 
         [Fact]
         public void Report()
         {
-            this.testee.DefineHierarchyOn(States.B, States.B1, HistoryType.None, States.B1, States.B2);
-            this.testee.DefineHierarchyOn(States.C, States.C1, HistoryType.Shallow, States.C1, States.C2);
-            this.testee.DefineHierarchyOn(States.C1, States.C1a, HistoryType.Shallow, States.C1a, States.C1b);
-            this.testee.DefineHierarchyOn(States.D, States.D1, HistoryType.Deep, States.D1, States.D2);
-            this.testee.DefineHierarchyOn(States.D1, States.D1a, HistoryType.Deep, States.D1a, States.D1b);
+            this.machine.DefineHierarchyOn(States.B, States.B1, HistoryType.None, States.B1, States.B2);
+            this.machine.DefineHierarchyOn(States.C, States.C1, HistoryType.Shallow, States.C1, States.C2);
+            this.machine.DefineHierarchyOn(States.C1, States.C1a, HistoryType.Shallow, States.C1a, States.C1b);
+            this.machine.DefineHierarchyOn(States.D, States.D1, HistoryType.Deep, States.D1, States.D2);
+            this.machine.DefineHierarchyOn(States.D1, States.D1a, HistoryType.Deep, States.D1a, States.D1b);
 
-            this.testee.In(States.A)
+            this.machine.In(States.A)
                 .ExecuteOnEntry(EnterA)
                 .ExecuteOnExit(ExitA)
                 .On(Events.A)
@@ -50,21 +49,21 @@ namespace bbv.Common.StateMachine.Internals
                 .On(Events.C).If(eventArguments => true).Goto(States.C1)
                 .On(Events.C).If(eventArguments => false).Goto(States.C2);
 
-            this.testee.In(States.B)
+            this.machine.In(States.B)
                 .On(Events.A).Goto(States.A).Execute(Action);
 
-            this.testee.In(States.B1)
+            this.machine.In(States.B1)
                 .On(Events.B2).Goto(States.B1);
 
-            this.testee.In(States.B2)
+            this.machine.In(States.B2)
                 .On(Events.B1).Goto(States.B2);
 
-            this.testee.Initialize(States.A);
+            this.machine.Initialize(States.A);
 
-            var generator = new StateMachineReport<States, Events>();
-            this.testee.Report(generator);
+            var testee = new StateMachineReportGenerator<States, Events>();
+            this.machine.Report(testee);
 
-            string report = generator.Result;
+            string report = testee.Result;
 
             const string ExpectedReport =
 @"Test Machine: initial state = A

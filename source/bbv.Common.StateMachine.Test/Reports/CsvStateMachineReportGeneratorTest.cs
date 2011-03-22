@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="YEdStateMachineReportGeneratorTest.cs" company="bbv Software Services AG">
+// <copyright file="CsvStateMachineReportGeneratorTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,35 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.StateMachine.YEd
+namespace bbv.Common.StateMachine.Reports
 {
-    using System;
     using System.IO;
+
+    using FluentAssertions;
 
     using Xunit;
 
-    public class YEdStateMachineReportGeneratorTest
+    public class CsvStateMachineReportGeneratorTest
     {
+        private readonly MemoryStream stateStream;
+
+        private readonly Stream transitionsStream;
+
+        private readonly CsvStateMachineReportGenerator<States, Events> testee;
+
+        public CsvStateMachineReportGeneratorTest()
+        {
+            this.stateStream = new MemoryStream();
+            this.transitionsStream = new MemoryStream();
+
+            this.testee = new CsvStateMachineReportGenerator<States, Events>(this.stateStream, this.transitionsStream);
+        }
+
+        ~CsvStateMachineReportGeneratorTest()
+        {
+            this.stateStream.Dispose();
+        }
+
         /// <summary>
         /// Some test states for simulating an elevator.
         /// </summary>
@@ -82,8 +102,8 @@ namespace bbv.Common.StateMachine.YEd
             Stop
         }
 
-        [Fact(Skip = "not a real unit test")]
-        public void YEdGraphML()
+        [Fact]
+        public void Report()
         {
             var elevator = new PassiveStateMachine<States, Events>("Elevator");
 
@@ -99,30 +119,46 @@ namespace bbv.Common.StateMachine.YEd
                 .On(Events.ErrorOccured);
 
             elevator.In(States.OnFloor)
-                .ExecuteOnEntry(this.AnnounceFloor)
+                .ExecuteOnEntry(AnnounceFloor)
                 .ExecuteOnExit(Beep, Beep)
                 .On(Events.CloseDoor).Goto(States.DoorClosed)
                 .On(Events.OpenDoor).Goto(States.DoorOpen)
                 .On(Events.GoUp)
                     .If(CheckOverload).Goto(States.MovingUp)
-                    .Otherwise().Execute(this.AnnounceOverload, Beep)
+                    .Otherwise().Execute(AnnounceOverload, Beep)
                 .On(Events.GoDown)
                     .If(CheckOverload).Goto(States.MovingDown)
-                    .Otherwise().Execute(this.AnnounceOverload);
+                    .Otherwise().Execute(AnnounceOverload);
 
             elevator.In(States.Moving)
                 .On(Events.Stop).Goto(States.OnFloor);
 
             elevator.Initialize(States.OnFloor);
 
-            var stream = new MemoryStream();
-            var testee = new YEdStateMachineReportGenerator<States, Events>(stream);
+            elevator.Report(this.testee);
 
-            elevator.Report(testee);
+            string statesReport;
+            string transitionsReport;
+            this.stateStream.Position = 0;
+            using (var reader = new StreamReader(this.stateStream))
+            {
+                statesReport = reader.ReadToEnd();
+            }
 
-            stream.Position = 0;
-            var reader = new StreamReader(stream);
-            Console.WriteLine(reader.ReadToEnd());
+            this.transitionsStream.Position = 0;
+            using (var reader = new StreamReader(this.transitionsStream))
+            {
+                transitionsReport = reader.ReadToEnd();
+            }
+
+            const string ExpectedStatesReport = "Source;Entry;ExitOnFloor;AnnounceFloor;Beep,BeepMoving;;Healthy;;MovingUp;;MovingDown;;DoorClosed;;DoorOpen;;Error;;";
+            const string ExpectedTransitionsReport = "Source;Event;Guard;ActionsOnFloor;CloseDoor;;DoorClosed;OnFloor;OpenDoor;;DoorOpen;OnFloor;GoUp;CheckOverload;MovingUp;OnFloor;GoUp;;internal transition;AnnounceOverload,BeepOnFloor;GoDown;CheckOverload;MovingDown;OnFloor;GoDown;;internal transition;AnnounceOverloadMoving;Stop;;OnFloor;Healthy;ErrorOccured;;Error;Error;Reset;;Healthy;Error;ErrorOccured;;internal transition;";
+
+            statesReport.Replace("\n", string.Empty).Replace("\r", string.Empty)
+                .Should().Be(ExpectedStatesReport.Replace("\n", string.Empty).Replace("\r", string.Empty));
+
+            transitionsReport.Replace("\n", string.Empty).Replace("\r", string.Empty)
+                .Should().Be(ExpectedTransitionsReport.Replace("\n", string.Empty).Replace("\r", string.Empty));
         }
 
         private static void Beep()
@@ -134,15 +170,15 @@ namespace bbv.Common.StateMachine.YEd
             return true;
         }
 
-        private void AnnounceFloor()
+        private static void AnnounceFloor()
         {
         }
 
-        private void AnnounceOverload(object[] arguments)
+        private static void AnnounceOverload(object[] arguments)
         {
         }
 
-        private void Beep(object[] arguments)
+        private static void Beep(object[] arguments)
         {
         }
     }

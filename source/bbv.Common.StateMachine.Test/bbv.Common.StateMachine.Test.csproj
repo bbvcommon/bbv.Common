@@ -54,10 +54,11 @@
     <Compile Include="Internals\StateActionTest.cs" />
     <Compile Include="Internals\StateMachineBuildHierarchyTest.cs" />
     <Compile Include="Internals\StateMachineTest.cs" />
+    <Compile Include="Reports\CsvStateMachineReportGeneratorTest.cs" />
     <Compile Include="StateMachineTestBase.cs" />
     <Compile Include="StatesAndEvents.cs" />
     <Compile Include="Internals\TransitionsTest.cs" />
-    <Compile Include="Internals\ReportTest.cs" />
+    <Compile Include="Reports\StateMachineReportGeneratorTest.cs" />
     <Compile Include="UnitTestStateMachineTest.cs" />
   </ItemGroup>
   <ItemGroup>

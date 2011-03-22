@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.StateMachine
+namespace bbv.Common.StateMachine.Reports
 {
     using System;
     using System.Collections.Generic;
