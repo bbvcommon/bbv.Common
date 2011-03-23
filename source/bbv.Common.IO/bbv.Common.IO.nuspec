@@ -4,7 +4,7 @@
     <id>bbv.Common.IO</id>
     <version>%bbv.Common.IOFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-    <authors>bbv Software Services AG</authors>
+    <authors>bbv Software Services AG and Contributers</authors>
     <description>Provides functionality for simplified IO operations:
     * abstraction layer for all file system operations to enable TDD on file system
     * recursive file system commandos (move, copy, ...)

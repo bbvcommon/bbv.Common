@@ -4,7 +4,7 @@
     <id>bbv.Common</id>
     <version>%bbv.CommonFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-    <authors>bbv Software Services AG</authors>
+    <authors>bbv Software Services AG and Contributers</authors>
     <description>Provides shared types needed by other bbv.Common projects:
     * Generic EventArgs
     * EventFilter (aggregate frequently occurring events)

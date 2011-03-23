@@ -4,7 +4,7 @@
 		<id>bbv.Common.EventBroker</id>
 		<version>%bbv.Common.EventBrokerFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-		<authors>bbv Software Services AG</authors>
+		<authors>bbv Software Services AG and Contributers</authors>
 		<description>Notification component for synchronous and asynchronous loosly coupled notification with automatic thread switching:
       * Synchronous and asynchronous notification
       * Automatic thread switching: to background or UI thread
