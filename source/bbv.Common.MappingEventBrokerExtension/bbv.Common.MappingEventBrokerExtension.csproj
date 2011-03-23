@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.MappingEventBrokerExtension</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{C36D03B8-D834-4065-89E0-6097F8F36B36}</ProjectGuid>

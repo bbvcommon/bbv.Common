@@ -3,6 +3,9 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.RuleEngine</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{074D5033-F469-455F-8615-6614F723E768}</ProjectGuid>

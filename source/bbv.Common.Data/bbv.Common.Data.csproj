@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.Data</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{EC5DC772-E383-4371-9D5C-3C12BD5A4D31}</ProjectGuid>

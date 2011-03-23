@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.EventBroker</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</ProjectGuid>

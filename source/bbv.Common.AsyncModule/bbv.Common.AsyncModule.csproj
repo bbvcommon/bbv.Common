@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.AsyncModule</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</ProjectGuid>

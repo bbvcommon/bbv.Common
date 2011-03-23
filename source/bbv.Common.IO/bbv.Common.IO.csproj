@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.IO</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{2D7E5546-1004-4BC7-96C4-0788FFD35A65}</ProjectGuid>

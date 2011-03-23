@@ -3,6 +3,9 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.StateMachine.Log4Net</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{29BD826D-76E9-4932-9B5C-920A0CA199AE}</ProjectGuid>
