@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>bbv.Common.IO</id>
-    <version>%bbv.Common.IOFileVersion%</version>
+    <id>bbv.Common.IO.Log4Net</id>
+    <version>%bbv.Common.IO.Log4NetFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
-    <description>Provides functionality for simplified IO operations:
-    * abstraction layer for all file system operations to enable TDD on file system
-    * recursive file system commandos (move, copy, ...)
-    * folder watcher that fires events when folder content changes
-    * Stream decorators/interceptors
-    * loader for resources (from file/embedded)
+    <description>Provides logging functionality with log4net for bbv.Common.IO.
 
-bbv.Common.IO is a part of bbv.Common, a library of .NET components and functionality including:
+bbv.Common.IO.Log4Net is a part of bbv.Common, a library of .NET components and functionality including:
       * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
@@ -22,6 +17,8 @@ bbv.Common.IO is a part of bbv.Common, a library of .NET components and function
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <dependencies>
       <dependency id="bbv.Common" version="%bbv.Common%"/>
+      <dependency id="bbv.Common.IO" version="%bbv.Common.IO%"/>
+      <dependency id="log4net" version="1.2.10" />
     </dependencies>
   </metadata>
 </package>

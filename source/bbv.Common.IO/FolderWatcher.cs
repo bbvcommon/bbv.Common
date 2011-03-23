@@ -21,50 +21,26 @@ namespace bbv.Common.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;
     using Events;
-    using log4net;
 
     /// <summary>
-    /// Implements the FolderWatcher class. Offers function to observe folders for file changes.
+    /// Observes a folder for file changes. Filters frequent file changed event from file system with an <see cref="IEventFilter{TEventArgs}"/>.
     /// </summary>
     public class FolderWatcher : IFolderWatcher
     {
-        #region members
-
         /// <summary>
         /// The <see cref="EventFilter{TEventArgs}"/> timeout.
         /// </summary>
-        private const int FilterTimeWindow = 100; // filter time window is 100ms
+        private const int FilterTimeWindow = 100;
         
         /// <summary>
         /// Filters the original <see cref="FileSystemWatcher"/> events to prevent to much events for the user of the <see cref="FolderWatcher"/>.
         /// </summary>
         private readonly EventFilter<FileSystemEventArgs> eventFilter;
         
-        /// <summary>
-        /// log4net Logger
-        /// </summary>
-        private readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        
-        /// <summary>
-        /// .NET file system watcher
-        /// </summary>
+        private readonly List<IFolderWatcherExtension> extensions;
+
         private FileSystemWatcher filesystemwatcher;
-        
-        /// <summary>
-        /// File filter - it is a file system filter string like "*.txt".
-        /// </summary>
-        private string filter;
-        
-        /// <summary>
-        /// The folder who is monitored from the <see cref="FileSystemWatcher"/>
-        /// </summary>
-        private string watchedFolder;
-
-        #endregion
-
-        #region CTOR
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FolderWatcher"/> class.
@@ -84,13 +60,11 @@ namespace bbv.Common.IO
         {
             this.Folder = folder;
             this.Filter = filter;
+
+            this.extensions = new List<IFolderWatcherExtension>();
             this.eventFilter = new EventFilter<FileSystemEventArgs>(FilterTimeWindow);
-            this.eventFilter.FilteredEventRaised += this.EventFilterOnFilteredEventRaised;
+            this.eventFilter.FilteredEventRaised += this.HandleEventFilterFilteredEventRaised;
         }
-
-        #endregion
-
-        #region public methods
 
         /// <summary>
         /// Occurs when a new file is recognized. The event arguments contains the found filename.
@@ -101,20 +75,38 @@ namespace bbv.Common.IO
         /// Gets or sets the folder which will be observed.
         /// </summary>
         /// <value>The folder.</value>
-        public string Folder
+        public string Folder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the filter. It is a file system filter string like "*.txt".
+        /// </summary>
+        /// <value>The filter.</value>
+        public string Filter { get; set; }
+
+        /// <summary>
+        /// Adds the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        public void AddExtension(IFolderWatcherExtension extension)
         {
-            get { return this.watchedFolder; }
-            set { this.watchedFolder = value; }
+            this.extensions.Add(extension);
         }
 
         /// <summary>
-        /// Gets or sets the filter it is a file system filter string like "*.txt".
+        /// Removes the extension.
         /// </summary>
-        /// <value>The filter.</value>
-        public string Filter
+        /// <param name="extension">The extension.</param>
+        public void RemoveExtension(IFolderWatcherExtension extension)
         {
-            get { return this.filter; }
-            set { this.filter = value; }
+            this.extensions.Remove(extension);
+        }
+
+        /// <summary>
+        /// Clears all extensions.
+        /// </summary>
+        public void ClearExtensions()
+        {
+            this.extensions.Clear();
         }
 
         /// <summary>
@@ -122,6 +114,8 @@ namespace bbv.Common.IO
         /// </summary>
         public void StartObservation()
         {
+            this.CheckNotAlreadyRunning();
+
             if (this.filesystemwatcher == null)
             {
                 this.filesystemwatcher = new FileSystemWatcher(this.Folder, this.Filter);
@@ -131,14 +125,10 @@ namespace bbv.Common.IO
                                              NotifyFilters.DirectoryName;
 
             this.filesystemwatcher.IncludeSubdirectories = true;
-
-            // init the events
             this.filesystemwatcher.Changed += this.eventFilter.HandleOriginalEvent;
-
-            // start watching
             this.filesystemwatcher.EnableRaisingEvents = true;
 
-            this.log.Debug("Observation started");
+            this.extensions.ForEach(extension => extension.ObservationStarted(this.Folder, this.Filter));
         }
 
         /// <summary>
@@ -150,9 +140,10 @@ namespace bbv.Common.IO
             {
                 this.filesystemwatcher.EnableRaisingEvents = false;
                 this.filesystemwatcher.Changed -= this.eventFilter.HandleOriginalEvent;
+                this.filesystemwatcher = null;
             }
 
-            this.log.Debug("Observation stopped");
+            this.extensions.ForEach(extension => extension.ObservationStopped(this.Folder, this.Filter));
         }
 
         /// <summary>
@@ -161,29 +152,13 @@ namespace bbv.Common.IO
         /// <returns>A list of all available files in the monitored folder and matching to the given filter</returns>
         public IList<string> GetCurrentAvailableFiles()
         {
-            string[] files = Directory.GetFiles(this.Folder, this.Filter);
-
-            foreach (string file in files)
-            {
-                this.log.DebugFormat("File {0} in folder {1}", file, this.Folder);
-            }
-
-            return files;
+            return Directory.GetFiles(this.Folder, this.Filter);
         }
 
-        #endregion
-
-        #region private methods
-
-        /// <summary>
-        /// Handles events raised from the Event filter. The event is the last original event.
-        /// </summary>
-        /// <param name="sender">The original sender of the event</param>
-        /// <param name="e">Event arguments in this case the <see cref="FileSystemEventArgs"/></param>
-        private void EventFilterOnFilteredEventRaised(object sender, FileSystemEventArgs e)
+        private void HandleEventFilterFilteredEventRaised(object sender, FileSystemEventArgs e)
         {
-            this.log.DebugFormat("New file recognized {0}", e.FullPath);
-
+            this.extensions.ForEach(extension => extension.FileAddedOrChanged(this.Folder, this.Filter, e.FullPath));
+            
             if (this.FileChanged == null)
             {
                 return;
@@ -192,6 +167,12 @@ namespace bbv.Common.IO
             this.FileChanged(this, new EventArgs<string>(e.FullPath));
         }
 
-        #endregion
+        private void CheckNotAlreadyRunning()
+        {
+            if (this.filesystemwatcher != null)
+            {
+                throw new InvalidOperationException("Observation is already started.");
+            }
+        }
     }
 }

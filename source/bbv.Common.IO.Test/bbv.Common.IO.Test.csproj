@@ -54,7 +54,6 @@
     <Compile Include="Resources\EmbeddedResourceLoaderTest.cs" />
     <Compile Include="Resources\FileResourceLoaderTest.cs" />
     <Compile Include="StreamDecoratorStreamTest.cs" />
-    <Compile Include="StreamLoggerStreamTest.cs" />
     <None Include="TextFileReaderWriterTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ namespace bbv.Common.IO
     using Events;
 
     /// <summary>
-    /// Interface for the Folder Watcher class. Offers function to observe folders for file changes.
+    /// Observes a folder for file changes.
     /// </summary>
     public interface IFolderWatcher
     {
@@ -45,7 +45,7 @@ namespace bbv.Common.IO
         string Filter { get; set; }
 
         /// <summary>
-        /// Initialize the file watcher who are observing the given directory for new files
+        /// Starts the observation of the given directory for new and changed files.
         /// </summary>
         void StartObservation();
 
@@ -59,5 +59,22 @@ namespace bbv.Common.IO
         /// </summary>
         /// <returns>A list of all available files in the monitored folder and matching to the given filter</returns>
         IList<string> GetCurrentAvailableFiles();
+
+        /// <summary>
+        /// Adds the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        void AddExtension(IFolderWatcherExtension extension);
+
+        /// <summary>
+        /// Removes the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        void RemoveExtension(IFolderWatcherExtension extension);
+
+        /// <summary>
+        /// Clears all extensions.
+        /// </summary>
+        void ClearExtensions();
     }
 }
