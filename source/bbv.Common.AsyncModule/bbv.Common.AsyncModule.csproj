@@ -9,9 +9,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -20,6 +17,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptyAsyncModuleLogExtension.cs" />
     <Compile Include="Events\AfterConsumeMessageEventArgs.cs" />
     <Compile Include="Events\BeforeConsumeMessageEventArgs.cs" />
     <Compile Include="Events\ConsumeMessageEventArgs.cs" />
@@ -31,6 +29,7 @@
     <Compile Include="Extensions\ModuleExtensionCollection.cs" />
     <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IAsyncModuleLogExtension.cs" />
     <Compile Include="IModuleController.cs" />
     <Compile Include="MessageConsumerAttribute.cs" />
     <Compile Include="ModuleController.cs" />
@@ -38,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bbv.Common.AsyncModule.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\" />

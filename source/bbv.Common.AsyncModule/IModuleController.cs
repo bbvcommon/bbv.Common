@@ -108,6 +108,12 @@ namespace bbv.Common.AsyncModule
         bool IsAlive { get; }
 
         /// <summary>
+        /// Gets or sets the log extension.
+        /// </summary>
+        /// <value>The log extension.</value>
+        IAsyncModuleLogExtension LogExtension { get; set; }
+
+        /// <summary>
         /// Initializes this instance.
         /// </summary>
         /// <param name="module">The module to control.</param>
