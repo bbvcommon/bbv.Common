@@ -28,5 +28,8 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>
