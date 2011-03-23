@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
 	<metadata>
-		<id>bbv.Common.Async</id>
-		<version>%bbv.Common.AsyncFileVersion%</version>
+		<id>bbv.Common.Async.Log4Net</id>
+		<version>%bbv.Common.Async.Log4NetFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
-		<description>AsyncWorker (simplified API for BackgroundWorker), 
-    AsyncResult to implement asynchronous tasks.
+		<description>Provides logging with log4net for bbv.Common.AsyncWorker.
 
-      bbv.Common.Async is a part of bbv.Common, a library of .NET components and functionality including:
+      bbv.Common.Async.Log4Net is a part of bbv.Common, a library of .NET components and functionality including:
       * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
@@ -16,5 +15,8 @@
 		<language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="log4net" version="1.2.10" />
+    </dependencies>
 	</metadata>
 </package>

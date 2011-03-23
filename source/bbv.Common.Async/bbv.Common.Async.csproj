@@ -9,9 +9,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -22,11 +19,11 @@
     <Compile Include="GenericAsyncResult.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IAsyncWorker.cs" />
+    <Compile Include="IAsyncWorkerExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bbv.Common.Async.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Version.txt" />
