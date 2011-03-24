@@ -23,22 +23,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmptyAsyncModuleLogExtension.cs" />
-    <Compile Include="Events\AfterConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\BeforeConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\ConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\ConsumeMessageExceptionEventArgs.cs" />
-    <Compile Include="Events\EnqueueMessageEventArgs.cs" />
-    <Compile Include="Events\UnhandledModuleExceptionEventArgs.cs" />
-    <Compile Include="Extensions\ConsumePendingMessagesBeforeStopExtension.cs" />
-    <Compile Include="Extensions\IModuleExtension.cs" />
-    <Compile Include="Extensions\ModuleExtensionCollection.cs" />
-    <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs" />
+    <Compile Include="EmptyAsyncModuleLogExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\AfterConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\BeforeConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\ConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\ConsumeMessageExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\EnqueueMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\UnhandledModuleExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ConsumePendingMessagesBeforeStopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\IModuleExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ModuleExtensionCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IAsyncModuleLogExtension.cs" />
-    <Compile Include="IModuleController.cs" />
-    <Compile Include="MessageConsumerAttribute.cs" />
-    <Compile Include="ModuleController.cs" />
+    <Compile Include="IAsyncModuleLogExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IModuleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageConsumerAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModuleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

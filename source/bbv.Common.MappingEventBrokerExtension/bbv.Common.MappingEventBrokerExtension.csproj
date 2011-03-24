@@ -23,6 +23,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventBrokerExtensionsForMapping.cs" />
     <Compile Include="IDestinationEventArgsTypeProvider.cs" />
     <Compile Include="IManageEventBroker.cs" />

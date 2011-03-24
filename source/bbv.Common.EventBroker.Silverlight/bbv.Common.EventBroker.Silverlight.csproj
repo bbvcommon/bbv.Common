@@ -234,11 +234,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\bbv.Common.EventBroker\packages.config">
-      <Link>packages.config</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

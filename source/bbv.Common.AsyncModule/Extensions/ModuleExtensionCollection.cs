@@ -19,54 +19,14 @@
 namespace bbv.Common.AsyncModule.Extensions
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This collection contains module extensions.
     /// </summary>
-    public class ModuleExtensionCollection : Hashtable
+    public class ModuleExtensionCollection
     {
-        /// <summary>
-        /// Adds the call to Attach to the standard behavior of the method Add.
-        /// </summary>
-        /// <param name="key">The key of the element to add.</param>
-        /// <param name="value">The value of the element to add. The value can be null.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="key"/> is null.
-        /// </exception>
-        /// <exception cref="T:System.ArgumentException">
-        /// An element with the same key already exists in the <see cref="T:System.Collections.Hashtable"/>.
-        /// </exception>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Hashtable"/> is read-only.
-        /// -or-
-        /// The <see cref="T:System.Collections.Hashtable"/> has a fixed size.
-        /// </exception>
-        public override void Add(object key, object value)
-        {
-            this.AddAndAttach(key, value);
-        }
-
-        /// <summary>
-        /// Adds the call to Detach and the tolerance for not existing keys to
-        /// the standard behavior of the method Remove.
-        /// </summary>
-        /// <param name="key">The key of the element to remove.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="key"/> is null.
-        /// </exception>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Hashtable"/> is read-only.
-        /// -or-
-        /// The <see cref="T:System.Collections.Hashtable"/> has a fixed size.
-        /// </exception>
-        public override void Remove(object key)
-        {
-            if (this.ContainsKey(key))
-            {
-                this.RemoveAndDetach(key);
-            }
-        }
+        private readonly Dictionary<Type, object> dictionary = new Dictionary<Type, object>();
 
         /// <summary>
         /// Adds a new extension.
@@ -79,7 +39,7 @@ namespace bbv.Common.AsyncModule.Extensions
         /// </param>
         public void Add<TExtension>(object extensionInstance)
         {
-            if (this.ContainsKey(typeof(TExtension)))
+            if (this.dictionary.ContainsKey(typeof(TExtension)))
             {
                 this.RemoveAndDetach(typeof(TExtension));
             }
@@ -99,11 +59,11 @@ namespace bbv.Common.AsyncModule.Extensions
         /// </returns>
         public TExtension Get<TExtension>()
         {
-            foreach (Type extensionType in this.Keys)
+            foreach (Type extensionType in this.dictionary.Keys)
             {
                 if (typeof(TExtension).IsAssignableFrom(extensionType))
                 {
-                    return (TExtension)base[extensionType];
+                    return (TExtension)this.dictionary[extensionType];
                 }
             }
 
@@ -116,9 +76,9 @@ namespace bbv.Common.AsyncModule.Extensions
         /// <param name="extensionType">
         /// The type of the extension to remove.
         /// </param>
-        private void RemoveAndDetach(object extensionType)
+        private void RemoveAndDetach(Type extensionType)
         {
-            object extensionInstance = this[extensionType];
+            object extensionInstance = this.dictionary[extensionType];
             
             // Detach before removing the extension
             if (extensionInstance is IModuleExtension)
@@ -126,7 +86,7 @@ namespace bbv.Common.AsyncModule.Extensions
                 ((IModuleExtension)extensionInstance).Detach();
             }
             
-            base.Remove(extensionType);
+            this.dictionary.Remove(extensionType);
         }
 
         /// <summary>
@@ -140,9 +100,9 @@ namespace bbv.Common.AsyncModule.Extensions
         /// <param name="extensionInstance">
         /// The actual extension.
         /// </param>
-        private void AddAndAttach(object extensionType, object extensionInstance)
+        private void AddAndAttach(Type extensionType, object extensionInstance)
         {
-            base.Add(extensionType, extensionInstance);
+            this.dictionary.Add(extensionType, extensionInstance);
             if (extensionInstance is IModuleExtension)
             {
                 ((IModuleExtension)extensionInstance).Attach();
