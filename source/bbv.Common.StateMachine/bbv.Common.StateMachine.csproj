@@ -10,6 +10,10 @@
     <ProjectGuid>{F324D0C2-81EC-4798-9A17-FA22C591E48A}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.StateMachine\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.StateMachine\lib\.Net 4.0\bbv.Common.StateMachine.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -25,63 +29,173 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ExtensionBase.cs" />
+    <Compile Include="ActiveStateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExceptionMessages.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Internals\ArgumentLessGuardHolder.cs" />
-    <Compile Include="Internals\ArgumentLessTransitionActionHolder.cs" />
-    <Compile Include="Internals\GuardHolder.cs" />
-    <Compile Include="Internals\IExtensionHost.cs" />
-    <Compile Include="Internals\IFactory.cs" />
-    <Compile Include="Internals\IGuardHolder.cs" />
-    <Compile Include="Internals\Initializable.cs" />
-    <Compile Include="Internals\InitializationInformation.cs" />
-    <Compile Include="Internals\IStateContext.cs" />
-    <Compile Include="Internals\ITransitionActionHolder.cs" />
-    <Compile Include="Internals\ITransitionContext.cs" />
-    <Compile Include="ExceptionMessages.cs" />
-    <Compile Include="Internals\RecordType.cs" />
-    <Compile Include="Internals\SingleArgumentGuardHolder.cs" />
-    <Compile Include="Internals\SingleArgumentTransitionActionHolder.cs" />
-    <Compile Include="Internals\StandardFactory.cs" />
-    <Compile Include="Internals\TransitionActionHolder.cs" />
-    <Compile Include="IStateMachineInformation.cs" />
-    <Compile Include="IExtension.cs" />
-    <Compile Include="Internals\ActionHolder.cs" />
-    <Compile Include="Internals\ActionHolder{T}.cs" />
-    <Compile Include="ActiveStateMachine.cs" />
-    <Compile Include="Internals\ContextEventArgs.cs" />
-    <Compile Include="Internals\IActionHolder.cs" />
-    <Compile Include="Internals\StateMachineInitializer.cs" />
-    <Compile Include="Reports\CsvStateMachineReportGenerator.cs" />
-    <Compile Include="Reports\CsvStatesWriter.cs" />
-    <Compile Include="Reports\CsvTransitionsWriter.cs" />
-    <Compile Include="Reports\StateMachineReportGenerator.cs" />
-    <Compile Include="Internals\StateContext.cs" />
-    <Compile Include="Internals\EventInformation.cs" />
-    <Compile Include="ExceptionEventArgs.cs" />
-    <Compile Include="HistoryType.cs" />
-    <Compile Include="Internals\INotifier.cs" />
-    <Compile Include="Internals\IState.cs" />
-    <Compile Include="Internals\IStateDictionary.cs" />
-    <Compile Include="IStateMachine.cs" />
-    <Compile Include="Internals\Syntax.cs" />
-    <Compile Include="Internals\ITransition.cs" />
-    <Compile Include="Internals\ITransitionResult.cs" />
-    <Compile Include="IStateMachineReport.cs" />
-    <Compile Include="PassiveStateMachine.cs" />
+    <Compile Include="HistoryType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ActionHolder{T}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ArgumentLessGuardHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ArgumentLessTransitionActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ContextEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\EventInformation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\GuardHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IExtensionHost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IGuardHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\Initializable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\InitializationInformation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\INotifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IStateContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\IStateDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ITransition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ITransitionActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ITransitionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ITransitionResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\RecordType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\SingleArgumentGuardHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\SingleArgumentTransitionActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StandardFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\State.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateBuilder.g.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateMachineInitializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\Syntax.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\Transition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionActionHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IStateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IStateMachineInformation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IStateMachineReport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PassiveStateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internals\State.cs" />
-    <Compile Include="Internals\StateBuilder.g.cs" />
-    <Compile Include="Internals\StateDictionary.cs" />
-    <Compile Include="Internals\StateMachine.cs" />
-    <Compile Include="Internals\Transition.cs" />
-    <Compile Include="TransitionCompletedEventArgs.cs" />
-    <Compile Include="Internals\TransitionDictionary.cs" />
-    <Compile Include="Internals\TransitionContext.cs" />
-    <Compile Include="TransitionExceptionEventArgs.cs" />
-    <Compile Include="TransitionEventArgs.cs" />
-    <Compile Include="Internals\TransitionResult.cs" />
-    <Compile Include="UnitTestStateMachine.cs" />
+    <Compile Include="Reports\CsvStateMachineReportGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reports\CsvStatesWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reports\CsvTransitionsWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reports\StateMachineReportGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransitionCompletedEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransitionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransitionExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTestStateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bbv.Common.AsyncModule\bbv.Common.AsyncModule.csproj">
@@ -94,10 +208,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bbv.Common.StateMachine.nuspec" />
+    <Content Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Version.txt" />
+    <None Include="bbv.Common.StateMachine.nuspec" />
   </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

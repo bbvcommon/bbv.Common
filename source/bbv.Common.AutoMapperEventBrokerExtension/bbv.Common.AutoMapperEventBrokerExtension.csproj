@@ -11,6 +11,10 @@
     <ProjectGuid>{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\bbv.Common.AutoMapperEventBrokerExtension.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.1.1.0.118\lib\AutoMapper.dll</HintPath>

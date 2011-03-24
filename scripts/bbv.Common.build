@@ -36,7 +36,7 @@
   Main targets
   ========================================================= 
     -->
-  <target name="integrate" depends="clean, build_release, copy_bin, unittest" 
+  <target name="integrate" depends="clean, build_release, unittest" 
           description="Build and exectute unit tests for developers before commit their changes.">
   </target>
   
@@ -49,8 +49,6 @@
     <call target="build_release" />
     <call target="copy_bin" />
     <call target="unittest" />
-    <call target="build" />
-    <call target="copy_bin" />
     <call target="revert_version" />
     <call target="package" />
     <call target="nuget" />
@@ -84,7 +82,12 @@
       <fileset basedir="${publish}">
         <include name="**/*" />
       </fileset>
-    </delete>	
+    </delete>
+    <delete failonerror="false">
+      <fileset basedir="${binaries}">
+        <include name="**/*" />
+      </fileset>
+    </delete>
     <foreach item="Folder" property="foldername">
       <in>
         <items basedir="${sources}">					
@@ -151,6 +154,7 @@
         </foreach>
 
         <echo message="---- run MSpec" />
+        <mkdir dir="${binaries}" />
         <foreach item="File" property="filename">
             <in>
                 <items basedir="${base_dir}">
@@ -163,7 +167,7 @@
         </foreach>
   </target>
 
-  <target name="copy_bin" description="Copies the builded output to the top bin directory" if="${build_succeeded}">
+  <!--<target name="copy_bin" description="Copies the builded output to the top bin directory" if="${build_succeeded}">
     <delete>
       <fileset basedir="${binaries}\${build_config}">
         <include name="*.dll" />
@@ -179,28 +183,12 @@
         <include name="**/bin/${build_config}/bbv.Common*.pdb" />
       </fileset>
     </copy>
-  </target>
+  </target>-->
 
-  <target name="package">
-    <zip zipfile="${publish}\${project.name}-Binaries-${version}.0.${timestamp}.zip">
-      <fileset basedir="${binaries}">
-        <include name="**/*" />
-      </fileset>
-    </zip>
-  </target>
-  
-  <target name="nuget" description="Copies the nuget output to the top bin directory" >
-   
-    <property name="nuget.basedir" value="${publish}\NuGet" />
-    <mkdir dir="${nuget.basedir}" />
-    <delete>
-      <fileset basedir="${nuget.basedir}\lib\NET4">
-        <include name="*.dll" />
-        <include name="*.xml" />
-        <include name="*.pdb" />
-      </fileset>
-    </delete>
-    
+  <target name="copy_bin" description="Copies the builded output to the top bin directory">
+    <!--if="${build_succeeded}">-->
+    <echo message="copying files to ${binaries}\${build_config}\" />
+
     <foreach item="Folder" property="folder">
       <in>
         <items>
@@ -215,49 +203,66 @@
       </in>
       <do>
         <property name="project" value="${path::get-file-name(folder)}" />
-        <property name="nugetFolder" value="${nuget.basedir}\${project}${version}.0.${timestamp}" />
-        <echo message="${project}" />
 
-        <property name="nuspecfile" value="${folder}\${project}.nuspec" />
-        <echo message="${nuspecfile}" />
-        <if test="${file::exists(nuspecfile)}">
-          
-          <copy overwrite="false" todir="${nugetFolder}\lib\NET4" flatten="true">
-            <fileset basedir="${folder}\bin\Release">
-              <include name="${project}.dll" />
-              <include name="${project}.xml" />
-              <include name="${project}.pdb" />
-            </fileset>
-          </copy>
-
-          <loadfile file="${nuspecfile}" property="nuspec" />
-          <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
-            <do>
-              <property name="nuspec" value="${string::replace(nuspec, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
-              <property name="nuspec" value="${string::replace(nuspec, '%' + projectname + 'FileVersion%', fileversion)}" />
-            </do>
-          </foreach>
-          <echo message="${nuspec}" file="${nugetFolder}\${project}.nuspec" />
-
-          <copy overwrite="false" todir="${nugetFolder}">
-            <fileset basedir="${base_dir}\Scripts\">
-              <include name="License.txt" />
-            </fileset>
-          </copy>
-
-          <echo message="packing ${project} with ${nugetFolder}\${project}.nuspec" />
-          <exec program="${nuget.console}" commandline="pack ${nugetFolder}\${project}.nuspec" />
-
-        </if>
+        <copy overwrite="false" todir="${binaries}\${build_config}\" flatten="false">
+          <fileset basedir="${folder}/bin/${build_config}">
+            <include name="**/${project}.dll" />
+            <include name="**/${project}.xml" />
+            <include name="**/${project}.pdb" />
+          </fileset>
+        </copy>
       </do>
     </foreach>
+  </target>
 
-    <move todir="${publish}\NuGet\">
-      <fileset basedir="${base_dir}\Scripts\">
-        <include name="*.nupkg" />
+  <target name="package">
+    <zip zipfile="${publish}\${project.name}-${version}.0.${timestamp}.zip">
+      <fileset basedir="${binaries}\${build_config}">
+        <include name="**/*" />
       </fileset>
-    </move>
+    </zip>
+  </target>
+  
+  <target name="nuget" depends="set_version, build_release, copy_bin" description="Copies the nuget output to the top bin directory" >
+   
+    <property name="nuget.basedir" value="${publish}\NuGet" />
+    <mkdir dir="${nuget.basedir}" />
     
+    <foreach item="File" property="nuspec">
+      <in>
+        <items>
+          <include name="${sources}/**/*.nuspec" />
+        </items>
+      </in>
+      <do>
+        
+        <property name="nugetFolder" value="${binaries}\${build_config}\${path::get-file-name-without-extension(nuspec)}" />
+        <property name="nugetFile" value="${nugetFolder}\${path::get-file-name(nuspec)}" />
+        
+        <loadfile file="${nuspec}" property="content" />
+        <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
+          <do>
+            <property name="content" value="${string::replace(content, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
+            <property name="content" value="${string::replace(content, '%' + projectname + 'FileVersion%', fileversion)}" />
+          </do>
+        </foreach>
+        <echo message="${content}" file="${nugetFile}" />
+
+        <copy overwrite="false" todir="${nugetFolder}">
+          <fileset basedir="${base_dir}\Scripts\">
+            <include name="License.txt" />
+          </fileset>
+        </copy>
+
+        <exec program="${nuget.console}" commandline="pack ${nugetFile}" />
+        <move todir="${publish}\NuGet\">
+          <fileset basedir="${base_dir}\Scripts\">
+            <include name="*.nupkg" />
+          </fileset>
+        </move>
+        
+      </do>
+    </foreach>
   </target>
 
   <target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">

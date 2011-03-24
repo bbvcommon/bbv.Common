@@ -14,6 +14,10 @@
   <PropertyGroup>
     <RootNamespace>bbv.Common.EvaluationEngine</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.EvaluationEngine.Log4Net\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.EvaluationEngine.Log4Net\lib\.Net 4.0\bbv.Common.EvaluationEngine.Log4Net.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>

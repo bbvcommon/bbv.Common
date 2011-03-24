@@ -48,7 +48,7 @@
     <RootNamespace Condition="'$(RootNamespace)' == ''">$(BbvCommonProjectName)</RootNamespace>
 
     <!-- Output Path is set ResultsPath\Configuration\ (\debug\). -->
-    <OutputPath>$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
+    <OutputPath Condition="'$(OutputPath)' == ''">$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
  
     <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>

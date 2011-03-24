@@ -22,6 +22,7 @@ namespace bbv.Common.EventBroker.Internals
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using Exceptions;
     using Matchers;
@@ -447,7 +448,7 @@ namespace bbv.Common.EventBroker.Internals
         /// <returns>The publication that is already registered.</returns>
         private IPublication FindPublication(object publisher, string eventName)
         {
-            IPublication publication = this.publications.Find(
+            IPublication publication = this.publications.SingleOrDefault(
                 match => match.Publisher == publisher &&
                          match.EventName == eventName);
             return publication;
@@ -481,7 +482,7 @@ namespace bbv.Common.EventBroker.Internals
         {
             this.Clean();
 
-            return this.subscriptions.Find(
+            return this.subscriptions.SingleOrDefault(
                 match => match.Subscriber == subscriber && match.HandlerMethodName == handlerMethodName);
         }
 

@@ -10,6 +10,10 @@
     <ProjectGuid>{845A5452-3D0B-4386-8228-F949D6A371C2}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.EvaluationEngine\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.EvaluationEngine\lib\.Net 4.0\bbv.Common.EvaluationEngine.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -8,6 +8,10 @@
     <ProjectGuid>{1606A788-6035-468D-B50F-A63AFAAFF448}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.AsyncModule\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.AsyncModule\lib\.Net 4.0\bbv.Common.AsyncModule.Log4Net.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>

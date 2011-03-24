@@ -10,6 +10,10 @@
     <ProjectGuid>{C36D03B8-D834-4065-89E0-6097F8F36B36}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\bbv.Common.MappingEventBrokerExtension.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="GlobalAssemblyInfo.cs" company="bbv Software Services AG">
+// <copyright file="AssemblyInfo.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,9 @@
 //-------------------------------------------------------------------------------
 
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyCompany("bbv Software Services AG")]
-[assembly: AssemblyProduct("bbv.Common")]
-[assembly: AssemblyCopyright("Copyright ©  2008-2011")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+[assembly: AssemblyTitle("bbv.Common.MappingEventBrokerExtension")]
+[assembly: AssemblyDescription("")]
