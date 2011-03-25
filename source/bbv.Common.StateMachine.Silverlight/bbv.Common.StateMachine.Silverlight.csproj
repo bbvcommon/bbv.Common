@@ -48,6 +48,7 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="system" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\bbv.Common.StateMachine\ActiveStateMachine.cs">

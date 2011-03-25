@@ -105,7 +105,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExceptionThrowingGuard()
         {
             var eventArguments = new object[] { 1, 2, "test" };
-            Exception exception = new ApplicationException();
+            Exception exception = new Exception();
             
             this.testee.In(States.A)
                 .On(Events.B)
@@ -132,7 +132,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExceptionThrowingAction()
         {
             var eventArguments = new object[] { 1, 2, "test" };
-            Exception exception = new ApplicationException();
+            Exception exception = new Exception();
 
             this.testee.In(States.A)
                 .On(Events.B).Goto(States.B).Execute(arguments =>
@@ -153,7 +153,7 @@ namespace bbv.Common.StateMachine.Internals
         public void EntryActionWhenThrowingExceptionThenNotificationAndStateIsEntered()
         {
             var eventArguments = new object[] { 1, 2, "test" };
-            Exception exception = new ApplicationException();
+            Exception exception = new Exception();
 
             this.testee.In(States.A)
                 .On(Events.B).Goto(States.B);
@@ -177,7 +177,7 @@ namespace bbv.Common.StateMachine.Internals
         public void ExitActionWhenThrowingExceptionThenNotificationAndStateIsEntered()
         {
             var eventArguments = new object[] { 1, 2, "test" };
-            Exception exception = new ApplicationException();
+            Exception exception = new Exception();
 
             this.testee.In(States.A)
                 .ExecuteOnExit(() =>

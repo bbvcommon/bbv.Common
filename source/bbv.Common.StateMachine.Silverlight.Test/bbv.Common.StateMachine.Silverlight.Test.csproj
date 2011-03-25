@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0F6545F1-AE26-4E28-8A78-9EA02399F1D2}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>bbv.Common.StateMachine.Silverlight.Test</RootNamespace>
+    <AssemblyName>bbv.Common.StateMachine.Silverlight.Test</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures />
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>bbv.Common.StateMachine.Silverlight.Test.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>bbv.Common.StateMachine.Silverlight.Test.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject />
+  </PropertyGroup>
+  <!--
+  //
+  // Silverlight Code Coverage Instrumentation
+  // List any libraries or assemblies that you would like to instrument during
+  // a code coverage pass. An example, for ClassLibrary1, is provided, and
+  // commented out below as a starting point:
+  //
+  -->
+  <!--
+  <ItemGroup>
+    <InstrumentSilverlightAssemblies Include="SilverlightClassLibrary1">
+      <Visible>false</Visible>
+    </InstrumentSilverlightAssemblies>
+  </ItemGroup>
+  -->
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Moq.4.0.10827\lib\Silverlight4\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Silverlight">
+      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\Silverlight 4.0\FluentAssertions.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
+      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\Silverlight 4.0\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq.Silverlight">
+      <HintPath>..\packages\Moq.4.0.10827\lib\Silverlight4\Moq.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="xunit-silverlight4">
+      <HintPath>..\ExternalLibs\xUnit-Silverlight\Silverlight4\xunit-silverlight4.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions-silverlight4">
+      <HintPath>..\ExternalLibs\xUnit-Silverlight\Silverlight4\xunit.extensions-silverlight4.dll</HintPath>
+    </Reference>
+    <Reference Include="xunitcontrib.runner.silverlight.toolkit-sl4">
+      <HintPath>..\ExternalLibs\xUnit-Silverlight\Silverlight4\xunitcontrib.runner.silverlight.toolkit-sl4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\bbv.Common.StateMachine.Test\ActiveStateMachineTest.cs">
+      <Link>ActiveStateMachineTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\ExtensionTest.cs">
+      <Link>ExtensionTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\ExceptionCasesTest.cs">
+      <Link>Internals\ExceptionCasesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\GuardTest.cs">
+      <Link>Internals\GuardTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\SingleArgumentGuardHolderTest.cs">
+      <Link>Internals\SingleArgumentGuardHolderTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\SingleArgumentTransitionActionHolderTest.cs">
+      <Link>Internals\SingleArgumentTransitionActionHolderTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\StateActionTest.cs">
+      <Link>Internals\StateActionTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\StateMachineBuildHierarchyTest.cs">
+      <Link>Internals\StateMachineBuildHierarchyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\StateMachineTest.cs">
+      <Link>Internals\StateMachineTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\StateTest.cs">
+      <Link>Internals\StateTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\SyntaxTest.cs">
+      <Link>Internals\SyntaxTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\TransitionDictionaryTest.cs">
+      <Link>Internals\TransitionDictionaryTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Internals\TransitionsTest.cs">
+      <Link>Internals\TransitionsTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\PassiveStateMachineTest.cs">
+      <Link>PassiveStateMachineTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Reports\CsvStateMachineReportGeneratorTest.cs">
+      <Link>Reports\CsvStateMachineReportGeneratorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\Reports\StateMachineReportGeneratorTest.cs">
+      <Link>Reports\StateMachineReportGeneratorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\StateMachineTestBase.cs">
+      <Link>StateMachineTestBase.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine.Test\StatesAndEvents.cs">
+      <Link>StatesAndEvents.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.AsyncModule.Silverlight\bbv.Common.AsyncModule.Silverlight.csproj">
+      <Project>{95C44A48-C6B6-4D10-BAD1-910E77209D68}</Project>
+      <Name>bbv.Common.AsyncModule.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.Silverlight\bbv.Common.Silverlight.csproj">
+      <Project>{8E3F34EB-5731-4A69-9B07-E016CFF04825}</Project>
+      <Name>bbv.Common.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.StateMachine.Silverlight\bbv.Common.StateMachine.Silverlight.csproj">
+      <Project>{CD9E750C-19BD-49BA-B721-BEA573EABF03}</Project>
+      <Name>bbv.Common.StateMachine.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <Import Condition="$(SilverlightVersion)=='v3.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v3.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <Import Condition="$(SilverlightVersion)=='v4.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v4.0)Microsoft.Silverlight.Toolkit.Build.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties ProjectLinkReference="cac5f32d-8b7c-42df-84ee-a4396803c290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

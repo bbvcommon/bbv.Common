@@ -136,6 +136,7 @@
       <formatter type="Plain" />
       <test>
         <assemblies basedir="${sources}">
+          <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
           <include name="**/bin/${build_config}/*Test.dll" />
         </assemblies>
       </test>
@@ -145,6 +146,7 @@
         <foreach item="File" property="filename">
             <in>
                 <items basedir="${base_dir}">
+                    <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
                     <include name="**/bin/${build_config}/*Test.dll" />
                 </items>
             </in>

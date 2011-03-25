@@ -19,3 +19,4 @@ using System.Reflection;
 
 [assembly: AssemblyTitle("bbv.Common.Silverlight")]
 [assembly: AssemblyDescription("")]
+[assembly: AssemblyInformationalVersion("alpha")]
