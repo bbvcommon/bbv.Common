@@ -112,7 +112,7 @@ namespace bbv.Common.StateMachine.Reports
         {
             report.AppendFormat(
                 CultureInfo.InvariantCulture,
-                "{0}{1} -> {2} actions: {3} guard:{4}{5}",
+                "{0}{1} -> {2} actions: {3} guard: {4}{5}",
                 indentation,
                 transition.EventId,
                 transition.Target != null ? transition.Target.ToString() : "internal",

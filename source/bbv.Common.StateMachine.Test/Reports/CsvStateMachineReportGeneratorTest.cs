@@ -151,8 +151,8 @@ namespace bbv.Common.StateMachine.Reports
                 transitionsReport = reader.ReadToEnd();
             }
 
-            const string ExpectedStatesReport = "Source;Entry;Exit;ChildrenOnFloor;AnnounceFloor;Beep,Beep;DoorClosed, DoorOpenMoving;;;MovingUp, MovingDownHealthy;;;OnFloor, MovingMovingUp;;;MovingDown;;;DoorClosed;;;DoorOpen;;;Error;;;";
-            const string ExpectedTransitionsReport = "Source;Event;Guard;ActionsOnFloor;CloseDoor;;DoorClosed;OnFloor;OpenDoor;;DoorOpen;OnFloor;GoUp;CheckOverload;MovingUp;OnFloor;GoUp;;internal transition;AnnounceOverload,BeepOnFloor;GoDown;CheckOverload;MovingDown;OnFloor;GoDown;;internal transition;AnnounceOverloadMoving;Stop;;OnFloor;Healthy;ErrorOccured;;Error;Error;Reset;;Healthy;Error;ErrorOccured;;internal transition;";
+            const string ExpectedStatesReport = "Source;Entry;Exit;ChildrenOnFloor;AnnounceFloor;Beep, Beep;DoorClosed, DoorOpenMoving;;;MovingUp, MovingDownHealthy;;;OnFloor, MovingMovingUp;;;MovingDown;;;DoorClosed;;;DoorOpen;;;Error;;;";
+            const string ExpectedTransitionsReport = "Source;Event;Guard;Target;ActionsOnFloor;CloseDoor;;DoorClosed;OnFloor;OpenDoor;;DoorOpen;OnFloor;GoUp;CheckOverload;MovingUp;OnFloor;GoUp;;internal transition;AnnounceOverload, BeepOnFloor;GoDown;CheckOverload;MovingDown;OnFloor;GoDown;;internal transition;AnnounceOverloadMoving;Stop;;OnFloor;Healthy;ErrorOccured;;Error;Error;Reset;;Healthy;Error;ErrorOccured;;internal transition;";
 
             statesReport.Replace("\n", string.Empty).Replace("\r", string.Empty)
                 .Should().Be(ExpectedStatesReport.Replace("\n", string.Empty).Replace("\r", string.Empty));

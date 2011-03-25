@@ -70,15 +70,15 @@ namespace bbv.Common.StateMachine.Reports
     B: initial state = B1 history type = None
         entry action: 
         exit action: 
-        A -> A actions: Action guard:
+        A -> A actions: Action guard: 
         B1: initial state = None history type = None
             entry action: 
             exit action: 
-            B2 -> B1 actions:  guard:
+            B2 -> B1 actions:  guard: 
         B2: initial state = None history type = None
             entry action: 
             exit action: 
-            B1 -> B2 actions:  guard:
+            B1 -> B2 actions:  guard: 
     C: initial state = C1 history type = Shallow
         entry action: 
         exit action: 
@@ -112,10 +112,10 @@ namespace bbv.Common.StateMachine.Reports
     A: initial state = None history type = None
         entry action: EnterA
         exit action: ExitA
-        A -> internal actions:  guard:
-        B -> B actions:  guard:
-        C -> C1 actions:  guard:anonymous
-        C -> C2 actions:  guard:anonymous
+        A -> internal actions:  guard: 
+        B -> B actions:  guard: 
+        C -> C1 actions:  guard: anonymous
+        C -> C2 actions:  guard: anonymous
 ";
             report.Replace("\n", string.Empty).Replace("\r", string.Empty)
                 .Should().Be(ExpectedReport.Replace("\n", string.Empty).Replace("\r", string.Empty));

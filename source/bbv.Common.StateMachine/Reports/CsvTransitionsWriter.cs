@@ -64,7 +64,7 @@ namespace bbv.Common.StateMachine.Reports
 
         private void WriteTransitionsHeader()
         {
-            this.writer.WriteLine("Source;Event;Guard;Actions");
+            this.writer.WriteLine("Source;Event;Guard;Target;Actions");
         }
 
         private void ReportTransitionsOfState(IState<TState, TEvent> state)
@@ -82,7 +82,7 @@ namespace bbv.Common.StateMachine.Reports
             string eventId = transition.EventId.ToString();
 
             string guard = transition.Guard != null ? transition.Guard.Describe() : string.Empty;
-            string actions = FormatHelper.ConvertToString(transition.Actions.Select(action => action.Describe()), ",");
+            string actions = FormatHelper.ConvertToString(transition.Actions.Select(action => action.Describe()), ", ");
 
             this.writer.WriteLine(
                 "{0};{1};{2};{3};{4}",
