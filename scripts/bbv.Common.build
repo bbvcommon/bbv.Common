@@ -169,24 +169,6 @@
         </foreach>
   </target>
 
-  <!--<target name="copy_bin" description="Copies the builded output to the top bin directory" if="${build_succeeded}">
-    <delete>
-      <fileset basedir="${binaries}\${build_config}">
-        <include name="*.dll" />
-        <include name="*.xml" />
-        <include name="*.pdb" />
-      </fileset>
-    </delete>
-    <echo message="copying files to ${binaries}\${build_config}\" />
-    <copy overwrite="false" todir="${binaries}\${build_config}\" flatten="true">
-      <fileset basedir="${sources}">
-        <include name="**/bin/${build_config}/*.dll" />
-        <include name="**/bin/${build_config}/bbv.Common*.xml" />
-        <include name="**/bin/${build_config}/bbv.Common*.pdb" />
-      </fileset>
-    </copy>
-  </target>-->
-
   <target name="copy_bin" description="Copies the builded output to the top bin directory">
     <!--if="${build_succeeded}">-->
     <echo message="copying files to ${binaries}\${build_config}\" />
@@ -225,7 +207,7 @@
     </zip>
   </target>
   
-  <target name="nuget" depends="set_version, build_release, copy_bin" description="Copies the nuget output to the top bin directory" >
+  <target name="nuget" description="Copies the nuget output to the top bin directory" >
    
     <property name="nuget.basedir" value="${publish}\NuGet" />
     <mkdir dir="${nuget.basedir}" />
