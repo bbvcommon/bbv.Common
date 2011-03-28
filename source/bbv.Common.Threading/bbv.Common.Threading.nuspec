@@ -5,6 +5,8 @@
     <version>%bbv.Common.ThreadingFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>User Interface Thread Synchronizer (no Invoke calls needed anymore)</summary>
     <description>Provides
     * User Interface Thread Synchronizer (no Invoke calls needed anymore).
 

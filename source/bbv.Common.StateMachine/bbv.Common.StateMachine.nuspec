@@ -5,9 +5,11 @@
     <version>%bbv.Common.StateMachineFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Hierarchical state machine with fluent definition syntax</summary>
     <description>Hierarchical state machine with fluent definition syntax
 Features:
-      * value type based (enums, ints, ...) resulting in single class state machines.
+      * states and events can be defined with enums, strings or ints - resulting in single class state machines.
       * actions
         o on transitions
         o entry and exit actions
@@ -18,7 +20,7 @@ Features:
       * synchronous/asynchronous state machine
         o passive state machine handles state transitions synchronously
         o active state machine handles state transitions asynchronously on the worker thread of the state machine
-      * configurable thorough logging simplifies debugging using log4net
+      * extensible thorough logging
       * state machine report for description of state machine
 
 bbv.Common.StateMachine is a part of bbv.Common, a library of .NET components and functionality including:

@@ -5,6 +5,8 @@
     <version>%bbv.Common.StateMachine.YEdFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>yEd graphml file generator for bbv.Common.StateMachine.</summary>
     <description>yEd graphml file generator for bbv.Common.StateMachine. You can create files from your state machine definition that can be loaded with yEd.
 
 bbv.Common.StateMachine.YEd is a part of bbv.Common, a library of .NET components and functionality including:

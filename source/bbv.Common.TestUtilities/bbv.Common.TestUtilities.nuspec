@@ -5,6 +5,8 @@
     <version>%bbv.Common.TestUtilitiesFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides functionality to simplify unit testing and TDD</summary>
     <description>Provides functionality to simplify unit testing and TDD:
     * Temporary File Holder (automatically delete files on disposing)
     * Event Tester (check that objects fired events)

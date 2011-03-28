@@ -5,6 +5,8 @@
     <version>%bbv.Common.StateMachine.Log4NetFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>log4net logging extension for bbv.Common.StateMachine.</summary>
     <description>log4net logging extension for bbv.Common.StateMachine.
 
 bbv.Common.StateMachine is a part of bbv.Common, a library of .NET components and functionality including:

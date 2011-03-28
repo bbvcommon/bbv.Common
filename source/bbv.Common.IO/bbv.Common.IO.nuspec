@@ -5,6 +5,8 @@
     <version>%bbv.Common.IOFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides functionality for simplified IO operations</summary>
     <description>Provides functionality for simplified IO operations:
     * abstraction layer for all file system operations to enable TDD on file system
     * recursive file system commandos (move, copy, ...)

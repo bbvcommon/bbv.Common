@@ -5,6 +5,7 @@
 		<version>%bbv.Common.AsyncModuleFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
     <summary>AsyncModules provide a simple way to built active objects (objects with a dedicated background thread for asynchronous execution of tasks).</summary>
 		<description>AsyncModules provide a simple way to built active objects (objects with a dedicated background thread for asynchronous execution of tasks).
 

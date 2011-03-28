@@ -5,6 +5,8 @@
 		<version>%bbv.Common.WindowsFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides helper functionality for interaction with Windows</summary>
 		<description>Provides helper functionality for interaction with Windows: 
     * check whether application is already running (ApplicationHelper)
     * get DPI of windows desktop (GraphicHelper)
