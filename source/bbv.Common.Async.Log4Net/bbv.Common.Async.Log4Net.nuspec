@@ -17,6 +17,7 @@
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <dependencies>
       <dependency id="log4net" version="1.2.10" />
+      <dependency id="bbv.Common.Async" version="%bbv.Common.Async%"/>
     </dependencies>
 	</metadata>
 </package>
