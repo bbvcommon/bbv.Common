@@ -5,8 +5,7 @@
 		<version>%bbv.Common.AsyncModuleFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
-    <summary>AsyncModules provide a simple way to built active objects (objects with a dedicated background thread for asynchronous execution of tasks).</summary>
-		<description>AsyncModules provide a simple way to built active objects (objects with a dedicated background thread for asynchronous execution of tasks).
+		<description>log4net log extension for AsyncModules.
 
       bbv.Common.AsyncModule is a part of bbv.Common, a library of .NET components and functionality including:
       * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
@@ -16,5 +15,8 @@
 		<language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="log4net" version="1.2.10" />
+    </dependencies>
 	</metadata>
 </package>
