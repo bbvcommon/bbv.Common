@@ -19,6 +19,7 @@ bbv.Common.IO is a part of bbv.Common, a library of .NET components and function
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
+    <tags>TDD stream resources</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
