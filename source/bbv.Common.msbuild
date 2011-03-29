@@ -48,7 +48,7 @@
     <RootNamespace Condition="'$(RootNamespace)' == ''">$(BbvCommonProjectName)</RootNamespace>
 
     <!-- Output Path is set ResultsPath\Configuration\ (\debug\). -->
-    <OutputPath>$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
+    <OutputPath Condition="'$(OutputPath)' == ''">$(BbvCommonResultsPath)$(Configuration)\</OutputPath>
  
     <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
@@ -196,6 +196,7 @@
   <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
   
   <Target Name="BeforeBuild">
+    <Message Text="Checking NuGet packages" />
     <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages" ContinueOnError="true"/>
   </Target>
   <!--<Target Name="AfterBuild"></Target>-->

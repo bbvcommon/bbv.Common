@@ -4,7 +4,7 @@
 		<id>bbv.Common.EventBroker.Log4Net</id>
 		<version>%bbv.Common.EventBroker.Log4NetFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-		<authors>bbv Software Services AG</authors>
+		<authors>bbv Software Services AG and Contributers</authors>
 		<description>Log4Net logging extension for bbv.Common.EventBroker
 
       bbv.Common.EventBroker.Log4Net is a part of bbv.Common, a library of .NET components and functionality including:

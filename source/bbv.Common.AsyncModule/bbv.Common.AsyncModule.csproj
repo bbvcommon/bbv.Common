@@ -3,15 +3,18 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.AsyncModule</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.AsyncModule\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.AsyncModule\lib\.Net 4.0\bbv.Common.AsyncModule.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -20,28 +23,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\AfterConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\BeforeConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\ConsumeMessageEventArgs.cs" />
-    <Compile Include="Events\ConsumeMessageExceptionEventArgs.cs" />
-    <Compile Include="Events\EnqueueMessageEventArgs.cs" />
-    <Compile Include="Events\UnhandledModuleExceptionEventArgs.cs" />
-    <Compile Include="Extensions\ConsumePendingMessagesBeforeStopExtension.cs" />
-    <Compile Include="Extensions\IModuleExtension.cs" />
-    <Compile Include="Extensions\ModuleExtensionCollection.cs" />
-    <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs" />
+    <Compile Include="EmptyAsyncModuleLogExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\AfterConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\BeforeConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\ConsumeMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\ConsumeMessageExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\EnqueueMessageEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Events\UnhandledModuleExceptionEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ConsumePendingMessagesBeforeStopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\IModuleExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ModuleExtensionCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\SkipIfDuplicateInQueueModuleExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IModuleController.cs" />
-    <Compile Include="MessageConsumerAttribute.cs" />
-    <Compile Include="ModuleController.cs" />
+    <Compile Include="IAsyncModuleLogExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IModuleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageConsumerAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModuleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bbv.Common.AsyncModule.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
   </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>

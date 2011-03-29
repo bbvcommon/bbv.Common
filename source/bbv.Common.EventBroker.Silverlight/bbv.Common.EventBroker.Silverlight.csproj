@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{35EAC4BA-D2EF-419B-A893-39F94C916618}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>bbv.Common.EventBroker</RootNamespace>
+    <AssemblyName>bbv.Common.EventBroker.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\bbv.Common.EventBroker\lib\Silverlight 4.0\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\bbv.Common.EventBroker\lib\Silverlight 4.0\bbv.Common.EventBroker.Silverlight.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\bbv.Common.EventBroker\EventBroker.cs">
+      <Link>EventBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\EventPublicationAttribute.cs">
+      <Link>EventPublicationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\EventSubscriptionAttribute.cs">
+      <Link>EventSubscriptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\InvalidPublicationSignatureException.cs">
+      <Link>Exceptions\InvalidPublicationSignatureException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\InvalidSubscriptionSignatureException.cs">
+      <Link>Exceptions\InvalidSubscriptionSignatureException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\NotUserInterfaceThreadException.cs">
+      <Link>Exceptions\NotUserInterfaceThreadException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\PublisherEventNotFound.cs">
+      <Link>Exceptions\PublisherEventNotFound.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\RepeatedPublicationException.cs">
+      <Link>Exceptions\RepeatedPublicationException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\RepeatedSubscriptionException.cs">
+      <Link>Exceptions\RepeatedSubscriptionException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\StaticPublisherEventException.cs">
+      <Link>Exceptions\StaticPublisherEventException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\StaticSubscriberHandlerException.cs">
+      <Link>Exceptions\StaticSubscriberHandlerException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Exceptions\SubscriberHandlerNotFoundException.cs">
+      <Link>Exceptions\SubscriberHandlerNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Extensions\EventBrokerExtensionBase.cs">
+      <Link>Extensions\EventBrokerExtensionBase.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\HandlerKind.cs">
+      <Link>HandlerKind.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\HandlerRestriction.cs">
+      <Link>HandlerRestriction.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\Background.cs">
+      <Link>Handlers\Background.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\Publisher.cs">
+      <Link>Handlers\Publisher.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\UserInterface.cs">
+      <Link>Handlers\UserInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\UserInterfaceAsync.cs">
+      <Link>Handlers\UserInterfaceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\UserInterfaceSyncContextHolder.cs">
+      <Link>Handlers\UserInterfaceSyncContextHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IEventBroker.cs">
+      <Link>IEventBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IEventBrokerExtension.cs">
+      <Link>IEventBrokerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IEventBrokerRegisterable.cs">
+      <Link>IEventBrokerRegisterable.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IEventRegisterer.cs">
+      <Link>IEventRegisterer.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IFactory.cs">
+      <Link>IFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\IHandler.cs">
+      <Link>IHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\INamedItem.cs">
+      <Link>INamedItem.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\CodePublication.cs">
+      <Link>Internals\CodePublication.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\EventInspector.cs">
+      <Link>Internals\EventInspector.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\EventTopic.cs">
+      <Link>Internals\EventTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\EventTopicFireDelegate.cs">
+      <Link>Internals\EventTopicFireDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\EventTopicHost.cs">
+      <Link>Internals\EventTopicHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\GlobalMatchersHost.cs">
+      <Link>Internals\GlobalMatchersHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IEventInspector.cs">
+      <Link>Internals\IEventInspector.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IEventTopic.cs">
+      <Link>Internals\IEventTopic.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IEventTopicHost.cs">
+      <Link>Internals\IEventTopicHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IEventTopicInfo.cs">
+      <Link>Internals\IEventTopicInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IExtensionHost.cs">
+      <Link>Internals\IExtensionHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IGlobalMatchersHost.cs">
+      <Link>Internals\IGlobalMatchersHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IGlobalMatchersProvider.cs">
+      <Link>Internals\IGlobalMatchersProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\IPublication.cs">
+      <Link>Internals\IPublication.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\ISubscription.cs">
+      <Link>Internals\ISubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\PropertyPublication.cs">
+      <Link>Internals\PropertyPublication.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\Publication.cs">
+      <Link>Internals\Publication.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\SpontaneousPublication.cs">
+      <Link>Internals\SpontaneousPublication.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Internals\Subscription.cs">
+      <Link>Internals\Subscription.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\IMatcher.cs">
+      <Link>Matchers\IMatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\IPublicationMatcher.cs">
+      <Link>Matchers\IPublicationMatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\ISubscriptionMatcher.cs">
+      <Link>Matchers\ISubscriptionMatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\NotAlreadyCanceled.cs">
+      <Link>Matchers\NotAlreadyCanceled.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\PublishGlobal.cs">
+      <Link>Matchers\PublishGlobal.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\PublishToChildren.cs">
+      <Link>Matchers\PublishToChildren.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\PublishToParents.cs">
+      <Link>Matchers\PublishToParents.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\SubscribeGlobal.cs">
+      <Link>Matchers\SubscribeGlobal.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\SubscribeToChildren.cs">
+      <Link>Matchers\SubscribeToChildren.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Matchers\SubscribeToParents.cs">
+      <Link>Matchers\SubscribeToParents.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\StandardFactory.cs">
+      <Link>StandardFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\UnitTestFactory.cs">
+      <Link>UnitTestFactory.cs</Link>
+    </Compile>
+    <Compile Include="Exceptions\EventBrokerException.cs" />
+    <Compile Include="Exceptions\EventTopicException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties ProjectLinkReference="81de807d-d637-4b10-8ae1-13ea5ac1a80d" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.AsyncModule.Log4Net</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{1606A788-6035-468D-B50F-A63AFAAFF448}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.AsyncModule.Log4Net\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.AsyncModule.Log4Net\lib\.Net 4.0\bbv.Common.AsyncModule.Log4Net.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Log4NetAsyncModuleLogExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.AsyncModule\bbv.Common.AsyncModule.csproj">
+      <Project>{1344A2AC-AAC2-4D09-BA91-D98C2835A742}</Project>
+      <Name>bbv.Common.AsyncModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.AsyncModule.Log4Net.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
+</Project>

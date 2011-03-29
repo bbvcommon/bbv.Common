@@ -1,147 +1,152 @@
 <?xml version="1.0"?>
 <project name="bbv.Common" default="build" xmlns="http://nant.sf.net/release/0.85/nant.xsd">
-	<description>
+  <description>
     Contains targets to
     - build a debug or release version
     - execute unit tests
 
     The default is to build a debug version. If you want a release version, the cmdline should look
     something like this: 'nant build_release'
-	</description>
+  </description>
 
     <property name="project.name" value="bbv.Common"/>
   
     <property name="nant.settings.currentframework" value="net-4.0" />
   
     <property name="base_dir" value="${project::get-base-directory()}\.." readonly="true" />
-	  <property name="binaries" value="${base_dir}\binaries" readonly="true" />
-	  <property name="sources" value="${base_dir}\source" readonly="true" />
-	  <property name="publish" value="${base_dir}\publish" readonly="true" />
+    <property name="binaries" value="${base_dir}\binaries" readonly="true" />
+    <property name="sources" value="${base_dir}\source" readonly="true" />
+    <property name="publish" value="${base_dir}\publish" readonly="true" />
     <property name="tools_dir" value="${base_dir}\tools" />
     <property name="xUnitConsole" value="${tools_dir}\xUnit\xunit.console.clr4.x86.exe" />
     <property name="mspec" value="${tools_dir}\mspec\mspec-clr4.exe" />
     <property name="git" value="${tools_dir}\git\git.exe" />
     <property name="nuget.console" value="${tools_dir}\NuGet\nuget.exe" />
   
-  	<property name="version" value="0" />
+    <property name="version" value="0" />
 
     <property name="build_config" value="Release" />
     <property name="build_succeeded" value="false" />
-	<property name="parallelBuild" value="true" overwrite="false" readonly="false" />
-	
-	<sysinfo failonerror="false" />
+  <property name="parallelBuild" value="true" overwrite="false" readonly="false" />
+  
+  <sysinfo failonerror="false" />
 
-	<!--
+  <!--
   =========================================================
   Main targets
   ========================================================= 
     -->
-	<target name="integrate" depends="clean, build_release, copy_bin, unittest" 
-	        description="Build and exectute unit tests for developers before commit their changes.">
-	</target>
-	
-	<target name="publish" depends="clean" 
-	        description="Builds a publish version with version number.">
+  <target name="integrate" depends="clean, build_release, unittest" 
+          description="Build and exectute unit tests for developers before commit their changes.">
+  </target>
+  
+  <target name="publish" depends="clean" 
+          description="Builds a publish version with version number.">
     
     <mkdir dir="${publish}" />
    
     <call target="set_version" />  
     <call target="build_release" />
-		<call target="copy_bin" />
+    <call target="copy_bin" />
     <call target="unittest" />
-		<call target="build" />
-		<call target="copy_bin" />
-		<call target="revert_version" />
-		<call target="package" />
-		<call target="nuget" />
+    <call target="revert_version" />
+    <call target="package" />
+    <call target="nuget" />
 
-		<echo message="built version ${version}.0.${timestamp}." />
-	</target>
-	
-	<!--
+    <echo message="built version ${version}.0.${timestamp}." />
+  </target>
+  
+  <!--
   =========================================================
   Build targets
   ========================================================= 
     -->
-	<target name="build" description="Builds a debug version">
-		<property name="build_config" value="Debug" />
-		<call target="build_bbvCommon" />
-	</target>
+  <target name="build" description="Builds a debug version">
+    <property name="build_config" value="Debug" />
+    <call target="build_bbvCommon" />
+  </target>
 
-	<target name="build_release" description="Builds a release version">
-		<call target="build_bbvCommon" />
-	</target>	
-	
-	<!--
+  <target name="build_release" description="Builds a release version">
+    <call target="build_bbvCommon" />
+  </target>	
+  
+  <!--
   =========================================================
   internal targets
   ========================================================= 
    -->
 
-	<target name="clean" description="Cleans all files">
-		<echo message="Starting cleaning of solutions" />
-		<delete failonerror="false">
-			<fileset basedir="${publish}">
-				<include name="**/*" />
-			</fileset>
-		</delete>	
-		<foreach item="Folder" property="foldername">
-			<in>
-				<items basedir="${sources}">					
-					<include name="**/bin" />
-				</items>
-			</in>
-			<do>
-				<delete dir="${foldername}" failonerror="false" />
-			</do>
-		</foreach>
-		<echo message="Completion cleaning of solutions" />
-	</target>	
-	
-	<target name="build_bbvCommon" description="Builds all projects of the bbv.Common solution">	
-		<echo message="Starting compilation of solutions" />
-		<tstamp />
-		<property name="maxcpucount" value="" />
-		<if test="${environment::variable-exists('MAX_CPU_COUNT')}">
-			<property name="maxcpucount" value="/maxcpucount:${environment::get-variable('MAX_CPU_COUNT')}" />
-		</if>
-		<echo message="Max CPU count is ${maxcpucount}." />
-		<property name="msBuild.exe" value="${framework::get-framework-directory('net-4.0')}/msbuild.exe" />
-		<property name="standardargs" value="/p:Configuration=${build_config} /p:Platform=&quot;Any CPU&quot; /verbosity:minimal /fileLogger /fileLoggerParameters:LogFile=${base_dir}/msbuild.log" />
-		<choose>
-			<when test="${parallelBuild}">
-				<exec program="${msBuild.exe}" failonerror="true">
-					<arg value="${sources}/${project.name}.sln"/>
-					<arg line="${standardargs} /m ${maxcpucount}"/>
-				</exec>		
-			</when>
-			<otherwise>
-				<exec program="${msBuild.exe}" failonerror="true">
-					<arg value="${sources}/${project.name}.sln"/>
-					<arg line="${standardargs}"/>
-				</exec>	
-			</otherwise>
-		</choose>
-		<echo message="Time: ${tstamp.time}" />
-		<property name="build_succeeded" value="true" />
-		<echo message="Completed compilation of solutions" />
-	</target>
+  <target name="clean" description="Cleans all files">
+    <echo message="Starting cleaning of solutions" />
+    <delete failonerror="false">
+      <fileset basedir="${publish}">
+        <include name="**/*" />
+      </fileset>
+    </delete>
+    <delete failonerror="false">
+      <fileset basedir="${binaries}">
+        <include name="**/*" />
+      </fileset>
+    </delete>
+    <foreach item="Folder" property="foldername">
+      <in>
+        <items basedir="${sources}">					
+          <include name="**/bin" />
+        </items>
+      </in>
+      <do>
+        <delete dir="${foldername}" failonerror="false" />
+      </do>
+    </foreach>
+    <echo message="Completion cleaning of solutions" />
+  </target>	
+  
+  <target name="build_bbvCommon" description="Builds all projects of the bbv.Common solution">	
+    <echo message="Starting compilation of solutions" />
+    <tstamp />
+    <property name="maxcpucount" value="" />
+    <if test="${environment::variable-exists('MAX_CPU_COUNT')}">
+      <property name="maxcpucount" value="/maxcpucount:${environment::get-variable('MAX_CPU_COUNT')}" />
+    </if>
+    <echo message="Max CPU count is ${maxcpucount}." />
+    <property name="msBuild.exe" value="${framework::get-framework-directory('net-4.0')}/msbuild.exe" />
+    <property name="standardargs" value="/p:Configuration=${build_config} /p:Platform=&quot;Any CPU&quot; /verbosity:minimal /fileLogger /fileLoggerParameters:LogFile=${base_dir}/msbuild.log" />
+    <choose>
+      <when test="${parallelBuild}">
+        <exec program="${msBuild.exe}" failonerror="true">
+          <arg value="${sources}/${project.name}.sln"/>
+          <arg line="${standardargs} /m ${maxcpucount}"/>
+        </exec>		
+      </when>
+      <otherwise>
+        <exec program="${msBuild.exe}" failonerror="true">
+          <arg value="${sources}/${project.name}.sln"/>
+          <arg line="${standardargs}"/>
+        </exec>	
+      </otherwise>
+    </choose>
+    <echo message="Time: ${tstamp.time}" />
+    <property name="build_succeeded" value="true" />
+    <echo message="Completed compilation of solutions" />
+  </target>
 
-	<target name="unittest" description="Execute unit tests.">
+  <target name="unittest" description="Execute unit tests.">
         <echo message="---- run NUnit tests" />
         <nunit2>
-			<formatter type="Plain" />
-			<test>
-				<assemblies basedir="${sources}">
-					<include name="**/bin/${build_config}/*Test.dll" />
-				</assemblies>
-			</test>
-		</nunit2>
+      <formatter type="Plain" />
+      <test>
+        <assemblies basedir="${sources}">
+          <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
+          <include name="**/bin/${build_config}/*Test.dll" />
+        </assemblies>
+      </test>
+    </nunit2>
 
         <echo message="---- run xUnit tests" />
         <foreach item="File" property="filename">
             <in>
                 <items basedir="${base_dir}">
+                    <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
                     <include name="**/bin/${build_config}/*Test.dll" />
                 </items>
             </in>
@@ -151,6 +156,7 @@
         </foreach>
 
         <echo message="---- run MSpec" />
+        <mkdir dir="${binaries}" />
         <foreach item="File" property="filename">
             <in>
                 <items basedir="${base_dir}">
@@ -161,46 +167,12 @@
                 <exec program="${mspec}" commandline="--html ${binaries}\${path::get-file-name(filename)}.html --teamcity ${filename}" />
             </do>
         </foreach>
-	</target>
+  </target>
 
-	<target name="copy_bin" description="Copies the builded output to the top bin directory" if="${build_succeeded}">
-		<delete>
-			<fileset basedir="${binaries}\${build_config}">
-				<include name="*.dll" />
-				<include name="*.xml" />
-				<include name="*.pdb" />
-			</fileset>
-		</delete>
+  <target name="copy_bin" description="Copies the builded output to the top bin directory">
+    <!--if="${build_succeeded}">-->
     <echo message="copying files to ${binaries}\${build_config}\" />
-		<copy overwrite="false" todir="${binaries}\${build_config}\" flatten="true">
-			<fileset basedir="${sources}">
-				<include name="**/bin/${build_config}/*.dll" />
-				<include name="**/bin/${build_config}/bbv.Common*.xml" />
-				<include name="**/bin/${build_config}/bbv.Common*.pdb" />
-			</fileset>
-		</copy>
-	</target>
 
-	<target name="package">
-		<zip zipfile="${publish}\${project.name}-Binaries-${version}.0.${timestamp}.zip">
-			<fileset basedir="${binaries}">
-				<include name="**/*" />
-			</fileset>
-		</zip>
-	</target>
-	
-	<target name="nuget" description="Copies the nuget output to the top bin directory" >
-   
-		<property name="nuget.basedir" value="${publish}\NuGet" />
-		<mkdir dir="${nuget.basedir}" />
-		<delete>
-			<fileset basedir="${nuget.basedir}\lib\NET4">
-				<include name="*.dll" />
-				<include name="*.xml" />
-				<include name="*.pdb" />
-			</fileset>
-		</delete>
-    
     <foreach item="Folder" property="folder">
       <in>
         <items>
@@ -208,58 +180,76 @@
           <exclude name="${sources}\bbv.Common.*.Test" />
           <exclude name="${sources}\bbv.Common.*.Specification" />
           <exclude name="${sources}\bbv.Common.*.Sample" />
+          <exclude name="${sources}\bbv.Common.*.Performance" />
           <exclude name="${sources}\.*" />
           <include name="${sources}\bbv.Common*" />
         </items>
       </in>
       <do>
         <property name="project" value="${path::get-file-name(folder)}" />
-        <property name="nugetFolder" value="${nuget.basedir}\${project}${version}.0.${timestamp}" />
-        <echo message="${project}" />
 
-        <property name="nuspecfile" value="${folder}\${project}.nuspec" />
-        <echo message="${nuspecfile}" />
-        <if test="${file::exists(nuspecfile)}">
-          
-          <copy overwrite="false" todir="${nugetFolder}\lib\NET4" flatten="true">
-            <fileset basedir="${folder}\bin\Release">
-              <include name="${project}.dll" />
-              <include name="${project}.xml" />
-              <include name="${project}.pdb" />
-            </fileset>
-          </copy>
-
-          <loadfile file="${nuspecfile}" property="nuspec" />
-          <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
-            <do>
-              <property name="nuspec" value="${string::replace(nuspec, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
-              <property name="nuspec" value="${string::replace(nuspec, '%' + projectname + 'FileVersion%', fileversion)}" />
-            </do>
-          </foreach>
-          <echo message="${nuspec}" file="${nugetFolder}\${project}.nuspec" />
-
-          <copy overwrite="false" todir="${nugetFolder}">
-            <fileset basedir="${base_dir}\Scripts\">
-              <include name="License.txt" />
-            </fileset>
-          </copy>
-
-          <echo message="packing ${project} with ${nugetFolder}\${project}.nuspec" />
-          <exec program="${nuget.console}" commandline="pack ${nugetFolder}\${project}.nuspec" />
-
-        </if>
+        <copy overwrite="false" todir="${binaries}\${build_config}\" flatten="false">
+          <fileset basedir="${folder}/bin/${build_config}">
+            <include name="**/${project}.dll" />
+            <include name="**/${project}.xml" />
+            <include name="**/${project}.pdb" />
+          </fileset>
+        </copy>
       </do>
     </foreach>
+  </target>
 
-    <move todir="${publish}\NuGet\">
-      <fileset basedir="${base_dir}\Scripts\">
-        <include name="*.nupkg" />
+  <target name="package">
+    <zip zipfile="${publish}\${project.name}-${version}.0.${timestamp}.zip">
+      <fileset basedir="${binaries}\${build_config}">
+        <include name="**/*" />
       </fileset>
-    </move>
+    </zip>
+  </target>
+  
+  <target name="nuget" description="Copies the nuget output to the top bin directory" >
+   
+    <property name="nuget.basedir" value="${publish}\NuGet" />
+    <mkdir dir="${nuget.basedir}" />
     
-	</target>
+    <foreach item="File" property="nuspec">
+      <in>
+        <items>
+          <include name="${sources}/**/*.nuspec" />
+        </items>
+      </in>
+      <do>
+        
+        <property name="nugetFolder" value="${binaries}\${build_config}\${path::get-file-name-without-extension(nuspec)}" />
+        <property name="nugetFile" value="${nugetFolder}\${path::get-file-name(nuspec)}" />
+        
+        <loadfile file="${nuspec}" property="content" />
+        <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
+          <do>
+            <property name="content" value="${string::replace(content, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
+            <property name="content" value="${string::replace(content, '%' + projectname + 'FileVersion%', fileversion)}" />
+          </do>
+        </foreach>
+        <echo message="${content}" file="${nugetFile}" />
 
-	<target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
+        <copy overwrite="false" todir="${nugetFolder}">
+          <fileset basedir="${base_dir}\Scripts\">
+            <include name="License.txt" />
+          </fileset>
+        </copy>
+
+        <exec program="${nuget.console}" commandline="pack ${nugetFile}" />
+        <move todir="${publish}\NuGet\">
+          <fileset basedir="${base_dir}\Scripts\">
+            <include name="*.nupkg" />
+          </fileset>
+        </move>
+        
+      </do>
+    </foreach>
+  </target>
+
+  <target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
 
     <property name="now" value="${datetime::now()}" />
     <property name="year" value="${datetime::get-year(now)}" />
@@ -280,6 +270,7 @@
           <exclude name="${sources}\bbv.Common.*.Test" />
           <exclude name="${sources}\bbv.Common.*.Specification" />
           <exclude name="${sources}\bbv.Common.*.Sample" />
+          <exclude name="${sources}\bbv.Common.*.Performance" />
           <exclude name="${sources}\.*" />
           <include name="${sources}\bbv.Common*" />
         </items>
@@ -303,22 +294,22 @@
               file="${publish}\versions.txt" />
       </do>
     </foreach>
-	</target>
+  </target>
 
-	<target name="revert_version" description="reverts the changes made to VersionAssemblyInfo.">
-		<foreach item="File" property="filename">
-			<in>
-				<items>
-					<include name="${sources}\*.VersionInfo.g.cs" />
-				</items>
-			</in>
-			<do>
+  <target name="revert_version" description="reverts the changes made to VersionAssemblyInfo.">
+    <foreach item="File" property="filename">
+      <in>
+        <items>
+          <include name="${sources}\*.VersionInfo.g.cs" />
+        </items>
+      </in>
+      <do>
         <echo message="reverting ${filename}"/>
         <exec
           program="${git}"
           commandline='checkout "${filename}"'
           failonerror="false"/>
-			</do>
-		</foreach>
-	</target>
+      </do>
+    </foreach>
+  </target>
 </project>

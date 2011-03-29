@@ -35,7 +35,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <summary>
         /// The actions that are executed when this transition is fired.
         /// </summary>
-        private readonly List<Action<object[]>> actions;
+        private readonly List<ITransitionActionHolder> actions;
 
         private readonly IExtensionHost<TState, TEvent> extensionHost;
         private readonly IStateMachineInformation<TState, TEvent> stateMachineInformation;
@@ -50,7 +50,7 @@ namespace bbv.Common.StateMachine.Internals
             this.stateMachineInformation = stateMachineInformation;
             this.extensionHost = extensionHost;
 
-            this.actions = new List<Action<object[]>>();
+            this.actions = new List<ITransitionActionHolder>();
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace bbv.Common.StateMachine.Internals
         /// Gets or sets the guard of this transition.
         /// </summary>
         /// <value>The guard.</value>
-        public Func<object[], bool> Guard { get; set; }
+        public IGuardHolder Guard { get; set; }
 
         /// <summary>
         /// Gets the actions of this transaction.
         /// </summary>
         /// <value>The actions.</value>
-        public ICollection<Action<object[]>> Actions
+        public ICollection<ITransitionActionHolder> Actions
         {
             get { return this.actions; }
         }
@@ -240,7 +240,7 @@ namespace bbv.Common.StateMachine.Internals
         {
             try
             {
-                return this.Guard == null || this.Guard(eventArguments);
+                return this.Guard == null || this.Guard.Execute(eventArguments);
             }
             catch (Exception exception)
             {
@@ -265,7 +265,7 @@ namespace bbv.Common.StateMachine.Internals
             {
                 try
                 {
-                    action(eventArguments);
+                    action.Execute(eventArguments);
                 }
                 catch (Exception exception)
                 {

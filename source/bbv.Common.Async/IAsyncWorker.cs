@@ -68,5 +68,22 @@ namespace bbv.Common.Async
         /// <param name="percentProgress">The percent progress.</param>
         /// <param name="userState">State of the user.</param>
         void ReportProgress(int percentProgress, object userState);
+
+        /// <summary>
+        /// Adds the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        void AddExtension(IAsyncWorkerExtension extension);
+
+        /// <summary>
+        /// Removes the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        void RemoveExtension(IAsyncWorkerExtension extension);
+
+        /// <summary>
+        /// Clears all extensions.
+        /// </summary>
+        void ClearExtensions();
     }
 }

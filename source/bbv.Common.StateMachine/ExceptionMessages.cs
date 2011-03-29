@@ -23,6 +23,7 @@ namespace bbv.Common.StateMachine
     using System.Globalization;
     using System.Linq;
 
+    using bbv.Common.Formatters;
     using bbv.Common.StateMachine.Internals;
 
     /// <summary>
@@ -49,6 +50,16 @@ namespace bbv.Common.StateMachine
         /// State machine has not yet entered initial state.
         /// </summary>
         public const string StateMachineHasNotYetEnteredInitialState = "Initial state is not yet entered.";
+
+        /// <summary>
+        /// There must not be more than one transition for a single event of a state with no guard.
+        /// </summary>
+        public const string OnlyOneTransitionMayHaveNoGuard = "There must not be more than one transition for a single event of a state with no guard.";
+
+        /// <summary>
+        /// Transition without guard has to be last declared one.
+        /// </summary>
+        public const string TransitionWithoutGuardHasToBeLast = "The transition without guard has to be the last defined transition because state machine checks transitions in order of declaration.";
 
         /// <summary>
         /// State cannot be its own super-state..
@@ -146,6 +157,66 @@ namespace bbv.Common.StateMachine
                     "Transition declined: state = {0} event = {1}",
                     stateId,
                     eventId);
+        }
+
+        /// <summary>
+        /// Cannot pass multiple arguments to single argument action.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <param name="action">The action.</param>
+        /// <returns>error message</returns>
+        public static string CannotPassMultipleArgumentsToSingleArgumentAction(object[] arguments, string action)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Cannot pass multiple or no arguments to a single argument action. Arguments = {0}, Action = {1}",
+                FormatHelper.ConvertToString(arguments, ", "),
+                action);
+        }
+
+        /// <summary>
+        /// Cannot cast argument to action argument.
+        /// </summary>
+        /// <param name="argument">The argument.</param>
+        /// <param name="action">The action.</param>
+        /// <returns>error message</returns>
+        public static string CannotCastArgumentToActionArgument(object argument, string action)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Cannot cast argument to match action method. Argument = {0}, Action = {1}",
+                argument,
+                action);
+        }
+
+        /// <summary>
+        /// Cannot pass multiple arguments to single argument guard.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <param name="guard">The guard.</param>
+        /// <returns>error message</returns>
+        public static string CannotPassMultipleArgumentsToSingleArgumentGuard(object[] arguments, string guard)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Cannot pass multiple or no arguments to a single argument guard. Arguments = {0}, Guard = {1}",
+                FormatHelper.ConvertToString(arguments, ", "),
+                guard);
+        }
+
+        /// <summary>
+        /// Cannot cast argument to guard argument.
+        /// </summary>
+        /// <param name="argument">The argument.</param>
+        /// <param name="guard">The guard.</param>
+        /// <returns>error message</returns>
+        public static string CannotCastArgumentToGuardArgument(object argument, string guard)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Cannot cast argument to match guard method. Argument = {0}, Guard = {1}",
+                argument,
+                guard);
         }
     }
 }

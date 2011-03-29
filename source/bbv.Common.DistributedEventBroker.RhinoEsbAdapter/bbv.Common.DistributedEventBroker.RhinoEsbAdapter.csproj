@@ -8,6 +8,10 @@
     <ProjectGuid>{8D29971E-0C10-4965-8570-4793E6E8B9A8}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.DEB.RhinoEsbAdapter\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.DEB.RhinoEsbAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Rhino.ServiceBus">
       <HintPath>Libs\Rhino.ServiceBus.dll</HintPath>

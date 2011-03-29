@@ -101,8 +101,11 @@ namespace bbv.Common.StateMachine
         /// <param name="exception">The exception.</param>
         private static void RestoreOriginalStackTrace(Exception exception)
         {
+#if SILVERLIGHT
+#else
             FieldInfo remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
             remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
+#endif
         }
     }
 }

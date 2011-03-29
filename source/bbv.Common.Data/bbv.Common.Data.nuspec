@@ -4,7 +4,7 @@
 		<id>bbv.Common.Data</id>
 		<version>%bbv.Common.DataFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-		<authors>bbv Software Services AG</authors>
+		<authors>bbv Software Services AG and Contributers</authors>
 		<description>Provides CSV parser and writer, helper functionality for dataset and datetime operations.
     
 bbv.Common.Data is a part of bbv.Common, a library of .NET components and functionality including:

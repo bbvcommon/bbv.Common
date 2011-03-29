@@ -3,6 +3,8 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.StateMachine.YEd</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{50FC25B9-C6E8-4AC2-8D78-006EB923EAF2}</ProjectGuid>
@@ -10,6 +12,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>bbv.Common.StateMachine</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.StateMachine.YEd\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.StateMachine.YEd\lib\.Net 4.0\bbv.Common.StateMachine.YEd.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -20,7 +26,7 @@
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YEdStateMachineReportGenerator.cs" />
+    <Compile Include="Reports\YEdStateMachineReportGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bbv.Common.StateMachine\bbv.Common.StateMachine.csproj">

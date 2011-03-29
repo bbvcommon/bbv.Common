@@ -27,5 +27,11 @@ namespace bbv.Common.StateMachine.Internals
         /// Executes the wrapped action.
         /// </summary>
         void Execute();
+
+        /// <summary>
+        /// Describes the action.
+        /// </summary>
+        /// <returns>Description of the action.</returns>
+        string Describe();
     }
 }

@@ -8,6 +8,9 @@
     <ProjectGuid>{6153653A-C19A-469C-A874-EB9EB0793021}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>bbv.Common.StateMachine</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -26,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YEdStateMachineReportGeneratorTest.cs" />
+    <Compile Include="Reports\YEdStateMachineReportGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

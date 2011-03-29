@@ -3,10 +3,16 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.Windows</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{2BF0976C-F2BB-4DD3-BA04-D7F116516DCD}</ProjectGuid>
     <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.Windows\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Windows\lib\.Net 4.0\bbv.Common.Windows.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

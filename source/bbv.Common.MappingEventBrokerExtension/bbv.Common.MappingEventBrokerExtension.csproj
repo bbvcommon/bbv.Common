@@ -3,10 +3,16 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.MappingEventBrokerExtension</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{C36D03B8-D834-4065-89E0-6097F8F36B36}</ProjectGuid>
     <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\bbv.Common.MappingEventBrokerExtension.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -17,6 +23,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventBrokerExtensionsForMapping.cs" />
     <Compile Include="IDestinationEventArgsTypeProvider.cs" />
     <Compile Include="IManageEventBroker.cs" />

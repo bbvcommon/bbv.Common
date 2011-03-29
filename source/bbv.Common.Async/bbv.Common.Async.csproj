@@ -3,15 +3,18 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.Async</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{35EFE2D0-12E2-4706-92E3-4F3B43B071C9}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.Async\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Async\lib\.Net 4.0\bbv.Common.Async.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -22,11 +25,11 @@
     <Compile Include="GenericAsyncResult.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IAsyncWorker.cs" />
+    <Compile Include="IAsyncWorkerExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bbv.Common.Async.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Version.txt" />

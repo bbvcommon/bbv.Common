@@ -3,6 +3,9 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.EventBroker.Log4Net</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{6C0ED873-5D03-4A81-8ADD-9B84EDF2B063}</ProjectGuid>
@@ -13,6 +16,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <OutputPath>bin\Release\bbv.Common.EventBroker.Log4Net\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\.Net 4.0\bbv.Common.EventBroker.Log4Net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">

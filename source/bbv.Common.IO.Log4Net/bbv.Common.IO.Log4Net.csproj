@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.IO.Log4Net</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{02BB2D10-E792-44C4-8EC8-0D7F9D561E36}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>bbv.Common.IO</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.IO.Log4Net\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.IO.Log4Net\lib\.Net 4.0\bbv.Common.IO.Log4Net.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\Log4NetDirectoryAccessExtension.cs" />
+    <Compile Include="Extensions\Log4NetFileAccessExtension.cs" />
+    <Compile Include="Extensions\Log4NetFolderWatcherExtension.cs" />
+    <Compile Include="Extensions\Log4NetPathAccessExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamLoggerStream.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.IO\bbv.Common.IO.csproj">
+      <Project>{2D7E5546-1004-4BC7-96C4-0788FFD35A65}</Project>
+      <Name>bbv.Common.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bbv.Common.IO.Log4Net.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Version.txt" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
+</Project>

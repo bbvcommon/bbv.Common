@@ -8,6 +8,10 @@
     <ProjectGuid>{6C341C43-7470-40D1-B799-63AC6CBA4F0E}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.DEB.NServiceBusAdapter\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.DEB.NServiceBusAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.NServiceBusAdapter.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NServiceBus">
       <HintPath>Libs\NServiceBus.dll</HintPath>

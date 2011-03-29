@@ -4,7 +4,7 @@
     <id>bbv.Common.StateMachine</id>
     <version>%bbv.Common.StateMachineFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-    <authors>bbv Software Services AG</authors>
+    <authors>bbv Software Services AG and Contributers</authors>
     <description>Hierarchical state machine with fluent definition syntax
 Features:
       * value type based (enums, ints, ...) resulting in single class state machines.

@@ -20,6 +20,7 @@ namespace bbv.Common.StateMachine.Internals
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Provides operations to build a state machine.
@@ -172,9 +173,29 @@ namespace bbv.Common.StateMachine.Internals
             return Execute(actions);
         }
 
+        IEventSyntax<TState, TEvent> IOtherwiseSyntax<TState, TEvent>.Execute(params Action[] actions)
+        {
+            return Execute(actions);
+        }
+
+        IEventSyntax<TState, TEvent> IOtherwiseSyntax<TState, TEvent>.Execute<T>(params Action<T>[] actions)
+        {
+            return Execute<T>(actions);
+        }
+
         IIfOrOtherwiseSyntax<TState, TEvent> IGotoInIfSyntax<TState, TEvent>.Execute(params Action<object[]>[] actions)
         {
             return Execute(actions);
+        }
+
+        IIfOrOtherwiseSyntax<TState, TEvent> IGotoInIfSyntax<TState, TEvent>.Execute(params Action[] actions)
+        {
+            return Execute(actions);
+        }
+
+        IIfOrOtherwiseSyntax<TState, TEvent> IGotoInIfSyntax<TState, TEvent>.Execute<T>(params Action<T>[] actions)
+        {
+            return Execute<T>(actions);
         }
 
         IEventSyntax<TState, TEvent> IGotoSyntax<TState, TEvent>.Execute(params Action<object[]>[] actions)
@@ -182,9 +203,29 @@ namespace bbv.Common.StateMachine.Internals
             return Execute(actions);
         }
 
+        IEventSyntax<TState, TEvent> IGotoSyntax<TState, TEvent>.Execute(params Action[] actions)
+        {
+            return Execute(actions);
+        }
+
+        IEventSyntax<TState, TEvent> IGotoSyntax<TState, TEvent>.Execute<T>(params Action<T>[] actions)
+        {
+            return Execute<T>(actions);
+        }
+
         IIfOrOtherwiseSyntax<TState, TEvent> IIfSyntax<TState, TEvent>.Execute(params Action<object[]>[] actions)
         {
             return Execute(actions);
+        }
+
+        IIfOrOtherwiseSyntax<TState, TEvent> IIfSyntax<TState, TEvent>.Execute(params Action[] actions)
+        {
+            return Execute(actions);
+        }
+
+        IIfOrOtherwiseSyntax<TState, TEvent> IIfSyntax<TState, TEvent>.Execute<T>(params Action<T>[] actions)
+        {
+            return Execute<T>(actions);
         }
 
         /// <summary>
@@ -194,17 +235,17 @@ namespace bbv.Common.StateMachine.Internals
         /// <returns>Guard syntax.</returns>
         IEventSyntax<TState, TEvent> IOnSyntax<TState, TEvent>.Execute(params Action<object[]>[] actions)
         {
-            if (actions == null)
-            {
-                return this;
-            }
+            return this.Execute(actions);
+        }
 
-            foreach (var action in actions)
-            {
-                this.currentTransition.Actions.Add(action);
-            }
+        IEventSyntax<TState, TEvent> IOnSyntax<TState, TEvent>.Execute(params Action[] actions)
+        {
+            return this.Execute(actions);
+        }
 
-            return this;
+        IEventSyntax<TState, TEvent> IOnSyntax<TState, TEvent>.Execute<T>(params Action<T>[] actions)
+        {
+            return this.Execute<T>(actions);
         }
 
         private StateBuilder<TState, TEvent> Execute(IEnumerable<Action<object[]>> actions)
@@ -216,9 +257,45 @@ namespace bbv.Common.StateMachine.Internals
 
             foreach (var action in actions)
             {
-                this.currentTransition.Actions.Add(action);
+                this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
             }
+
+            this.CheckGuards();
             
+            return this;
+        }
+
+        private StateBuilder<TState, TEvent> Execute(IEnumerable<Action> actions)
+        {
+            if (actions == null)
+            {
+                return this;
+            }
+
+            foreach (var action in actions)
+            {
+                this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
+            }
+
+            this.CheckGuards();
+
+            return this;
+        }
+
+        private StateBuilder<TState, TEvent> Execute<T>(IEnumerable<Action<T>> actions)
+        {
+            if (actions == null)
+            {
+                return this;
+            }
+
+            foreach (var action in actions)
+            {
+                this.currentTransition.Actions.Add(this.factory.CreateTransitionActionHolder(action));
+            }
+
+            this.CheckGuards();
+
             return this;
         }
 
@@ -234,7 +311,39 @@ namespace bbv.Common.StateMachine.Internals
             return this;
         }
 
+        IIfSyntax<TState, TEvent> IOnSyntax<TState, TEvent>.If<T>(Func<T, bool> guard)
+        {
+            this.SetGuard<T>(guard);
+
+            return this;
+        }
+
+        IIfSyntax<TState, TEvent> IOnSyntax<TState, TEvent>.If(Func<bool> guard)
+        {
+            this.SetGuard(guard);
+
+            return this;
+        }
+
         IIfSyntax<TState, TEvent> IIfOrOtherwiseSyntax<TState, TEvent>.If(Func<object[], bool> guard)
+        {
+            this.CreateTransition();
+
+            this.SetGuard(guard);
+
+            return this;
+        }
+
+        IIfSyntax<TState, TEvent> IIfOrOtherwiseSyntax<TState, TEvent>.If<T>(Func<T, bool> guard)
+        {
+            this.CreateTransition();
+
+            this.SetGuard<T>(guard);
+
+            return this;
+        }
+
+        IIfSyntax<TState, TEvent> IIfOrOtherwiseSyntax<TState, TEvent>.If(Func<bool> guard)
         {
             this.CreateTransition();
 
@@ -252,12 +361,45 @@ namespace bbv.Common.StateMachine.Internals
 
         private void SetGuard(Func<object[], bool> guard)
         {
-            this.currentTransition.Guard = guard;
+            this.currentTransition.Guard = this.factory.CreateGuardHolder(guard);
+        }
+
+        private void SetGuard<T>(Func<T, bool> guard)
+        {
+            this.currentTransition.Guard = this.factory.CreateGuardHolder(guard);
+        }
+
+        private void SetGuard(Func<bool> guard)
+        {
+            this.currentTransition.Guard = this.factory.CreateGuardHolder(guard);
         }
 
         private void SetTargetState(TState target)
         {
             this.currentTransition.Target = this.stateDictionary[target];
+
+            this.CheckGuards();
+        }
+
+        private void CheckGuards()
+        {
+            var byEvent = this.state.Transitions.GetTransitions().GroupBy(t => t.EventId);
+            var withMoreThenOneTransitionWithoutGuard = byEvent.Where(g => g.Count(t => t.Guard == null) > 1);
+
+            if (withMoreThenOneTransitionWithoutGuard.Any())
+            {
+                throw new InvalidOperationException(ExceptionMessages.OnlyOneTransitionMayHaveNoGuard);
+            }
+
+            foreach (var group in byEvent)
+            {
+                var transition = group.SingleOrDefault(t => t.Guard == null);
+
+                if (transition != null && group.LastOrDefault() != transition)
+                {
+                    throw new InvalidOperationException(ExceptionMessages.TransitionWithoutGuardHasToBeLast);
+                }
+            }
         }
     }
 }

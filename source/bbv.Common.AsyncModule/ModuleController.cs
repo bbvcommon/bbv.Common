@@ -25,7 +25,6 @@ namespace bbv.Common.AsyncModule
     using System.Threading;
     using Events;
     using Extensions;
-    using log4net;
 
     /// <summary>
     /// The module coordinator adds a message queue and a message
@@ -47,7 +46,7 @@ namespace bbv.Common.AsyncModule
         /// Default timeout that defines how long the controller waits for a consuming message
         /// before killing the worker thread.
         /// </summary>
-        private static readonly TimeSpan DefaultTimeOut = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan defaultTimeOut = TimeSpan.FromSeconds(10);
 
         /// <summary>
         /// Default number of threads used to consume messages.
@@ -65,11 +64,6 @@ namespace bbv.Common.AsyncModule
         /// the configured consumer delegate.
         /// </summary>
         private readonly LinkedList<object> messageQueue;
-
-        /// <summary>
-        /// Holds a reference to the logger.
-        /// </summary>
-        private ILog log;
 
         /// <summary>
         /// Whether the worker threads are background threads or not.
@@ -101,6 +95,8 @@ namespace bbv.Common.AsyncModule
         /// Indicates whether we are stopping worker threads.
         /// </summary>
         private bool threadStopping;
+
+        private IAsyncModuleLogExtension logExtension;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleController"/> class.
@@ -215,6 +211,23 @@ namespace bbv.Common.AsyncModule
         }
 
         /// <summary>
+        /// Gets or sets the log extension.
+        /// </summary>
+        /// <value>The log extension.</value>
+        public IAsyncModuleLogExtension LogExtension
+        {
+            get
+            {
+                return this.logExtension ?? new EmptyAsyncModuleLogExtension();
+            }
+
+            set
+            {
+                this.logExtension = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether we are stopping the worker threads.
         /// </summary>
         /// <value><c>true</c> if threads are stopping; otherwise, <c>false</c>.</value>
@@ -250,8 +263,6 @@ namespace bbv.Common.AsyncModule
             {
                 throw new InvalidOperationException("ModuleController is already initialized.");
             }
-
-            this.log = string.IsNullOrEmpty(logger) ? LogManager.GetLogger(this.GetType()) : LogManager.GetLogger(logger);
 
             if (module == null)
             {
@@ -311,7 +322,7 @@ namespace bbv.Common.AsyncModule
             extension.ModuleController = this;
             this.extensions.Add<TExtension>(extension);
 
-            this.log.DebugFormat("Added extension {0} to module {1}.", extension, this.controlledModule);
+            this.LogExtension.AddedExtension(extension, this.controlledModule);
         }
 
         /// <summary>
@@ -377,12 +388,12 @@ namespace bbv.Common.AsyncModule
             // Only starts the module if it has not been started yet.
             if (this.IsAlive)
             {
-                this.log.DebugFormat("Asynchronous controller of module {0} is already started.", this.controlledModule);
+                this.LogExtension.ControllerAlreadyRunning(this.controlledModule);
                 return;
             }
 
-            this.log.DebugFormat("Starting asynchronous controller of module {0}.", this.controlledModule);
-
+            this.LogExtension.Starting(this.controlledModule);
+            
             this.OnBeforeModuleStart();
 
             // start worker threads
@@ -399,7 +410,7 @@ namespace bbv.Common.AsyncModule
 
             this.OnAfterModuleStart();
 
-            this.log.DebugFormat("Started asynchronous controller of module {0} with {1} worker thread(s).", this.controlledModule, this.numberOfThreads);
+            this.LogExtension.Started(this.controlledModule, this.numberOfThreads);
         }
 
         /// <summary>
@@ -409,11 +420,12 @@ namespace bbv.Common.AsyncModule
         /// </summary>
         public void StopAsync()
         {
-            this.log.DebugFormat("Stopping asynchronous controller of module {0}.", this.controlledModule);
-
+            this.LogExtension.StoppingAsync(this.controlledModule);
+            
             if (!this.IsAlive)
             {
-                this.log.DebugFormat("Asynchronous controller of module {0} is already stopped.", this.controlledModule);
+                this.LogExtension.AlreadyStopped(this.controlledModule);
+                
                 return;
             }
 
@@ -438,7 +450,7 @@ namespace bbv.Common.AsyncModule
         /// </exception>
         public void Stop()
         {
-            this.Stop(DefaultTimeOut);
+            this.Stop(defaultTimeOut);
         }
 
         /// <summary>
@@ -454,11 +466,12 @@ namespace bbv.Common.AsyncModule
         /// </exception>
         public void Stop(TimeSpan timeout)
         {
-            this.log.DebugFormat("Stopping asynchronous controller of module {0} immediately with timeout {1}.", this.controlledModule, timeout);
-
+            this.LogExtension.Stopping(this.controlledModule, timeout);
+            
             if (!this.IsAlive)
             {
-                this.log.DebugFormat("Asynchronous controller of module {0} is already stopped.", this.controlledModule);
+                this.LogExtension.AlreadyStopped(this.controlledModule);
+
                 return;
             }
 
@@ -487,7 +500,8 @@ namespace bbv.Common.AsyncModule
             var runningThreads = this.messageConsumerThreads.Where(thread => thread.ThreadState == ThreadState.Running);
             foreach (Thread thread in runningThreads)
             {
-                this.log.InfoFormat("Aborting thread {0} because it did not terminate within the given time-out ({1} milliseconds)", thread.Name, timeout);
+                this.LogExtension.AbortingThread(this.controlledModule, thread.Name, timeout);
+                
                 thread.Abort();
             }
             
@@ -565,7 +579,7 @@ namespace bbv.Common.AsyncModule
                 Monitor.PulseAll(this.lockingObject);
             }
 
-            this.log.DebugFormat("Enqueued message {0}", message);
+            this.LogExtension.EnqueuedMessage(this.controlledModule, message);
         }
 
         /// <summary>
@@ -700,8 +714,8 @@ namespace bbv.Common.AsyncModule
         /// <param name="exception">The exception.</param>
         private void OnUnhandledModuleExceptionOccured(object message, Exception exception)
         {
-            this.log.ErrorFormat("Unhandled exception in module {0}: {1} {2}", this.controlledModule, message, exception);
-
+            this.LogExtension.UnhandledException(this.controlledModule, message, exception);
+            
             if (this.UnhandledModuleExceptionOccured != null)
             {
                 this.UnhandledModuleExceptionOccured(this, new UnhandledModuleExceptionEventArgs(this.controlledModule, message, exception));
@@ -763,7 +777,7 @@ namespace bbv.Common.AsyncModule
             this.messageConsumerThreads.Clear();
             this.OnAfterModuleStop();
 
-            this.log.DebugFormat("Stopped asynchronous controller of module {0}.", this.controlledModule);
+            this.LogExtension.Stopped(this.controlledModule);
         }
 
         /// <summary>
@@ -780,7 +794,8 @@ namespace bbv.Common.AsyncModule
                     object message;
                     lock (this.lockingObject)
                     {
-                        this.log.DebugFormat("{0} messages in queue of module {1}.", this.messageQueue.Count, this.controlledModule);
+                        this.LogExtension.NumberOfMessagesInQueue(this.messageQueue.Count, this.controlledModule);
+                        
                         while (this.messageQueue.Count == 0 && !this.ThreadStopping)
                         {
                             Monitor.Wait(this.lockingObject);
@@ -825,7 +840,7 @@ namespace bbv.Common.AsyncModule
                 }
             }
 
-            this.log.DebugFormat("Worker thread '{0}' exited.", Thread.CurrentThread.Name);
+            this.LogExtension.WorkerThreadExit(Thread.CurrentThread.Name);
         }
 
         /// <summary>
@@ -839,12 +854,13 @@ namespace bbv.Common.AsyncModule
         {
             if (message == null)
             {
-                this.log.DebugFormat("Skipping null message of module {0}.", this.controlledModule);
+                this.LogExtension.SkippingNullMessage(this.controlledModule);
+                
                 return;
             }
 
-            this.log.DebugFormat("Consuming message {0} of module {1}.", message, this.controlledModule);
-
+            this.LogExtension.ConsumingMessage(message, this.controlledModule);
+            
             bool foundHandler = false;
             foreach (MethodInfo methodInfo in this.consumeMessageMethodInfos)
             {
@@ -852,8 +868,8 @@ namespace bbv.Common.AsyncModule
                 {
                     foundHandler = true;
 
-                    this.log.DebugFormat("Relaying message {0} of module {1} to method {2}.", message, this.controlledModule, methodInfo.Name);
-
+                    this.LogExtension.RelayingMessage(message, this.controlledModule, methodInfo.Name);
+                    
                     try
                     {
                         bool donotskip = this.OnBeforeConsumeMessage(message);
@@ -861,11 +877,11 @@ namespace bbv.Common.AsyncModule
                         {
                             methodInfo.Invoke(this.controlledModule, new[] { message });
 
-                            this.log.DebugFormat("Consumed message {0} of module {1}.", message, this.controlledModule);
+                            this.LogExtension.ConsumedMessage(message, this.controlledModule);
                         }
                         else
                         {
-                            this.log.DebugFormat("Skipped message {0} of module {1}", message, this.controlledModule);
+                            this.LogExtension.SkippedMessage(message, this.controlledModule);
                         }
 
                         this.OnAfterConsumeMessage(message, donotskip);
@@ -878,14 +894,14 @@ namespace bbv.Common.AsyncModule
                             throw;
                         }
 
-                        this.log.DebugFormat("Swallowing exception {0} that occurred consuming message {1} of module {2}.", e, message, this.controlledModule);
+                        this.LogExtension.SwallowedException(e, message, this.controlledModule);
                     }
                 }
             }
 
             if (!foundHandler)
             {
-                this.log.DebugFormat("No handler method found for message {0} on module {1}.", message, this.controlledModule);
+                this.LogExtension.NoHandlerFound(message, this.controlledModule);
             }
         }
     }

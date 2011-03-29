@@ -19,6 +19,8 @@
 namespace bbv.Common.StateMachine.Internals
 {
     using System;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Wraps an action with a single parameter.
@@ -53,6 +55,15 @@ namespace bbv.Common.StateMachine.Internals
         public void Execute()
         {
             this.action(this.parameter);
+        }
+
+        /// <summary>
+        /// Describes the action.
+        /// </summary>
+        /// <returns>Description of the action.</returns>
+        public string Describe()
+        {
+            return this.action.Method.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Any() ? "anonymous" : this.action.Method.Name;
         }
     }
 }

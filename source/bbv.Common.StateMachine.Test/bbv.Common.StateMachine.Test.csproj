@@ -40,23 +40,64 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveStateMachineTest.cs" />
-    <Compile Include="ExtensionTest.cs" />
-    <Compile Include="Internals\ExceptionCasesTest.cs" />
-    <Compile Include="Internals\GuardTest.cs" />
-    <Compile Include="Internals\StateTest.cs" />
-    <Compile Include="Internals\SyntaxTest.cs" />
-    <Compile Include="Internals\TransitionDictionaryTest.cs" />
-    <Compile Include="PassiveStateMachineTest.cs" />
+    <Compile Include="ActiveStateMachineTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExtensionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\ExceptionCasesTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\GuardTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\SingleArgumentGuardHolderTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\SingleArgumentTransitionActionHolderTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateActionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateMachineBuildHierarchyTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateMachineTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\StateTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\SyntaxTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionDictionaryTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internals\TransitionsTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PassiveStateMachineTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internals\StateActionTest.cs" />
-    <Compile Include="Internals\StateMachineBuildHierarchyTest.cs" />
-    <Compile Include="Internals\StateMachineTest.cs" />
-    <Compile Include="StateMachineTestBase.cs" />
-    <Compile Include="StatesAndEvents.cs" />
-    <Compile Include="Internals\TransitionsTest.cs" />
-    <Compile Include="Internals\ReportTest.cs" />
-    <Compile Include="UnitTestStateMachineTest.cs" />
+    <Compile Include="Reports\CsvStateMachineReportGeneratorTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reports\StateMachineReportGeneratorTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StateMachineTestBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StatesAndEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTestStateMachineTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bbv.Common.StateMachine\bbv.Common.StateMachine.csproj">

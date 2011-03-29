@@ -4,7 +4,7 @@
     <id>bbv.Common.EvaluationEngine.Log4Net</id>
     <version>%bbv.Common.EvaluationEngine.Log4NetFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-    <authors>bbv Software Services AG</authors>
+    <authors>bbv Software Services AG and Contributers</authors>
     <description>log4net logging extension for bbv.Common.EvaluationEngine.
 
 bbv.Common.EvaluationEngine is a part of bbv.Common, a library of .NET components and functionality including:

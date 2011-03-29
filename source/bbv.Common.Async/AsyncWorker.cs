@@ -18,11 +18,8 @@
 
 namespace bbv.Common.Async
 {
-    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Globalization;
-    using System.Reflection;
-    using log4net;
 
     /// <summary>
     /// The <see cref="AsyncWorker"/> is a small wrapper around the <see cref="BackgroundWorker"/> for easier usage
@@ -34,11 +31,6 @@ namespace bbv.Common.Async
         /// <summary>The completed delegate.</summary>
         private readonly RunWorkerCompletedEventHandler completed;
 
-        /// <summary>
-        /// The name of this worker. Used in log messages.
-        /// </summary>
-        private readonly string name;
-
         /// <summary>The background worker to execute the operation.</summary>
         private readonly BackgroundWorker backgroundWorker;
 
@@ -48,10 +40,7 @@ namespace bbv.Common.Async
         /// <summary>The progress delegate.</summary>
         private readonly ProgressChangedEventHandler progress;
 
-        /// <summary>
-        /// Logger of this class.
-        /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private List<IAsyncWorkerExtension> extensions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
@@ -94,7 +83,7 @@ namespace bbv.Common.Async
             string name,
             DoWorkEventHandler worker,
             RunWorkerCompletedEventHandler completed)
-            : this(null, worker, null, completed)
+            : this(name, worker, null, completed)
         {
         }
 
@@ -125,17 +114,24 @@ namespace bbv.Common.Async
             ProgressChangedEventHandler progress,
             RunWorkerCompletedEventHandler completed)
         {
-            this.name = name;
+            this.Name = name;
 
             this.worker = worker;
             this.progress = progress;
             this.completed = completed;
+
+            this.extensions = new List<IAsyncWorkerExtension>();
 
             this.backgroundWorker = new BackgroundWorker();
             this.backgroundWorker.DoWork += this.DoWork;
             this.backgroundWorker.ProgressChanged += this.ProgressChanged;
             this.backgroundWorker.RunWorkerCompleted += this.Completed;
         }
+
+        /// <summary>
+        /// Gets the name of this worker.
+        /// </summary>
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether an asynchronous operation is running.
@@ -172,6 +168,32 @@ namespace bbv.Common.Async
         }
 
         /// <summary>
+        /// Adds the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        public void AddExtension(IAsyncWorkerExtension extension)
+        {
+            this.extensions.Add(extension);
+        }
+
+        /// <summary>
+        /// Removes the extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        public void RemoveExtension(IAsyncWorkerExtension extension)
+        {
+            this.extensions.Remove(extension);
+        }
+
+        /// <summary>
+        /// Clears all extensions.
+        /// </summary>
+        public void ClearExtensions()
+        {
+            this.extensions.Clear();
+        }
+
+        /// <summary>
         /// Starts execution of a background operation.
         /// </summary>
         public void RunWorkerAsync()
@@ -185,17 +207,8 @@ namespace bbv.Common.Async
         /// <param name="argument">The argument passed to the worker delegate.</param>
         public void RunWorkerAsync(object argument)
         {
-            if (Log.IsInfoEnabled)
-            {
-                Log.Info(string.Format(
-                             CultureInfo.InvariantCulture,
-                             "{0} executes asynchronous operation {1}.{2}({3})",
-                             this,
-                             this.worker.Method.DeclaringType.FullName,
-                             this.worker.Method.Name,
-                             argument));
-            }
-
+            this.extensions.ForEach(extension => extension.StartedExecution(this, this.worker, argument));
+            
             this.backgroundWorker.RunWorkerAsync(argument);
         }
 
@@ -204,16 +217,8 @@ namespace bbv.Common.Async
         /// </summary>
         public void CancelAsync()
         {
-            if (Log.IsInfoEnabled)
-            {
-                Log.Info(string.Format(
-                             CultureInfo.InvariantCulture,
-                             "{0} cancels asynchronous operation {1}.{2}()",
-                             this,
-                             this.worker.Method.DeclaringType.FullName,
-                             this.worker.Method.Name));
-            }
-
+            this.extensions.ForEach(extension => extension.CancellingExecution(this, this.worker));
+            
             this.backgroundWorker.CancelAsync();
         }
 
@@ -224,16 +229,8 @@ namespace bbv.Common.Async
         /// <param name="userState">State of the user.</param>
         public void ReportProgress(int percentProgress, object userState)
         {
-            if (Log.IsInfoEnabled)
-            {
-                Log.Info(string.Format(
-                             CultureInfo.InvariantCulture,
-                             "{0} reports progress for operation {1}.{2}()",
-                             this,
-                             this.worker.Method.DeclaringType.FullName,
-                             this.worker.Method.Name));
-            }
-
+            this.extensions.ForEach(extension => extension.ReportProgress(this, this.worker, this.progress, userState));
+            
             this.backgroundWorker.ReportProgress(percentProgress, userState);
         }
 
@@ -245,7 +242,7 @@ namespace bbv.Common.Async
         /// </returns>
         public override string ToString()
         {
-            return this.name ?? this.GetType().FullName;
+            return this.Name ?? this.GetType().FullName;
         }
 
         /// <summary>
@@ -255,7 +252,7 @@ namespace bbv.Common.Async
         /// <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
         private void Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.LogOperationCompleted(e);
+            this.extensions.ForEach(extension => extension.CompletedExecution(this, this.worker, this.completed, e));
 
             if (this.completed != null)
             {
@@ -289,53 +286,6 @@ namespace bbv.Common.Async
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             this.progress(this, e);
-        }
-
-        /// <summary>
-        /// Logs that the operation completed.
-        /// </summary>
-        /// <param name="e">The <see cref="System.ComponentModel.RunWorkerCompletedEventArgs"/> instance containing the event data.</param>
-        private void LogOperationCompleted(RunWorkerCompletedEventArgs e)
-        {
-            if (Log.IsInfoEnabled)
-            {
-                if (e.Error == null)
-                {
-                    this.LogOperationCompletedWithoutException();
-                }
-                else
-                {
-                    this.LogOperationCompletedWithException(e.Error);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Logs that the operation completed without an exception.
-        /// </summary>
-        private void LogOperationCompletedWithoutException()
-        {
-            Log.Info(string.Format(
-                         CultureInfo.InvariantCulture,
-                         "{0} completes asynchronous operation {1}.{2}().",
-                         this,
-                         this.worker.Method.DeclaringType.FullName,
-                         this.worker.Method.Name));
-        }
-
-        /// <summary>
-        /// Logs that the operation completed with an exception.
-        /// </summary>
-        /// <param name="exception">The exception.</param>
-        private void LogOperationCompletedWithException(Exception exception)
-        {
-            Log.Info(string.Format(
-                         CultureInfo.InvariantCulture,
-                         "{0} completes asynchronous operation {1}.{2}() with exception = {3}",
-                         this,
-                         this.worker.Method.DeclaringType.FullName,
-                         this.worker.Method.Name,
-                         exception));
         }
     }
 }

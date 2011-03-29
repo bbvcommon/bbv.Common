@@ -4,6 +4,8 @@
     <BbvCommonProjectName>bbv.Common.Security</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{B28D16DD-D9FC-49CB-AC27-9372BEA913EF}</ProjectGuid>

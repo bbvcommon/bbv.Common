@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CD9E750C-19BD-49BA-B721-BEA573EABF03}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>bbv.Common.StateMachine.Silverlight</RootNamespace>
+    <AssemblyName>bbv.Common.StateMachine.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\bbv.Common.StateMachine\ActiveStateMachine.cs">
+      <Link>ActiveStateMachine.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\ExceptionEventArgs.cs">
+      <Link>ExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\ExceptionMessages.cs">
+      <Link>ExceptionMessages.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Extensions\ExtensionBase.cs">
+      <Link>Extensions\ExtensionBase.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\HistoryType.cs">
+      <Link>HistoryType.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\IExtension.cs">
+      <Link>IExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ActionHolder.cs">
+      <Link>Internals\ActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ActionHolder{T}.cs">
+      <Link>Internals\ActionHolder{T}.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ArgumentLessGuardHolder.cs">
+      <Link>Internals\ArgumentLessGuardHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ArgumentLessTransitionActionHolder.cs">
+      <Link>Internals\ArgumentLessTransitionActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ContextEventArgs.cs">
+      <Link>Internals\ContextEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\EventInformation.cs">
+      <Link>Internals\EventInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\GuardHolder.cs">
+      <Link>Internals\GuardHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IActionHolder.cs">
+      <Link>Internals\IActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IExtensionHost.cs">
+      <Link>Internals\IExtensionHost.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IFactory.cs">
+      <Link>Internals\IFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IGuardHolder.cs">
+      <Link>Internals\IGuardHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\Initializable.cs">
+      <Link>Internals\Initializable.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\InitializationInformation.cs">
+      <Link>Internals\InitializationInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\INotifier.cs">
+      <Link>Internals\INotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IState.cs">
+      <Link>Internals\IState.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IStateContext.cs">
+      <Link>Internals\IStateContext.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IStateDictionary.cs">
+      <Link>Internals\IStateDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ITransition.cs">
+      <Link>Internals\ITransition.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ITransitionActionHolder.cs">
+      <Link>Internals\ITransitionActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ITransitionContext.cs">
+      <Link>Internals\ITransitionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\ITransitionResult.cs">
+      <Link>Internals\ITransitionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\RecordType.cs">
+      <Link>Internals\RecordType.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\SingleArgumentGuardHolder.cs">
+      <Link>Internals\SingleArgumentGuardHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\SingleArgumentTransitionActionHolder.cs">
+      <Link>Internals\SingleArgumentTransitionActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StandardFactory.cs">
+      <Link>Internals\StandardFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\State.cs">
+      <Link>Internals\State.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StateBuilder.g.cs">
+      <Link>Internals\StateBuilder.g.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StateContext.cs">
+      <Link>Internals\StateContext.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StateDictionary.cs">
+      <Link>Internals\StateDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StateMachine.cs">
+      <Link>Internals\StateMachine.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\StateMachineInitializer.cs">
+      <Link>Internals\StateMachineInitializer.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\Syntax.cs">
+      <Link>Internals\Syntax.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\Transition.cs">
+      <Link>Internals\Transition.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\TransitionActionHolder.cs">
+      <Link>Internals\TransitionActionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\TransitionContext.cs">
+      <Link>Internals\TransitionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\TransitionDictionary.cs">
+      <Link>Internals\TransitionDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\TransitionResult.cs">
+      <Link>Internals\TransitionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\IStateMachine.cs">
+      <Link>IStateMachine.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\IStateMachineInformation.cs">
+      <Link>IStateMachineInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\IStateMachineReport.cs">
+      <Link>IStateMachineReport.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\PassiveStateMachine.cs">
+      <Link>PassiveStateMachine.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Reports\CsvStateMachineReportGenerator.cs">
+      <Link>Reports\CsvStateMachineReportGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Reports\CsvStatesWriter.cs">
+      <Link>Reports\CsvStatesWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Reports\CsvTransitionsWriter.cs">
+      <Link>Reports\CsvTransitionsWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Reports\StateMachineReportGenerator.cs">
+      <Link>Reports\StateMachineReportGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\TransitionCompletedEventArgs.cs">
+      <Link>TransitionCompletedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\TransitionEventArgs.cs">
+      <Link>TransitionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\TransitionExceptionEventArgs.cs">
+      <Link>TransitionExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\UnitTestStateMachine.cs">
+      <Link>UnitTestStateMachine.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.AsyncModule.Silverlight\bbv.Common.AsyncModule.Silverlight.csproj">
+      <Project>{95C44A48-C6B6-4D10-BAD1-910E77209D68}</Project>
+      <Name>bbv.Common.AsyncModule.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.Silverlight\bbv.Common.Silverlight.csproj">
+      <Project>{8E3F34EB-5731-4A69-9B07-E016CFF04825}</Project>
+      <Name>bbv.Common.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="f324d0c2-81ec-4798-9a17-fa22c591e48a" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

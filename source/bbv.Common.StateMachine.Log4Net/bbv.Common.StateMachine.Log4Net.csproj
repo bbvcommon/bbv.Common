@@ -3,6 +3,9 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.StateMachine.Log4Net</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{29BD826D-76E9-4932-9B5C-920A0CA199AE}</ProjectGuid>
@@ -10,6 +13,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>bbv.Common.StateMachine</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.StateMachine.Log4Net\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.StateMachine.Log4Net\lib\.Net 4.0\bbv.Common.StateMachine.Log4Net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">

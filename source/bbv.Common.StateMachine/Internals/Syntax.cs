@@ -105,11 +105,41 @@ namespace bbv.Common.StateMachine.Internals
         IEventSyntax<TState, TEvent> Execute(params Action<object[]>[] actions);
 
         /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute(params Action[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute<T>(params Action<T>[] actions);
+
+        /// <summary>
         /// Defines a transition guard. The transition is only taken if the guard is fulfilled.
         /// </summary>
         /// <param name="guard">The guard.</param>
         /// <returns>If syntax.</returns>
         IIfSyntax<TState, TEvent> If(Func<object[], bool> guard);
+
+        /// <summary>
+        /// Defines a transition guard. The transition is only taken if the guard is fulfilled.
+        /// </summary>
+        /// <typeparam name="T">The type of the guard argument.</typeparam>
+        /// <param name="guard">The guard.</param>
+        /// <returns>If syntax.</returns>
+        IIfSyntax<TState, TEvent> If<T>(Func<T, bool> guard);
+
+        /// <summary>
+        /// Defines a transition guard. The transition is only taken if the guard is fulfilled.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>If syntax.</returns>
+        IIfSyntax<TState, TEvent> If(Func<bool> guard);
     }
 
     /// <summary>
@@ -125,6 +155,21 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="actions">The actions to execute when the transition is taken.</param>
         /// <returns>Event syntax</returns>
         IEventSyntax<TState, TEvent> Execute(params Action<object[]>[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute(params Action[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute<T>(params Action<T>[] actions);
     }
 
     /// <summary>
@@ -147,6 +192,21 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="actions">The actions to execute when the transition is taken.</param>
         /// <returns>Event syntax</returns>
         IIfOrOtherwiseSyntax<TState, TEvent> Execute(params Action<object[]>[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IIfOrOtherwiseSyntax<TState, TEvent> Execute(params Action[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IIfOrOtherwiseSyntax<TState, TEvent> Execute<T>(params Action<T>[] actions);
     }
 
     /// <summary>
@@ -162,6 +222,21 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="actions">The actions to execute when the transition is taken.</param>
         /// <returns>Event syntax</returns>
         IIfOrOtherwiseSyntax<TState, TEvent> Execute(params Action<object[]>[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IIfOrOtherwiseSyntax<TState, TEvent> Execute(params Action[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IIfOrOtherwiseSyntax<TState, TEvent> Execute<T>(params Action<T>[] actions);
     }
 
     /// <summary>
@@ -177,6 +252,21 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="guard">The guard.</param>
         /// <returns>If syntax.</returns>
         IIfSyntax<TState, TEvent> If(Func<object[], bool> guard);
+
+        /// <summary>
+        /// Defines a transition guard. The transition is only taken if the guard is fulfilled.
+        /// </summary>
+        /// <typeparam name="T">The type of the guaard argument.</typeparam>
+        /// <param name="guard">The guard.</param>
+        /// <returns>If syntax.</returns>
+        IIfSyntax<TState, TEvent> If<T>(Func<T, bool> guard);
+
+        /// <summary>
+        /// Defines a transition guard. The transition is only taken if the guard is fulfilled.
+        /// </summary>
+        /// <param name="guard">The guard.</param>
+        /// <returns>If syntax.</returns>
+        IIfSyntax<TState, TEvent> If(Func<bool> guard);
 
         /// <summary>
         /// Defines the transition that is taken when the guards of all other transitions did not match.
@@ -205,5 +295,20 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="actions">The actions to execute when the transition is taken.</param>
         /// <returns>Event syntax</returns>
         IEventSyntax<TState, TEvent> Execute(params Action<object[]>[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute(params Action[] actions);
+
+        /// <summary>
+        /// Defines the transition actions.
+        /// </summary>
+        /// <typeparam name="T">The type of the action argument.</typeparam>
+        /// <param name="actions">The actions to execute when the transition is taken.</param>
+        /// <returns>Event syntax</returns>
+        IEventSyntax<TState, TEvent> Execute<T>(params Action<T>[] actions);
     }
 }

@@ -3,10 +3,16 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.Data</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{EC5DC772-E383-4371-9D5C-3C12BD5A4D31}</ProjectGuid>
     <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.Data\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Data\lib\.Net 4.0\bbv.Common.Data.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

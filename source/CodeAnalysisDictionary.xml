@@ -24,6 +24,7 @@
       <Word>notifier</Word>
       <Word>esb</Word>
       <Word>Initializable</Word>  
+      <Word>Enqueued</Word>  
     </Recognized>
     <Deprecated>
       <!-- 

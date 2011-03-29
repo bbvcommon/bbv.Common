@@ -8,6 +8,10 @@
     <ProjectGuid>{42B574BD-F712-430F-8606-0496F9EFF8B6}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.DistributedEventBroker\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.DistributedEventBroker\lib\.Net 4.0\bbv.Common.DistributedEventBroker.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
