@@ -8,6 +8,9 @@
     <ProjectGuid>{67EA6D0F-E565-471B-8E0D-FF15E9488934}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>

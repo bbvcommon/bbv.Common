@@ -8,6 +8,9 @@
     <ProjectGuid>{CAC5F32D-8B7C-42DF-84EE-A4396803C290}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=1.4.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

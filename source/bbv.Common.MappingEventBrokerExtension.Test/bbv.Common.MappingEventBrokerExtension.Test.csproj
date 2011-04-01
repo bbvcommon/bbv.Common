@@ -8,6 +8,9 @@
     <ProjectGuid>{C196EF11-E897-4E33-94A1-52377DB7F25A}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>

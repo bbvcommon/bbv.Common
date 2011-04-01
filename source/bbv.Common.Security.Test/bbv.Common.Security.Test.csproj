@@ -8,6 +8,9 @@
     <ProjectGuid>{A06A2F86-1ED7-407E-9F6F-6BB7793A733F}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
