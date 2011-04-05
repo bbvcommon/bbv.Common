@@ -34,5 +34,27 @@ namespace bbv.Common.DistributedEventBroker.RhinoEsbAdapter
             : base(distributedEventBrokerIdentification, new RhinoEsbEventBrokerBus(serviceBus))
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RhinoEsbDistributedEventBrokerExtension"/> class.
+        /// </summary>
+        /// <param name="distributedEventBrokerIdentification">The distributed event broker identification.</param>
+        /// <param name="serviceBus">The service bus.</param>
+        /// <param name="factory">The factory.</param>
+        public RhinoEsbDistributedEventBrokerExtension(string distributedEventBrokerIdentification, IServiceBus serviceBus, IDistributedFactory factory) :
+            base(distributedEventBrokerIdentification, new RhinoEsbEventBrokerBus(serviceBus), factory)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RhinoEsbDistributedEventBrokerExtension"/> class.
+        /// </summary>
+        /// <param name="distributedEventBrokerIdentification">The distributed event broker identification.</param>
+        /// <param name="eventBrokerBus">The event broker bus.</param>
+        /// <param name="factory">The factory.</param>
+        public RhinoEsbDistributedEventBrokerExtension(string distributedEventBrokerIdentification, IEventBrokerBus eventBrokerBus, IDistributedFactory factory) :
+            base(distributedEventBrokerIdentification, eventBrokerBus, factory)
+        {
+        }
     }
 }
