@@ -77,7 +77,7 @@ namespace bbv.Common.DistributedEventBroker
         /// Gets or sets the internal event broker which is used to control internal event publication.
         /// </summary>
         /// <value>The internal event broker.</value>
-        internal static IEventBroker InternalEventBroker
+        public static IEventBroker InternalEventBroker
         {
             get { return internalEventBroker ?? (internalEventBroker = new EventBroker()); }
             set { internalEventBroker = value; }

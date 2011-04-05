@@ -5,6 +5,8 @@
 		<version>%bbv.Common.AsyncFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>AsyncWorker (simplified API for BackgroundWorker), AsyncResult to implement asynchronous tasks.</summary>
 		<description>AsyncWorker (simplified API for BackgroundWorker), 
     AsyncResult to implement asynchronous tasks.
 
@@ -13,6 +15,7 @@
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
+    <tags>asynchronous AsyncResult background-worker</tags>
 		<language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

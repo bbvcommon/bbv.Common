@@ -34,7 +34,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
 
-    <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == ''">..\bbv.Common.snk</AssemblyOriginatorKeyFile>
 	
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -53,6 +52,7 @@
     <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
     <CodeAnalysisRuleSet Condition="'$(CodeAnalysisRuleSet)' == ''">$(BbvCommonSourcePath)bbv.Common.ruleset</CodeAnalysisRuleSet>
+	<CodeAnalysisPath>..\..\tools\FxCop\</CodeAnalysisPath>
     <SourceAnalysisOverrideSettingsFile Condition="'$(StyleCopOverrideSettingsFile)' == ''">$(BbvCommonSourcePath)bbv.Common.$(BbvCommonProjectType).stylecop</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
 
@@ -62,9 +62,11 @@
 
     <!-- Assembly Name is set to Project Name (overridable in Project File). -->
     <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName)</AssemblyName>
+
+    <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
 	
-	<!-- Surpesses warning when informational version is set. -->
-	<NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
+	  <!-- Surpesses warning when informational version is set. -->
+	  <NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
   </PropertyGroup>
   
   <!-- Default Visual Studio Project properties when project type is 'Test'. -->
@@ -194,10 +196,11 @@
   
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
   <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
+  <Import Project="..\tools\FxCop\Msbuild\Microsoft.CodeAnalysis.Targets"/>
   
   <Target Name="BeforeBuild">
     <Message Text="Checking NuGet packages" />
-    <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages"/>
+    <Exec Condition="Exists('$(ProjectDir)packages.config')" Command="$(SolutionDir)..\Tools\NuGet\nuget install $(ProjectDir)packages.config -o $(SolutionDir)Packages" ContinueOnError="true"/>
   </Target>
   <!--<Target Name="AfterBuild"></Target>-->
 </Project>

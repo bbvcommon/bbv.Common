@@ -5,6 +5,8 @@
     <version>%bbv.CommonFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides shared types needed by other bbv.Common projects</summary>
     <description>Provides shared types needed by other bbv.Common projects:
     * Generic EventArgs
     * EventFilter (aggregate frequently occurring events)
@@ -16,6 +18,7 @@ bbv.Common assembly is a part of bbv.Common, a library of .NET components and fu
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
+    <tags>generic-event-args event-filter string-formatting</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

@@ -5,6 +5,8 @@
     <version>%bbv.Common.EvaluationEngineFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>The evaluation engine provides an infrastructure for decoupled evaluation.</summary>
     <description>The evaluation engine provides an infrastructure for decoupled evaluation.
 Features:
 * The evaluation engine provides a single entry point to ask questions (queries, calculations, ...)
@@ -20,6 +22,7 @@ bbv.Common.EvaluationEngine is a part of bbv.Common, a library of .NET component
 * hierarchical state machine with fluent definition syntax,
 * programmatic, loosely coupled, context based rule engine,
 * support for active objects to build multi-threaded applications</description>
+    <tags>evaluation rules</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

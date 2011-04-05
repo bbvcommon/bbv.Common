@@ -5,6 +5,8 @@
 		<version>%bbv.Common.WindowsFileVersion%</version>
 		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
 		<authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides helper functionality for interaction with Windows</summary>
 		<description>Provides helper functionality for interaction with Windows: 
     * check whether application is already running (ApplicationHelper)
     * get DPI of windows desktop (GraphicHelper)
@@ -15,6 +17,7 @@ bbv.Common.Windows is a part of bbv.Common, a library of .NET components and fun
     * hierarchical state machine with fluent definition syntax,
     * programmatic, loosely coupled, context based rule engine,
     * support for active objects to build multi-threaded applications</description>
+    <tags>Windows DPI restart reboot logoff</tags>
 		<language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

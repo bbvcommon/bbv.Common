@@ -5,6 +5,8 @@
     <version>%bbv.Common.TestUtilitiesFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Provides functionality to simplify unit testing and TDD</summary>
     <description>Provides functionality to simplify unit testing and TDD:
     * Temporary File Holder (automatically delete files on disposing)
     * Event Tester (check that objects fired events)
@@ -14,6 +16,7 @@ bbv.Common.TestUtilities is a part of bbv.Common, a library of .NET components a
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
+    <tags>TDD test-utilities temporary-files</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

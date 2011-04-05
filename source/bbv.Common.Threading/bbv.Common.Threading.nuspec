@@ -5,6 +5,8 @@
     <version>%bbv.Common.ThreadingFileVersion%</version>
     <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
     <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>User Interface Thread Synchronizer (no Invoke calls needed anymore)</summary>
     <description>Provides
     * User Interface Thread Synchronizer (no Invoke calls needed anymore).
 
@@ -13,6 +15,7 @@ bbv.Common.Threading is a part of bbv.Common, a library of .NET components and f
       * hierarchical state machine with fluent definition syntax,
       * programmatic, loosely coupled, context based rule engine,
       * support for active objects to build multi-threaded applications</description>
+    <tags>thread-synchronization multi-threading</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>

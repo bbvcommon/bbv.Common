@@ -251,7 +251,7 @@
 
   <target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
 
-    <property name="now" value="${datetime::now()}" />
+    <!--<property name="now" value="${datetime::now()}" />
     <property name="year" value="${datetime::get-year(now)}" />
     <property name="day" value="${datetime::get-day-of-year(now)} " />
     <property name="hour" value="${datetime::get-hour(now)} " />
@@ -259,8 +259,10 @@
 
     <property name="time" value="${year}${day}.${hour}${min}" />
     <property name="t" value="${string::replace(time, ' ', '')}" />
-    <property name="timestamp" value="${string::substring(t, 2, string::get-length(t) - 2)}" />
+    <property name="timestamp" value="${string::substring(t, 2, string::get-length(t) - 2)}" />-->
 
+	<version_timestamp property='timestamp'/>
+	
     <loadfile file="${base_dir}\Scripts\Version.txt" property="version" />
 
     <foreach item="Folder" property="foldername">
@@ -312,4 +314,34 @@
       </do>
     </foreach>
   </target>
+  
+  <script language="C#" prefix="test" >  
+<code>  
+  <![CDATA[  
+ [TaskName("version_timestamp")]  
+ public class version_timestamp : Task  
+ {  
+  private string _property;  
+  
+  [TaskAttribute("property", Required = true)]  
+  public string Property  
+  {  
+   get { return _property; }  
+   set { _property = value; }  
+  }  
+  
+  protected override void ExecuteTask()  
+  {  
+   DateTime now = DateTime.UtcNow;
+
+   string gmtTime = now.ToString("yy") + now.DayOfYear + "." + now.ToString("HHmm");
+   
+   Properties.Add(_property, gmtTime);  
+  
+   Log(Level.Info, "[version_timestamp] :" + gmtTime);  
+  }  
+ }  
+  ]]>  
+</code>  
+  </script>
 </project>
