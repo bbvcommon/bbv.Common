@@ -232,10 +232,11 @@ namespace bbv.Common.MappingEventBrokerExtension
         {
             this.SetupManageEventBroker();
             this.SetupEventTopicAndConvention();
+            this.SetupPublication();
 
             this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
 
-            this.typeProvider.Verify(p => p.GetDestinationEventArgsType(MappedTopicUri));
+            this.typeProvider.Verify(p => p.GetDestinationEventArgsType(MappedTopicUri, typeof(EventArgs)));
         }
 
         [Fact]
@@ -326,7 +327,7 @@ namespace bbv.Common.MappingEventBrokerExtension
 
         private void SetupDestinationEventArgsProvider()
         {
-            this.typeProvider.Setup(p => p.GetDestinationEventArgsType(MappedTopicUri))
+            this.typeProvider.Setup(p => p.GetDestinationEventArgsType(MappedTopicUri, It.IsAny<Type>()))
                 .Returns(typeof(CancelEventArgs));
         }
 

@@ -24,6 +24,8 @@
 
 namespace bbv.Common.MappingEventBrokerExtension
 {
+    using System;
+
     using bbv.Common.EventBroker;
 
     using Machine.Specifications;
@@ -69,7 +71,7 @@ namespace bbv.Common.MappingEventBrokerExtension
 
         Establish context = () =>
             {
-                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>())).Returns(typeof(DestinationEventArgs));
+                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(typeof(DestinationEventArgs));
 
                 mapper.SetupMapping();
             };
@@ -91,7 +93,7 @@ namespace bbv.Common.MappingEventBrokerExtension
 
         Establish context = () =>
             {
-                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>())).Returns(() => null);
+                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(() => null);
 
                 mapper.SetupMapping();
 
