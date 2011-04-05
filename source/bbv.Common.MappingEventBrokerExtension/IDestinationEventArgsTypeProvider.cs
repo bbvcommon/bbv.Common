@@ -33,7 +33,10 @@ namespace bbv.Common.MappingEventBrokerExtension
         /// topic URI or <see langword="null"/> if nothing found.
         /// </summary>
         /// <param name="destinationTopic">The destination topic.</param>
-        /// <returns>The destination event argument type or <see langword="null"/>.</returns>
-        Type GetDestinationEventArgsType(string destinationTopic);
+        /// <param name="sourceEventArgsType">Type of the source event argument.</param>
+        /// <returns>
+        /// The destination event argument type or <see langword="null"/>.
+        /// </returns>
+        Type GetDestinationEventArgsType(string destinationTopic, Type sourceEventArgsType);
     }
 }

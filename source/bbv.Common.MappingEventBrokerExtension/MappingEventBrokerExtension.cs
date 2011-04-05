@@ -177,7 +177,7 @@ namespace bbv.Common.MappingEventBrokerExtension
             {
                 Type sourceEventArgsType = publication.EventArgsType;
 
-                Type destinationEventArgsType = this.TypeProvider.GetDestinationEventArgsType(destinationTopicUri);
+                Type destinationEventArgsType = this.TypeProvider.GetDestinationEventArgsType(destinationTopicUri, sourceEventArgsType);
 
                 if (destinationEventArgsType == null || !this.Mapper.HasMapping(sourceEventArgsType, destinationEventArgsType))
                 {
