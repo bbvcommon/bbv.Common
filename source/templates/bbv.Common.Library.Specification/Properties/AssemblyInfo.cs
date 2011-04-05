@@ -23,4 +23,3 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("$safeprojectname$")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("$safeprojectname$")]

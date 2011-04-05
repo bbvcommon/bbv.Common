@@ -34,7 +34,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
 
-    <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == ''">..\bbv.Common.snk</AssemblyOriginatorKeyFile>
 	
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -62,9 +61,11 @@
 
     <!-- Assembly Name is set to Project Name (overridable in Project File). -->
     <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName)</AssemblyName>
+
+    <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
 	
-	<!-- Surpesses warning when informational version is set. -->
-	<NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
+	  <!-- Surpesses warning when informational version is set. -->
+	  <NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
   </PropertyGroup>
   
   <!-- Default Visual Studio Project properties when project type is 'Test'. -->
