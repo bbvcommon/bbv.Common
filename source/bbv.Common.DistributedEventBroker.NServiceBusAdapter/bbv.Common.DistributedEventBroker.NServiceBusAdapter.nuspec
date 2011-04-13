@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>bbv.Common.DistributedEventBroker.NServiceBusAdapter</id>
+    <version>%bbv.Common.DistributedEventBroker.NServiceBusAdapterFileVersion%</version>
+    <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
+    <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>NServiceBus adapter for distributed event broker (bbv.Common.DistributedEventBroker).</summary>
+    <description>
+      Adapter for using event broker extension for distributed communication over NServiceBus.
+      Allows sending events over NServiceBus using the bbv.Common.EventBroker infrastructur.
+
+      bbv.Common.DistributedEventBroker.NServiceBusAdapter is a part of bbv.Common, a library of .NET components and functionality including:
+      * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
+      * hierarchical state machine with fluent definition syntax,
+      * programmatic, loosely coupled, context based rule engine,
+      * support for active objects to build multi-threaded applications</description>
+    <tags>event-broker extension interprocess-communication distributed</tags>
+    <language>en-US</language>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="bbv.Common" version="%bbv.Common%"/>
+      <dependency id="bbv.Common.EventBroker" version="%bbv.Common.EventBroker%"/>
+      <dependency id="bbv.Common.DistributedEventBroker" version="%bbv.Common.DistributedEventBroker%"/>
+      <dependency id="NServiceBus" version="2.5"/>
+    </dependencies>
+  </metadata>
+</package>

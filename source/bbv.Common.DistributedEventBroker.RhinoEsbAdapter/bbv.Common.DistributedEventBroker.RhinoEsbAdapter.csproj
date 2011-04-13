@@ -9,12 +9,33 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\bbv.Common.DEB.RhinoEsbAdapter\lib\.Net 4.0\</OutputPath>
-    <DocumentationFile>bin\Release\bbv.Common.DEB.RhinoEsbAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.DistributedEventBroker.RhinoEsbAdapter\lib\.Net 4.0\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.DistributedEventBroker.RhinoEsbAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Esent.Interop">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Esent.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.PersistentHashTable">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Rhino.PersistentHashTable.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Queues">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Rhino.Queues.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.ServiceBus">
-      <HintPath>Libs\Rhino.ServiceBus.dll</HintPath>
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Rhino.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.ServiceBus.Host">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Rhino.ServiceBus.Host.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -22,6 +43,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Wintellect.Threading">
+      <HintPath>..\packages\Rhino-ESB.1.8.0.1\lib\Net40\Wintellect.Threading.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\RhinoEsbEventFiredHandler.cs" />
@@ -43,6 +67,9 @@
       <Name>bbv.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="bbv.Common.DistributedEventBroker.RhinoEsbAdapter.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
 </Project>
