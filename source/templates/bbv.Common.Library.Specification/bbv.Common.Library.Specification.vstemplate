@@ -14,7 +14,7 @@
 		<Icon>__TemplateIcon.ico</Icon>
 	</TemplateData>
 	<TemplateContent>
-		<Project TargetFileName="bbv.Common.Library.Specification.csproj" File="Erowa.EMC.Library.Specification.csproj" ReplaceParameters="true">
+		<Project TargetFileName="bbv.Common.Library.Specification.csproj" File="bbv.Common.Library.Specification.csproj" ReplaceParameters="true">
 			<Folder Name="Properties" TargetFolderName="Properties">
 				<ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
 			</Folder>
