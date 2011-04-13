@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>bbv.Common.DistributedEventBroker</id>
+    <version>%bbv.Common.DistributedEventBrokerFileVersion%</version>
+    <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
+    <authors>bbv Software Services AG and Contributers</authors>
+    <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
+    <summary>Extension for the bbv.Common.EventBroker to allow distribution of events over processes.</summary>
+    <description>With this extension, the event broker can be used to fire events to event brokers in remote processes.
+
+      bbv.Common.DistributedEventBroker is a part of bbv.Common, a library of .NET components and functionality including:
+      * (a)synchronous notification component with thread switching using publisher-subscriber pattern,
+      * hierarchical state machine with fluent definition syntax,
+      * programmatic, loosely coupled, context based rule engine,
+      * support for active objects to build multi-threaded applications</description>
+    <tags>event-broker extension interprocess-communication distributed</tags>
+    <language>en-US</language>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="bbv.Common" version="%bbv.Common%"/>
+      <dependency id="bbv.Common.EventBroker" version="%bbv.Common.EventBroker%"/>
+    </dependencies>
+  </metadata>
+</package>
