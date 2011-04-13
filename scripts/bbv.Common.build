@@ -195,6 +195,23 @@
             <include name="**/${project}.pdb" />
           </fileset>
         </copy>
+        
+        <!-- copy additionally needed files -->
+        <property name="dependenciesFile" value="${folder}\Dependencies.txt" />
+        <if test="${file::exists(dependenciesFile)}">
+          <echo message="copying additional files for ${project}" />
+          
+          <foreach item="Line" in="${dependenciesFile}" property="dependency">
+            <do>
+              <copy overwrite="false" todir="${binaries}\${build_config}\" flatten="false">
+                <fileset basedir="${folder}/bin/${build_config}">
+                  <include name="**/${dependency}" />
+                </fileset>
+              </copy>
+            </do>
+          </foreach>
+        </if>
+        
       </do>
     </foreach>
   </target>
