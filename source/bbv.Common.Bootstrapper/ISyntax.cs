@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IBootstrapper.cs" company="bbv Software Services AG">
+// <copyright file="ISyntax.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,29 +18,13 @@
 
 namespace bbv.Common.Bootstrapper
 {
-    using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for bootstrapper sequence implementations.
+    /// Syntax definition interface.
     /// </summary>
-    public interface IBootstrapper : IExtensionPoint, IDisposable
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "From client perspective it is not a collection.")]
+    public interface ISyntax : IEnumerable<IExecutable>
     {
-        /// <summary>
-        /// Initializes the bootstrapper with the strategy.
-        /// </summary>
-        /// <param name="strategy">The strategy.</param>
-        void Initialize(IStrategy strategy);
-
-        /// <summary>
-        /// Runs the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Run();
-
-        /// <summary>
-        /// Shutdowns the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Shutdown();
     }
 }

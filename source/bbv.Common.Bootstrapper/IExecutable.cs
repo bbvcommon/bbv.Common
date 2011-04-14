@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="ICoreExtension.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IExecutable.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,17 @@
 
 namespace bbv.Common.Bootstrapper
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Interface for specialized core extension
+    /// Executable definition. The executable is part of a syntax.
     /// </summary>
-    public interface ICoreExtension : IExtension, IExtensionPoint
+    public interface IExecutable
     {
+        /// <summary>
+        /// Executes an operation on the specified extensions.
+        /// </summary>
+        /// <param name="extensions">The extensions.</param>
+        void Execute(IEnumerable<IExtension> extensions);
     }
 }
