@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="IExtension.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,10 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
-{
-    using System;
+using System.Reflection;
 
-    /// <summary>
-    /// Interface for extensions.
-    /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Marker interface for inheritance.")]
-    public interface IExtension : IDisposable
-    {
-    }
-}
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("bbv.Common.Bootstrapper.Specification")]
+[assembly: AssemblyDescription("")]

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IBootstrapper.cs" company="bbv Software Services AG">
+// <copyright file="IExtensionHost.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,29 +18,17 @@
 
 namespace bbv.Common.Bootstrapper
 {
-    using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for bootstrapper sequence implementations.
+    /// Extension host definition. The extension host is responsible for
+    /// managing extensions.
     /// </summary>
-    public interface IBootstrapper : IExtensionPoint, IDisposable
+    public interface IExtensionHost : IExtensionPoint
     {
         /// <summary>
-        /// Initializes the bootstrapper with the strategy.
+        /// Gets the extensions.
         /// </summary>
-        /// <param name="strategy">The strategy.</param>
-        void Initialize(IStrategy strategy);
-
-        /// <summary>
-        /// Runs the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Run();
-
-        /// <summary>
-        /// Shutdowns the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Shutdown();
+        IEnumerable<IExtension> Extensions { get; }
     }
 }

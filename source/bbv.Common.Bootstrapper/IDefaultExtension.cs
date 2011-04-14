@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IBootstrapper.cs" company="bbv Software Services AG">
+// <copyright file="IDefaultExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,27 +18,32 @@
 
 namespace bbv.Common.Bootstrapper
 {
-    using System;
-
     /// <summary>
-    /// Interface for bootstrapper sequence implementations.
+    /// Interface for bootstrapper extensions
     /// </summary>
-    public interface IBootstrapper : IExtensionPoint, IDisposable
+    /// <remarks>The extensions are executed the following way: 
+    /// 0. Start --> Possible to influence starting procedure without having any prerequisites.
+    /// ...
+    /// (n-2). Finished --> Bootstrapping is finished.
+    /// (n-1). Shutdown --> Bootstrapper shuts down.
+    /// (n). Dispose --> Bootstraper is being disposed.
+    /// </remarks>
+    public interface IDefaultExtension : IExtension
     {
         /// <summary>
-        /// Initializes the bootstrapper with the strategy.
-        /// </summary>
-        /// <param name="strategy">The strategy.</param>
-        void Initialize(IStrategy strategy);
-
-        /// <summary>
-        /// Runs the bootstrapper.
+        /// Called when the bootstrapping mechanism is starting.
         /// </summary>
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Run();
+        void Start();
 
         /// <summary>
-        /// Shutdowns the bootstrapper.
+        /// Called when the bootstrapping mechanism is finished.
+        /// </summary>
+        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
+        void Finished();
+
+        /// <summary>
+        /// Called when the bootstrapping mechanism is shutting down.
         /// </summary>
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
         void Shutdown();

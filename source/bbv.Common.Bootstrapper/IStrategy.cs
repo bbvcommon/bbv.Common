@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IBootstrapper.cs" company="bbv Software Services AG">
+// <copyright file="IStrategy.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,29 +18,21 @@
 
 namespace bbv.Common.Bootstrapper
 {
-    using System;
-
     /// <summary>
-    /// Interface for bootstrapper sequence implementations.
+    /// Interface for strategies.
     /// </summary>
-    public interface IBootstrapper : IExtensionPoint, IDisposable
+    public interface IStrategy
     {
         /// <summary>
-        /// Initializes the bootstrapper with the strategy.
+        /// Builds the run syntax.
         /// </summary>
-        /// <param name="strategy">The strategy.</param>
-        void Initialize(IStrategy strategy);
+        /// <returns>The run syntax.</returns>
+        ISyntax BuildRunSyntax();
 
         /// <summary>
-        /// Runs the bootstrapper.
+        /// Builds the shutdown syntax.
         /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Run();
-
-        /// <summary>
-        /// Shutdowns the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
-        void Shutdown();
+        /// <returns>The shutdown syntax.</returns>
+        ISyntax BuildShutdownSyntax();
     }
 }

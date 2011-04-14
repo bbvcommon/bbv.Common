@@ -14,14 +14,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractStrategy.cs" />
+    <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="BootstrapperException.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
     <Compile Include="Configuration\ExtensionSettingsElement.cs" />
     <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
     <Compile Include="IBootstrapper.cs" />
+    <Compile Include="IDefaultExtension.cs" />
+    <Compile Include="IExecutable.cs" />
     <Compile Include="IExtension.cs" />
+    <Compile Include="IExtensionHost.cs" />
     <Compile Include="IExtensionPoint.cs" />
-    <Compile Include="ICoreExtension.cs" />
+    <Compile Include="IStrategy.cs" />
+    <Compile Include="ISyntax.cs" />
+    <Compile Include="ISyntaxBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
