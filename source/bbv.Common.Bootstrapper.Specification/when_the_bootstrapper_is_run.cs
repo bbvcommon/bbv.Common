@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="When_the_bootstrapper_is_run.cs" company="bbv Software Services AG">
+// <copyright file="when_the_bootstrapper_is_run.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
