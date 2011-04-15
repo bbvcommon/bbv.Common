@@ -16,14 +16,13 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Syntax
 {
     using System.Collections.Generic;
 
     /// <summary>
     /// Syntax definition interface.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "From client perspective it is not a collection.")]
     public interface ISyntax : IEnumerable<IExecutable>
     {
     }

@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Syntax
 {
     using System.Collections.Generic;
 
@@ -28,7 +28,9 @@ namespace bbv.Common.Bootstrapper
         /// <summary>
         /// Executes an operation on the specified extensions.
         /// </summary>
+        /// <typeparam name="TExtension">The type of the extension.</typeparam>
         /// <param name="extensions">The extensions.</param>
-        void Execute(IEnumerable<IExtension> extensions);
+        void Execute<TExtension>(IEnumerable<TExtension> extensions) 
+            where TExtension : IExtension;
     }
 }

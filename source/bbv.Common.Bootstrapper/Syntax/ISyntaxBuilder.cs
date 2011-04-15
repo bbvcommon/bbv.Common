@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
 
@@ -24,7 +24,6 @@ namespace bbv.Common.Bootstrapper
     /// Syntax builder.
     /// </summary>
     /// <typeparam name="TExtension">The extension.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "From client perspective it is not a collection.")]
     public interface ISyntaxBuilder<out TExtension> : ISyntax
         where TExtension : IExtension
     {

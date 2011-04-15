@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="when_the_bootstrapper_is_run.cs" company="bbv Software Services AG">
+// <copyright file="When_the_bootstrapper_is_run.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,18 +16,14 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ConvertToLambdaExpression
-
-#pragma warning disable 169
-
 namespace bbv.Common.Bootstrapper.Specification
 {
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
     using System.Text;
+
+    using bbv.Common.Bootstrapper.Syntax;
 
     using Machine.Specifications;
 
@@ -40,7 +36,7 @@ namespace bbv.Common.Bootstrapper.Specification
         void Stop();
     }
 
-    public class when_the_bootstrapper_is_run
+    public class When_the_bootstrapper_is_run
     {
         private static IStrategy Strategy;
 

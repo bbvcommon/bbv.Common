@@ -18,6 +18,8 @@
 
 namespace bbv.Common.Bootstrapper
 {
+    using bbv.Common.Bootstrapper.Syntax;
+
     /// <summary>
     /// Interface for strategies.
     /// </summary>

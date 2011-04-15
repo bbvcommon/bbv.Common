@@ -20,6 +20,8 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Syntax;
+
     /// <summary>
     /// Abstract strategy definition.
     /// </summary>
