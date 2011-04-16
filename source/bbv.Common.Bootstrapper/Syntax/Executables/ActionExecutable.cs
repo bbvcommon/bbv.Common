@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IStrategy.cs" company="bbv Software Services AG">
+// <copyright file="ActionExecutable.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,27 +16,37 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
-    using bbv.Common.Bootstrapper.Syntax;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for strategies.
+    /// The executable which executes an action.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IStrategy<TExtension>
+    public class ActionExecutable<TExtension> : IExecutable<TExtension>
         where TExtension : IExtension
     {
-        /// <summary>
-        /// Builds the run syntax.
-        /// </summary>
-        /// <returns>The run syntax.</returns>
-        ISyntax<TExtension> BuildRunSyntax();
+        private readonly Action action;
 
         /// <summary>
-        /// Builds the shutdown syntax.
+        /// Initializes a new instance of the <see cref="ActionExecutable{TExtension}"/> class.
         /// </summary>
-        /// <returns>The shutdown syntax.</returns>
-        ISyntax<TExtension> BuildShutdownSyntax();
+        /// <param name="action">The action.</param>
+        public ActionExecutable(Action action)
+        {
+            this.action = action;
+        }
+
+        /// <summary>
+        /// Executes an operation on the specified extensions.
+        /// </summary>
+        /// <typeparam name="TExtension">The type of the extension.</typeparam>
+        /// <param name="extensions">The extensions.</param>
+        public void Execute(IEnumerable<TExtension> extensions) 
+        {
+            this.action();
+        }
     }
 }

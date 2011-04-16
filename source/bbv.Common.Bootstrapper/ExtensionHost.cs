@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IStrategy.cs" company="bbv Software Services AG">
+// <copyright file="ExtensionHost.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,25 +18,44 @@
 
 namespace bbv.Common.Bootstrapper
 {
-    using bbv.Common.Bootstrapper.Syntax;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for strategies.
+    /// Generic extension host.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IStrategy<TExtension>
+    public class ExtensionHost<TExtension> : IExtensionHost<TExtension>
         where TExtension : IExtension
     {
-        /// <summary>
-        /// Builds the run syntax.
-        /// </summary>
-        /// <returns>The run syntax.</returns>
-        ISyntax<TExtension> BuildRunSyntax();
+        private readonly Queue<TExtension> extensions;
 
         /// <summary>
-        /// Builds the shutdown syntax.
+        /// Initializes a new instance of the <see cref="ExtensionHost{TExtension}"/> class.
         /// </summary>
-        /// <returns>The shutdown syntax.</returns>
-        ISyntax<TExtension> BuildShutdownSyntax();
+        public ExtensionHost()
+        {
+            this.extensions = new Queue<TExtension>();
+        }
+
+        /// <summary>
+        /// Gets the extensions.
+        /// </summary>
+        public IEnumerable<TExtension> Extensions
+        {
+            get
+            {
+                return this.extensions;
+            }
+        }
+
+        /// <summary>
+        /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
+        /// added.
+        /// </summary>
+        /// <param name="extension">The extension to be added.</param>
+        public void AddExtension(TExtension extension)
+        {
+            this.extensions.Enqueue(extension);
+        }
     }
 }

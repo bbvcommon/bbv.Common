@@ -24,11 +24,13 @@ namespace bbv.Common.Bootstrapper
     /// Extension host definition. The extension host is responsible for
     /// managing extensions.
     /// </summary>
-    public interface IExtensionHost : IExtensionPoint
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface IExtensionHost<TExtension> : IExtensionPoint<TExtension>
+        where TExtension : IExtension
     {
         /// <summary>
         /// Gets the extensions.
         /// </summary>
-        IEnumerable<IExtension> Extensions { get; }
+        IEnumerable<TExtension> Extensions { get; }
     }
 }

@@ -21,13 +21,15 @@ namespace bbv.Common.Bootstrapper
     /// <summary>
     /// Extension point for bootstrapper.
     /// </summary>
-    public interface IExtensionPoint
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface IExtensionPoint<in TExtension>
+        where TExtension : IExtension
     {
         /// <summary>
         /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
         /// added.
         /// </summary>
         /// <param name="extension">The extension to be added.</param>
-        void AddExtension(IExtension extension);
+        void AddExtension(TExtension extension);
     }
 }

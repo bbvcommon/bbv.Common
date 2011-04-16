@@ -1,5 +1,5 @@
-﻿//-------------------------------------------------------------------------------
-// <copyright file="IExecutable.cs" company="bbv Software Services AG">
+//-------------------------------------------------------------------------------
+// <copyright file="ActionOnExtensionExecutable.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,41 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Syntax
+namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Executable definition. The executable is part of a syntax.
+    /// The executable which executes an action on an extension.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExecutable<in TExtension>
+    public class ActionOnExtensionExecutable<TExtension> : IExecutable<TExtension>
         where TExtension : IExtension
     {
+        private readonly Action<TExtension> action;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionOnExtensionExecutable{TExtension}"/> class.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        public ActionOnExtensionExecutable(Action<TExtension> action)
+        {
+            this.action = action;
+        }
+
         /// <summary>
         /// Executes an operation on the specified extensions.
         /// </summary>
         /// <param name="extensions">The extensions.</param>
-        void Execute(IEnumerable<TExtension> extensions);
+        public void Execute(IEnumerable<TExtension> extensions)
+        {
+            Ensure.ArgumentNotNull(extensions, "extensions");
+
+            foreach (TExtension extension in extensions)
+            {
+                this.action(extension);
+            }
+        }
     }
 }

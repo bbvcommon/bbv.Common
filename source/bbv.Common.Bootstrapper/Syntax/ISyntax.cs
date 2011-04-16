@@ -21,9 +21,11 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System.Collections.Generic;
 
     /// <summary>
-    /// Syntax definition interface.
+    /// Generic syntax which operates on extensions.
     /// </summary>
-    public interface ISyntax : IEnumerable<IExecutable>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface ISyntax<in TExtension> : IEnumerable<IExecutable<TExtension>>
+        where TExtension : IExtension
     {
     }
 }

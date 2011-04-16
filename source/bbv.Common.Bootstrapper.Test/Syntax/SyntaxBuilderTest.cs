@@ -89,14 +89,14 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>()))
                 .Callback<Action>(action => action())
-                .Returns(Mock.Of<IExecutable>);
+                .Returns(Mock.Of<IExecutable<IExtension>>);
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>()))
                 .Callback<Action<IExtension>>(action => action(Mock.Of<IExtension>()))
-                .Returns(Mock.Of<IExecutable>);
+                .Returns(Mock.Of<IExecutable<IExtension>>);
             this.executableFactory.Setup(
                 f => f.CreateExecutable(It.IsAny<Func<char>>(), It.IsAny<Action<IExtension, char>>()))
                 .Callback<Func<char>, Action<IExtension, char>>((func, action) => action(Mock.Of<IExtension>(), func()))
-                .Returns(Mock.Of<IExecutable>);
+                .Returns(Mock.Of<IExecutable<IExtension>>);
         }
 
         private Dictionary<char, Action> DefineCharToActionMapping()

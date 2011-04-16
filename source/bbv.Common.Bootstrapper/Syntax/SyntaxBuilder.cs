@@ -29,7 +29,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     public class SyntaxBuilder<TExtension> : ISyntaxBuilder<TExtension>
         where TExtension : IExtension
     {
-        private readonly Queue<IExecutable> executables;
+        private readonly Queue<IExecutable<TExtension>> executables;
 
         private readonly IExecutableFactory<TExtension> executableFactory;
 
@@ -40,7 +40,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         public SyntaxBuilder(IExecutableFactory<TExtension> executableFactory)
         {
             this.executableFactory = executableFactory;
-            this.executables = new Queue<IExecutable>();
+            this.executables = new Queue<IExecutable<TExtension>>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
-        public IEnumerator<IExecutable> GetEnumerator()
+        public IEnumerator<IExecutable<TExtension>> GetEnumerator()
         {
             return this.executables.GetEnumerator();
         }

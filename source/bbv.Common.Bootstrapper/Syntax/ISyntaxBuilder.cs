@@ -24,7 +24,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// Syntax builder.
     /// </summary>
     /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<out TExtension> : ISyntax
+    public interface ISyntaxBuilder<TExtension> : ISyntax<TExtension>
         where TExtension : IExtension
     {
         /// <summary>

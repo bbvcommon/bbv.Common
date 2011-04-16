@@ -23,16 +23,39 @@ namespace bbv.Common.Bootstrapper
     /// <summary>
     /// The bootstrapper.
     /// </summary>
-    public class DefaultBootstrapper : IBootstrapper
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public class DefaultBootstrapper<TExtension> : IBootstrapper<TExtension>
+        where TExtension : IExtension
     {
+        private readonly IExtensionHost<TExtension> extensionHost;
+
+        private IStrategy<TExtension> strategy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
+        /// </summary>
+        public DefaultBootstrapper()
+            : this(new ExtensionHost<TExtension>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
+        /// </summary>
+        /// <param name="extensionHost">The extension host.</param>
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost)
+        {
+            this.extensionHost = extensionHost;
+        }
+
         /// <summary>
         /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
         /// added.
         /// </summary>
         /// <param name="extension">The extension to be added.</param>
-        public void AddExtension(IExtension extension)
+        public void AddExtension(TExtension extension)
         {
-            throw new NotImplementedException();
+            this.extensionHost.AddExtension(extension);
         }
 
         /// <summary>
@@ -50,9 +73,11 @@ namespace bbv.Common.Bootstrapper
         /// Initializes the bootstrapper with the strategy.
         /// </summary>
         /// <param name="strategy">The strategy.</param>
-        public void Initialize(IStrategy strategy)
+        public void Initialize(IStrategy<TExtension> strategy)
         {
-            throw new NotImplementedException();
+            this.AssertInitialized();
+
+            this.strategy = strategy;
         }
 
         /// <summary>
@@ -79,6 +104,14 @@ namespace bbv.Common.Bootstrapper
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+        }
+
+        private void AssertInitialized()
+        {
+            if (this.strategy != null)
+            {
+                throw new InvalidOperationException("Bootstrapper can only be initialized once.");
+            }
         }
     }
 }

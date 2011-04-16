@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper
 {
     using System;
+    using System.Collections.Generic;
 
     using bbv.Common.Bootstrapper.Syntax;
 
@@ -30,11 +31,18 @@ namespace bbv.Common.Bootstrapper
 
     public class AbstractStrategyTest
     {
+        private readonly Mock<ISyntaxBuilder<IExtension>> runSyntaxBuilder;
+
+        private readonly Mock<ISyntaxBuilder<IExtension>> shutdownSyntaxBuilder;
+
         private readonly TestableAbstractStrategy testee;
 
         public AbstractStrategyTest()
         {
-            this.testee = new TestableAbstractStrategy(Mock.Of<ISyntaxBuilder<IExtension>>(), Mock.Of<ISyntaxBuilder<IExtension>>());
+            this.runSyntaxBuilder = new Mock<ISyntaxBuilder<IExtension>>();
+            this.shutdownSyntaxBuilder = new Mock<ISyntaxBuilder<IExtension>>();
+
+            this.testee = new TestableAbstractStrategy(this.runSyntaxBuilder.Object, this.shutdownSyntaxBuilder.Object);
         }
 
         [Fact]
@@ -46,11 +54,35 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void BuildRunSyntax_ShouldReturnDefinedRunSyntax()
+        {
+            this.runSyntaxBuilder.Setup(x => x.GetEnumerator())
+                .Returns(new List<IExecutable<IExtension>>().GetEnumerator());
+
+            var syntax = this.testee.BuildRunSyntax();
+
+            syntax.Should().BeEmpty();
+            this.runSyntaxBuilder.Verify(x => x.Execute(It.IsAny<Action>()));
+        }
+
+        [Fact]
         public void BuildShutdownSyntax_WhenCalledMultipleTimes_ShouldThrowException()
         {
             this.testee.BuildShutdownSyntax();
 
             this.testee.Invoking(x => x.BuildShutdownSyntax()).ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void BuildShutdownSyntax_ShouldReturnDefinedRunSyntax()
+        {
+            this.shutdownSyntaxBuilder.Setup(x => x.GetEnumerator())
+                .Returns(new List<IExecutable<IExtension>>().GetEnumerator());
+
+            var syntax = this.testee.BuildShutdownSyntax();
+
+            syntax.Should().BeEmpty();
+            this.shutdownSyntaxBuilder.Verify(x => x.Execute(It.IsAny<Action>()));
         }
 
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>
@@ -62,10 +94,12 @@ namespace bbv.Common.Bootstrapper
 
             protected override void DefineRunSyntax(ISyntaxBuilder<IExtension> builder)
             {
+                builder.Execute(() => { });
             }
 
-            protected override void DefineShutdownSyntax(ISyntaxBuilder<IExtension> syntax)
+            protected override void DefineShutdownSyntax(ISyntaxBuilder<IExtension> builder)
             {
+                builder.Execute(() => { });
             }
         }
     }

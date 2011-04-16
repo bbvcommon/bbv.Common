@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IExecutableFactory.cs" company="bbv Software Services AG">
+// <copyright file="ExecutableFactory.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +20,13 @@ namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Syntax.Executables;
+
     /// <summary>
-    /// Factory which is responsible for creating executables.
+    /// Factory which creates executables.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExecutableFactory<TExtension>
+    public class ExecutableFactory<TExtension> : IExecutableFactory<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
@@ -32,7 +34,10 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action to be executed.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable(Action action);
+        public IExecutable<TExtension> CreateExecutable(Action action)
+        {
+            return new ActionExecutable<TExtension>(action);
+        }
 
         /// <summary>
         /// Creates an executable which executes an initializer and passes the initialized context to the action on the specified extension.
@@ -41,13 +46,19 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <param name="initializer">The initializer.</param>
         /// <param name="action">The action.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action);
+        public IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        {
+            return new ActionOnExtensionWithInitializerExecutable<TContext, TExtension>(initializer, action);
+        }
 
         /// <summary>
         /// Creates an executable which executes an action on the specified extension.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable(Action<TExtension> action);
+        public IExecutable<TExtension> CreateExecutable(Action<TExtension> action)
+        {
+            return new ActionOnExtensionExecutable<TExtension>(action);
+        }
     }
 }

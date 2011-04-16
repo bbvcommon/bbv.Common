@@ -26,13 +26,11 @@ namespace bbv.Common.Bootstrapper
     /// Abstract strategy definition.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public abstract class AbstractStrategy<TExtension> : IStrategy
+    public abstract class AbstractStrategy<TExtension> : IStrategy<TExtension>
         where TExtension : IExtension
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Will be used later.")]
         private readonly ISyntaxBuilder<TExtension> runSyntaxBuilder;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Will be used later.")]
         private readonly ISyntaxBuilder<TExtension> shutdownSyntaxBuilder;
 
         private bool runSyntaxBuilded;
@@ -44,7 +42,7 @@ namespace bbv.Common.Bootstrapper
         /// </summary>
         /// <remarks>Uses the default syntax builder.</remarks>
         protected AbstractStrategy()
-            : this(null, null)
+            : this(new SyntaxBuilder<TExtension>(new ExecutableFactory<TExtension>()), new SyntaxBuilder<TExtension>(new ExecutableFactory<TExtension>()))
         {
         }
 
@@ -65,11 +63,13 @@ namespace bbv.Common.Bootstrapper
         /// <returns>
         /// The run syntax.
         /// </returns>
-        public ISyntax BuildRunSyntax()
+        public ISyntax<TExtension> BuildRunSyntax()
         {
             this.AssertRunSyntaxAvailable();
 
-            return default(ISyntax);
+            this.DefineRunSyntax(this.runSyntaxBuilder);
+
+            return this.runSyntaxBuilder;
         }
 
         /// <summary>
@@ -78,11 +78,13 @@ namespace bbv.Common.Bootstrapper
         /// <returns>
         /// The shutdown syntax.
         /// </returns>
-        public ISyntax BuildShutdownSyntax()
+        public ISyntax<TExtension> BuildShutdownSyntax()
         {
             this.AssertShutdownSyntaxAvailable();
 
-            return default(ISyntax);
+            this.DefineShutdownSyntax(this.shutdownSyntaxBuilder);
+
+            return this.shutdownSyntaxBuilder;
         }
 
         /// <summary>

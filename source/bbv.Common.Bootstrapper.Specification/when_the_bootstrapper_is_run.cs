@@ -38,23 +38,25 @@ namespace bbv.Common.Bootstrapper.Specification
 
     public class When_the_bootstrapper_is_run
     {
-        private static IStrategy Strategy;
+        private static IStrategy<ICustomExtension> Strategy;
 
         private static CustomExtensionBase First;
 
         private static CustomExtensionBase Second;
 
-        private static IBootstrapper Bootstrapper;
+        private static IBootstrapper<ICustomExtension> Bootstrapper;
 
         Establish context = () =>
             {
-                Bootstrapper = new DefaultBootstrapper();
+                Bootstrapper = new DefaultBootstrapper<ICustomExtension>();
 
                 Strategy = new CustomExtensionStrategy();
                 First = new FirstExtension();
                 Second = new SecondExtension();
 
                 Bootstrapper.Initialize(Strategy);
+                Bootstrapper.AddExtension(First);
+                Bootstrapper.AddExtension(Second);
             };
 
         Because of = () =>

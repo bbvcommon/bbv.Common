@@ -20,9 +20,14 @@
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
     <Compile Include="Configuration\ExtensionSettingsElement.cs" />
     <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
+    <Compile Include="ExtensionHost.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IDefaultExtension.cs" />
+    <Compile Include="Syntax\ExecutableFactory.cs" />
+    <Compile Include="Syntax\Executables\ActionExecutable.cs" />
+    <Compile Include="Syntax\Executables\ActionOnExtensionExecutable.cs" />
+    <Compile Include="Syntax\Executables\ActionOnExtensionWithInitializerExecutable.cs" />
     <Compile Include="Syntax\IExecutable.cs" />
     <Compile Include="IExtension.cs" />
     <Compile Include="IExtensionHost.cs" />
@@ -33,6 +38,12 @@
     <Compile Include="Syntax\ISyntaxBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Syntax\SyntaxBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>

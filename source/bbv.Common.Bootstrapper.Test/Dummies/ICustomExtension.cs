@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IStrategy.cs" company="bbv Software Services AG">
+// <copyright file="ICustomExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,27 +16,12 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Dummies
 {
-    using bbv.Common.Bootstrapper.Syntax;
-
     /// <summary>
-    /// Interface for strategies.
+    /// A custom extension.
     /// </summary>
-    /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IStrategy<TExtension>
-        where TExtension : IExtension
+    public interface ICustomExtension : IExtension
     {
-        /// <summary>
-        /// Builds the run syntax.
-        /// </summary>
-        /// <returns>The run syntax.</returns>
-        ISyntax<TExtension> BuildRunSyntax();
-
-        /// <summary>
-        /// Builds the shutdown syntax.
-        /// </summary>
-        /// <returns>The shutdown syntax.</returns>
-        ISyntax<TExtension> BuildShutdownSyntax();
     }
 }

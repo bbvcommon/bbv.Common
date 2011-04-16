@@ -23,13 +23,15 @@ namespace bbv.Common.Bootstrapper
     /// <summary>
     /// Interface for bootstrapper sequence implementations.
     /// </summary>
-    public interface IBootstrapper : IExtensionPoint, IDisposable
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface IBootstrapper<TExtension> : IExtensionPoint<TExtension>, IDisposable
+        where TExtension : IExtension
     {
         /// <summary>
         /// Initializes the bootstrapper with the strategy.
         /// </summary>
         /// <param name="strategy">The strategy.</param>
-        void Initialize(IStrategy strategy);
+        void Initialize(IStrategy<TExtension> strategy);
 
         /// <summary>
         /// Runs the bootstrapper.
