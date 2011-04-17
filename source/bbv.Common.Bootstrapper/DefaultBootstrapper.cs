@@ -20,6 +20,8 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Execution;
+
     /// <summary>
     /// The bootstrapper.
     /// </summary>
@@ -29,13 +31,15 @@ namespace bbv.Common.Bootstrapper
     {
         private readonly IExtensionHost<TExtension> extensionHost;
 
+        private readonly IExecutor<TExtension> runExecutor;
+
         private IStrategy<TExtension> strategy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         public DefaultBootstrapper()
-            : this(new ExtensionHost<TExtension>())
+            : this(new ExtensionHost<TExtension>(), new SynchronousRunExecutor<TExtension>())
         {
         }
 
@@ -43,8 +47,10 @@ namespace bbv.Common.Bootstrapper
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         /// <param name="extensionHost">The extension host.</param>
-        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost)
+        /// <param name="runExecutor">The run executor.</param>
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost, IExecutor<TExtension> runExecutor)
         {
+            this.runExecutor = runExecutor;
             this.extensionHost = extensionHost;
         }
 
@@ -86,7 +92,9 @@ namespace bbv.Common.Bootstrapper
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
         public void Run()
         {
-            throw new NotImplementedException();
+            var syntax = this.strategy.BuildRunSyntax();
+
+            this.runExecutor.Execute(syntax, this.extensionHost.Extensions);
         }
 
         /// <summary>

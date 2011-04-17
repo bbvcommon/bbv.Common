@@ -19,6 +19,9 @@
 namespace bbv.Common.Bootstrapper
 {
     using System;
+    using System.Collections.Generic;
+
+    using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
 
@@ -30,13 +33,16 @@ namespace bbv.Common.Bootstrapper
     {
         private readonly Mock<IExtensionHost<IExtension>> extensionHost;
 
+        private readonly Mock<IExecutor<IExtension>> runExecutor;
+
         private readonly DefaultBootstrapper<IExtension> testee;
 
         public DefaultBootstrapperTest()
         {
             this.extensionHost = new Mock<IExtensionHost<IExtension>>();
+            this.runExecutor = new Mock<IExecutor<IExtension>>();
 
-            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object);
+            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.runExecutor.Object);
         }
 
         [Fact]
@@ -55,6 +61,34 @@ namespace bbv.Common.Bootstrapper
             this.testee.AddExtension(extension);
 
             this.extensionHost.Verify(x => x.AddExtension(extension));
+        }
+
+        [Fact]
+        public void Run_ShouldBuildRunSyntax()
+        {
+            var strategy = new Mock<IStrategy<IExtension>>();
+            this.testee.Initialize(strategy.Object);
+
+            this.testee.Run();
+
+            strategy.Verify(s => s.BuildRunSyntax());
+        }
+
+        [Fact]
+        public void Run_ShouldExecuteSyntaxAndExtensionsOnRunExecutor()
+        {
+            var runSyntax = new Mock<ISyntax<IExtension>>();
+            var strategy = new Mock<IStrategy<IExtension>>();
+            strategy.Setup(s => s.BuildRunSyntax()).Returns(runSyntax.Object);
+
+            var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
+            this.extensionHost.Setup(e => e.Extensions).Returns(extensions);
+
+            this.testee.Initialize(strategy.Object);
+
+            this.testee.Run();
+
+            this.runExecutor.Verify(r => r.Execute(runSyntax.Object, extensions));
         }
     }
 }

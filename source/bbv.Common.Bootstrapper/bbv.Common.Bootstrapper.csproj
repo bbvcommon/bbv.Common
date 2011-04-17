@@ -20,10 +20,12 @@
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
     <Compile Include="Configuration\ExtensionSettingsElement.cs" />
     <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
+    <Compile Include="Execution\SynchronousRunExecutor.cs" />
     <Compile Include="ExtensionHost.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IDefaultExtension.cs" />
+    <Compile Include="IExecutor.cs" />
     <Compile Include="Syntax\ExecutableFactory.cs" />
     <Compile Include="Syntax\Executables\ActionExecutable.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionExecutable.cs" />
