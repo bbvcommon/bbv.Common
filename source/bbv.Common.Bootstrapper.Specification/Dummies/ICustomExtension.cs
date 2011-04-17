@@ -16,13 +16,16 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Dummies
+namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    /// <summary>
-    /// A custom extension.
-    /// </summary>
+    using System.Collections.Generic;
+
     public interface ICustomExtension : IExtension
     {
-        void SomeMethod(object value);
+        void Start();
+
+        void Configure(IDictionary<string, string> configuration);
+
+        void Stop();
     }
 }

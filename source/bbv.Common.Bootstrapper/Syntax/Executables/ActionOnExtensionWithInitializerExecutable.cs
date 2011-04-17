@@ -30,10 +30,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     public class ActionOnExtensionWithInitializerExecutable<TContext, TExtension> : IExecutable<TExtension>
         where TExtension : IExtension
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Will be used later.")]
         private readonly Func<TContext> initializer;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Will be used later.")]
         private readonly Action<TExtension, TContext> action;
 
         /// <summary>
@@ -53,6 +51,14 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <param name="extensions">The extensions.</param>
         public void Execute(IEnumerable<TExtension> extensions)
         {
+            Ensure.ArgumentNotNull(extensions, "extensions");
+
+            TContext context = this.initializer();
+
+            foreach (TExtension extension in extensions)
+            {
+                this.action(extension, context);
+            }
         }
     }
 }

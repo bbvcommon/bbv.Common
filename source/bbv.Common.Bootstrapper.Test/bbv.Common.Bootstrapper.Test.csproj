@@ -32,6 +32,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Syntax\Executables\ActionExecutableTest.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionExecutableTest.cs" />
+    <Compile Include="Syntax\Executables\ActionOnExtensionWithInitializerExecutableTest.cs" />
     <Compile Include="Syntax\SyntaxBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>

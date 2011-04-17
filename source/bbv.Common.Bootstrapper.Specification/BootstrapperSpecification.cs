@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ICustomExtension.cs" company="bbv Software Services AG">
+// <copyright file="BootstrapperSpecification.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,29 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Dummies
+namespace bbv.Common.Bootstrapper.Specification
 {
-    /// <summary>
-    /// A custom extension.
-    /// </summary>
-    public interface ICustomExtension : IExtension
+    using bbv.Common.Bootstrapper.Specification.Dummies;
+
+    using Machine.Specifications;
+
+    public class BootstrapperSpecification
     {
-        void SomeMethod(object value);
+        protected static IStrategy<ICustomExtension> Strategy;
+
+        protected static CustomExtensionBase First;
+
+        protected static CustomExtensionBase Second;
+
+        protected static IBootstrapper<ICustomExtension> Bootstrapper;
+
+        Establish context = () =>
+        {
+            Bootstrapper = new DefaultBootstrapper<ICustomExtension>();
+
+            Strategy = new CustomExtensionStrategy();
+            First = new FirstExtension();
+            Second = new SecondExtension();
+        };
     }
 }
