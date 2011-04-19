@@ -35,14 +35,17 @@ namespace bbv.Common.Bootstrapper
 
         private readonly Mock<IExecutor<IExtension>> runExecutor;
 
+        private readonly Mock<IExecutor<IExtension>> shutdownExecutor;
+
         private readonly DefaultBootstrapper<IExtension> testee;
 
         public DefaultBootstrapperTest()
         {
             this.extensionHost = new Mock<IExtensionHost<IExtension>>();
             this.runExecutor = new Mock<IExecutor<IExtension>>();
+            this.shutdownExecutor = new Mock<IExecutor<IExtension>>();
 
-            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.runExecutor.Object);
+            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.runExecutor.Object, this.shutdownExecutor.Object);
         }
 
         [Fact]
@@ -89,6 +92,56 @@ namespace bbv.Common.Bootstrapper
             this.testee.Run();
 
             this.runExecutor.Verify(r => r.Execute(runSyntax.Object, extensions));
+        }
+
+        [Fact]
+        public void Shutdown_ShouldBuildShutdownSyntax()
+        {
+            this.ShouldBuildShutdownSyntax(() => this.testee.Shutdown());
+        }
+
+        [Fact]
+        public void Shutdown_ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor()
+        {
+            this.ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor(() => this.testee.Shutdown());
+        }
+
+        [Fact]
+        public void Dispose_ShouldBuildShutdownSyntax()
+        {
+            this.ShouldBuildShutdownSyntax(() => this.testee.Dispose());
+        }
+
+        [Fact]
+        public void Dispose_ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor()
+        {
+            this.ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        private void ShouldBuildShutdownSyntax(Action executionAction)
+        {
+            var strategy = new Mock<IStrategy<IExtension>>();
+            this.testee.Initialize(strategy.Object);
+
+            executionAction();
+
+            strategy.Verify(s => s.BuildShutdownSyntax());
+        }
+
+        private void ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor(Action executionAction)
+        {
+            var shutdownSyntax = new Mock<ISyntax<IExtension>>();
+            var strategy = new Mock<IStrategy<IExtension>>();
+            strategy.Setup(s => s.BuildShutdownSyntax()).Returns(shutdownSyntax.Object);
+
+            var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
+            this.extensionHost.Setup(e => e.Extensions).Returns(extensions);
+
+            this.testee.Initialize(strategy.Object);
+
+            executionAction();
+
+            this.shutdownExecutor.Verify(r => r.Execute(shutdownSyntax.Object, extensions));
         }
     }
 }

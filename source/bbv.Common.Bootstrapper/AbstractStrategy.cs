@@ -65,7 +65,7 @@ namespace bbv.Common.Bootstrapper
         /// </returns>
         public ISyntax<TExtension> BuildRunSyntax()
         {
-            this.AssertRunSyntaxAvailable();
+            this.CheckRunSyntaxNotAlreadyBuilt();
 
             this.DefineRunSyntax(this.runSyntaxBuilder);
 
@@ -80,11 +80,12 @@ namespace bbv.Common.Bootstrapper
         /// </returns>
         public ISyntax<TExtension> BuildShutdownSyntax()
         {
-            this.AssertShutdownSyntaxAvailable();
+            this.CheckShutdownSyntaxNotAlreadyBuilt();
 
             this.DefineShutdownSyntax(this.shutdownSyntaxBuilder);
 
-            return this.shutdownSyntaxBuilder;
+            return this.shutdownSyntaxBuilder
+                .Execute(e => e.Dispose());
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace bbv.Common.Bootstrapper
         /// <param name="builder">The syntax builder</param>
         protected abstract void DefineShutdownSyntax(ISyntaxBuilder<TExtension> builder);
 
-        private void AssertRunSyntaxAvailable()
+        private void CheckRunSyntaxNotAlreadyBuilt()
         {
             if (this.runSyntaxBuilded)
             {
@@ -109,7 +110,7 @@ namespace bbv.Common.Bootstrapper
             this.runSyntaxBuilded = true;
         }
 
-        private void AssertShutdownSyntaxAvailable()
+        private void CheckShutdownSyntaxNotAlreadyBuilt()
         {
             if (this.shutdownSyntaxBuilded)
             {

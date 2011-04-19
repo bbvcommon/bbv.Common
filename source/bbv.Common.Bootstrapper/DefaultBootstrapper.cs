@@ -33,13 +33,17 @@ namespace bbv.Common.Bootstrapper
 
         private readonly IExecutor<TExtension> runExecutor;
 
+        private readonly IExecutor<TExtension> shutdownExecutor;
+
+        private bool isDisposed;
+
         private IStrategy<TExtension> strategy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         public DefaultBootstrapper()
-            : this(new ExtensionHost<TExtension>(), new SynchronousRunExecutor<TExtension>())
+            : this(new ExtensionHost<TExtension>(), new SynchronousRunExecutor<TExtension>(), new SynchronousRunExecutor<TExtension>())
         {
         }
 
@@ -48,8 +52,10 @@ namespace bbv.Common.Bootstrapper
         /// </summary>
         /// <param name="extensionHost">The extension host.</param>
         /// <param name="runExecutor">The run executor.</param>
-        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost, IExecutor<TExtension> runExecutor)
+        /// <param name="shutdownExecutor">The shutdown executor.</param>
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost, IExecutor<TExtension> runExecutor, IExecutor<TExtension> shutdownExecutor)
         {
+            this.shutdownExecutor = shutdownExecutor;
             this.runExecutor = runExecutor;
             this.extensionHost = extensionHost;
         }
@@ -65,23 +71,12 @@ namespace bbv.Common.Bootstrapper
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            this.Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         /// Initializes the bootstrapper with the strategy.
         /// </summary>
         /// <param name="strategy">The strategy.</param>
         public void Initialize(IStrategy<TExtension> strategy)
         {
-            this.AssertInitialized();
+            this.CheckAlreadyInitialized();
 
             this.strategy = strategy;
         }
@@ -103,7 +98,18 @@ namespace bbv.Common.Bootstrapper
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
         public void Shutdown()
         {
-            throw new NotImplementedException();
+            this.Dispose();
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -112,9 +118,20 @@ namespace bbv.Common.Bootstrapper
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (!this.isDisposed)
+            {
+                if (disposing)
+                {
+                    var syntax = this.strategy.BuildShutdownSyntax();
+
+                    this.shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
+                }
+
+                this.isDisposed = true;
+            }
         }
 
-        private void AssertInitialized()
+        private void CheckAlreadyInitialized()
         {
             if (this.strategy != null)
             {

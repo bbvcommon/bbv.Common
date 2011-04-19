@@ -66,7 +66,7 @@ namespace bbv.Common.Bootstrapper.Syntax
          InlineData("CCC", 3),
          InlineData("AAAA", 4),
          InlineData("AAAAA", 5)]
-        public void Enumeration_ShouldProvidedDefinedExecutables(string execution, int expected)
+        public void Enumeration_ShouldProvideDefinedExecutables(string execution, int expected)
         {
             this.ExecuteChaining(execution);
 
