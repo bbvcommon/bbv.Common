@@ -19,7 +19,6 @@
 namespace bbv.Common.Bootstrapper
 {
     using System;
-    using System.Collections.Generic;
 
     using bbv.Common.Bootstrapper.Syntax;
 
@@ -56,13 +55,10 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void BuildRunSyntax_ShouldReturnDefinedRunSyntax()
         {
-            this.runSyntaxBuilder.Setup(x => x.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>>().GetEnumerator());
-
             var syntax = this.testee.BuildRunSyntax();
 
-            syntax.Should().BeEmpty();
-            this.runSyntaxBuilder.Verify(x => x.Execute(It.IsAny<Action>()));
+            syntax.Equals(this.runSyntaxBuilder.Object).Should().BeTrue();
+            this.testee.RunSyntaxBuilder.Equals(this.runSyntaxBuilder.Object).Should().BeTrue();
         }
 
         [Fact]
@@ -76,13 +72,10 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void BuildShutdownSyntax_ShouldReturnDefinedRunSyntax()
         {
-            this.shutdownSyntaxBuilder.Setup(x => x.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>>().GetEnumerator());
-
             var syntax = this.testee.BuildShutdownSyntax();
 
-            syntax.Should().BeEmpty();
-            this.shutdownSyntaxBuilder.Verify(x => x.Execute(It.IsAny<Action>()));
+            syntax.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();
+            this.testee.ShutdownSyntaxBuilder.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();
         }
 
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>
@@ -92,14 +85,18 @@ namespace bbv.Common.Bootstrapper
             {
             }
 
+            public ISyntaxBuilder<IExtension> RunSyntaxBuilder { get; private set; }
+
+            public ISyntaxBuilder<IExtension> ShutdownSyntaxBuilder { get; private set; }
+
             protected override void DefineRunSyntax(ISyntaxBuilder<IExtension> builder)
             {
-                builder.Execute(() => { });
+                this.RunSyntaxBuilder = builder;
             }
 
             protected override void DefineShutdownSyntax(ISyntaxBuilder<IExtension> builder)
             {
-                builder.Execute(() => { });
+                this.ShutdownSyntaxBuilder = builder;
             }
         }
     }
