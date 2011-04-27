@@ -101,6 +101,33 @@
     <echo message="Completion cleaning of solutions" />
   </target>	
   
+  <target name="clean-packages" description="Cleans all packages">
+    <echo message="Starting cleaning of packages" />
+	<foreach item="File" property="file">
+      <in>
+        <items basedir="${sources}/packages">					
+          <include name="**/*" />
+          <exclude name=".gitignore" />
+          <exclude name="repositories.config" />
+        </items>
+      </in>
+      <do>
+        <delete file="${file}" failonerror="false" />
+      </do>
+    </foreach>
+    <foreach item="Folder" property="foldername">
+      <in>
+        <items basedir="${sources}/packages">					
+          <include name="**/*" />
+        </items>
+      </in>
+      <do>
+        <delete dir="${foldername}" failonerror="false" />
+      </do>
+    </foreach>
+    <echo message="Completion cleaning of packages" />
+  </target>	
+  
   <target name="build_bbvCommon" description="Builds all projects of the bbv.Common solution">	
     <echo message="Starting compilation of solutions" />
     <tstamp />
