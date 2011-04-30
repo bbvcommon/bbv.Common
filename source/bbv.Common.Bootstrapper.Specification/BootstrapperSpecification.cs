@@ -24,7 +24,7 @@ namespace bbv.Common.Bootstrapper.Specification
 
     public class BootstrapperSpecification
     {
-        protected static IStrategy<ICustomExtension> Strategy;
+        protected static CustomExtensionStrategy Strategy;
 
         protected static CustomExtensionBase First;
 

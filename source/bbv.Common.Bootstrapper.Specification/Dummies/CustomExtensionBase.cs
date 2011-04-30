@@ -18,28 +18,25 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
-    using System.Text;
 
     public class CustomExtensionBase : ICustomExtension
     {
-        private readonly StringBuilder stringBuilder;
+        private static readonly Queue<string> sequenceQueue = new Queue<string>();
 
-        public CustomExtensionBase()
+        public static IEnumerable<string> Sequence
         {
-            this.stringBuilder = new StringBuilder();
+            get
+            {
+                return sequenceQueue;
+            }
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
+        public IDictionary<string, string> Configuration
         {
-            this.Dump(MethodBase.GetCurrentMethod().Name);
+            get; private set;
         }
 
         public void Start()
@@ -51,11 +48,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             this.Dump(MethodBase.GetCurrentMethod().Name);
 
-            foreach (KeyValuePair<string, string> keyValuePair in configuration)
-            {
-                this.stringBuilder.AppendFormat(
-                    CultureInfo.InvariantCulture, "{0}, {1}{2}", keyValuePair.Key, keyValuePair.Value, Environment.NewLine);
-            }
+            this.Configuration = configuration;
         }
 
         public void Stop()
@@ -63,9 +56,14 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.Dump(MethodBase.GetCurrentMethod().Name);
         }
 
+        public void Dispose()
+        {
+            this.Dump(MethodBase.GetCurrentMethod().Name);
+        }
+
         private void Dump(string methodName)
         {
-            this.stringBuilder.AppendLine(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", this.GetType().Name, methodName));
+            sequenceQueue.Enqueue(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", this.GetType().Name, methodName));
         }
     }
 }

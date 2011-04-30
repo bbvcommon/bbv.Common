@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="SynchronousRunExecutorTest.cs" company="bbv Software Services AG">
+// <copyright file="SynchronousExecutorTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,20 +19,23 @@
 namespace bbv.Common.Bootstrapper.Execution
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using bbv.Common.Bootstrapper.Syntax;
+
+    using FluentAssertions;
 
     using Moq;
 
     using Xunit;
 
-    public class SynchronousRunExecutorTest
+    public class SynchronousExecutorTest
     {
-        private SynchronousRunExecutor<IExtension> testee;
+        private readonly SynchronousExecutor<IExtension> testee;
 
-        public SynchronousRunExecutorTest()
+        public SynchronousExecutorTest()
         {
-            this.testee = new SynchronousRunExecutor<IExtension>();
+            this.testee = new SynchronousExecutor<IExtension>();
         }
 
         [Fact]
@@ -40,16 +43,41 @@ namespace bbv.Common.Bootstrapper.Execution
         {
             var firstExecutable = new Mock<IExecutable<IExtension>>();
             var secondExecutable = new Mock<IExecutable<IExtension>>();
-
             var syntax = new Mock<ISyntax<IExtension>>();
-            syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object } .GetEnumerator());
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
+
+            syntax.Setup(s => s.GetEnumerator())
+                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object } 
+                .GetEnumerator());
 
             this.testee.Execute(syntax.Object, extensions);
 
             firstExecutable.Verify(e => e.Execute(extensions));
             secondExecutable.Verify(e => e.Execute(extensions));
+        }
+
+        [Fact]
+        public void Execute_ShouldExecuteSyntaxWithExtensionsInOrderOfAppearance()
+        {
+            var executable = new Mock<IExecutable<IExtension>>();
+            var syntax = new Mock<ISyntax<IExtension>>();
+            var firstExtension = Mock.Of<IExtension>();
+            var secondExtension = Mock.Of<IExtension>();
+
+            var extensions = new List<IExtension> { secondExtension, firstExtension, };
+
+            IEnumerable<IExtension> passedExtensions = Enumerable.Empty<IExtension>();
+
+            executable.Setup(e => e.Execute(It.IsAny<IEnumerable<IExtension>>()))
+                .Callback<IEnumerable<IExtension>>(ext => passedExtensions = ext);
+
+            syntax.Setup(s => s.GetEnumerator())
+                .Returns(new List<IExecutable<IExtension>> { executable.Object } 
+                .GetEnumerator());
+
+            this.testee.Execute(syntax.Object, extensions);
+
+            passedExtensions.Should().ContainInOrder(extensions);
         }
     }
 }

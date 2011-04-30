@@ -24,11 +24,16 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     public class CustomExtensionStrategy : AbstractStrategy<ICustomExtension>
     {
+        public int ConfigurationInitializerAccessCounter
+        {
+            get; private set;
+        }
+
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
                 .Execute(extension => extension.Start())
-                .Execute(InitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary));
+                .Execute(this.InitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary));
         }
 
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> syntax)
@@ -37,8 +42,10 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
                 .Execute(extension => extension.Stop());
         }
 
-        private static IDictionary<string, string> InitializeConfiguration()
+        private IDictionary<string, string> InitializeConfiguration()
         {
+            this.ConfigurationInitializerAccessCounter++;
+
             return new Dictionary<string, string> { { "Test", "TestValue" } };
         }
     }

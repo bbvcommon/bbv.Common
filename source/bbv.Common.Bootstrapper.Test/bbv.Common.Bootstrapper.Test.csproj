@@ -28,7 +28,8 @@
     <Compile Include="AbstractStrategyTest.cs" />
     <Compile Include="DefaultBootstrapperTest.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
-    <Compile Include="Execution\SynchronousRunExecutorTest.cs" />
+    <Compile Include="Execution\SynchronousExecutorTest.cs" />
+    <Compile Include="Execution\SynchronousReverseExecutorTest.cs" />
     <Compile Include="ExtensionHostTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Syntax\Executables\ActionExecutableTest.cs" />

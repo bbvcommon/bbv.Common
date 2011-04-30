@@ -18,6 +18,13 @@
 
 namespace bbv.Common.Bootstrapper.Specification
 {
+    using System;
+    using System.Linq;
+
+    using bbv.Common.Bootstrapper.Specification.Dummies;
+
+    using FluentAssertions;
+
     using Machine.Specifications;
 
     public class When_the_bootstrapper_is_shutdown : BootstrapperSpecification
@@ -32,6 +39,27 @@ namespace bbv.Common.Bootstrapper.Specification
         Because of = () =>
         {
             Bootstrapper.Shutdown();
+        };
+
+        It should_execute_the_extensions_in_the_correct_order = () =>
+        {
+            var sequence = CustomExtensionBase.Sequence;
+
+            sequence.Should().HaveCount(4);
+            sequence.ElementAt(0).Should().StartWith("SecondExtension");
+            sequence.ElementAt(1).Should().StartWith("FirstExtension");
+            sequence.ElementAt(2).Should().StartWith("SecondExtension");
+            sequence.ElementAt(3).Should().StartWith("FirstExtension");
+        };
+
+        It should_execute_the_extension_point_according_to_the_strategy_defined_order = () =>
+        {
+            var sequence = CustomExtensionBase.Sequence;
+            var strippedSequence = sequence.Select(s => s.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).Last().Trim()).Distinct();
+
+            strippedSequence.Should().HaveCount(2);
+            strippedSequence.ElementAt(0).Should().BeEquivalentTo("Stop");
+            strippedSequence.ElementAt(1).Should().BeEquivalentTo("Dispose");
         };
     }
 }

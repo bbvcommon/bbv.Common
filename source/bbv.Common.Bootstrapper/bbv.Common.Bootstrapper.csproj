@@ -20,7 +20,8 @@
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
     <Compile Include="Configuration\ExtensionSettingsElement.cs" />
     <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
-    <Compile Include="Execution\SynchronousRunExecutor.cs" />
+    <Compile Include="Execution\SynchronousExecutor.cs" />
+    <Compile Include="Execution\SynchronousReverseExecutor.cs" />
     <Compile Include="ExtensionHost.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBootstrapper.cs" />

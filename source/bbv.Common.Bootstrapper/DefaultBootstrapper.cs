@@ -43,7 +43,7 @@ namespace bbv.Common.Bootstrapper
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         public DefaultBootstrapper()
-            : this(new ExtensionHost<TExtension>(), new SynchronousRunExecutor<TExtension>(), new SynchronousRunExecutor<TExtension>())
+            : this(new ExtensionHost<TExtension>(), new SynchronousExecutor<TExtension>(), new SynchronousReverseExecutor<TExtension>())
         {
         }
 
