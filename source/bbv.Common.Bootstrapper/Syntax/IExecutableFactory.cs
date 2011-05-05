@@ -41,7 +41,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <param name="initializer">The initializer.</param>
         /// <param name="action">The action.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action);
+        IExecutable<TExtension> CreateExecutable<TContext>(Func<IBehaviorAware<TExtension>, TContext> initializer, Action<TExtension, TContext> action);
 
         /// <summary>
         /// Creates an executable which executes an action on the specified extension.

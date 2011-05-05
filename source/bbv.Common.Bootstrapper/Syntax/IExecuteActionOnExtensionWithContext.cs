@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="IExecutable.cs" company="bbv Software Services AG">
+// <copyright file="IExecuteActionOnExtensionWithContext.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,21 @@
 
 namespace bbv.Common.Bootstrapper.Syntax
 {
-    using System.Collections.Generic;
+    using System;
 
-    /// <summary>
-    /// Executable definition. The executable is part of a syntax.
-    /// </summary>
-    /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExecutable<TExtension> : IBehaviorAware<TExtension>
+    public interface IExecuteActionOnExtensionWithContext<TExtension> : ISyntax<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
-        /// Executes an operation on the specified extensions.
+        /// Adds an context initializer and an execution action which gets
+        /// access to the context to the currently built syntax.
         /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        void Execute(IEnumerable<TExtension> extensions);
+        /// <typeparam name="TContext">The type of the context.</typeparam>
+        /// <param name="initializer">The context initializer.</param>
+        /// <param name="action">The action with access to the context.</param>
+        /// <returns>
+        /// The current syntax builder.
+        /// </returns>
+        IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action);
     }
 }

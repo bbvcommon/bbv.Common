@@ -48,5 +48,9 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         {
             this.action();
         }
+
+        public void Add(IBehavior<TExtension> behavior)
+        {
+        }
     }
 }

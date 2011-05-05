@@ -30,7 +30,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     public class ActionOnExtensionWithInitializerExecutable<TContext, TExtension> : IExecutable<TExtension>
         where TExtension : IExtension
     {
-        private readonly Func<TContext> initializer;
+        private readonly Func<IBehaviorAware<TExtension>, TContext> initializer;
 
         private readonly Action<TExtension, TContext> action;
 
@@ -39,7 +39,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// </summary>
         /// <param name="initializer">The initializer.</param>
         /// <param name="action">The action.</param>
-        public ActionOnExtensionWithInitializerExecutable(Func<TContext> initializer, Action<TExtension, TContext> action)
+        public ActionOnExtensionWithInitializerExecutable(Func<IBehaviorAware<TExtension>, TContext> initializer, Action<TExtension, TContext> action)
         {
             this.action = action;
             this.initializer = initializer;
@@ -53,12 +53,16 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
 
-            TContext context = this.initializer();
+            TContext context = this.initializer(this);
 
             foreach (TExtension extension in extensions)
             {
                 this.action(extension, context);
             }
+        }
+
+        public void Add(IBehavior<TExtension> behavior)
+        {
         }
     }
 }

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ISyntaxBuilder.cs" company="bbv Software Services AG">
+// <copyright file="IBehaviorAware.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,16 @@
 namespace bbv.Common.Bootstrapper.Syntax
 {
     /// <summary>
-    /// Syntax builder.
+    /// A behavior aware component is responsible for managing behaviors.
     /// </summary>
-    /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface IBehaviorAware<out TExtension>
         where TExtension : IExtension
     {
+        /// <summary>
+        /// Adds the specified behavior.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        void Add(IBehavior<TExtension> behavior);
     }
 }

@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The syntax builder.
@@ -29,6 +30,8 @@ namespace bbv.Common.Bootstrapper.Syntax
     public class SyntaxBuilder<TExtension> : ISyntaxBuilder<TExtension>
         where TExtension : IExtension
     {
+        private static readonly Action DoNothing = () => { };
+
         private readonly Queue<IExecutable<TExtension>> executables;
 
         private readonly IExecutableFactory<TExtension> executableFactory;
@@ -41,6 +44,26 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             this.executableFactory = executableFactory;
             this.executables = new Queue<IExecutable<TExtension>>();
+        }
+
+        public IWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
+        {
+            if (!this.executables.Any())
+            {
+                this.WithAction(DoNothing);
+            }
+
+            this.BuildedExecutable.Add(behavior);
+
+            return this;
+        }
+
+        protected IExecutable<TExtension> BuildedExecutable
+        {
+            get
+            {
+                return this.executables.First();
+            }
         }
 
         /// <summary>
@@ -72,7 +95,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        public ISyntaxBuilder<TExtension> Execute(Action action)
+        public IWithBehavior<TExtension> Execute(Action action)
         {
             return this.WithAction(action);
         }
@@ -87,7 +110,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The current syntax builder.
         /// </returns>
-        public ISyntaxBuilder<TExtension> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        public IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
         {
             return this.WithInitializerAndActionOnExtension(initializer, action);
         }
@@ -98,7 +121,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        public ISyntaxBuilder<TExtension> Execute(Action<TExtension> action)
+        public IWithBehavior<TExtension> Execute(Action<TExtension> action)
         {
             return this.WithActionOnExtension(action);
         }
@@ -121,13 +144,72 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
-        private ISyntaxBuilder<TExtension> WithInitializerAndActionOnExtension<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        private IWithBehaviorOnContext<TExtension, TContext> WithInitializerAndActionOnExtension<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
         {
-            var executable = this.executableFactory.CreateExecutable(initializer, action);
+            var providerQueue = new Queue<Func<TContext, IBehavior<TExtension>>>();
+
+            var executable = this.executableFactory.CreateExecutable(
+                behaviorAware =>
+                    {
+                        var context = initializer();
+
+                        foreach (Func<TContext, IBehavior<TExtension>> provider in providerQueue)
+                        {
+                            behaviorAware.Add(provider(context));
+                        }
+
+                    return context;
+                },
+                action);
 
             this.executables.Enqueue(executable);
 
-            return this;
+            return new SyntaxBuilderWithContext<TContext>(this, providerQueue);
+        }
+
+        private class SyntaxBuilderWithContext<TContext> : IWithBehaviorOnContext<TExtension, TContext>
+        {
+            private readonly Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders;
+
+            private readonly SyntaxBuilder<TExtension> syntaxBuilder;
+
+            public SyntaxBuilderWithContext(SyntaxBuilder<TExtension> syntaxBuilder, Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders)
+            {
+                this.syntaxBuilder = syntaxBuilder;
+                this.behaviorProviders = behaviorProviders;
+            }
+
+            public IWithBehavior<TExtension> Execute(Action action)
+            {
+                return this.syntaxBuilder.Execute(action);
+            }
+
+            public IWithBehavior<TExtension> Execute(Action<TExtension> action)
+            {
+                return this.syntaxBuilder.Execute(action);
+            }
+
+            public IWithBehaviorOnContext<TExtension, TChainedContext> Execute<TChainedContext>(Func<TChainedContext> initializer, Action<TExtension, TChainedContext> action)
+            {
+                return this.syntaxBuilder.Execute(initializer, action);
+            }
+
+            public IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider)
+            {
+                this.behaviorProviders.Enqueue(provider);
+
+                return this;
+            }
+
+            public IEnumerator<IExecutable<TExtension>> GetEnumerator()
+            {
+                return this.syntaxBuilder.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
         }
     }
 }

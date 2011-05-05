@@ -23,7 +23,6 @@ namespace bbv.Common.Bootstrapper
     /// <summary>
     /// Interface for extensions.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Marker interface for inheritance.")]
     public interface IExtension : IDisposable
     {
     }

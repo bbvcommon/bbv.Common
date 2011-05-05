@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="ISyntaxBuilder.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IExecuteActionOnExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +18,17 @@
 
 namespace bbv.Common.Bootstrapper.Syntax
 {
-    /// <summary>
-    /// Syntax builder.
-    /// </summary>
-    /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
+    using System;
+
+    public interface IExecuteActionOnExtension<TExtension> : ISyntax<TExtension>
         where TExtension : IExtension
     {
+        /// <summary>
+        /// Adds an execution action which operates on the extension to the
+        /// currently built syntax.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The current syntax builder.</returns>
+        IWithBehavior<TExtension> Execute(Action<TExtension> action);
     }
 }

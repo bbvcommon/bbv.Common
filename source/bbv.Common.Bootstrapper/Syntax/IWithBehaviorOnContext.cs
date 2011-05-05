@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="ISyntaxBuilder.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IWithBehaviorOnContext.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +18,11 @@
 
 namespace bbv.Common.Bootstrapper.Syntax
 {
-    /// <summary>
-    /// Syntax builder.
-    /// </summary>
-    /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
+    using System;
+
+    public interface IWithBehaviorOnContext<TExtension, TContext> : IExecuteAction<TExtension>, IExecuteActionOnExtension<TExtension>, IExecuteActionOnExtensionWithContext<TExtension>
         where TExtension : IExtension
     {
+        IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider);
     }
 }

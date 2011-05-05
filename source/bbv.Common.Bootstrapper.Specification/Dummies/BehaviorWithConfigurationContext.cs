@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ISyntaxBuilder.cs" company="bbv Software Services AG">
+// <copyright file="BehaviorWithConfigurationContext.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +16,28 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Syntax
+namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    /// <summary>
-    /// Syntax builder.
-    /// </summary>
-    /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
-        where TExtension : IExtension
+    using System.Collections.Generic;
+
+    public class BehaviorWithConfigurationContext : IBehavior<ICustomExtension>
     {
+        private readonly IDictionary<string, string> configuration;
+
+        private readonly string key;
+
+        private readonly string value;
+
+        public BehaviorWithConfigurationContext(IDictionary<string, string> configuration, string key, string value)
+        {
+            this.value = value;
+            this.key = key;
+            this.configuration = configuration;
+        }
+
+        public void Behave(IEnumerable<ICustomExtension> extensions)
+        {
+            this.configuration.Add(this.key, this.value);
+        }
     }
 }

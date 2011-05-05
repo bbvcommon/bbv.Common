@@ -23,12 +23,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapperSpecification.cs" />
+    <Compile Include="BootstrapperWithBehaviorSpecification.cs" />
+    <Compile Include="Dummies\Behavior.cs" />
+    <Compile Include="Dummies\BehaviorWithConfigurationContext.cs" />
+    <Compile Include="Dummies\BehaviorWithStringContext.cs" />
     <Compile Include="Dummies\CustomExtensionBase.cs" />
     <Compile Include="Dummies\CustomExtensionStrategy.cs" />
+    <Compile Include="Dummies\CustomExtensionWithBehaviorStrategy.cs" />
     <Compile Include="Dummies\FirstExtension.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
     <Compile Include="Dummies\SecondExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="when_behavior_is_attached.cs" />
     <Compile Include="when_the_bootstrapper_is_run.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown.cs" />
   </ItemGroup>

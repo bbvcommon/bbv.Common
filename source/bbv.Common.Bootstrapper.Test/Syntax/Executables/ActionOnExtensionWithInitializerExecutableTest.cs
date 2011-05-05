@@ -36,14 +36,17 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
         private int contextAccessCounter;
 
+        private IBehaviorAware<IExtension> interceptedBehaviorAware;
+
         public ActionOnExtensionWithInitializerExecutableTest()
         {
             this.context = new object();
 
             this.testee =
                 new ActionOnExtensionWithInitializerExecutable<object, ICustomExtension>(
-                    () =>
+                    aware =>
                         {
+                            this.interceptedBehaviorAware = aware;
                             this.contextAccessCounter++;
                             return this.context;
                         },
@@ -56,6 +59,14 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() });
 
             this.contextAccessCounter.Should().Be(1);
+        }
+
+        [Fact]
+        public void Execute_ShouldPassItselfToInitializer()
+        {
+            this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() });
+
+            this.interceptedBehaviorAware.Should().Be(this.testee);
         }
 
         [Fact]

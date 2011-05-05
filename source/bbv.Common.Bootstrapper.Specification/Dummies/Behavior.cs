@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ICustomExtension.cs" company="bbv Software Services AG">
+// <copyright file="Behavior.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,18 +18,28 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Reflection;
 
-    public interface ICustomExtension : IExtension
+    public class Behavior : IBehavior<ICustomExtension>
     {
-        void Start();
+        private readonly string access;
 
-        void Configure(IDictionary<string, string> configuration);
+        public Behavior(string access)
+        {
+            this.access = access;
+        }
 
-        void Initialize();
-
-        void Inject(string magic);
-
-        void Stop();
+        public void Behave(IEnumerable<ICustomExtension> extensions)
+        {
+            foreach (ICustomExtension extension in extensions)
+            {
+                var dumpMethod = extension.GetType().GetMethod("Dump", BindingFlags.Instance | BindingFlags.NonPublic);
+                var action = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), extension, dumpMethod);
+                action(string.Format(CultureInfo.InvariantCulture, "Behaving on {0} at {1}.", extension, this.access));
+            }
+        }
     }
 }

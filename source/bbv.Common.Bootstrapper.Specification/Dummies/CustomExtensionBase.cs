@@ -18,6 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
@@ -39,6 +40,11 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             get; private set;
         }
 
+        public string Injected
+        {
+            get; private set;
+        }
+
         public void Start()
         {
             this.Dump(MethodBase.GetCurrentMethod().Name);
@@ -49,6 +55,18 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.Dump(MethodBase.GetCurrentMethod().Name);
 
             this.Configuration = configuration;
+        }
+
+        public void Initialize()
+        {
+            this.Dump(MethodBase.GetCurrentMethod().Name);
+        }
+
+        public void Inject(string magic)
+        {
+            this.Dump(MethodBase.GetCurrentMethod().Name);
+
+            this.Injected = magic;
         }
 
         public void Stop()

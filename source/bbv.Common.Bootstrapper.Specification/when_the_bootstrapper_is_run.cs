@@ -46,11 +46,18 @@ namespace bbv.Common.Bootstrapper.Specification
             {
                 var sequence = CustomExtensionBase.Sequence;
 
-                sequence.Should().HaveCount(4);
+                sequence.Should().HaveCount(8);
                 sequence.ElementAt(0).Should().StartWith("FirstExtension");
                 sequence.ElementAt(1).Should().StartWith("SecondExtension");
+
                 sequence.ElementAt(2).Should().StartWith("FirstExtension");
                 sequence.ElementAt(3).Should().StartWith("SecondExtension");
+
+                sequence.ElementAt(4).Should().StartWith("FirstExtension");
+                sequence.ElementAt(5).Should().StartWith("SecondExtension");
+
+                sequence.ElementAt(6).Should().StartWith("FirstExtension");
+                sequence.ElementAt(7).Should().StartWith("SecondExtension");
             };
 
         It should_only_initialize_once_for_all_extensions = () =>
@@ -64,6 +71,9 @@ namespace bbv.Common.Bootstrapper.Specification
 
                 First.Configuration.Should().HaveCount(1).And.Contain(expected);
                 Second.Configuration.Should().HaveCount(1).And.Contain(expected);
+
+                First.Injected.Should().Be("Test");
+                Second.Injected.Should().Be("Test");
             };
 
         It should_execute_the_extension_point_according_to_the_strategy_defined_order = () =>
@@ -71,9 +81,11 @@ namespace bbv.Common.Bootstrapper.Specification
                 var sequence = CustomExtensionBase.Sequence;
                 var strippedSequence = sequence.Select(s => s.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).Last().Trim()).Distinct();
 
-                strippedSequence.Should().HaveCount(2);
+                strippedSequence.Should().HaveCount(4);
                 strippedSequence.ElementAt(0).Should().BeEquivalentTo("Start");
                 strippedSequence.ElementAt(1).Should().BeEquivalentTo("Configure");
+                strippedSequence.ElementAt(2).Should().BeEquivalentTo("Initialize");
+                strippedSequence.ElementAt(3).Should().BeEquivalentTo("Inject");
             };
     }
 }

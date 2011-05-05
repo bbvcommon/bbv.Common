@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionStrategy.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionWithBehaviorStrategy.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,20 +22,31 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     using bbv.Common.Bootstrapper.Syntax;
 
-    public class CustomExtensionStrategy : AbstractStrategy<ICustomExtension>
+    public class CustomExtensionWithBehaviorStrategy : AbstractStrategy<ICustomExtension>
     {
         public int ConfigurationInitializerAccessCounter
         {
-            get; private set;
+            get;
+            private set;
         }
 
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
+                    .With(new Behavior("first beginning"))
+                    .With(new Behavior("second beginning"))
                 .Execute(extension => extension.Start())
+                    .With(new Behavior("first start"))
+                    .With(new Behavior("second start"))
                 .Execute(this.InitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "FirstValue", "TestValue"))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "SecondValue", "TestValue"))
                 .Execute(extension => extension.Initialize())
-                .Execute(() => "Test", (extension, ctx) => extension.Inject(ctx));
+                    .With(new Behavior("first initialize"))
+                    .With(new Behavior("second initialize"))
+                .Execute(() => "Test", (extension, context) => extension.Inject(context))
+                    .With(context => new BehaviorWithStringContext(context, "TestValue"))
+                    .With(context => new BehaviorWithStringContext(context, "TestValue"));
         }
 
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> syntax)

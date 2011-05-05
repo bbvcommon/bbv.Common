@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ISyntaxBuilder.cs" company="bbv Software Services AG">
+// <copyright file="IBehavior.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +16,21 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Syntax
+namespace bbv.Common.Bootstrapper
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Syntax builder.
+    /// Behaviors are elements that can be attached to executables.
     /// </summary>
-    /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface IBehavior<in TExtension>
         where TExtension : IExtension
     {
+        /// <summary>
+        /// Applies certain behavior upon the extensions.
+        /// </summary>
+        /// <param name="extensions">The extensions.</param>
+        void Behave(IEnumerable<TExtension> extensions);
     }
 }
