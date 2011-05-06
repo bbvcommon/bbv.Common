@@ -18,10 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.Reflection;
 
     public class Behavior : IBehavior<ICustomExtension>
     {
@@ -36,9 +33,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             foreach (ICustomExtension extension in extensions)
             {
-                var dumpMethod = extension.GetType().GetMethod("Dump", BindingFlags.Instance | BindingFlags.NonPublic);
-                var action = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), extension, dumpMethod);
-                action(string.Format(CultureInfo.InvariantCulture, "Behaving on {0} at {1}.", extension, this.access));
+                extension.Dump(this.access);
             }
         }
     }

@@ -19,6 +19,8 @@
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
 
     public class BehaviorWithConfigurationContext : IBehavior<ICustomExtension>
     {
@@ -37,6 +39,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
+            extensions.First().Dump(string.Format(CultureInfo.InvariantCulture, "configuration modification with {0} = {1}.", this.key, this.value));
+
             this.configuration.Add(this.key, this.value);
         }
     }

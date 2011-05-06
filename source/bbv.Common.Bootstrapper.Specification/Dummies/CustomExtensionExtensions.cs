@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="BehaviorWithStringContext.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionExtensions.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,27 +18,17 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System.Collections.Generic;
+    using System;
     using System.Globalization;
-    using System.Linq;
+    using System.Reflection;
 
-    public class BehaviorWithStringContext : IBehavior<ICustomExtension>
+    public static class CustomExtensionExtensions
     {
-        private string input;
-
-        private readonly string addition;
-
-        public BehaviorWithStringContext(string input, string addition)
+        public static void Dump(this ICustomExtension extension, string message)
         {
-            this.addition = addition;
-            this.input = input;
-        }
-
-        public void Behave(IEnumerable<ICustomExtension> extensions)
-        {
-            extensions.First().Dump(string.Format(CultureInfo.InvariantCulture, "input modification with {0}.", this.addition));
-
-            this.input += " " + this.addition;
+            var dumpMethod = typeof(CustomExtensionBase).GetMethod("Dump", BindingFlags.Instance | BindingFlags.NonPublic);
+            var action = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), extension, dumpMethod);
+            action(string.Format(CultureInfo.InvariantCulture, "Behaving on {0} at {1}.", extension, message));
         }
     }
 }

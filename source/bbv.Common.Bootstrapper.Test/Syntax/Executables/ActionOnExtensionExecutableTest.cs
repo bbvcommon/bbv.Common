@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using bbv.Common.Bootstrapper.Dummies;
 
@@ -45,6 +46,22 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             firstExtension.Verify(x => x.Dispose());
             secondExtension.Verify(x => x.Dispose());
+        }
+
+        [Fact]
+        public void Execute_ShouldExecuteBehavior()
+        {
+            var first = new Mock<IBehavior<ICustomExtension>>();
+            var second = new Mock<IBehavior<ICustomExtension>>();
+            var extensions = Enumerable.Empty<ICustomExtension>();
+
+            this.testee.Add(first.Object);
+            this.testee.Add(second.Object);
+
+            this.testee.Execute(extensions);
+
+            first.Verify(b => b.Behave(extensions));
+            second.Verify(b => b.Behave(extensions));
         }
     }
 }

@@ -28,6 +28,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     public class ActionOnExtensionExecutable<TExtension> : IExecutable<TExtension>
         where TExtension : IExtension
     {
+        private readonly Queue<IBehavior<TExtension>> behaviors;
+
         private readonly Action<TExtension> action;
 
         /// <summary>
@@ -36,6 +38,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <param name="action">The action.</param>
         public ActionOnExtensionExecutable(Action<TExtension> action)
         {
+            this.behaviors = new Queue<IBehavior<TExtension>>();
+
             this.action = action;
         }
 
@@ -47,14 +51,24 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
 
+            foreach (IBehavior<TExtension> behavior in this.behaviors)
+            {
+                behavior.Behave(extensions);
+            }
+
             foreach (TExtension extension in extensions)
             {
                 this.action(extension);
             }
         }
 
+        /// <summary>
+        /// Adds the specified behavior.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
         public void Add(IBehavior<TExtension> behavior)
         {
+            this.behaviors.Enqueue(behavior);
         }
     }
 }

@@ -18,6 +18,10 @@
 
 namespace bbv.Common.Bootstrapper.Syntax
 {
+    /// <summary>
+    /// With behavior syntax.
+    /// </summary>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
     public interface IWithBehavior<TExtension> : IExecuteAction<TExtension>, IExecuteActionOnExtension<TExtension>, IExecuteActionOnExtensionWithContext<TExtension>
         where TExtension : IExtension
     {

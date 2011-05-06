@@ -46,6 +46,14 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.executables = new Queue<IExecutable<TExtension>>();
         }
 
+        protected IExecutable<TExtension> BuildedExecutable
+        {
+            get
+            {
+                return this.executables.First();
+            }
+        }
+
         public IWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
         {
             if (!this.executables.Any())
@@ -56,14 +64,6 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.BuildedExecutable.Add(behavior);
 
             return this;
-        }
-
-        protected IExecutable<TExtension> BuildedExecutable
-        {
-            get
-            {
-                return this.executables.First();
-            }
         }
 
         /// <summary>

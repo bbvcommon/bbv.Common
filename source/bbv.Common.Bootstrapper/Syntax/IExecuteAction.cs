@@ -20,6 +20,10 @@ namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
 
+    /// <summary>
+    /// Execute action syntax.
+    /// </summary>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
     public interface IExecuteAction<TExtension> : ISyntax<TExtension>
         where TExtension : IExtension
     {

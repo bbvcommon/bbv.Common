@@ -28,6 +28,7 @@
     <Compile Include="Dummies\BehaviorWithConfigurationContext.cs" />
     <Compile Include="Dummies\BehaviorWithStringContext.cs" />
     <Compile Include="Dummies\CustomExtensionBase.cs" />
+    <Compile Include="Dummies\CustomExtensionExtensions.cs" />
     <Compile Include="Dummies\CustomExtensionStrategy.cs" />
     <Compile Include="Dummies\CustomExtensionWithBehaviorStrategy.cs" />
     <Compile Include="Dummies\FirstExtension.cs" />

@@ -55,5 +55,21 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             enumerator.Verify(e => e.GetEnumerator(), Times.Never());
         }
+
+        [Fact]
+        public void Execute_ShouldExecuteBehavior()
+        {
+            var first = new Mock<IBehavior<IExtension>>();
+            var second = new Mock<IBehavior<IExtension>>();
+            var extensions = Enumerable.Empty<IExtension>();
+
+            this.testee.Add(first.Object);
+            this.testee.Add(second.Object);
+
+            this.testee.Execute(extensions);
+
+            first.Verify(b => b.Behave(extensions));
+            second.Verify(b => b.Behave(extensions));
+        }
     }
 }
