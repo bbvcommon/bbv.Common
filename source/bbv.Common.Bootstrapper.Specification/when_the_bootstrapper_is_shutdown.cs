@@ -50,8 +50,8 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var expected = new KeyValuePair<string, string>("ShutdownTest", "ShutdownTestValue");
 
-            First.ShutdownConfiguration.Should().HaveCount(1).And.Contain(expected);
-            Second.ShutdownConfiguration.Should().HaveCount(1).And.Contain(expected);
+            First.ShutdownConfiguration.Should().BeEquivalentTo(expected);
+            Second.ShutdownConfiguration.Should().BeEquivalentTo(expected);
 
             First.Unregistered.Should().Be("ShutdownTest");
             Second.Unregistered.Should().Be("ShutdownTest");

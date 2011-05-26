@@ -50,8 +50,8 @@ namespace bbv.Common.Bootstrapper.Specification
             {
                 var expected = new KeyValuePair<string, string>("RunTest", "RunTestValue");
 
-                First.RunConfiguration.Should().HaveCount(1).And.Contain(expected);
-                Second.RunConfiguration.Should().HaveCount(1).And.Contain(expected);
+                First.RunConfiguration.Should().BeEquivalentTo(expected);
+                Second.RunConfiguration.Should().BeEquivalentTo(expected);
 
                 First.Registered.Should().Be("RunTest");
                 Second.Registered.Should().Be("RunTest");

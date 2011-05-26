@@ -46,7 +46,6 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <summary>
         /// Executes an operation on the specified extensions.
         /// </summary>
-        /// <typeparam name="TExtension">The type of the extension.</typeparam>
         /// <param name="extensions">The extensions.</param>
         public void Execute(IEnumerable<TExtension> extensions) 
         {

@@ -58,6 +58,9 @@ namespace bbv.Common.Bootstrapper
             this.extensionHost = extensionHost;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
+        /// </summary>
         ~DefaultBootstrapper()
         {
             this.Dispose(false);

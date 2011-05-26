@@ -39,7 +39,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
-            extensions.First().Dump(string.Format(CultureInfo.InvariantCulture, "configuration modification with {0} = {1}.", this.key, this.value));
+            extensions.ToList().ForEach(e => e.Dump(string.Format(CultureInfo.InvariantCulture, "configuration modification with {0} = {1}", this.key, this.value)));
 
             this.configuration.Add(this.key, this.value);
         }

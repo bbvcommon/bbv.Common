@@ -35,9 +35,10 @@
     <Compile Include="Dummies\ICustomExtension.cs" />
     <Compile Include="Dummies\SecondExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="when_behavior_is_attached.cs" />
+    <Compile Include="when_the_bootstrapper_is_run_with_behavior_attached.cs" />
     <Compile Include="when_the_bootstrapper_is_run.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown.cs" />
+    <Compile Include="when_the_bootstrapper_is_shutdown_with_behavior_attached.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

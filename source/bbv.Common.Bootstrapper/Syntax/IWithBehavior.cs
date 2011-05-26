@@ -19,12 +19,19 @@
 namespace bbv.Common.Bootstrapper.Syntax
 {
     /// <summary>
-    /// With behavior syntax.
+    /// Fluent definition syntax interface for behaviors.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
     public interface IWithBehavior<TExtension> : IExecuteAction<TExtension>, IExecuteActionOnExtension<TExtension>, IExecuteActionOnExtensionWithContext<TExtension>
         where TExtension : IExtension
     {
+        /// <summary>
+        /// Attaches a behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
         IWithBehavior<TExtension> With(IBehavior<TExtension> behavior);
     }
 }

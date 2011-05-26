@@ -20,9 +20,19 @@ namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
 
-    public interface IWithBehaviorOnContext<TExtension, TContext> : IExecuteAction<TExtension>, IExecuteActionOnExtension<TExtension>, IExecuteActionOnExtensionWithContext<TExtension>
+    /// <summary>
+    /// Fluent definition syntax interface for behaviors which operate on contexts.
+    /// </summary>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    /// <typeparam name="TContext">The type of the context.</typeparam>
+    public interface IWithBehaviorOnContext<TExtension, out TContext> : IExecuteAction<TExtension>, IExecuteActionOnExtension<TExtension>, IExecuteActionOnExtensionWithContext<TExtension>
         where TExtension : IExtension
     {
+        /// <summary>
+        /// Attaches a behavior which has access to the context to the currently built executable.
+        /// </summary>
+        /// <param name="provider">The behavior provider.</param>
+        /// <returns>The syntax.</returns>
         IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider);
     }
 }

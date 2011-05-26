@@ -24,7 +24,13 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     public class CustomExtensionWithBehaviorStrategy : AbstractStrategy<ICustomExtension>
     {
-        public int ConfigurationInitializerAccessCounter
+        public int RunConfigurationInitializerAccessCounter
+        {
+            get;
+            private set;
+        }
+
+        public int ShutdownConfigurationInitializerAccessCounter
         {
             get;
             private set;
@@ -33,33 +39,50 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
-                    .With(new Behavior("first beginning"))
-                    .With(new Behavior("second beginning"))
+                    .With(new Behavior("run first beginning"))
+                    .With(new Behavior("run second beginning"))
                 .Execute(extension => extension.Start())
-                    .With(new Behavior("first start"))
-                    .With(new Behavior("second start"))
-                .Execute(this.InitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
-                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "FirstValue", "TestValue"))
-                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "SecondValue", "TestValue"))
+                    .With(new Behavior("run first start"))
+                    .With(new Behavior("run second start"))
+                .Execute(this.RunInitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "RunFirstValue", "RunTestValue"))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "RunSecondValue", "RunTestValue"))
                 .Execute(extension => extension.Initialize())
-                    .With(new Behavior("first initialize"))
-                    .With(new Behavior("second initialize"))
-                .Execute(() => "Test", (extension, context) => extension.Register(context))
-                    .With(context => new BehaviorWithStringContext(context, "TestValue"))
-                    .With(context => new BehaviorWithStringContext(context, "TestValue"));
+                    .With(new Behavior("run first initialize"))
+                    .With(new Behavior("run second initialize"))
+                .Execute(() => "RunTest", (extension, context) => extension.Register(context))
+                    .With(context => new BehaviorWithStringContext(context, "RunTestValueFirst"))
+                    .With(context => new BehaviorWithStringContext(context, "RunTestValueSecond"));
         }
 
-        protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> syntax)
+        protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
-            syntax
-                .Execute(extension => extension.Stop());
+            builder
+                    .With(new Behavior("shutdown first beginning"))
+                    .With(new Behavior("shutdown second beginning"))
+                .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
+                    .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueFirst"))
+                    .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueSecond"))
+                .Execute(this.ShutdownInitializeConfiguration, (extension, dictionary) => extension.DeConfigure(dictionary))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "ShutdownFirstValue", "ShutdownTestValue"))
+                    .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "ShutdownSecondValue", "ShutdownTestValue"))
+                .Execute(extension => extension.Stop())
+                     .With(new Behavior("shutdown first stop"))
+                    .With(new Behavior("shutdown second stop"));
         }
 
-        private IDictionary<string, string> InitializeConfiguration()
+        private IDictionary<string, string> RunInitializeConfiguration()
         {
-            this.ConfigurationInitializerAccessCounter++;
+            this.RunConfigurationInitializerAccessCounter++;
 
-            return new Dictionary<string, string> { { "Test", "TestValue" } };
+            return new Dictionary<string, string> { { "RunTest", "RunTestValue" } };
+        }
+
+        private IDictionary<string, string> ShutdownInitializeConfiguration()
+        {
+            this.ShutdownConfigurationInitializerAccessCounter++;
+
+            return new Dictionary<string, string> { { "ShutdownTest", "ShutdownTestValue" } };
         }
     }
 }

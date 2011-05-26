@@ -46,14 +46,18 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.executables = new Queue<IExecutable<TExtension>>();
         }
 
-        protected IExecutable<TExtension> BuiltExecutable
-        {
-            get
-            {
-                return this.executables.First();
-            }
-        }
+        /// <summary>
+        /// Gets the currently built executable
+        /// </summary>
+        protected IExecutable<TExtension> BuiltExecutable { get; private set; }
 
+        /// <summary>
+        /// Attaches a behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
         public IWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
         {
             if (!this.executables.Any())
@@ -131,6 +135,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             var executable = this.executableFactory.CreateExecutable(action);
 
             this.executables.Enqueue(executable);
+            this.BuiltExecutable = executable;
 
             return this;
         }
@@ -140,6 +145,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             var executable = this.executableFactory.CreateExecutable(action);
 
             this.executables.Enqueue(executable);
+            this.BuiltExecutable = executable;
 
             return this;
         }
@@ -163,6 +169,7 @@ namespace bbv.Common.Bootstrapper.Syntax
                 action);
 
             this.executables.Enqueue(executable);
+            this.BuiltExecutable = executable;
 
             return new SyntaxBuilderWithContext<TContext>(this, providerQueue);
         }

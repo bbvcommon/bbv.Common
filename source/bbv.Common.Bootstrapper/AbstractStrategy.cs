@@ -57,6 +57,9 @@ namespace bbv.Common.Bootstrapper
             this.runSyntaxBuilder = runSyntaxBuilder;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="AbstractStrategy{TExtension}"/> class.
+        /// </summary>
         ~AbstractStrategy()
         {
             this.Dispose(false);

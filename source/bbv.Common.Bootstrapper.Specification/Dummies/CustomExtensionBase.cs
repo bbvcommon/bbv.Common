@@ -21,17 +21,24 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
 
     public class CustomExtensionBase : ICustomExtension
     {
         private static readonly Queue<string> sequenceQueue = new Queue<string>();
 
+        /// <summary>
+        /// Gets cleared when accessed.
+        /// </summary>
         public static IEnumerable<string> Sequence
         {
             get
             {
-                return sequenceQueue;
+                var result = sequenceQueue.ToList();
+                sequenceQueue.Clear();
+
+                return result;
             }
         }
 

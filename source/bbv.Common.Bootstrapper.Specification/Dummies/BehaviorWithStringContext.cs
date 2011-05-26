@@ -24,9 +24,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     public class BehaviorWithStringContext : IBehavior<ICustomExtension>
     {
-        private string input;
-
         private readonly string addition;
+
+        private string input;
 
         public BehaviorWithStringContext(string input, string addition)
         {
@@ -36,7 +36,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
-            extensions.First().Dump(string.Format(CultureInfo.InvariantCulture, "input modification with {0}.", this.addition));
+            extensions.ToList().ForEach(e => e.Dump(string.Format(CultureInfo.InvariantCulture, "input modification with {0}", this.addition)));
 
             this.input += " " + this.addition;
         }
