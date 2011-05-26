@@ -18,7 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification
 {
-    using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using bbv.Common.Bootstrapper.Specification.Dummies;
@@ -41,25 +41,38 @@ namespace bbv.Common.Bootstrapper.Specification
             Bootstrapper.Shutdown();
         };
 
-        It should_execute_the_extensions_in_the_correct_order = () =>
+        It should_only_initialize_once_for_all_extensions = () =>
         {
-            var sequence = CustomExtensionBase.Sequence;
-
-            sequence.Should().HaveCount(4);
-            sequence.ElementAt(0).Should().StartWith("SecondExtension");
-            sequence.ElementAt(1).Should().StartWith("FirstExtension");
-            sequence.ElementAt(2).Should().StartWith("SecondExtension");
-            sequence.ElementAt(3).Should().StartWith("FirstExtension");
+            Strategy.ShutdownConfigurationInitializerAccessCounter.Should().Be(1);
         };
 
-        It should_execute_the_extension_point_according_to_the_strategy_defined_order = () =>
+        It should_pass_the_initialized_values_to_the_extension = () =>
+        {
+            var expected = new KeyValuePair<string, string>("ShutdownTest", "ShutdownTestValue");
+
+            First.ShutdownConfiguration.Should().HaveCount(1).And.Contain(expected);
+            Second.ShutdownConfiguration.Should().HaveCount(1).And.Contain(expected);
+
+            First.Unregistered.Should().Be("ShutdownTest");
+            Second.Unregistered.Should().Be("ShutdownTest");
+        };
+
+        It should_execute_the_extensions_and_the_extension_point_according_to_the_strategy_defined_order = () =>
         {
             var sequence = CustomExtensionBase.Sequence;
-            var strippedSequence = sequence.Select(s => s.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).Last().Trim()).Distinct();
 
-            strippedSequence.Should().HaveCount(2);
-            strippedSequence.ElementAt(0).Should().BeEquivalentTo("Stop");
-            strippedSequence.ElementAt(1).Should().BeEquivalentTo("Dispose");
+            sequence.Should().HaveCount(8);
+            sequence.ElementAt(0).Should().StartWith("SecondExtension: Unregister");
+            sequence.ElementAt(1).Should().StartWith("FirstExtension: Unregister");
+
+            sequence.ElementAt(2).Should().StartWith("SecondExtension: DeConfigure");
+            sequence.ElementAt(3).Should().StartWith("FirstExtension: DeConfigure");
+
+            sequence.ElementAt(4).Should().StartWith("SecondExtension: Stop");
+            sequence.ElementAt(5).Should().StartWith("FirstExtension: Stop");
+
+            sequence.ElementAt(6).Should().StartWith("SecondExtension: Dispose");
+            sequence.ElementAt(7).Should().StartWith("FirstExtension: Dispose");
         };
     }
 }

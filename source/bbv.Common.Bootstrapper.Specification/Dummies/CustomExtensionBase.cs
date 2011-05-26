@@ -35,14 +35,26 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             }
         }
 
-        public IDictionary<string, string> Configuration
+        public IDictionary<string, string> RunConfiguration
         {
             get; private set;
         }
 
-        public string Injected
+        public IDictionary<string, string> ShutdownConfiguration
+        {
+            get;
+            private set;
+        }
+
+        public string Registered
         {
             get; private set;
+        }
+
+        public string Unregistered
+        {
+            get;
+            private set;
         }
 
         public void Start()
@@ -54,7 +66,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             this.Dump(MethodBase.GetCurrentMethod().Name);
 
-            this.Configuration = configuration;
+            this.RunConfiguration = configuration;
         }
 
         public void Initialize()
@@ -62,11 +74,25 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.Dump(MethodBase.GetCurrentMethod().Name);
         }
 
-        public void Inject(string magic)
+        public void Register(string magic)
         {
             this.Dump(MethodBase.GetCurrentMethod().Name);
 
-            this.Injected = magic;
+            this.Registered = magic;
+        }
+
+        public void Unregister(string magic)
+        {
+            this.Dump(MethodBase.GetCurrentMethod().Name);
+
+            this.Unregistered = magic;
+        }
+
+        public void DeConfigure(IDictionary<string, string> configuration)
+        {
+            this.Dump(MethodBase.GetCurrentMethod().Name);
+
+            this.ShutdownConfiguration = configuration;
         }
 
         public void Stop()

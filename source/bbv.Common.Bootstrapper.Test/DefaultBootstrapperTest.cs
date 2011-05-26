@@ -95,6 +95,13 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Run_ShouldThrowExceptionWhenNotInitialized()
+        {
+            this.testee.Invoking(t => t.Run())
+                .ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
         public void Shutdown_ShouldBuildShutdownSyntax()
         {
             this.ShouldBuildShutdownSyntax(() => this.testee.Shutdown());
@@ -107,6 +114,13 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Shutdown_ShouldThrowExceptionWhenNotInitialized()
+        {
+            this.testee.Invoking(t => t.Shutdown())
+                .ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
         public void Dispose_ShouldBuildShutdownSyntax()
         {
             this.ShouldBuildShutdownSyntax(() => this.testee.Dispose());
@@ -116,6 +130,17 @@ namespace bbv.Common.Bootstrapper
         public void Dispose_ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor()
         {
             this.ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        [Fact]
+        public void Dispose_ShouldDisposeStrategy()
+        {
+            var strategy = new Mock<IStrategy<IExtension>>();
+            this.testee.Initialize(strategy.Object);
+
+            this.testee.Dispose();
+
+            strategy.Verify(s => s.Dispose());
         }
 
         private void ShouldBuildShutdownSyntax(Action executionAction)

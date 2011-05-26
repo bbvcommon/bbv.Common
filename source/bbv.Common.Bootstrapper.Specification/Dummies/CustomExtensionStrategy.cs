@@ -24,31 +24,46 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     public class CustomExtensionStrategy : AbstractStrategy<ICustomExtension>
     {
-        public int ConfigurationInitializerAccessCounter
+        public int RunConfigurationInitializerAccessCounter
         {
             get; private set;
+        }
+
+        public int ShutdownConfigurationInitializerAccessCounter
+        {
+            get;
+            private set;
         }
 
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
                 .Execute(extension => extension.Start())
-                .Execute(this.InitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
+                .Execute(this.RunInitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
                 .Execute(extension => extension.Initialize())
-                .Execute(() => "Test", (extension, ctx) => extension.Inject(ctx));
+                .Execute(() => "RunTest", (extension, ctx) => extension.Register(ctx));
         }
 
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> syntax)
         {
             syntax
+                .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
+                .Execute(this.ShutdownInitializeConfiguration, (extension, dictionary) => extension.DeConfigure(dictionary))
                 .Execute(extension => extension.Stop());
         }
 
-        private IDictionary<string, string> InitializeConfiguration()
+        private IDictionary<string, string> RunInitializeConfiguration()
         {
-            this.ConfigurationInitializerAccessCounter++;
+            this.RunConfigurationInitializerAccessCounter++;
 
-            return new Dictionary<string, string> { { "Test", "TestValue" } };
+            return new Dictionary<string, string> { { "RunTest", "RunTestValue" } };
+        }
+
+        private IDictionary<string, string> ShutdownInitializeConfiguration()
+        {
+            this.ShutdownConfigurationInitializerAccessCounter++;
+
+            return new Dictionary<string, string> { { "ShutdownTest", "ShutdownTestValue" } };
         }
     }
 }

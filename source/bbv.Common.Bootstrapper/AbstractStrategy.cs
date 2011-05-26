@@ -57,6 +57,19 @@ namespace bbv.Common.Bootstrapper
             this.runSyntaxBuilder = runSyntaxBuilder;
         }
 
+        ~AbstractStrategy()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+        /// </value>
+        protected bool IsDisposed { get; private set; }
+
         /// <summary>
         /// Builds the run syntax.
         /// </summary>
@@ -86,6 +99,28 @@ namespace bbv.Common.Bootstrapper
 
             return this.shutdownSyntaxBuilder
                 .Execute(e => e.Dispose());
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.IsDisposed && disposing)
+            {
+                this.IsDisposed = true;
+            }
         }
 
         /// <summary>

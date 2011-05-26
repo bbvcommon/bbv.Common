@@ -18,13 +18,15 @@
 
 namespace bbv.Common.Bootstrapper
 {
+    using System;
+
     using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
     /// Interface for strategies.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IStrategy<TExtension>
+    public interface IStrategy<TExtension> : IDisposable
         where TExtension : IExtension
     {
         /// <summary>

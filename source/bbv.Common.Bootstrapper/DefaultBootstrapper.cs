@@ -35,8 +35,6 @@ namespace bbv.Common.Bootstrapper
 
         private readonly IExecutor<TExtension> shutdownExecutor;
 
-        private bool isDisposed;
-
         private IStrategy<TExtension> strategy;
 
         /// <summary>
@@ -59,6 +57,19 @@ namespace bbv.Common.Bootstrapper
             this.runExecutor = runExecutor;
             this.extensionHost = extensionHost;
         }
+
+        ~DefaultBootstrapper()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+        /// </value>
+        protected bool IsDisposed { get; private set; }
 
         /// <summary>
         /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
@@ -87,6 +98,8 @@ namespace bbv.Common.Bootstrapper
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
         public void Run()
         {
+            this.CheckIsInitialized();
+
             var syntax = this.strategy.BuildRunSyntax();
 
             this.runExecutor.Execute(syntax, this.extensionHost.Extensions);
@@ -98,6 +111,8 @@ namespace bbv.Common.Bootstrapper
         /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
         public void Shutdown()
         {
+            this.CheckIsInitialized();
+
             this.Dispose();
         }
 
@@ -118,16 +133,23 @@ namespace bbv.Common.Bootstrapper
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.isDisposed)
+            if (!this.IsDisposed && disposing)
             {
-                if (disposing)
-                {
-                    var syntax = this.strategy.BuildShutdownSyntax();
+                var syntax = this.strategy.BuildShutdownSyntax();
 
-                    this.shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
-                }
+                this.shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
 
-                this.isDisposed = true;
+                this.strategy.Dispose();
+
+                this.IsDisposed = true;
+            }
+        }
+
+        private void CheckIsInitialized()
+        {
+            if (this.strategy == null)
+            {
+                throw new InvalidOperationException("Bootstrapper must be initialized before run or shutdown.");
             }
         }
 

@@ -46,7 +46,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.executables = new Queue<IExecutable<TExtension>>();
         }
 
-        protected IExecutable<TExtension> BuildedExecutable
+        protected IExecutable<TExtension> BuiltExecutable
         {
             get
             {
@@ -61,7 +61,7 @@ namespace bbv.Common.Bootstrapper.Syntax
                 this.WithAction(DoNothing);
             }
 
-            this.BuildedExecutable.Add(behavior);
+            this.BuiltExecutable.Add(behavior);
 
             return this;
         }

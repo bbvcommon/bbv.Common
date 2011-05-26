@@ -28,7 +28,11 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         void Initialize();
 
-        void Inject(string magic);
+        void Register(string magic);
+
+        void Unregister(string magic);
+
+        void DeConfigure(IDictionary<string, string> configuration);
 
         void Stop();
     }

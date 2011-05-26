@@ -44,7 +44,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
                 .Execute(extension => extension.Initialize())
                     .With(new Behavior("first initialize"))
                     .With(new Behavior("second initialize"))
-                .Execute(() => "Test", (extension, context) => extension.Inject(context))
+                .Execute(() => "Test", (extension, context) => extension.Register(context))
                     .With(context => new BehaviorWithStringContext(context, "TestValue"))
                     .With(context => new BehaviorWithStringContext(context, "TestValue"));
         }
