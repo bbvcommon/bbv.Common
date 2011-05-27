@@ -39,14 +39,9 @@
     <Compile Include="IExtensionPoint.cs" />
     <Compile Include="IStrategy.cs" />
     <Compile Include="Syntax\IExecutableFactory.cs" />
-    <Compile Include="Syntax\IExecuteAction.cs" />
-    <Compile Include="Syntax\IExecuteActionOnExtension.cs" />
-    <Compile Include="Syntax\IExecuteActionOnExtensionWithContext.cs" />
     <Compile Include="Syntax\ISyntax.cs" />
     <Compile Include="Syntax\ISyntaxBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Syntax\IWithBehavior.cs" />
-    <Compile Include="Syntax\IWithBehaviorOnContext.cs" />
     <Compile Include="Syntax\SyntaxBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
