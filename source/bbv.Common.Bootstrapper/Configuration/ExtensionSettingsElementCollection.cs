@@ -24,7 +24,6 @@ namespace bbv.Common.Bootstrapper.Configuration
     /// <summary>
     /// Represents the bootstrapper extension settings configuration element collection.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1010:CollectionsShouldImplementGenericInterface", Justification = "Standard way how to implement configuration element collection.")]
     public sealed class ExtensionSettingsElementCollection : ConfigurationElementCollection
     {
         /// <summary>
@@ -58,7 +57,6 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// </summary>
         /// <param name="key">The alias which is used for item retrieval.</param>
         /// <value>The <see cref="ExtensionSettingsElement"/> with the specified key.</value>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "key", Justification = "Works like that on configuration.")]
         public new ExtensionSettingsElement this[string key]
         {
             get

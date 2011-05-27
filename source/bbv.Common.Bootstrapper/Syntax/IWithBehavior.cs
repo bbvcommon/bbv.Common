@@ -18,6 +18,8 @@
 
 namespace bbv.Common.Bootstrapper.Syntax
 {
+    using System;
+
     /// <summary>
     /// Fluent definition syntax interface for behaviors.
     /// </summary>
@@ -33,5 +35,14 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// The syntax.
         /// </returns>
         IWithBehavior<TExtension> With(IBehavior<TExtension> behavior);
+
+        /// <summary>
+        /// Attaches a lazy behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
+        IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior);
     }
 }

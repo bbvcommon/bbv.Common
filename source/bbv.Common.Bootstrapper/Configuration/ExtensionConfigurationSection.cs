@@ -19,7 +19,6 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Configuration section for bootstrapper extensions.
@@ -34,7 +33,6 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// <value>The configuration.</value>
         [ConfigurationProperty(ConfigurationKeyName,
             IsDefaultCollection = false)]
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Review.")]
         public ExtensionSettingsElementCollection Configuration
         {
             get

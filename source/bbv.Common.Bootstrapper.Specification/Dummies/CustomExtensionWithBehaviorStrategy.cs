@@ -40,16 +40,16 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             builder
                     .With(new Behavior("run first beginning"))
-                    .With(new Behavior("run second beginning"))
+                    .With(() => new Behavior("run second beginning"))
                 .Execute(extension => extension.Start())
                     .With(new Behavior("run first start"))
-                    .With(new Behavior("run second start"))
+                    .With(() => new Behavior("run second start"))
                 .Execute(this.RunInitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
                     .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "RunFirstValue", "RunTestValue"))
                     .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "RunSecondValue", "RunTestValue"))
                 .Execute(extension => extension.Initialize())
                     .With(new Behavior("run first initialize"))
-                    .With(new Behavior("run second initialize"))
+                    .With(() => new Behavior("run second initialize"))
                 .Execute(() => "RunTest", (extension, context) => extension.Register(context))
                     .With(context => new BehaviorWithStringContext(context, "RunTestValueFirst"))
                     .With(context => new BehaviorWithStringContext(context, "RunTestValueSecond"));
@@ -59,7 +59,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             builder
                     .With(new Behavior("shutdown first beginning"))
-                    .With(new Behavior("shutdown second beginning"))
+                    .With(() => new Behavior("shutdown second beginning"))
                 .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
                     .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueFirst"))
                     .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueSecond"))
@@ -67,8 +67,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
                     .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "ShutdownFirstValue", "ShutdownTestValue"))
                     .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "ShutdownSecondValue", "ShutdownTestValue"))
                 .Execute(extension => extension.Stop())
-                     .With(new Behavior("shutdown first stop"))
-                    .With(new Behavior("shutdown second stop"));
+                    .With(new Behavior("shutdown first stop"))
+                    .With(() => new Behavior("shutdown second stop"));
         }
 
         private IDictionary<string, string> RunInitializeConfiguration()

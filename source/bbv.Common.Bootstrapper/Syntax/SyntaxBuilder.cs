@@ -60,12 +60,25 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </returns>
         public IWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
         {
-            if (!this.executables.Any())
-            {
-                this.WithAction(DoNothing);
-            }
+            this.PrebuildExecutableIfNecessary();
 
             this.BuiltExecutable.Add(behavior);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Attaches a lazy behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
+        public IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
+        {
+            this.PrebuildExecutableIfNecessary();
+
+            this.BuiltExecutable.Add(new LazyBehavior(behavior));
 
             return this;
         }
@@ -174,6 +187,14 @@ namespace bbv.Common.Bootstrapper.Syntax
             return new SyntaxBuilderWithContext<TContext>(this, providerQueue);
         }
 
+        private void PrebuildExecutableIfNecessary()
+        {
+            if (!this.executables.Any())
+            {
+                this.WithAction(DoNothing);
+            }
+        }
+
         private class SyntaxBuilderWithContext<TContext> : IWithBehaviorOnContext<TExtension, TContext>
         {
             private readonly Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders;
@@ -216,6 +237,23 @@ namespace bbv.Common.Bootstrapper.Syntax
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
+            }
+        }
+
+        private class LazyBehavior : IBehavior<TExtension>
+        {
+            private readonly Func<IBehavior<TExtension>> behaviorProvider;
+
+            public LazyBehavior(Func<IBehavior<TExtension>> behaviorProvider)
+            {
+                this.behaviorProvider = behaviorProvider;
+            }
+
+            public void Behave(IEnumerable<TExtension> extensions)
+            {
+                IBehavior<TExtension> behavior = this.behaviorProvider();
+
+                behavior.Behave(extensions);
             }
         }
     }
