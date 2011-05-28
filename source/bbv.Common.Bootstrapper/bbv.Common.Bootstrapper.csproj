@@ -15,6 +15,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractStrategy.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\IConsumeConfiguration.cs" />
+    <Compile Include="Configuration\IHaveConversionCallbacks.cs" />
+    <Compile Include="Configuration\IHaveExtensionConfigurationSectionName.cs" />
+    <Compile Include="Configuration\ILoadExtensionConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\LoadExtensionConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
+    <Compile Include="Configuration\Internals\HaveExtensionConfigurationSectionName.cs" />
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="BootstrapperException.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
