@@ -28,6 +28,12 @@ namespace bbv.Common.Bootstrapper.Configuration
     public interface IHaveConversionCallbacks
     {
         /// <summary>
+        /// Gets the conversion callback which is used as fallback when no suitable conversion 
+        /// callback can be found in <see cref="ConversionCallbacks"/>
+        /// </summary>
+        Func<string, PropertyInfo, object> DefaultConversionCallback { get; }
+
+        /// <summary>
         /// Gets the conversion callbacks
         /// </summary>
         IDictionary<string, Func<string, PropertyInfo, object>> ConversionCallbacks { get; }

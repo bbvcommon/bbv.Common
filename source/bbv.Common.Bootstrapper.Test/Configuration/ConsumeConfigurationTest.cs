@@ -31,7 +31,7 @@ namespace bbv.Common.Bootstrapper.Configuration
     public class ConsumeConfigurationTest
     {
         [Fact]
-        public void Configuration_ExtensionNotIConsumeConfiguration_ShouldUsedEmtpyOne()
+        public void Configuration_ExtensionNotIConsumeConfiguration_ShouldUseEmtpyOne()
         {
             var extension = new Mock<IExtension>();
 

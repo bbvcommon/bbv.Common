@@ -32,7 +32,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         private const string AnyName = "AnyName";
 
         [Fact]
-        public void SectionName_ExtensionNotIHaveExtensionConfigurationSectionName_ShouldUsedTypeName()
+        public void SectionName_ExtensionNotIHaveExtensionConfigurationSectionName_ShouldUseTypeName()
         {
             var extension = new Mock<IExtension>();
             var expected = extension.Object.GetType().Name;

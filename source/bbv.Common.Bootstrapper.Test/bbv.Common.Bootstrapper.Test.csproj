@@ -28,6 +28,7 @@
   <ItemGroup>
     <Compile Include="AbstractStrategyTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationTest.cs" />
+    <Compile Include="Configuration\HaveConversionCallbacksTest.cs" />
     <Compile Include="Configuration\HaveExtensionConfigurationSectionNameTest.cs" />
     <Compile Include="Configuration\LoadExtensionConfigurationSectionTest.cs" />
     <Compile Include="DefaultBootstrapperTest.cs" />

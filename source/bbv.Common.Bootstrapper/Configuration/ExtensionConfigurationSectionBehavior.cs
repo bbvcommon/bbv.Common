@@ -64,5 +64,15 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             return new LoadExtensionConfigurationSection(extension);
         }
+
+        /// <summary>
+        /// Creates the instance which has conversion callbacks.
+        /// </summary>
+        /// <param name="extension">The extensions.</param>
+        /// <returns>The instance.</returns>
+        protected virtual IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
+        {
+            return new HaveConversionCallbacks(extension);
+        }
     }
 }
