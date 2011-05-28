@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="LoadExtensionConfigurationSection.cs" company="bbv Software Services AG">
+// <copyright file="LoadConfigurationSection.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,24 +22,24 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
     using System.Configuration;
 
     /// <summary>
-    /// Default ILoadExtensionConfigurationSection
+    /// Default ILoadConfigurationSection
     /// </summary>
-    public class LoadExtensionConfigurationSection : ILoadExtensionConfigurationSection
+    public class LoadConfigurationSection : ILoadConfigurationSection
     {
-        private readonly Func<string, ExtensionConfigurationSection> sectionProvider;
+        private readonly Func<string, ConfigurationSection> sectionProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoadExtensionConfigurationSection"/> class.
+        /// Initializes a new instance of the <see cref="LoadConfigurationSection"/> class.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        public LoadExtensionConfigurationSection(IExtension extension)
+        public LoadConfigurationSection(IExtension extension)
         {
-            var loader = extension as ILoadExtensionConfigurationSection;
+            var loader = extension as ILoadConfigurationSection;
             this.sectionProvider =
                 section =>
                 loader != null
                     ? loader.GetSection(section)
-                    : (ExtensionConfigurationSection)ConfigurationManager.GetSection(section);
+                    : (ConfigurationSection)ConfigurationManager.GetSection(section);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
         /// <returns>
         /// The section.
         /// </returns>
-        public ExtensionConfigurationSection GetSection(string sectionName)
+        public ConfigurationSection GetSection(string sectionName)
         {
             return this.sectionProvider(sectionName);
         }

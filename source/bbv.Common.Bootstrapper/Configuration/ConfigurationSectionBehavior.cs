@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExtensionConfigurationSectionBehavior.cs" company="bbv Software Services AG">
+// <copyright file="ConfigurationSectionBehavior.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,30 +19,34 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Collections.Generic;
+    using System.Configuration;
 
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
     /// <summary>
-    /// Behavior which automatically loads extension configuration sections.
+    /// Adds behavior to the IBootstrapper to load configuration sections.
     /// </summary>
-    public class ExtensionConfigurationSectionBehavior : IBehavior<IExtension>
+    public class ConfigurationSectionBehavior : IBehavior<IExtension>
     {
         /// <summary>
-        /// Applies the extension configuration section loading behavior to the extensions.
+        /// Behaves the specified extensions.
         /// </summary>
         /// <param name="extensions">The extensions.</param>
         public void Behave(IEnumerable<IExtension> extensions)
         {
-        }
+            Ensure.ArgumentNotNull(extensions, "extensions");
 
-        /// <summary>
-        /// Creates the consume configuration instance.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>The instance.</returns>
-        protected virtual IConsumeConfiguration CreateConsumeConfiguration(IExtension extension)
-        {
-            return new ConsumeConfiguration(extension);
+            foreach (IExtension extension in extensions)
+            {
+                IConsumeConfigurationSection consumer = this.CreateConsumeConfigurationSection(extension);
+                IHaveConfigurationSectionName sectionNameProvider = this.CreateHaveConfigurationSectionName(extension);
+                ILoadConfigurationSection sectionProvider = this.CreateLoadConfigurationSection(extension);
+
+                string sectionName = sectionNameProvider.SectionName;
+                ConfigurationSection section = sectionProvider.GetSection(sectionName);
+
+                consumer.Apply(section);
+            }
         }
 
         /// <summary>
@@ -66,13 +70,15 @@ namespace bbv.Common.Bootstrapper.Configuration
         }
 
         /// <summary>
-        /// Creates the instance which has conversion callbacks.
+        /// Creates the instance which consumes a configuration section.
         /// </summary>
         /// <param name="extension">The extensions.</param>
-        /// <returns>The instance.</returns>
-        protected virtual IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
+        /// <returns>
+        /// The instance.
+        /// </returns>
+        protected virtual IConsumeConfigurationSection CreateConsumeConfigurationSection(IExtension extension) 
         {
-            return new HaveConversionCallbacks(extension);
+            return new ConsumeConfigurationSection(extension);
         }
     }
 }

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="HaveExtensionConfigurationSectionNameTest.cs" company="bbv Software Services AG">
+// <copyright file="HaveConfigurationSectionNameTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using bbv.Common.Bootstrapper.Configuration.Internals;
-    using bbv.Common.Bootstrapper.Dummies;
 
     using FluentAssertions;
 
@@ -27,7 +26,7 @@ namespace bbv.Common.Bootstrapper.Configuration
 
     using Xunit;
 
-    public class HaveExtensionConfigurationSectionNameTest
+    public class HaveConfigurationSectionNameTest
     {
         private const string AnyName = "AnyName";
 
@@ -37,7 +36,7 @@ namespace bbv.Common.Bootstrapper.Configuration
             var extension = new Mock<IExtension>();
             var expected = extension.Object.GetType().Name;
 
-            var testee = new HaveExtensionConfigurationSectionName(extension.Object);
+            var testee = new HaveConfigurationSectionName(extension.Object);
             testee.SectionName.Should().Be(expected);
         }
 
@@ -45,10 +44,10 @@ namespace bbv.Common.Bootstrapper.Configuration
         public void SectionName_ExtensionIHaveExtensionConfigurationSectionName_ShouldAcquireNameFromExtension()
         {
             var extension = new Mock<IExtension>();
-            var namer = extension.As<IHaveExtensionConfigurationSectionName>();
+            var namer = extension.As<IHaveConfigurationSectionName>();
             namer.Setup(n => n.SectionName).Returns(AnyName);
 
-            var testee = new HaveExtensionConfigurationSectionName(extension.Object);
+            var testee = new HaveConfigurationSectionName(extension.Object);
             testee.SectionName.Should().Be(AnyName);
         }
     }

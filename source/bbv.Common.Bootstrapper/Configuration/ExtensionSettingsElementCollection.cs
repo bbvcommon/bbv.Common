@@ -19,7 +19,6 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents the bootstrapper extension settings configuration element collection.

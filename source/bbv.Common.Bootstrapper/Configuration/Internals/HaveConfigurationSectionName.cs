@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="HaveExtensionConfigurationSectionName.cs" company="bbv Software Services AG">
+// <copyright file="HaveConfigurationSectionName.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,19 +19,19 @@
 namespace bbv.Common.Bootstrapper.Configuration.Internals
 {
     /// <summary>
-    /// Default IHaveExtensionConfigurationSectionName
+    /// Default IHaveConfigurationSectionName
     /// </summary>
-    public class HaveExtensionConfigurationSectionName : IHaveExtensionConfigurationSectionName
+    public class HaveConfigurationSectionName : IHaveConfigurationSectionName
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HaveExtensionConfigurationSectionName"/> class.
+        /// Initializes a new instance of the <see cref="HaveConfigurationSectionName"/> class.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        public HaveExtensionConfigurationSectionName(IExtension extension)
+        public HaveConfigurationSectionName(IExtension extension)
         {
             Ensure.ArgumentNotNull(extension, "extension");
 
-            var namer = extension as IHaveExtensionConfigurationSectionName;
+            var namer = extension as IHaveConfigurationSectionName;
 
             this.SectionName = namer != null
                 ? namer.SectionName

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IHaveExtensionConfigurationSectionName.cs" company="bbv Software Services AG">
+// <copyright file="LoadConfigurationSectionTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,14 +18,26 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    /// <summary>
-    /// Identifies the implemenator as section name provider.
-    /// </summary>
-    public interface IHaveExtensionConfigurationSectionName
+    using bbv.Common.Bootstrapper.Configuration.Internals;
+
+    using Moq;
+
+    using Xunit;
+
+    public class LoadConfigurationSectionTest
     {
-        /// <summary>
-        /// Gets the section name.
-        /// </summary>
-        string SectionName { get; }
+        private const string AnyName = "AnyName";
+
+        [Fact]
+        public void GetSection_ExtensionIsILoadExtensionConfigurationSection_ShouldDelegateLoadingToExtension()
+        {
+            var extension = new Mock<IExtension>();
+            var loader = extension.As<ILoadConfigurationSection>();
+
+            var testee = new LoadConfigurationSection(extension.Object);
+            testee.GetSection(AnyName);
+
+            loader.Verify(l => l.GetSection(AnyName));
+        }
     }
 }

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ILoadExtensionConfigurationSection.cs" company="bbv Software Services AG">
+// <copyright file="IHaveConfigurationSectionName.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,15 +19,13 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     /// <summary>
-    /// Identifies the implementor as configuration section loader.
+    /// Identifies the implemenator as section name provider.
     /// </summary>
-    public interface ILoadExtensionConfigurationSection
+    public interface IHaveConfigurationSectionName
     {
         /// <summary>
-        /// Gets a configuration section according to the specified name.
+        /// Gets the section name.
         /// </summary>
-        /// <param name="sectionName">The section name.</param>
-        /// <returns>The section.</returns>
-        ExtensionConfigurationSection GetSection(string sectionName);
+        string SectionName { get; }
     }
 }

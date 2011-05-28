@@ -27,10 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractStrategyTest.cs" />
+    <Compile Include="Configuration\ConfigurationSectionBehaviorTest.cs" />
+    <Compile Include="Configuration\ConsumeConfigurationSectionTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationTest.cs" />
     <Compile Include="Configuration\HaveConversionCallbacksTest.cs" />
-    <Compile Include="Configuration\HaveExtensionConfigurationSectionNameTest.cs" />
-    <Compile Include="Configuration\LoadExtensionConfigurationSectionTest.cs" />
+    <Compile Include="Configuration\HaveConfigurationSectionNameTest.cs" />
+    <Compile Include="Configuration\LoadConfigurationSectionTest.cs" />
     <Compile Include="DefaultBootstrapperTest.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
     <Compile Include="Execution\SynchronousExecutorTest.cs" />

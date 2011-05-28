@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="LoadExtensionConfigurationSectionTest.cs" company="bbv Software Services AG">
+// <copyright file="ConsumeConfigurationSectionTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,20 +24,28 @@ namespace bbv.Common.Bootstrapper.Configuration
 
     using Xunit;
 
-    public class LoadExtensionConfigurationSectionTest
+    public class ConsumeConfigurationSectionTest
     {
-        private const string AnyName = "AnyName";
-
         [Fact]
-        public void GetSection_ExtensionIsILoadExtensionConfigurationSection_ShouldDelegateLoadingToExtension()
+        public void Apply_WhenExtensionIConsumeConfigurationSection_ShouldApplySection()
         {
             var extension = new Mock<IExtension>();
-            var loader = extension.As<ILoadExtensionConfigurationSection>();
+            var consumer = extension.As<IConsumeConfigurationSection>();
 
-            var testee = new LoadExtensionConfigurationSection(extension.Object);
-            testee.GetSection(AnyName);
+            var testee = new ConsumeConfigurationSection(extension.Object);
+            testee.Apply(null);
 
-            loader.Verify(l => l.GetSection(AnyName));
+            consumer.Verify(c => c.Apply(null));
+        }
+
+        [Fact]
+        public void Apply_WhenExtensionNotIConsumeConfigurationSection_ShouldNotApplySection()
+        {
+            var extension = new Mock<IExtension>(MockBehavior.Strict);
+            var testee = new ConsumeConfigurationSection(extension.Object);
+            testee.Apply(null);
+
+            extension.VerifyAll();
         }
     }
 }
