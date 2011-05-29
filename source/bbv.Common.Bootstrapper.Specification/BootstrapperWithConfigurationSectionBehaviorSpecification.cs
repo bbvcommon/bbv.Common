@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="BootstrapperSpecification.cs" company="bbv Software Services AG">
+// <copyright file="BootstrapperWithConfigurationSectionBehaviorSpecification.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,25 +22,19 @@ namespace bbv.Common.Bootstrapper.Specification
 
     using Machine.Specifications;
 
-    public class BootstrapperSpecification
+    public class BootstrapperWithConfigurationSectionBehaviorSpecification
     {
-        protected const string Concern = "Bootstrapping";
+        protected const string Concern = "Bootstrapping with configuration section";
 
-        protected static CustomExtensionStrategy Strategy;
+        protected static CustomExtensionWithConfigurationStrategy Strategy;
 
-        protected static CustomExtensionBase First;
-
-        protected static CustomExtensionBase Second;
-
-        protected static IBootstrapper<ICustomExtension> Bootstrapper;
+        protected static IBootstrapper<ICustomExtensionWithConfiguration> Bootstrapper;
 
         Establish context = () =>
         {
-            Bootstrapper = new DefaultBootstrapper<ICustomExtension>();
+            Bootstrapper = new DefaultBootstrapper<ICustomExtensionWithConfiguration>();
 
-            Strategy = new CustomExtensionStrategy();
-            First = new FirstExtension();
-            Second = new SecondExtension();
+            Strategy = new CustomExtensionWithConfigurationStrategy();
         };
     }
 }

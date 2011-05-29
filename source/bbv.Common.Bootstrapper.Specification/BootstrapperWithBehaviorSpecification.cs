@@ -24,6 +24,8 @@ namespace bbv.Common.Bootstrapper.Specification
 
     public class BootstrapperWithBehaviorSpecification
     {
+        protected const string Concern = "Bootstrapping with behavior";
+
         protected static CustomExtensionWithBehaviorStrategy Strategy;
 
         protected static CustomExtensionBase First;

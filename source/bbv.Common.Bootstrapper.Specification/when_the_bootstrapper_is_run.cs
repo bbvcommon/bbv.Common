@@ -27,7 +27,8 @@ namespace bbv.Common.Bootstrapper.Specification
 
     using Machine.Specifications;
 
-    public class When_the_bootstrapper_is_run : BootstrapperSpecification
+    [Subject(Concern)]
+    public class when_the_bootstrapper_is_run : BootstrapperSpecification
     {
         Establish context = () =>
             {

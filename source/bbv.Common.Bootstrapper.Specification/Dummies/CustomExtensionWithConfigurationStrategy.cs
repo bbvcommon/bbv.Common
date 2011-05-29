@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="BootstrapperSpecification.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionWithConfigurationStrategy.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,31 +16,20 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Specification
+namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using bbv.Common.Bootstrapper.Specification.Dummies;
+    using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Bootstrapper.Syntax;
 
-    using Machine.Specifications;
-
-    public class BootstrapperSpecification
+    public class CustomExtensionWithConfigurationStrategy : AbstractStrategy<ICustomExtensionWithConfiguration>
     {
-        protected const string Concern = "Bootstrapping";
-
-        protected static CustomExtensionStrategy Strategy;
-
-        protected static CustomExtensionBase First;
-
-        protected static CustomExtensionBase Second;
-
-        protected static IBootstrapper<ICustomExtension> Bootstrapper;
-
-        Establish context = () =>
+        protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtensionWithConfiguration> builder)
         {
-            Bootstrapper = new DefaultBootstrapper<ICustomExtension>();
+            builder.With(new ConfigurationSectionBehavior());
+        }
 
-            Strategy = new CustomExtensionStrategy();
-            First = new FirstExtension();
-            Second = new SecondExtension();
-        };
+        protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtensionWithConfiguration> builder)
+        {
+        }
     }
 }
