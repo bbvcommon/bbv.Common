@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionWithConfiguration.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,11 +22,11 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     using bbv.Common.Bootstrapper.Configuration;
 
-    public class CustomExtensionWithConfiguration : ICustomExtensionWithConfiguration, IHaveConfigurationSectionName, ILoadConfigurationSection
+    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration, IHaveConfigurationSectionName, ILoadConfigurationSection
     {
-        public bool SectionNameAcquired { get; set; }
+        public bool SectionNameAcquired { get; private set; }
 
-        public bool SectionAcquired { get; set; }
+        public string SectionAcquired { get; private set; }
 
         public FakeConfigurationSection AppliedSection { get; private set; }
 
@@ -51,9 +51,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public ConfigurationSection GetSection(string sectionName)
         {
-            this.SectionAcquired = true;
+            this.SectionAcquired = sectionName;
 
-            return sectionName == this.SectionName ? new FakeConfigurationSection() : null;
+            return sectionName == this.SectionName ? new FakeConfigurationSection("KnowsName|KnowsLoading") : null;
         }
     }
 }

@@ -27,14 +27,21 @@ namespace bbv.Common.Bootstrapper.Specification
     [Subject(Concern)]
     public class when_the_bootstrapper_is_run_with_configuration_section_behavior_and_extension_with_customized_loading : BootstrapperWithConfigurationSectionBehaviorSpecification
     {
-        protected static CustomExtensionWithConfiguration Extension;
+        protected static CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom NameAndWhereToLoadFromExtension;
+        protected static CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom WhereToLoadFromExtension;
+        protected static CustomExtensionWithConfigurationWhichKnowsName NameExtension;
 
         Establish context = () =>
         {
-            Extension = new CustomExtensionWithConfiguration();
+            NameAndWhereToLoadFromExtension = new CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom();
+            WhereToLoadFromExtension = new CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom();
+            NameExtension = new CustomExtensionWithConfigurationWhichKnowsName();
 
             Bootstrapper.Initialize(Strategy);
-            Bootstrapper.AddExtension(Extension);
+
+            Bootstrapper.AddExtension(NameAndWhereToLoadFromExtension);
+            Bootstrapper.AddExtension(WhereToLoadFromExtension);
+            Bootstrapper.AddExtension(NameExtension);
         };
 
         Because of = () =>
@@ -44,17 +51,22 @@ namespace bbv.Common.Bootstrapper.Specification
 
         It should_apply_configuration_section = () =>
             {
-                Extension.AppliedSection.Should().NotBeNull();
+                NameAndWhereToLoadFromExtension.AppliedSection.Should().NotBeNull();
+                NameAndWhereToLoadFromExtension.AppliedSection.Context.Should().Be("KnowsName|KnowsLoading");
+
+                WhereToLoadFromExtension.AppliedSection.Should().NotBeNull();
+                WhereToLoadFromExtension.AppliedSection.Context.Should().Be("KnowsLoading");
             };
 
         It should_acquire_section_name = () =>
             {
-                Extension.SectionNameAcquired.Should().BeTrue();
+                NameAndWhereToLoadFromExtension.SectionNameAcquired.Should().BeTrue();
             };
 
         It should_acquire_section = () =>
         {
-            Extension.SectionAcquired.Should().BeTrue();
+            NameAndWhereToLoadFromExtension.SectionAcquired.Should().Be("FakeConfigurationSection");
+            WhereToLoadFromExtension.SectionAcquired.Should().Be("CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom");
         };
     }
 }

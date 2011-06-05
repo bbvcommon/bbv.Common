@@ -22,5 +22,19 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     public class FakeConfigurationSection : ConfigurationSection
     {
+        private readonly string context;
+
+        public FakeConfigurationSection(string context)
+        {
+            this.context = context;
+        }
+
+        public string Context
+        {
+            get
+            {
+                return this.context;
+            }
+        }
     }
 }
