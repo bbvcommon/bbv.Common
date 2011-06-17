@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="PublisherEventNotFound.cs" company="bbv Software Services AG">
+// <copyright file="CustomEventArguments.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +16,28 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EventBroker.Exceptions
+namespace bbv.Common.EventBroker
 {
     using System;
 
     /// <summary>
-    /// An <see cref="EventBrokerException"/> thrown when a published event can not be found while registering a publisher.
+    /// Custom event arguments sample
     /// </summary>
-    public class PublisherEventNotFoundException : EventBrokerException
+    public class CustomEventArguments : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublisherEventNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="CustomEventArguments"/> class.
         /// </summary>
-        /// <param name="publisherType">Type of the publisher.</param>
-        /// <param name="eventName">Name of the event.</param>
-        public PublisherEventNotFoundException(Type publisherType, string eventName)
-            : base("Publication event not found: '{0}.{1}'", publisherType.FullName, eventName)
+        /// <param name="s">A value for testing.</param>
+        public CustomEventArguments(string s)
         {
+            this.String = s;
         }
+
+        /// <summary>
+        /// Gets or sets the string.
+        /// </summary>
+        /// <value>The string.</value>
+        public string String { get; set; }
     }
 }

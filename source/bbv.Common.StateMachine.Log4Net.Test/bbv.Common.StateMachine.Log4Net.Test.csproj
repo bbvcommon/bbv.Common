@@ -38,9 +38,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events.cs" />
     <Compile Include="Extensions\Log4NetExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatesAndEvents.cs" />
+    <Compile Include="States.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

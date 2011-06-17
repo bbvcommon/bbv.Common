@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExpressionAggregator{TAnswer, TParameter}.cs" company="bbv Software Services AG">
+// <copyright file="IExpressionProvider{TQuestion,TAnswer,TParameter,TExpressionResult}.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,27 +16,25 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EvaluationEngine.Aggregators
+namespace bbv.Common.EvaluationEngine.Internals
 {
-    using System;
-    using System.Linq.Expressions;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Aggregates the result of all passed expressions into a single result using an aggregate lamda expression.
-    /// Use this class if the result type returned by the expressions is the same as the type of the overall result.
+    /// Provides expressions for a question.
     /// </summary>
+    /// <typeparam name="TQuestion">The type of the question.</typeparam>
     /// <typeparam name="TAnswer">The type of the answer.</typeparam>
     /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public class ExpressionAggregator<TAnswer, TParameter> : ExpressionAggregator<TAnswer, TAnswer, TParameter>
+    /// <typeparam name="TExpressionResult">The type of the expression result.</typeparam>
+    public interface IExpressionProvider<TQuestion, TAnswer, TParameter, TExpressionResult>
+        where TQuestion : IQuestion<TAnswer, TParameter>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpressionAggregator{TAnswer, TParameter}"/> class.
+        /// Gets the expressions.
         /// </summary>
-        /// <param name="seed">The seed used in the aggregation.</param>
-        /// <param name="aggregateFunc">The aggregate function.</param>
-        public ExpressionAggregator(TAnswer seed, Expression<Func<TAnswer, TAnswer, TAnswer>> aggregateFunc)
-            : base(seed, aggregateFunc)
-        {
-        }
+        /// <param name="question">The question.</param>
+        /// <returns>Expressions for the question.</returns>
+        IEnumerable<IExpression<TExpressionResult, TParameter>> GetExpressions(TQuestion question);
     }
 }

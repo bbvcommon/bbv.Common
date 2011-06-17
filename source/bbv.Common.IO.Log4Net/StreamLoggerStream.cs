@@ -237,7 +237,7 @@ namespace bbv.Common.IO
                     }
 
                     // Add the character to the string builder
-                    stringBuilder.Append(String.Format(CultureInfo.InvariantCulture, "[{0:X2}]", buffer[offset + i]));
+                    stringBuilder.Append(string.Format(CultureInfo.InvariantCulture, "[{0:X2}]", buffer[offset + i]));
                 }
 
                 // Use the logMethod to log the complete message.

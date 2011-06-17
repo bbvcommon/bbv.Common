@@ -35,7 +35,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.7.0.1540, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-	  <SpecificVersion>False</SpecificVersion>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\xunit.1.8.0.1545\lib\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -45,7 +45,7 @@
     <Compile Include="HashServiceTest.cs" />
     <Compile Include="MD5AlgorithmTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sha1AgorithmTest.cs" />
+    <Compile Include="Sha1AlgorithmTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bbv.Common.IO\bbv.Common.IO.csproj">

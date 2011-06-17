@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExpressionAggregator{TExpressionResult, TAnswer, TParameter}.cs" company="bbv Software Services AG">
+// <copyright file="ExpressionAggregator{TExpressionResult,TAnswer,TParameter}.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");

@@ -195,7 +195,7 @@
   </ItemGroup>
   
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-  <Import Project="..\Tools\StyleCopMsBuildTask\Microsoft.StyleCop.targets"/>
+  <Import Project="..\Tools\StyleCopMsBuildTask\StyleCop.targets"/>
   <Import Project="..\tools\FxCop\Msbuild\Microsoft.CodeAnalysis.Targets"/>
   
   <Target Name="BeforeBuild">

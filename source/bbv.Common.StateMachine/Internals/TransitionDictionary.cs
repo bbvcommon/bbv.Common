@@ -55,6 +55,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <value>transitions for the event id.</value>
         /// <param name="eventId">Id of the event.</param>
+        /// <returns>The transitions for the event id.</returns>
         public ICollection<ITransition<TState, TEvent>> this[TEvent eventId]
         {
             get

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ValidationViolationTest.cs" company="bbv Software Services AG">
+// <copyright file="PublisherEventNotFoundException.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,27 +16,23 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.RuleEngine
+namespace bbv.Common.EventBroker.Exceptions
 {
-    using NUnit.Framework;
+    using System;
 
-    [TestFixture]
-    public class ValidationViolationTest
+    /// <summary>
+    /// An <see cref="EventBrokerException"/> thrown when a published event can not be found while registering a publisher.
+    /// </summary>
+    public class PublisherEventNotFoundException : EventBrokerException
     {
-        [Test]
-        public void Creation()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublisherEventNotFoundException"/> class.
+        /// </summary>
+        /// <param name="publisherType">Type of the publisher.</param>
+        /// <param name="eventName">Name of the event.</param>
+        public PublisherEventNotFoundException(Type publisherType, string eventName)
+            : base("Publication event not found: '{0}.{1}'", publisherType.FullName, eventName)
         {
-            ValidationViolation violation = new ValidationViolation();
-
-            Assert.IsNotNull(violation);
-        }
-
-        [Test]
-        public void CreationWithReason()
-        {
-            ValidationViolation violation = new ValidationViolation("reason");
-
-            Assert.AreEqual("reason", violation.Reason);
         }
     }
 }

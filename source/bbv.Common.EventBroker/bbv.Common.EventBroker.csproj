@@ -51,7 +51,7 @@
     <Compile Include="Exceptions\NotUserInterfaceThreadException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\PublisherEventNotFound.cs">
+    <Compile Include="Exceptions\PublisherEventNotFoundException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Exceptions\RepeatedPublicationException.cs">
