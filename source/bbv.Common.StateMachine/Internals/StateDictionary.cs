@@ -50,6 +50,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <value>State with the specified id.</value>
         /// <param name="stateId">The State id.</param>
+        /// <returns>The State with the specified id.</returns>
         public IState<TState, TEvent> this[TState stateId]
         {
             get

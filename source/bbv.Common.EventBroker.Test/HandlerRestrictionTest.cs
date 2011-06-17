@@ -50,11 +50,11 @@ namespace bbv.Common.EventBroker
         {
             PublisherWithoutRestriction p = new PublisherWithoutRestriction();
             SubscriberWithSynchronousHandler sync = new SubscriberWithSynchronousHandler();
-            SubscriberWithAsynchronousHandler async = new SubscriberWithAsynchronousHandler();
-
+            SubscriberWithAsynchronousHandler asyncHandler = new SubscriberWithAsynchronousHandler();
+            
             this.testee.Register(p);
             this.testee.Register(sync);
-            this.testee.Register(async);
+            this.testee.Register(asyncHandler);
         }
 
         /// <summary>
@@ -77,12 +77,12 @@ namespace bbv.Common.EventBroker
         public void SynchronousRestriction_AsynchronousHandler()
         {
             PublisherWithSynchronousRestriction p = new PublisherWithSynchronousRestriction();
-            SubscriberWithAsynchronousHandler async = new SubscriberWithAsynchronousHandler();
+            SubscriberWithAsynchronousHandler asyncHandler = new SubscriberWithAsynchronousHandler();
 
             this.testee.Register(p);
 
             Assert.Throws<EventTopicException>(
-                () => this.testee.Register(async));
+                () => this.testee.Register(asyncHandler));
         }
 
         /// <summary>
@@ -92,10 +92,10 @@ namespace bbv.Common.EventBroker
         public void AsynchronousRestriction_AsynchronousHandler()
         {
             PublisherWithAsynchronousRestriction p = new PublisherWithAsynchronousRestriction();
-            SubscriberWithAsynchronousHandler async = new SubscriberWithAsynchronousHandler();
+            SubscriberWithAsynchronousHandler asyncHandler = new SubscriberWithAsynchronousHandler();
 
             this.testee.Register(p);
-            this.testee.Register(async);
+            this.testee.Register(asyncHandler);
         }
 
         /// <summary>

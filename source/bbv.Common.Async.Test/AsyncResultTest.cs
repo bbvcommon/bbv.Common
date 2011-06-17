@@ -294,8 +294,8 @@ namespace bbv.Common.Async
         /// it must be unregistered.</param>
         private void VerifyLifetimeServiceRegistered(ILease lease, bool checkRegistered)
         {
-            Hashtable sponsorTable = (Hashtable)lease.GetType().
-                GetField("sponsorTable", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(lease);
+            Hashtable sponsorTable = (Hashtable)lease.GetType()
+                .GetField("sponsorTable", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(lease);
             string message = checkRegistered
                                  ? "Expected lifetime service to be registered."
                                  : "Expected lifetime service to be unregistered.";

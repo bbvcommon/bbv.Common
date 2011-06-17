@@ -25,7 +25,7 @@ namespace bbv.Common.RuleEngine
     /// Tests for the <see cref="ValidationRuleSet"/> class.
     /// </summary>
     [TestFixture]
-    public class RuleSetPropertyTest
+    public class RuleSetTest
     {
         /// <summary>Mock factory.</summary>
         private Mockery mockery;

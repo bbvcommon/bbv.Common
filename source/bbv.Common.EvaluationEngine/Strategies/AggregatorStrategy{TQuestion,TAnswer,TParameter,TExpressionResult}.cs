@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="AggregatorStrategy{TQuestion, TAnswer, TExpressionResult}.cs" company="bbv Software Services AG">
+// <copyright file="AggregatorStrategy{TQuestion,TAnswer,TParameter,TExpressionResult}.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");

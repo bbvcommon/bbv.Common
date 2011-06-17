@@ -46,6 +46,7 @@
     <Compile Include="ActiveStateMachineTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Events.cs" />
     <Compile Include="ExtensionTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,7 +96,7 @@
     <Compile Include="StateMachineTestBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StatesAndEvents.cs">
+    <Compile Include="States.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UnitTestStateMachineTest.cs">

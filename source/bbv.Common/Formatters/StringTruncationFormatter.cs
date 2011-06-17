@@ -49,7 +49,7 @@ namespace bbv.Common.Formatters
         {
             if (format == null || !format.StartsWith("L"))
             {
-                return String.Format("{0}", arg);
+                return string.Format("{0}", arg);
             }
 
             string s;

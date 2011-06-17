@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="StatesAndEvents.cs" company="bbv Software Services AG">
+// <copyright file="States.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,35 +67,5 @@ namespace bbv.Common.StateMachine
 
         /// <summary>Test state E.</summary>
         E,
-    }
-
-    /// <summary>
-    /// The events used in the test state machines.
-    /// </summary>
-    public enum Events
-    {
-        /// <summary>Test event A.</summary>
-        A,
-
-        /// <summary>Test event B.</summary>
-        B,
-
-        /// <summary>Test event B1.</summary>
-        B1,
-
-        /// <summary>Test event B2.</summary>
-        B2,
-
-        /// <summary>Test event C.</summary>
-        C,
-
-        /// <summary>Test event C1b.</summary>
-        C1b,
-
-        /// <summary>Test event D.</summary>
-        D,
-
-        /// <summary>Test event E.</summary>
-        E
-    }
+    }   
 }

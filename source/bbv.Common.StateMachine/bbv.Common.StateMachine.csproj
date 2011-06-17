@@ -141,7 +141,7 @@
     <Compile Include="Internals\StateMachineInitializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Internals\Syntax.cs">
+    <Compile Include="Internals\IEntryActionSyntax{TState,TEvent}.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internals\Transition.cs">

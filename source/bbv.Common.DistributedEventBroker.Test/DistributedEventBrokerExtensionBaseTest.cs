@@ -204,8 +204,8 @@ namespace bbv.Common.DistributedEventBroker
             serializer.Setup(s => s.Serialize(It.IsAny<CancelEventArgs>())).Returns(SerializedTopic);
 
             messageFactory
-                .Setup(f => f.CreateEventFiredMessage(It.IsAny<Action<IEventFired>>())).
-                Callback((Action<IEventFired> initialization) => initialization(message.Object))
+                .Setup(f => f.CreateEventFiredMessage(It.IsAny<Action<IEventFired>>()))
+                .Callback((Action<IEventFired> initialization) => initialization(message.Object))
                 .Returns(message.Object);
 
             this.SetupTopicAcceptedByStrategy(eventTopic);

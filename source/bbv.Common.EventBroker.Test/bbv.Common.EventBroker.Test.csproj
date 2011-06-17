@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddSubscriptionTest.cs" />
-    <Compile Include="CustomEventArgs.cs" />
+    <Compile Include="CustomEventArguments.cs" />
     <Compile Include="DescribeToTest.cs" />
     <Compile Include="AddPublicationTest.cs" />
     <Compile Include="EventBrokerCleanupTest.cs" />

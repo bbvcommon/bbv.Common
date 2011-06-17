@@ -28,7 +28,21 @@
           </RuleSettings>
         </Rule>
       </Rules>
-      <AnalyzerSettings />
+      <AnalyzerSettings>
+        <CollectionProperty Name="Hungarian">
+          <Value>do</Value>
+		  <Value>ui</Value>
+		  <Value>my</Value>
+		  <Value>on</Value>
+		  <Value>is</Value>
+		  <Value>as</Value>
+		  <Value>id</Value>
+		  <Value>if</Value>
+		  <Value>in</Value>
+		  <Value>no</Value>
+		  <Value>to</Value>
+        </CollectionProperty>
+      </AnalyzerSettings>
     </Analyzer>
   </Analyzers>
 </StyleCopSettings>

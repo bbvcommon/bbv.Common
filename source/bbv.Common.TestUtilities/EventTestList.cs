@@ -87,7 +87,8 @@ namespace bbv.Common.TestUtilities
         /// Gets the <see cref="bbv.Common.TestUtilities.IEventTester"/> at the specified index.
         /// </summary>
         /// <value>The <see cref="bbv.Common.TestUtilities.IEventTester"/> at the specified index.</value>
-        /// <param name="index">The index of the element that shall be returned.</param>
+        /// <param name="index">index of the element that shall be returned.</param>
+        /// <returns><see cref="bbv.Common.TestUtilities.IEventTester"/> at the specified index.</returns>
         public IEventTester this[int index]
         {
             get { return this.eventTesterList[index]; }

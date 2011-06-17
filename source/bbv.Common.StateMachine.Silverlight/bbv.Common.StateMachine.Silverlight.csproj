@@ -96,6 +96,9 @@
     <Compile Include="..\bbv.Common.StateMachine\Internals\IActionHolder.cs">
       <Link>Internals\IActionHolder.cs</Link>
     </Compile>
+    <Compile Include="..\bbv.Common.StateMachine\Internals\IEntryActionSyntax{TState,TEvent}.cs">
+      <Link>Internals\IEntryActionSyntax{TState,TEvent}.cs</Link>
+    </Compile>
     <Compile Include="..\bbv.Common.StateMachine\Internals\IExtensionHost.cs">
       <Link>Internals\IExtensionHost.cs</Link>
     </Compile>
@@ -164,9 +167,6 @@
     </Compile>
     <Compile Include="..\bbv.Common.StateMachine\Internals\StateMachineInitializer.cs">
       <Link>Internals\StateMachineInitializer.cs</Link>
-    </Compile>
-    <Compile Include="..\bbv.Common.StateMachine\Internals\Syntax.cs">
-      <Link>Internals\Syntax.cs</Link>
     </Compile>
     <Compile Include="..\bbv.Common.StateMachine\Internals\Transition.cs">
       <Link>Internals\Transition.cs</Link>
@@ -237,7 +237,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="f324d0c2-81ec-4798-9a17-fa22c591e48a" />
+      <UserProperties ProjectLinkReference="f324d0c2-81ec-4798-9a17-fa22c591e48a" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

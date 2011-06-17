@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ValidationViolationTest.cs" company="bbv Software Services AG">
+// <copyright file="Question{TAnswer,TParameter}.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,27 +16,22 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.RuleEngine
+namespace bbv.Common.EvaluationEngine
 {
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class ValidationViolationTest
+    /// <summary>
+    /// Base class for questions. Only use this class (instead of implementing <see cref="IQuestion{TAnswer, TParameter}"/>) if you do not want to provide a description of your own in <see cref="Describe"/>.
+    /// </summary>
+    /// <typeparam name="TAnswer">The type of the answer.</typeparam>
+    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+    public class Question<TAnswer, TParameter> : IQuestion<TAnswer, TParameter>
     {
-        [Test]
-        public void Creation()
+        /// <summary>
+        /// Describes this instance.
+        /// </summary>
+        /// <returns>Description of this instance.</returns>
+        public string Describe()
         {
-            ValidationViolation violation = new ValidationViolation();
-
-            Assert.IsNotNull(violation);
-        }
-
-        [Test]
-        public void CreationWithReason()
-        {
-            ValidationViolation violation = new ValidationViolation("reason");
-
-            Assert.AreEqual("reason", violation.Reason);
+            return this.ToString();
         }
     }
 }

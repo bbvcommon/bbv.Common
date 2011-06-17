@@ -80,7 +80,6 @@ namespace bbv.Common.IO
         /// <param name="expected">The expected.</param><param name="actual">The actual.</param><returns>
         /// True if the stream contents are equal, else false.
         /// </returns>
-        /// <exception cref="ArgumentException"></exception>
         public static bool CompareStreamContents(Stream expected, Stream actual)
         {
             if (!expected.CanRead)

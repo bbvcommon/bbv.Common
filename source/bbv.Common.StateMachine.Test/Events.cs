@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomEventArgs.cs" company="bbv Software Services AG">
+// <copyright file="Events.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,28 +16,35 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EventBroker
+namespace bbv.Common.StateMachine
 {
-    using System;
-
     /// <summary>
-    /// Custom event arguments sample
+    /// The events used in the test state machines.
     /// </summary>
-    public class CustomEventArguments : EventArgs
+    public enum Events
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CustomEventArguments"/> class.
-        /// </summary>
-        /// <param name="s">A value for testing.</param>
-        public CustomEventArguments(string s)
-        {
-            this.String = s;
-        }
+        /// <summary>Test event A.</summary>
+        A,
 
-        /// <summary>
-        /// Gets or sets the string.
-        /// </summary>
-        /// <value>The string.</value>
-        public string String { get; set; }
+        /// <summary>Test event B.</summary>
+        B,
+
+        /// <summary>Test event B1.</summary>
+        B1,
+
+        /// <summary>Test event B2.</summary>
+        B2,
+
+        /// <summary>Test event C.</summary>
+        C,
+
+        /// <summary>Test event C1b.</summary>
+        C1b,
+
+        /// <summary>Test event D.</summary>
+        D,
+
+        /// <summary>Test event E.</summary>
+        E
     }
 }

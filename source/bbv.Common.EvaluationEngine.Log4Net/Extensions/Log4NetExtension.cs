@@ -1,4 +1,3 @@
-
 //-------------------------------------------------------------------------------
 // <copyright file="Log4NetExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG

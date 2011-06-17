@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="Question{TAnswer, TParameter}.cs" company="bbv Software Services AG">
+// <copyright file="Events.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,22 +16,35 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EvaluationEngine
+namespace bbv.Common.StateMachine
 {
     /// <summary>
-    /// Base class for questions. Only use this class (instead of implementing <see cref="IQuestion{TAnswer, TParameter}"/>) if you do not want to provide a description of your own in <see cref="Describe"/>.
+    /// The events used in the test state machines.
     /// </summary>
-    /// <typeparam name="TAnswer">The type of the answer.</typeparam>
-    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public class Question<TAnswer, TParameter> : IQuestion<TAnswer, TParameter>
+    public enum Events
     {
-        /// <summary>
-        /// Describes this instance.
-        /// </summary>
-        /// <returns>Description of this instance.</returns>
-        public string Describe()
-        {
-            return this.ToString();
-        }
+        /// <summary>Test event A.</summary>
+        A,
+
+        /// <summary>Test event B.</summary>
+        B,
+
+        /// <summary>Test event B1.</summary>
+        B1,
+
+        /// <summary>Test event B2.</summary>
+        B2,
+
+        /// <summary>Test event C.</summary>
+        C,
+
+        /// <summary>Test event C1b.</summary>
+        C1b,
+
+        /// <summary>Test event D.</summary>
+        D,
+
+        /// <summary>Test event E.</summary>
+        E
     }
 }
