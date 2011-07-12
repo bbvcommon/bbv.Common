@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractStrategy.cs" />
+    <Compile Include="Behavior\DisposableExtensionBehavior.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehavior.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
     <Compile Include="Configuration\IConsumeConfiguration.cs" />

@@ -81,18 +81,6 @@ namespace bbv.Common.Bootstrapper
             this.testee.ShutdownSyntaxBuilder.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();
         }
 
-        [Fact]
-        public void BuildShutdownSyntax_ShouldAddDispose()
-        {
-            var extension = new Mock<IExtension>();
-            this.shutdownSyntaxBuilder.Setup(x => x.Execute(It.IsAny<Action<IExtension>>()))
-                .Callback<Action<IExtension>>(action => action(extension.Object));
-
-            this.testee.BuildShutdownSyntax();
-
-            extension.Verify(e => e.Dispose());
-        }
-
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>
         {
             public TestableAbstractStrategy(ISyntaxBuilder<IExtension> runSyntaxBuilder, ISyntaxBuilder<IExtension> shutdownSyntaxBuilder)

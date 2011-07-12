@@ -32,6 +32,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// </summary>
         /// <param name="index">The index which is used for item retrieval.</param>
         /// <value>The <see cref="ExtensionSettingsElement"/> at the specified index.</value>
+        /// <returns>The extension settings element</returns>
         public ExtensionSettingsElement this[int index]
         {
             get
@@ -56,6 +57,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// </summary>
         /// <param name="key">The alias which is used for item retrieval.</param>
         /// <value>The <see cref="ExtensionSettingsElement"/> with the specified key.</value>
+        /// <returns>The extension settings element</returns>
         public new ExtensionSettingsElement this[string key]
         {
             get

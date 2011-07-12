@@ -23,6 +23,8 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System.Linq;
     using System.Text;
 
+    using bbv.Common.Bootstrapper.Dummies;
+
     using FluentAssertions;
 
     using Moq;
@@ -34,24 +36,24 @@ namespace bbv.Common.Bootstrapper.Syntax
     {
         private readonly StringBuilder executionChainingBuilder;
 
-        private readonly Mock<IExecutableFactory<IExtension>> executableFactory;
+        private readonly Mock<IExecutableFactory<ICustomExtension>> executableFactory;
 
-        private readonly SyntaxBuilder<IExtension> testee;
+        private readonly SyntaxBuilder<ICustomExtension> testee;
 
         public SyntaxBuilderTest()
         {
             this.executionChainingBuilder = new StringBuilder();
-            this.executableFactory = new Mock<IExecutableFactory<IExtension>>();
+            this.executableFactory = new Mock<IExecutableFactory<ICustomExtension>>();
 
-            this.testee = new SyntaxBuilder<IExtension>(this.executableFactory.Object);
+            this.testee = new SyntaxBuilder<ICustomExtension>(this.executableFactory.Object);
         }
 
         [Fact]
         public void With_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.With(Mock.Of<IBehavior<IExtension>>());
+            this.testee.With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -59,9 +61,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void With_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.With(Mock.Of<IBehavior<IExtension>>()).With(Mock.Of<IBehavior<IExtension>>()).With(Mock.Of<IBehavior<IExtension>>());
+            this.testee.With(Mock.Of<IBehavior<ICustomExtension>>()).With(Mock.Of<IBehavior<ICustomExtension>>()).With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -69,8 +71,8 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void With_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -82,10 +84,10 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void With_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -102,9 +104,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBound_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.With(() => Mock.Of<IBehavior<IExtension>>());
+            this.testee.With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -112,9 +114,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBound_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.With(() => Mock.Of<IBehavior<IExtension>>()).With(() => Mock.Of<IBehavior<IExtension>>()).With(() => Mock.Of<IBehavior<IExtension>>());
+            this.testee.With(() => Mock.Of<IBehavior<ICustomExtension>>()).With(() => Mock.Of<IBehavior<ICustomExtension>>()).With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -122,23 +124,23 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBound_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
             this.testee.With(() => behavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()));
         }
 
         [Fact]
         public void WithLateBound_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -147,32 +149,32 @@ namespace bbv.Common.Bootstrapper.Syntax
                 .With(() => secondBehavior)
                 .With(() => thirdBehavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()), Times.Exactly(3));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()), Times.Exactly(3));
         }
 
         [Fact]
         public void WithLateBound_Behavior_ShouldBehaveLateBound()
         {
-            IBehavior<IExtension> interceptedBehavior = null;
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = new Mock<IBehavior<IExtension>>();
+            IBehavior<ICustomExtension> interceptedBehavior = null;
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = new Mock<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
-            extension.Setup(e => e.Add(It.IsAny<IBehavior<IExtension>>())).Callback<IBehavior<IExtension>>(b => interceptedBehavior = b);
+            extension.Setup(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>())).Callback<IBehavior<ICustomExtension>>(b => interceptedBehavior = b);
 
             this.testee.With(() => behavior.Object);
 
-            interceptedBehavior.Behave(Enumerable.Empty<IExtension>());
+            interceptedBehavior.Behave(Enumerable.Empty<ICustomExtension>());
 
-            behavior.Verify(b => b.Behave(Enumerable.Empty<IExtension>()));
+            behavior.Verify(b => b.Behave(Enumerable.Empty<ICustomExtension>()));
         }
 
         [Fact]
         public void WithAfterExecuteWithAction_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.Execute(() => { }).With(Mock.Of<IBehavior<IExtension>>());
+            this.testee.Execute(() => { }).With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -180,9 +182,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithAction_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.Execute(() => { }).With(Mock.Of<IBehavior<IExtension>>()).With(Mock.Of<IBehavior<IExtension>>()).With(Mock.Of<IBehavior<IExtension>>());
+            this.testee.Execute(() => { }).With(Mock.Of<IBehavior<ICustomExtension>>()).With(Mock.Of<IBehavior<ICustomExtension>>()).With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -190,8 +192,8 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithAction_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -205,10 +207,10 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithAction_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -226,9 +228,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBoundAfterExecuteWithAction_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.Execute(() => { }).With(() => Mock.Of<IBehavior<IExtension>>());
+            this.testee.Execute(() => { }).With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -236,9 +238,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBoundAfterExecuteWithAction_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
-            this.testee.Execute(() => { }).With(() => Mock.Of<IBehavior<IExtension>>()).With(() => Mock.Of<IBehavior<IExtension>>()).With(() => Mock.Of<IBehavior<IExtension>>());
+            this.testee.Execute(() => { }).With(() => Mock.Of<IBehavior<ICustomExtension>>()).With(() => Mock.Of<IBehavior<ICustomExtension>>()).With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -246,8 +248,8 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBoundAfterExecuteWithAction_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -255,16 +257,16 @@ namespace bbv.Common.Bootstrapper.Syntax
                 .Execute(() => { })
                     .With(() => behavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()));
         }
 
         [Fact]
         public void WithLateBoundAfterExecuteWithAction_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
 
@@ -274,36 +276,36 @@ namespace bbv.Common.Bootstrapper.Syntax
                     .With(() => secondBehavior)
                     .With(() => thirdBehavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()), Times.Exactly(3));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()), Times.Exactly(3));
         }
 
         [Fact]
         public void WithLateBoundAfterExecuteWithAction_Behavior_ShouldBehaveLateBound()
         {
-            IBehavior<IExtension> interceptedBehavior = null;
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = new Mock<IBehavior<IExtension>>();
+            IBehavior<ICustomExtension> interceptedBehavior = null;
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = new Mock<IBehavior<ICustomExtension>>();
 
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>())).Returns(extension.Object);
-            extension.Setup(e => e.Add(It.IsAny<IBehavior<IExtension>>())).Callback<IBehavior<IExtension>>(b => interceptedBehavior = b);
+            extension.Setup(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>())).Callback<IBehavior<ICustomExtension>>(b => interceptedBehavior = b);
 
             this.testee
                 .Execute(() => { })
                     .With(() => behavior.Object);
 
-            interceptedBehavior.Behave(Enumerable.Empty<IExtension>());
+            interceptedBehavior.Behave(Enumerable.Empty<ICustomExtension>());
 
-            behavior.Verify(b => b.Behave(Enumerable.Empty<IExtension>()));
+            behavior.Verify(b => b.Behave(Enumerable.Empty<ICustomExtension>()));
         }
 
         [Fact]
         public void WithAfterExecuteWithActionOnExtension_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee
                 .Execute(e => e.Dispose())
-                    .With(Mock.Of<IBehavior<IExtension>>());
+                    .With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -311,12 +313,12 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithActionOnExtension_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee.Execute(e => e.Dispose())
-                .With(Mock.Of<IBehavior<IExtension>>())
-                .With(Mock.Of<IBehavior<IExtension>>())
-                .With(Mock.Of<IBehavior<IExtension>>());
+                .With(Mock.Of<IBehavior<ICustomExtension>>())
+                .With(Mock.Of<IBehavior<ICustomExtension>>())
+                .With(Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -324,10 +326,10 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithActionOnExtension_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(extension.Object);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(extension.Object);
 
             this.testee
                 .Execute(e => e.Dispose())
@@ -339,12 +341,12 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithActionOnExtension_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(extension.Object);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(extension.Object);
 
             this.testee
                 .Execute(e => e.Dispose())
@@ -360,11 +362,11 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithBoundLateAfterExecuteWithActionOnExtension_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee
                 .Execute(e => e.Dispose())
-                    .With(() => Mock.Of<IBehavior<IExtension>>());
+                    .With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -372,12 +374,12 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBoundAfterExecuteWithActionOnExtension_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee.Execute(e => e.Dispose())
-                .With(() => Mock.Of<IBehavior<IExtension>>())
-                .With(() => Mock.Of<IBehavior<IExtension>>())
-                .With(() => Mock.Of<IBehavior<IExtension>>());
+                .With(() => Mock.Of<IBehavior<ICustomExtension>>())
+                .With(() => Mock.Of<IBehavior<ICustomExtension>>())
+                .With(() => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -385,27 +387,27 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithLateBoundAfterExecuteWithActionOnExtension_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = Mock.Of<IBehavior<ICustomExtension>>();
 
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(extension.Object);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(extension.Object);
 
             this.testee
                 .Execute(e => e.Dispose())
                     .With(() => behavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()));
         }
 
         [Fact]
         public void WithLateBoundAfterExecuteWithActionOnExtension_BehaviorMultipleTimes_ShouldAddBehaviorToLastExecutable()
         {
-            var extension = new Mock<IExecutable<IExtension>>();
-            var firstBehavior = Mock.Of<IBehavior<IExtension>>();
-            var secondBehavior = Mock.Of<IBehavior<IExtension>>();
-            var thirdBehavior = Mock.Of<IBehavior<IExtension>>();
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var firstBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var secondBehavior = Mock.Of<IBehavior<ICustomExtension>>();
+            var thirdBehavior = Mock.Of<IBehavior<ICustomExtension>>();
 
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(extension.Object);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(extension.Object);
 
             this.testee
                 .Execute(e => e.Dispose())
@@ -413,37 +415,37 @@ namespace bbv.Common.Bootstrapper.Syntax
                     .With(() => secondBehavior)
                     .With(() => thirdBehavior);
 
-            extension.Verify(e => e.Add(It.IsAny<IBehavior<IExtension>>()), Times.Exactly(3));
+            extension.Verify(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>()), Times.Exactly(3));
         }
 
         [Fact]
         public void WithLateBoundAfterExecuteWithActionOnExtension_Behavior_ShouldBehaveLateBound()
         {
-            IBehavior<IExtension> interceptedBehavior = null;
-            var extension = new Mock<IExecutable<IExtension>>();
-            var behavior = new Mock<IBehavior<IExtension>>();
+            IBehavior<ICustomExtension> interceptedBehavior = null;
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            var behavior = new Mock<IBehavior<ICustomExtension>>();
 
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>())).Returns(extension.Object);
-            extension.Setup(e => e.Add(It.IsAny<IBehavior<IExtension>>())).Callback<IBehavior<IExtension>>(b => interceptedBehavior = b);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>())).Returns(extension.Object);
+            extension.Setup(e => e.Add(It.IsAny<IBehavior<ICustomExtension>>())).Callback<IBehavior<ICustomExtension>>(b => interceptedBehavior = b);
 
             this.testee
                 .Execute(e => e.Dispose())
                     .With(() => behavior.Object);
 
-            interceptedBehavior.Behave(Enumerable.Empty<IExtension>());
+            interceptedBehavior.Behave(Enumerable.Empty<ICustomExtension>());
 
-            behavior.Verify(b => b.Behave(Enumerable.Empty<IExtension>()));
+            behavior.Verify(b => b.Behave(Enumerable.Empty<ICustomExtension>()));
         }
 
         [Fact]
         public void WithAfterExecuteWithActionOnExtensionWithInitializer_Behavior_ShouldAddExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<IExtension>, object>>(), It.IsAny<Action<IExtension, object>>()))
-                .Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<ICustomExtension>, object>>(), It.IsAny<Action<ICustomExtension, object>>()))
+                .Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee
                 .Execute(() => new object(), (e, o) => e.Dispose())
-                    .With(o => Mock.Of<IBehavior<IExtension>>());
+                    .With(o => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -451,13 +453,13 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithActionOnExtensionWithInitializer_BehaviorMultipleTimes_ShouldOnlyAddOneExecutable()
         {
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<IExtension>, object>>(), It.IsAny<Action<IExtension, object>>()))
-                .Returns(Mock.Of<IExecutable<IExtension>>());
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<ICustomExtension>, object>>(), It.IsAny<Action<ICustomExtension, object>>()))
+                .Returns(Mock.Of<IExecutable<ICustomExtension>>());
 
             this.testee.Execute(() => new object(), (e, o) => e.Dispose())
-                .With(o => Mock.Of<IBehavior<IExtension>>())
-                .With(o => Mock.Of<IBehavior<IExtension>>())
-                .With(o => Mock.Of<IBehavior<IExtension>>());
+                .With(o => Mock.Of<IBehavior<ICustomExtension>>())
+                .With(o => Mock.Of<IBehavior<ICustomExtension>>())
+                .With(o => Mock.Of<IBehavior<ICustomExtension>>());
 
             this.testee.Should().HaveCount(1);
         }
@@ -465,19 +467,19 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void WithAfterExecuteWithActionOnExtensionWithInitializer_Behavior_ShouldAddBehaviorToLastExecutable()
         {
-            IBehavior<IExtension> behavior = null;
-            Func<IBehaviorAware<IExtension>, object> contextInitializer = aware => null;
+            IBehavior<ICustomExtension> behavior = null;
+            Func<IBehaviorAware<ICustomExtension>, object> contextInitializer = aware => null;
 
-            var extension = new Mock<IExecutable<IExtension>>();
-            extension.Setup(x => x.Add(It.IsAny<IBehavior<IExtension>>())).Callback<IBehavior<IExtension>>(
+            var extension = new Mock<IExecutable<ICustomExtension>>();
+            extension.Setup(x => x.Add(It.IsAny<IBehavior<ICustomExtension>>())).Callback<IBehavior<ICustomExtension>>(
                 b => behavior = b);
 
             this.executableFactory.Setup(
                 f =>
                 f.CreateExecutable(
-                    It.IsAny<Func<IBehaviorAware<IExtension>, object>>(), It.IsAny<Action<IExtension, object>>())).
-                Callback<Func<IBehaviorAware<IExtension>, object>, Action<IExtension, object>>(
-                    (func, action) => contextInitializer = func).Returns(Mock.Of<IExecutable<IExtension>>);
+                    It.IsAny<Func<IBehaviorAware<ICustomExtension>, object>>(), It.IsAny<Action<ICustomExtension, object>>())).
+                Callback<Func<IBehaviorAware<ICustomExtension>, object>, Action<ICustomExtension, object>>(
+                    (func, action) => contextInitializer = func).Returns(Mock.Of<IExecutable<ICustomExtension>>);
 
             var context = new object();
 
@@ -489,7 +491,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             behavior.As<TestableBehavior>().Context.Should().Be(context);
         }
 
-        private class TestableBehavior : IBehavior<IExtension>
+        private class TestableBehavior : IBehavior<ICustomExtension>
         {
             private readonly object context;
 
@@ -506,7 +508,7 @@ namespace bbv.Common.Bootstrapper.Syntax
                 }
             }
 
-            public void Behave(IEnumerable<IExtension> extensions)
+            public void Behave(IEnumerable<ICustomExtension> extensions)
             {
             }
         }
@@ -555,14 +557,14 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action>()))
                 .Callback<Action>(action => action())
-                .Returns(Mock.Of<IExecutable<IExtension>>);
-            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<IExtension>>()))
-                .Callback<Action<IExtension>>(action => action(Mock.Of<IExtension>()))
-                .Returns(Mock.Of<IExecutable<IExtension>>);
+                .Returns(Mock.Of<IExecutable<ICustomExtension>>);
+            this.executableFactory.Setup(f => f.CreateExecutable(It.IsAny<Action<ICustomExtension>>()))
+                .Callback<Action<ICustomExtension>>(action => action(Mock.Of<ICustomExtension>()))
+                .Returns(Mock.Of<IExecutable<ICustomExtension>>);
             this.executableFactory.Setup(
-                f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<IExtension>, char>>(), It.IsAny<Action<IExtension, char>>()))
-                .Callback<Func<IBehaviorAware<IExtension>, char>, Action<IExtension, char>>((func, action) => action(Mock.Of<IExtension>(), func(Mock.Of<IBehaviorAware<IExtension>>())))
-                .Returns(Mock.Of<IExecutable<IExtension>>);
+                f => f.CreateExecutable(It.IsAny<Func<IBehaviorAware<ICustomExtension>, char>>(), It.IsAny<Action<ICustomExtension, char>>()))
+                .Callback<Func<IBehaviorAware<ICustomExtension>, char>, Action<ICustomExtension, char>>((func, action) => action(Mock.Of<ICustomExtension>(), func(Mock.Of<IBehaviorAware<ICustomExtension>>())))
+                .Returns(Mock.Of<IExecutable<ICustomExtension>>);
         }
 
         private Dictionary<char, Action> DefineCharToActionMapping()

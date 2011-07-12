@@ -18,9 +18,10 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
+    using System;
     using System.Collections.Generic;
 
-    public interface ICustomExtension : IExtension
+    public interface ICustomExtension : IExtension, IDisposable
     {
         void Start();
 

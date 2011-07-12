@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractStrategyTest.cs" />
+    <Compile Include="Behavior\DisposableExtensionBehaviorTest.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehaviorTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationSectionTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationTest.cs" />
@@ -35,6 +36,8 @@
     <Compile Include="Configuration\LoadConfigurationSectionTest.cs" />
     <Compile Include="DefaultBootstrapperTest.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
+    <Compile Include="Dummies\IDisposableExtension.cs" />
+    <Compile Include="Dummies\INonDisposableExtension.cs" />
     <Compile Include="Execution\SynchronousExecutorTest.cs" />
     <Compile Include="Execution\SynchronousReverseExecutorTest.cs" />
     <Compile Include="ExtensionHostTest.cs" />

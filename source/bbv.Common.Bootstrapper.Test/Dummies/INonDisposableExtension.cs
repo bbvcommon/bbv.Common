@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="IExtension.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="INonDisposableExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,13 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Dummies
 {
     /// <summary>
-    /// Interface for extensions.
+    /// A non disposable extension
     /// </summary>
-    public interface IExtension
+    public interface INonDisposableExtension : IExtension
     {
+        void Dispose();
     }
 }

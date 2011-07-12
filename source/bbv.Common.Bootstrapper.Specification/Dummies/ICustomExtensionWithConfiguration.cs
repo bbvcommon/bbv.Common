@@ -18,9 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using bbv.Common.Bootstrapper.Configuration;
-
-    public interface ICustomExtensionWithConfiguration : IExtension, IConsumeConfigurationSection
+    public interface ICustomExtensionWithConfiguration : IExtension
     {
     }
 }

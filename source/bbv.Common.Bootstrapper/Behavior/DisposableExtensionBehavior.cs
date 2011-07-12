@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IExtension.cs" company="bbv Software Services AG">
+// <copyright file="DisposableExtensionBehavior.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,27 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Behavior
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
-    /// Interface for extensions.
+    /// Behavior which disposes all extensions which implement IDisposable
     /// </summary>
-    public interface IExtension
+    public class DisposableExtensionBehavior : IBehavior<IExtension>
     {
+        /// <summary>
+        /// Diposes all extensions which implement IDisposable.
+        /// </summary>
+        /// <param name="extensions">The extensions.</param>
+        public void Behave(IEnumerable<IExtension> extensions)
+        {
+            foreach (IDisposable extension in extensions.OfType<IDisposable>())
+            {
+                extension.Dispose();
+            }
+        }
     }
 }

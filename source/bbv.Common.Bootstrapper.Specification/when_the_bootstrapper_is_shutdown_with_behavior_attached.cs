@@ -67,7 +67,7 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var sequence = CustomExtensionBase.Sequence;
 
-            sequence.Should().HaveCount(24);
+            sequence.Should().HaveCount(22);
             sequence.ElementAt(0).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first beginning.");
             sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first beginning.");
             sequence.ElementAt(2).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second beginning.");
@@ -94,8 +94,8 @@ namespace bbv.Common.Bootstrapper.Specification
             sequence.ElementAt(20).Should().BeEquivalentTo("SecondExtension: Stop");
             sequence.ElementAt(21).Should().BeEquivalentTo("FirstExtension: Stop");
 
-            sequence.ElementAt(22).Should().BeEquivalentTo("SecondExtension: Dispose");
-            sequence.ElementAt(23).Should().BeEquivalentTo("FirstExtension: Dispose");
+            ////sequence.ElementAt(22).Should().BeEquivalentTo("SecondExtension: Dispose");
+            ////sequence.ElementAt(23).Should().BeEquivalentTo("FirstExtension: Dispose");
         };
     }
 }

@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Behavior;
     using bbv.Common.Bootstrapper.Syntax;
 
     public class CustomExtensionWithBehaviorStrategy : AbstractStrategy<ICustomExtension>

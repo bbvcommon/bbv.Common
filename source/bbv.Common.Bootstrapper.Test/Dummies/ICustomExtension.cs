@@ -18,10 +18,12 @@
 
 namespace bbv.Common.Bootstrapper.Dummies
 {
+    using System;
+
     /// <summary>
     /// A custom extension.
     /// </summary>
-    public interface ICustomExtension : IExtension
+    public interface ICustomExtension : IExtension, IDisposable
     {
         void SomeMethod(object value);
     }

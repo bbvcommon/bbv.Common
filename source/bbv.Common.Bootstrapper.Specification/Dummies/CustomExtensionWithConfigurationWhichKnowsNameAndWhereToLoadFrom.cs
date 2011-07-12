@@ -22,7 +22,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
     using bbv.Common.Bootstrapper.Configuration;
 
-    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration, IHaveConfigurationSectionName, ILoadConfigurationSection
+    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration, IHaveConfigurationSectionName, ILoadConfigurationSection, IConsumeConfigurationSection
     {
         public bool SectionNameAcquired { get; private set; }
 

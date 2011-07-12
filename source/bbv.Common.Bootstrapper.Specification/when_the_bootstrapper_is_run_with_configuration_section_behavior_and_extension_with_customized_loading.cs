@@ -35,13 +35,11 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             NameAndWhereToLoadFromExtension = new CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom();
             WhereToLoadFromExtension = new CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom();
-            NameExtension = new CustomExtensionWithConfigurationWhichKnowsName();
-
+ 
             Bootstrapper.Initialize(Strategy);
 
             Bootstrapper.AddExtension(NameAndWhereToLoadFromExtension);
             Bootstrapper.AddExtension(WhereToLoadFromExtension);
-            Bootstrapper.AddExtension(NameExtension);
         };
 
         Because of = () =>

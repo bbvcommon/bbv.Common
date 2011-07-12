@@ -100,8 +100,7 @@ namespace bbv.Common.Bootstrapper
 
             this.DefineShutdownSyntax(this.shutdownSyntaxBuilder);
 
-            return this.shutdownSyntaxBuilder
-                .Execute(e => e.Dispose());
+            return this.shutdownSyntaxBuilder;
         }
 
         /// <summary>
