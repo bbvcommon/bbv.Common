@@ -38,6 +38,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
+                .Execute(() => CustomExtensionBase.DumpAction("CustomRun"))
                 .Execute(extension => extension.Start())
                 .Execute(this.RunInitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
                 .Execute(extension => extension.Initialize())
@@ -47,6 +48,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> syntax)
         {
             syntax
+                .Execute(() => CustomExtensionBase.DumpAction("CustomShutdown"))
                 .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
                 .Execute(this.ShutdownInitializeConfiguration, (extension, dictionary) => extension.DeConfigure(dictionary))
                 .Execute(extension => extension.Stop());

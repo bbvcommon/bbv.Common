@@ -112,6 +112,11 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.Dump(MethodBase.GetCurrentMethod().Name);
         }
 
+        internal static void DumpAction(string actionName)
+        {
+            sequenceQueue.Enqueue(string.Format(CultureInfo.InvariantCulture, "Action: {0}", actionName));
+        }
+
         private void Dump(string methodName)
         {
             sequenceQueue.Enqueue(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", this.GetType().Name, methodName));

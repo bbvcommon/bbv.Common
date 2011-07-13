@@ -18,6 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -62,15 +63,17 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var sequence = CustomExtensionBase.Sequence;
 
-            sequence.Should().HaveCount(6);
-            sequence.ElementAt(0).Should().StartWith("SecondExtension: Unregister");
-            sequence.ElementAt(1).Should().StartWith("FirstExtension: Unregister");
+            sequence.Should().HaveCount(7, sequence.Flatten());
+            sequence.ElementAt(0).Should().StartWith("Action: CustomShutdown");
 
-            sequence.ElementAt(2).Should().StartWith("SecondExtension: DeConfigure");
-            sequence.ElementAt(3).Should().StartWith("FirstExtension: DeConfigure");
+            sequence.ElementAt(1).Should().StartWith("SecondExtension: Unregister");
+            sequence.ElementAt(2).Should().StartWith("FirstExtension: Unregister");
 
-            sequence.ElementAt(4).Should().StartWith("SecondExtension: Stop");
-            sequence.ElementAt(5).Should().StartWith("FirstExtension: Stop");
+            sequence.ElementAt(3).Should().StartWith("SecondExtension: DeConfigure");
+            sequence.ElementAt(4).Should().StartWith("FirstExtension: DeConfigure");
+
+            sequence.ElementAt(5).Should().StartWith("SecondExtension: Stop");
+            sequence.ElementAt(6).Should().StartWith("FirstExtension: Stop");
         };
     }
 }

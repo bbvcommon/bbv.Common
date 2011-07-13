@@ -42,6 +42,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             builder
                     .With(new Behavior("run first beginning"))
                     .With(() => new Behavior("run second beginning"))
+                .Execute(() => CustomExtensionBase.DumpAction("CustomRun"))
                 .Execute(extension => extension.Start())
                     .With(new Behavior("run first start"))
                     .With(() => new Behavior("run second start"))
@@ -61,6 +62,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             builder
                     .With(new Behavior("shutdown first beginning"))
                     .With(() => new Behavior("shutdown second beginning"))
+                .Execute(() => CustomExtensionBase.DumpAction("CustomShutdown"))
                 .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
                     .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueFirst"))
                     .With(context => new BehaviorWithStringContext(context, "ShutdownTestValueSecond"))

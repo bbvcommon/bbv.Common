@@ -37,6 +37,7 @@
     <Compile Include="Dummies\CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom.cs" />
     <Compile Include="Dummies\CustomExtensionWithConfigurationStrategy.cs" />
     <Compile Include="Dummies\CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom.cs" />
+    <Compile Include="Dummies\EnumerableExtensions.cs" />
     <Compile Include="Dummies\FakeConfigurationSection.cs" />
     <Compile Include="Dummies\FirstExtension.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />

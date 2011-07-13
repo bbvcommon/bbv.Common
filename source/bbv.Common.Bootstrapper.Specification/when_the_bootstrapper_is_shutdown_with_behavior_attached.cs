@@ -67,32 +67,34 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var sequence = CustomExtensionBase.Sequence;
 
-            sequence.Should().HaveCount(22);
+            sequence.Should().HaveCount(23, sequence.Flatten());
             sequence.ElementAt(0).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first beginning.");
             sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first beginning.");
             sequence.ElementAt(2).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second beginning.");
             sequence.ElementAt(3).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown second beginning.");
+            
+            sequence.ElementAt(4).Should().BeEquivalentTo("Action: CustomShutdown");
 
-            sequence.ElementAt(4).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with ShutdownTestValueFirst.");
-            sequence.ElementAt(5).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at input modification with ShutdownTestValueFirst.");
-            sequence.ElementAt(6).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with ShutdownTestValueSecond.");
-            sequence.ElementAt(7).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at input modification with ShutdownTestValueSecond.");
-            sequence.ElementAt(8).Should().BeEquivalentTo("SecondExtension: Unregister");
-            sequence.ElementAt(9).Should().BeEquivalentTo("FirstExtension: Unregister");
+            sequence.ElementAt(5).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with ShutdownTestValueFirst.");
+            sequence.ElementAt(6).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at input modification with ShutdownTestValueFirst.");
+            sequence.ElementAt(7).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with ShutdownTestValueSecond.");
+            sequence.ElementAt(8).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at input modification with ShutdownTestValueSecond.");
+            sequence.ElementAt(9).Should().BeEquivalentTo("SecondExtension: Unregister");
+            sequence.ElementAt(10).Should().BeEquivalentTo("FirstExtension: Unregister");
 
-            sequence.ElementAt(10).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at configuration modification with ShutdownFirstValue = ShutdownTestValue.");
-            sequence.ElementAt(11).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at configuration modification with ShutdownFirstValue = ShutdownTestValue.");
-            sequence.ElementAt(12).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at configuration modification with ShutdownSecondValue = ShutdownTestValue.");
-            sequence.ElementAt(13).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at configuration modification with ShutdownSecondValue = ShutdownTestValue.");
-            sequence.ElementAt(14).Should().BeEquivalentTo("SecondExtension: DeConfigure");
-            sequence.ElementAt(15).Should().BeEquivalentTo("FirstExtension: DeConfigure");
+            sequence.ElementAt(11).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at configuration modification with ShutdownFirstValue = ShutdownTestValue.");
+            sequence.ElementAt(12).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at configuration modification with ShutdownFirstValue = ShutdownTestValue.");
+            sequence.ElementAt(13).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at configuration modification with ShutdownSecondValue = ShutdownTestValue.");
+            sequence.ElementAt(14).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at configuration modification with ShutdownSecondValue = ShutdownTestValue.");
+            sequence.ElementAt(15).Should().BeEquivalentTo("SecondExtension: DeConfigure");
+            sequence.ElementAt(16).Should().BeEquivalentTo("FirstExtension: DeConfigure");
 
-            sequence.ElementAt(16).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first stop.");
-            sequence.ElementAt(17).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first stop.");
-            sequence.ElementAt(18).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second stop.");
-            sequence.ElementAt(19).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown second stop.");
-            sequence.ElementAt(20).Should().BeEquivalentTo("SecondExtension: Stop");
-            sequence.ElementAt(21).Should().BeEquivalentTo("FirstExtension: Stop");
+            sequence.ElementAt(17).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first stop.");
+            sequence.ElementAt(18).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first stop.");
+            sequence.ElementAt(19).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second stop.");
+            sequence.ElementAt(20).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown second stop.");
+            sequence.ElementAt(21).Should().BeEquivalentTo("SecondExtension: Stop");
+            sequence.ElementAt(22).Should().BeEquivalentTo("FirstExtension: Stop");
 
             ////sequence.ElementAt(22).Should().BeEquivalentTo("SecondExtension: Dispose");
             ////sequence.ElementAt(23).Should().BeEquivalentTo("FirstExtension: Dispose");

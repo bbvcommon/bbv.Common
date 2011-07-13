@@ -62,18 +62,20 @@ namespace bbv.Common.Bootstrapper.Specification
             {
                 var sequence = CustomExtensionBase.Sequence;
 
-                sequence.Should().HaveCount(8);
-                sequence.ElementAt(0).Should().BeEquivalentTo("FirstExtension: Start");
-                sequence.ElementAt(1).Should().BeEquivalentTo("SecondExtension: Start");
+                sequence.Should().HaveCount(9);
+                sequence.ElementAt(0).Should().BeEquivalentTo("Action: CustomRun");
 
-                sequence.ElementAt(2).Should().BeEquivalentTo("FirstExtension: Configure");
-                sequence.ElementAt(3).Should().BeEquivalentTo("SecondExtension: Configure");
+                sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Start");
+                sequence.ElementAt(2).Should().BeEquivalentTo("SecondExtension: Start");
 
-                sequence.ElementAt(4).Should().BeEquivalentTo("FirstExtension: Initialize");
-                sequence.ElementAt(5).Should().BeEquivalentTo("SecondExtension: Initialize");
+                sequence.ElementAt(3).Should().BeEquivalentTo("FirstExtension: Configure");
+                sequence.ElementAt(4).Should().BeEquivalentTo("SecondExtension: Configure");
 
-                sequence.ElementAt(6).Should().BeEquivalentTo("FirstExtension: Register");
-                sequence.ElementAt(7).Should().BeEquivalentTo("SecondExtension: Register");
+                sequence.ElementAt(5).Should().BeEquivalentTo("FirstExtension: Initialize");
+                sequence.ElementAt(6).Should().BeEquivalentTo("SecondExtension: Initialize");
+
+                sequence.ElementAt(7).Should().BeEquivalentTo("FirstExtension: Register");
+                sequence.ElementAt(8).Should().BeEquivalentTo("SecondExtension: Register");
             };
     }
 }
