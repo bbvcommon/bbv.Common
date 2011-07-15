@@ -48,7 +48,7 @@ namespace bbv.Common.EventBroker
         /// </summary>
         /// <param name="globalMatchersProvider">The global matchers provider.</param>
         /// <returns>A newly created event topic host.</returns>
-        public IEventTopicHost CreateEventTopicHost(IGlobalMatchersProvider globalMatchersProvider)
+        public virtual IEventTopicHost CreateEventTopicHost(IGlobalMatchersProvider globalMatchersProvider)
         {
             return new EventTopicHost(this, this.ExtensionHost, globalMatchersProvider);
         }
