@@ -13,11 +13,14 @@
     <DocumentationFile>bin\Release\bbv.Common.DistributedEventBroker.NServiceBusAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.NServiceBusAdapter.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NServiceBus">
-      <HintPath>..\packages\nservicebus.2.5.0.1446\lib\net40\NServiceBus.dll</HintPath>
+      <HintPath>..\packages\NServiceBus.2.5.0.1469\lib\net40\NServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.Core">
-      <HintPath>..\packages\nservicebus.2.5.0.1446\lib\net40\NServiceBus.Core.dll</HintPath>
+      <HintPath>..\packages\NServiceBus.2.5.0.1469\lib\net40\NServiceBus.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
