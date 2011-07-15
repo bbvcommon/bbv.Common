@@ -13,7 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
-      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+      <HintPath>..\packages\FluentAssertions.1.5.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications">
       <HintPath>..\packages\Machine.Specifications.0.4.13.0\lib\Machine.Specifications.dll</HintPath>

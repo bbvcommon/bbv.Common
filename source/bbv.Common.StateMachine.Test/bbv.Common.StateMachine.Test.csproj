@@ -12,9 +12,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=1.4.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.1.5.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
