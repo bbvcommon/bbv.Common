@@ -48,7 +48,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="id">The id of the state.</param>
         /// <returns>A newly created state.</returns>
-        public IState<TState, TEvent> CreateState(TState id)
+        public virtual IState<TState, TEvent> CreateState(TState id)
         {
             return new State<TState, TEvent>(id, this.stateMachineInformation, this.extensionHost);
         }
@@ -57,7 +57,7 @@ namespace bbv.Common.StateMachine.Internals
         /// Creates a transition.
         /// </summary>
         /// <returns>A newly created transition.</returns>
-        public ITransition<TState, TEvent> CreateTransition()
+        public virtual ITransition<TState, TEvent> CreateTransition()
         {
             return new Transition<TState, TEvent>(this.stateMachineInformation, this.extensionHost);
         }
@@ -67,7 +67,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>A newly created action holder.</returns>
-        public IActionHolder CreateActionHolder(Action action)
+        public virtual IActionHolder CreateActionHolder(Action action)
         {
             return new ActionHolder(action);
         }
@@ -79,7 +79,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="action">The action.</param>
         /// <param name="parameter">The parameter.</param>
         /// <returns>A newly created action holder.</returns>
-        public IActionHolder CreateActionHolder<T>(Action<T> action, T parameter)
+        public virtual IActionHolder CreateActionHolder<T>(Action<T> action, T parameter)
         {
             return new ActionHolder<T>(action, parameter);    
         }
@@ -89,7 +89,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>A newly created transition action holder.</returns>
-        public ITransitionActionHolder CreateTransitionActionHolder(Action<object[]> action)
+        public virtual ITransitionActionHolder CreateTransitionActionHolder(Action<object[]> action)
         {
             return new TransitionActionHolder(action);
         }
@@ -99,7 +99,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>A newly created transition action holder.</returns>
-        public ITransitionActionHolder CreateTransitionActionHolder(Action action)
+        public virtual ITransitionActionHolder CreateTransitionActionHolder(Action action)
         {
             return new ArgumentLessTransitionActionHolder(action);
         }
@@ -110,7 +110,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <typeparam name="T">The type of the action argument.</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>A newly created transition action holder.</returns>
-        public ITransitionActionHolder CreateTransitionActionHolder<T>(Action<T> action)
+        public virtual ITransitionActionHolder CreateTransitionActionHolder<T>(Action<T> action)
         {
             return new SingleArgumentTransitionActionHolder<T>(action);
         }
@@ -120,7 +120,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="guard">The guard.</param>
         /// <returns>A newly created guard holder.</returns>
-        public IGuardHolder CreateGuardHolder(Func<object[], bool> guard)
+        public virtual IGuardHolder CreateGuardHolder(Func<object[], bool> guard)
         {
             return new GuardHolder(guard);
         }
@@ -130,7 +130,7 @@ namespace bbv.Common.StateMachine.Internals
         /// </summary>
         /// <param name="guard">The guard.</param>
         /// <returns>A newly created guard holder.</returns>
-        public IGuardHolder CreateGuardHolder(Func<bool> guard)
+        public virtual IGuardHolder CreateGuardHolder(Func<bool> guard)
         {
             return new ArgumentLessGuardHolder(guard);
         }
@@ -141,7 +141,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <typeparam name="T">The type of the guard argument.</typeparam>
         /// <param name="guard">The guard.</param>
         /// <returns>A newly created guard holder.</returns>
-        public IGuardHolder CreateGuardHolder<T>(Func<T, bool> guard)
+        public virtual IGuardHolder CreateGuardHolder<T>(Func<T, bool> guard)
         {
             return new SingleArgumentGuardHolder<T>(guard);
         }
@@ -152,7 +152,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="state">The state.</param>
         /// <param name="notifier">The notifier.</param>
         /// <returns>A newly created state context.</returns>
-        public IStateContext<TState, TEvent> CreateStateContext(IState<TState, TEvent> state, INotifier<TState, TEvent> notifier)
+        public virtual IStateContext<TState, TEvent> CreateStateContext(IState<TState, TEvent> state, INotifier<TState, TEvent> notifier)
         {
             return new StateContext<TState, TEvent>(state, notifier);
         }
@@ -165,7 +165,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="eventArguments">The event arguments.</param>
         /// <param name="notifier">The notifier.</param>
         /// <returns>A newly created transition context.</returns>
-        public ITransitionContext<TState, TEvent> CreateTransitionContext(IState<TState, TEvent> state, TEvent eventId, object[] eventArguments, INotifier<TState, TEvent> notifier)
+        public virtual ITransitionContext<TState, TEvent> CreateTransitionContext(IState<TState, TEvent> state, TEvent eventId, object[] eventArguments, INotifier<TState, TEvent> notifier)
         {
             return new TransitionContext<TState, TEvent>(state, eventId, eventArguments, notifier);
         }
@@ -176,7 +176,7 @@ namespace bbv.Common.StateMachine.Internals
         /// <param name="initialState">The initial state.</param>
         /// <param name="stateContext">The state context.</param>
         /// <returns>A newly created initializer.</returns>
-        public StateMachineInitializer<TState, TEvent> CreateStateMachineInitializer(IState<TState, TEvent> initialState, IStateContext<TState, TEvent> stateContext)
+        public virtual StateMachineInitializer<TState, TEvent> CreateStateMachineInitializer(IState<TState, TEvent> initialState, IStateContext<TState, TEvent> stateContext)
         {
             return new StateMachineInitializer<TState, TEvent>(initialState, stateContext);
         }

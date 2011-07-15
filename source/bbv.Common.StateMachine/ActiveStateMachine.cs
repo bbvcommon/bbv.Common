@@ -68,9 +68,22 @@ namespace bbv.Common.StateMachine
         /// <param name="name">The name of the state machine.</param>
         /// <param name="factory">The factory.</param>
         public ActiveStateMachine(string name, IFactory<TState, TEvent> factory)
+            : this(name, factory, new ModuleController())
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActiveStateMachine{TState, TEvent}"/> class.
+        /// </summary>
+        /// <param name="name">The name of the state machine.</param>
+        /// <param name="factory">The factory.</param>
+        /// <param name="moduleController">The module controller.</param>
+        public ActiveStateMachine(string name, IFactory<TState, TEvent> factory, IModuleController moduleController)
+        {
+            Ensure.ArgumentNotNull(moduleController, "moduleController");
+
             this.stateMachine = new StateMachine<TState, TEvent>(name, factory);
-            this.moduleController = new ModuleController();
+            this.moduleController = moduleController;
             this.moduleController.Initialize(this, 1, true, (name ?? "ActiveStateMachine") + ".AsyncModule");
         }
 
