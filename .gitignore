@@ -8,3 +8,4 @@ _ReSharper*/
 *.Cache
 *.cache
 /msbuild.log
+source/bbv.Common.sln.docstates

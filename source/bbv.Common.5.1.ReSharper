@@ -289,6 +289,7 @@
           <ExtraRule Prefix="" Suffix="" Style="Aa_bb" />
           <ExtraRule Prefix="" Suffix="" Style="aa_bb" />
           <ExtraRule Prefix="" Suffix="" Style="AaBb" />
+          <ExtraRule Prefix="" Suffix="" Style="Aa_bb" />
         </UserRule>
         <Abbreviation Text="IP" />
       </Naming2>
