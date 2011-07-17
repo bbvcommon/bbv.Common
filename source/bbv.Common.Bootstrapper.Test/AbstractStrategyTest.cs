@@ -72,9 +72,6 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void BuildShutdownSyntax_ShouldReturnDefinedRunSyntax()
         {
-            this.shutdownSyntaxBuilder.Setup(x => x.Execute(It.IsAny<Action<IExtension>>()))
-                .Returns(this.shutdownSyntaxBuilder.Object);
-
             var syntax = this.testee.BuildShutdownSyntax();
 
             syntax.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();

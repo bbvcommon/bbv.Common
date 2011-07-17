@@ -21,13 +21,12 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// The syntax builder.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public class SyntaxBuilder<TExtension> : ISyntaxBuilder<TExtension>
+    public class SyntaxBuilder<TExtension> : ISyntaxBuilder<TExtension>, IWithBehavior<TExtension>, IEndWithBehavior<TExtension>
         where TExtension : IExtension
     {
         private static readonly Action DoNothing = () => { };
@@ -47,6 +46,32 @@ namespace bbv.Common.Bootstrapper.Syntax
         }
 
         /// <summary>
+        /// Gets the begin of the syntax chain and attaches behavior to the begin
+        /// </summary>
+        public IWithBehavior<TExtension> Begin
+        {
+            get
+            {
+                this.WithAction(DoNothing);
+
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Gets the end of the syntax chain and attaches behavior to the end
+        /// </summary>
+        public IEndWithBehavior<TExtension> End
+        {
+            get
+            {
+                this.WithAction(DoNothing);
+
+                return this;
+            }
+        }
+
+        /// <summary>
         /// Gets the currently built executable
         /// </summary>
         protected IExecutable<TExtension> BuiltExecutable { get; private set; }
@@ -60,8 +85,6 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </returns>
         public IWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
         {
-            this.PrebuildExecutableIfNecessary();
-
             this.BuiltExecutable.Add(behavior);
 
             return this;
@@ -76,9 +99,21 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </returns>
         public IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
         {
-            this.PrebuildExecutableIfNecessary();
-
             this.BuiltExecutable.Add(new LazyBehavior(behavior));
+
+            return this;
+        }
+
+        IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(Func<IBehavior<TExtension>> behavior)
+        {
+            this.BuiltExecutable.Add(new LazyBehavior(behavior));
+
+            return this;
+        }
+
+        IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(IBehavior<TExtension> behavior)
+        {
+            this.BuiltExecutable.Add(behavior);
 
             return this;
         }
@@ -143,7 +178,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this.WithActionOnExtension(action);
         }
 
-        private ISyntaxBuilder<TExtension> WithAction(Action action)
+        private IWithBehavior<TExtension> WithAction(Action action)
         {
             var executable = this.executableFactory.CreateExecutable(action);
 
@@ -153,7 +188,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
-        private ISyntaxBuilder<TExtension> WithActionOnExtension(Action<TExtension> action)
+        private IWithBehavior<TExtension> WithActionOnExtension(Action<TExtension> action)
         {
             var executable = this.executableFactory.CreateExecutable(action);
 
@@ -187,15 +222,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return new SyntaxBuilderWithContext<TContext>(this, providerQueue);
         }
 
-        private void PrebuildExecutableIfNecessary()
-        {
-            if (!this.executables.Any())
-            {
-                this.WithAction(DoNothing);
-            }
-        }
-
-        private class SyntaxBuilderWithContext<TContext> : IWithBehaviorOnContext<TExtension, TContext>
+        private class SyntaxBuilderWithContext<TContext> : IWithBehaviorOnContext<TExtension, TContext>, IEndWithBehavior<TExtension>
         {
             private readonly Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders;
 
@@ -205,6 +232,16 @@ namespace bbv.Common.Bootstrapper.Syntax
             {
                 this.syntaxBuilder = syntaxBuilder;
                 this.behaviorProviders = behaviorProviders;
+            }
+
+            public IEndWithBehavior<TExtension> End
+            {
+                get
+                {
+                    this.syntaxBuilder.WithAction(DoNothing);
+
+                    return this;
+                }
             }
 
             public IWithBehavior<TExtension> Execute(Action action)
@@ -237,6 +274,16 @@ namespace bbv.Common.Bootstrapper.Syntax
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
+            }
+
+            public IEndWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
+            {
+                return ((IEndWithBehavior<TExtension>)this.syntaxBuilder).With(behavior);
+            }
+
+            public IEndWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
+            {
+                return ((IEndWithBehavior<TExtension>)this.syntaxBuilder).With(behavior);
             }
         }
 

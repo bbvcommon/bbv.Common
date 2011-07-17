@@ -29,7 +29,7 @@ namespace bbv.Common.Bootstrapper.Specification
     using Machine.Specifications;
 
     [Subject(Concern)]
-    public class When_the_bootstrapper_is_shutdown : BootstrapperSpecification
+    public class when_the_bootstrapper_is_shutdown : BootstrapperSpecification
     {
         Establish context = () =>
         {

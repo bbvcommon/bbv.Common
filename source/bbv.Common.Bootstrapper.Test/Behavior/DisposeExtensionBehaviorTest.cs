@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="DisposableExtensionBehavior.cs" company="bbv Software Services AG">
+// <copyright file="DisposeExtensionBehaviorTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,25 +18,33 @@
 
 namespace bbv.Common.Bootstrapper.Behavior
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    /// <summary>
-    /// Behavior which disposes all extensions which implement IDisposable
-    /// </summary>
-    public class DisposableExtensionBehavior : IBehavior<IExtension>
+    using bbv.Common.Bootstrapper.Dummies;
+
+    using Moq;
+
+    using Xunit;
+
+    public class DisposeExtensionBehaviorTest
     {
-        /// <summary>
-        /// Diposes all extensions which implement IDisposable.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        public void Behave(IEnumerable<IExtension> extensions)
+        private readonly DisposeExtensionBehavior testee;
+
+        public DisposeExtensionBehaviorTest()
         {
-            foreach (IDisposable extension in extensions.OfType<IDisposable>())
-            {
-                extension.Dispose();
-            }
+            this.testee = new DisposeExtensionBehavior();
+        }
+
+        [Fact]
+        public void Behave_ShouldDisposeDisposableExtensions()
+        {
+            var notDisposableExtension = new Mock<INonDisposableExtension>();
+            var disposableExtension = new Mock<IDisposableExtension>();
+
+            this.testee.Behave(new List<IExtension> { notDisposableExtension.Object, disposableExtension.Object });
+
+            notDisposableExtension.Verify(e => e.Dispose(), Times.Never());
+            disposableExtension.Verify(e => e.Dispose(), Times.Once());
         }
     }
 }

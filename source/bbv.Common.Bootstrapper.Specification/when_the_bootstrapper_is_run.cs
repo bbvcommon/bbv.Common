@@ -62,7 +62,7 @@ namespace bbv.Common.Bootstrapper.Specification
             {
                 var sequence = CustomExtensionBase.Sequence;
 
-                sequence.Should().HaveCount(9);
+                sequence.Should().HaveCount(9, sequence.Flatten());
                 sequence.ElementAt(0).Should().BeEquivalentTo("Action: CustomRun");
 
                 sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Start");

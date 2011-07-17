@@ -40,6 +40,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
+                .Begin
                     .With(new Behavior("run first beginning"))
                     .With(() => new Behavior("run second beginning"))
                 .Execute(() => CustomExtensionBase.DumpAction("CustomRun"))
@@ -54,12 +55,16 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
                     .With(() => new Behavior("run second initialize"))
                 .Execute(() => "RunTest", (extension, context) => extension.Register(context))
                     .With(context => new BehaviorWithStringContext(context, "RunTestValueFirst"))
-                    .With(context => new BehaviorWithStringContext(context, "RunTestValueSecond"));
+                    .With(context => new BehaviorWithStringContext(context, "RunTestValueSecond"))
+                .End
+                    .With(new Behavior("run first end"))
+                    .With(() => new Behavior("run second end"));
         }
 
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtension> builder)
         {
             builder
+                .Begin
                     .With(new Behavior("shutdown first beginning"))
                     .With(() => new Behavior("shutdown second beginning"))
                 .Execute(() => CustomExtensionBase.DumpAction("CustomShutdown"))
@@ -71,7 +76,11 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
                     .With(dictionary => new BehaviorWithConfigurationContext(dictionary, "ShutdownSecondValue", "ShutdownTestValue"))
                 .Execute(extension => extension.Stop())
                     .With(new Behavior("shutdown first stop"))
-                    .With(() => new Behavior("shutdown second stop"));
+                    .With(() => new Behavior("shutdown second stop"))
+                .End
+                    .With(new Behavior("shutdown first end"))
+                    .With(() => new Behavior("shutdown second end"))
+                    .With(new DisposeExtensionBehavior());
         }
 
         private IDictionary<string, string> RunInitializeConfiguration()

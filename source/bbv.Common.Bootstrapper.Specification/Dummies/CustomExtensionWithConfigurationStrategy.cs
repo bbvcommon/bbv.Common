@@ -25,7 +25,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     {
         protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtensionWithConfiguration> builder)
         {
-            builder.With(new ConfigurationSectionBehavior());
+            builder
+                .Begin
+                    .With(new ConfigurationSectionBehavior());
         }
 
         protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtensionWithConfiguration> builder)

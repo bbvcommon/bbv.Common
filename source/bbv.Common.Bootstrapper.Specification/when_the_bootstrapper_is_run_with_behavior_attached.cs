@@ -67,7 +67,7 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var sequence = CustomExtensionBase.Sequence;
 
-            sequence.Should().HaveCount(29, sequence.Flatten());
+            sequence.Should().HaveCount(33, sequence.Flatten());
             sequence.ElementAt(0).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at run first beginning.");
             sequence.ElementAt(1).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at run first beginning.");
             sequence.ElementAt(2).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at run second beginning.");
@@ -102,6 +102,11 @@ namespace bbv.Common.Bootstrapper.Specification
             sequence.ElementAt(26).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with RunTestValueSecond.");
             sequence.ElementAt(27).Should().BeEquivalentTo("FirstExtension: Register");
             sequence.ElementAt(28).Should().BeEquivalentTo("SecondExtension: Register");
+
+            sequence.ElementAt(29).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at run first end.");
+            sequence.ElementAt(30).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at run first end.");
+            sequence.ElementAt(31).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at run second end.");
+            sequence.ElementAt(32).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at run second end.");
         };
     }
 }

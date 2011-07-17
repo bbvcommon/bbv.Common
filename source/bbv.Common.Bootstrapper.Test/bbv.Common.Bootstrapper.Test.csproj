@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractStrategyTest.cs" />
-    <Compile Include="Behavior\DisposableExtensionBehaviorTest.cs" />
+    <Compile Include="Behavior\DisposeExtensionBehaviorTest.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehaviorTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationSectionTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationTest.cs" />

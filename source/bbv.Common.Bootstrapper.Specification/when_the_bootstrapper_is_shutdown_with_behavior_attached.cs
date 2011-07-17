@@ -67,7 +67,7 @@ namespace bbv.Common.Bootstrapper.Specification
         {
             var sequence = CustomExtensionBase.Sequence;
 
-            sequence.Should().HaveCount(23, sequence.Flatten());
+            sequence.Should().HaveCount(29, sequence.Flatten());
             sequence.ElementAt(0).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first beginning.");
             sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first beginning.");
             sequence.ElementAt(2).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second beginning.");
@@ -96,8 +96,13 @@ namespace bbv.Common.Bootstrapper.Specification
             sequence.ElementAt(21).Should().BeEquivalentTo("SecondExtension: Stop");
             sequence.ElementAt(22).Should().BeEquivalentTo("FirstExtension: Stop");
 
-            ////sequence.ElementAt(22).Should().BeEquivalentTo("SecondExtension: Dispose");
-            ////sequence.ElementAt(23).Should().BeEquivalentTo("FirstExtension: Dispose");
+            sequence.ElementAt(23).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown first end.");
+            sequence.ElementAt(24).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first end.");
+            sequence.ElementAt(25).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second end.");
+            sequence.ElementAt(26).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown second end.");
+
+            sequence.ElementAt(27).Should().BeEquivalentTo("SecondExtension: Dispose");
+            sequence.ElementAt(28).Should().BeEquivalentTo("FirstExtension: Dispose");
         };
     }
 }

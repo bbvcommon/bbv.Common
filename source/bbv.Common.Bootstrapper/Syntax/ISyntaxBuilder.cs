@@ -22,7 +22,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// Syntax builder.
     /// </summary>
     /// <typeparam name="TExtension">The extension.</typeparam>
-    public interface ISyntaxBuilder<TExtension> : IWithBehavior<TExtension>
+    public interface ISyntaxBuilder<TExtension> : IBeginSyntax<TExtension>
         where TExtension : IExtension
     {
     }
