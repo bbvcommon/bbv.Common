@@ -30,10 +30,33 @@ namespace bbv.Common.Threading.Log4Net
     /// </summary>
     public class Log4NetUserInterfaceThreadSynchronizerLogExtension : IUserInterfaceThreadSynchronizerLogExtension
     {
+        private readonly ILog log;
+
         /// <summary>
-        /// The logger of this class.
+        /// Initializes a new instance of the <see cref="Log4NetUserInterfaceThreadSynchronizerLogExtension"/> class.
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        public Log4NetUserInterfaceThreadSynchronizerLogExtension()
+        {
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetUserInterfaceThreadSynchronizerLogExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetUserInterfaceThreadSynchronizerLogExtension(string logger)
+        {
+            this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetUserInterfaceThreadSynchronizerLogExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetUserInterfaceThreadSynchronizerLogExtension(ILog logger)
+        {
+            this.log = logger;
+        }
 
         /// <summary>
         /// Logs a synchronous operation.
@@ -60,7 +83,7 @@ namespace bbv.Common.Threading.Log4Net
         /// <param name="result">The result.</param>
         public void LogSynchronous<TResult>(Delegate action, int threadId, string threadName, TResult result)
         {
-            log.DebugFormat(
+            this.log.DebugFormat(
                 CultureInfo.InvariantCulture,
                 "{0} executed synchronous thread switch from thread {1}:{2} to {3}:{4}. Operation {5}.{6} with result {7}",
                 this,
@@ -97,7 +120,7 @@ namespace bbv.Common.Threading.Log4Net
         /// <param name="action">The action.</param>
         private void Log(string message, int threadId, string threadName, Delegate action)
         {
-            log.DebugFormat(
+            this.log.DebugFormat(
                 CultureInfo.InvariantCulture,
                 message,
                 this,

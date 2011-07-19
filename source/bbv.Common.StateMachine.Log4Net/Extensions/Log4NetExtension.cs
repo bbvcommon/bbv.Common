@@ -54,6 +54,15 @@ namespace bbv.Common.StateMachine.Extensions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetExtension{TState, TEvent}"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetExtension(ILog logger)
+        {
+            this.log = logger;
+        }
+
+        /// <summary>
         /// Called after the state machine switched states.
         /// </summary>
         /// <param name="stateMachine">The state machine.</param>

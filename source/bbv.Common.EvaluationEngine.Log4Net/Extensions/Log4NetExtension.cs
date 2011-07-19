@@ -32,7 +32,33 @@ namespace bbv.Common.EvaluationEngine.Extensions
     /// </summary>
     public class Log4NetExtension : ILogExtension
     {
-        private static ILog log = LogManager.GetLogger("Log4NetExtension");
+        private readonly ILog log;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetExtension"/> class.
+        /// </summary>
+        public Log4NetExtension()
+        {
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetExtension(string logger)
+        {
+            this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetExtension(ILog logger)
+        {
+            this.log = logger;
+        }
 
         /// <summary>
         /// Logs the found answer together with information how it was found.
@@ -59,7 +85,7 @@ namespace bbv.Common.EvaluationEngine.Extensions
                 context.Aggregator.Describe(),
                 expressions.Aggregate(string.Empty, (aggregate, value) => aggregate + Environment.NewLine + "    " + value)); 
 
-            log.Info(message);
+            this.log.Info(message);
         }
     }
 }
