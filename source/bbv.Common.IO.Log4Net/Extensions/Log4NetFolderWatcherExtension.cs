@@ -49,6 +49,15 @@ namespace bbv.Common.IO
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetFolderWatcherExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetFolderWatcherExtension(ILog logger)
+        {
+            this.log = logger;
+        }
+
+        /// <summary>
         /// Called when observation was started.
         /// </summary>
         /// <param name="folder">The folder.</param>

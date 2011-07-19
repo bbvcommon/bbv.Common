@@ -30,14 +30,41 @@ namespace bbv.Common.IO.Extensions
     /// </summary>
     public class Log4NetPathAccessExtension : PathAccessExtensionBase
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILog log;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetPathAccessExtension"/> class
+        /// with standard logger name (this class's name).
+        /// </summary>
+        public Log4NetPathAccessExtension()
+        {
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetPathAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetPathAccessExtension(string logger)
+        {
+            this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetPathAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetPathAccessExtension(ILog logger)
+        {
+            this.log = logger;
+        }
 
         /// <inheritdoc />
         public override void BeginGetDirectoryName(string path)
         {
             base.BeginGetDirectoryName(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting directory name of {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting directory name of {0}.", path);
         }
 
         /// <inheritdoc />
@@ -45,7 +72,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndGetDirectoryName(result, path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Got directory name {0} of {1}.", result, path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Got directory name {0} of {1}.", result, path);
         }
 
         /// <inheritdoc />
@@ -53,7 +80,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailGetDirectoryName(ref exception);
 
-            Log.Error("Exception occured while getting directory name!", exception);
+            this.log.Error("Exception occured while getting directory name!", exception);
         }
 
         /// <inheritdoc />
@@ -61,7 +88,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetFileName(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting file name of {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting file name of {0}.", path);
         }
 
         /// <inheritdoc />
@@ -79,7 +106,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetFileNameWithoutExtension(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting file name without extension of {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting file name without extension of {0}.", path);
         }
 
         /// <inheritdoc />
@@ -97,7 +124,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginCombine(path1, path2);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Combinding {0} with {1}.", path1, path2);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Combinding {0} with {1}.", path1, path2);
         }
 
         /// <inheritdoc />
@@ -115,7 +142,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetRandomFileName();
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting random file name.");
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting random file name.");
         }
 
         /// <inheritdoc />
@@ -133,7 +160,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginChangeExtension(path, extension);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Changing extension of {0} to {1}.", path, extension);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Changing extension of {0} to {1}.", path, extension);
         }
 
         /// <inheritdoc />
@@ -151,7 +178,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetExtension(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting extension of {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting extension of {0}.", path);
         }
 
         /// <inheritdoc />
@@ -169,7 +196,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetFullPath(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting full path of {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting full path of {0}.", path);
         }
 
         /// <inheritdoc />
@@ -187,7 +214,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetInvalidFileNameChars();
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting invalid file name characters.");
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting invalid file name characters.");
         }
 
         /// <inheritdoc />
@@ -205,7 +232,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetInvalidPathChars();
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting invalid path characters."); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting invalid path characters."); 
         }
 
         /// <inheritdoc />
@@ -223,7 +250,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetPathRoot(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting path root of {0}.", path); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting path root of {0}.", path); 
         }
 
         /// <inheritdoc />
@@ -241,7 +268,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetTempFileName();
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting temp file name."); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting temp file name."); 
         }
 
         /// <inheritdoc />
@@ -259,7 +286,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetTempPath();
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting temp path."); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting temp path."); 
         }
 
         /// <inheritdoc />
@@ -277,7 +304,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginHasExtension(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Verifying if {0} has an extension.", path); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Verifying if {0} has an extension.", path); 
         }
 
         /// <inheritdoc />
@@ -295,7 +322,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginIsPathRooted(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Verifying if {0} is a rooted path.", path); 
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Verifying if {0} is a rooted path.", path); 
         }
 
         /// <inheritdoc />
