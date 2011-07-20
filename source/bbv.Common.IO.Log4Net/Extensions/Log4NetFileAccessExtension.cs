@@ -549,12 +549,12 @@ namespace bbv.Common.IO.Extensions
         }
 
         /// <inheritdoc />
-        public override void BeginWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public override void BeginWriteAllBytes(string path, byte[] bytes)
         {
         }
 
         /// <inheritdoc />
-        public override void EndWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public override void EndWriteAllBytes(string path, byte[] bytes)
         {
         }
 
