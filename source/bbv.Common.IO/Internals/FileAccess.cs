@@ -131,17 +131,13 @@ namespace bbv.Common.IO.Internals
         /// <inheritdoc />
         public void WriteAllLines(string path, IEnumerable<string> contents, Encoding encoding)
         {
-            string[] contentAsArray = contents.ToArray();
-
-            this.SurroundWithExtension(() => File.WriteAllLines(path, contentAsArray, encoding), path, contents, encoding);
+            this.SurroundWithExtension(() => File.WriteAllLines(path, contents, encoding), path, contents, encoding);
         }
 
         /// <inheritdoc />
         public void WriteAllLines(string path, IEnumerable<string> contents)
         {
-            string[] contentAsArray = contents.ToArray();
-
-            this.SurroundWithExtension(() => File.WriteAllLines(path, contentAsArray), path, contents);
+            this.SurroundWithExtension(() => File.WriteAllLines(path, contents), path, contents);
         }
 
         /// <inheritdoc />

@@ -291,10 +291,10 @@ namespace bbv.Common.IO
         void EndWriteAllText(string path, string contents, Encoding encoding);
 
         /// <see cref="IFileAccess.WriteAllBytes(System.String,System.Collections.Generic.IEnumerable{byte})" />
-        void BeginWriteAllBytes(string path, IEnumerable<byte> bytes);
+        void BeginWriteAllBytes(string path, byte[] bytes);
 
         /// <see cref="IFileAccess.WriteAllBytes(System.String,System.Collections.Generic.IEnumerable{byte})" />
-        void EndWriteAllBytes(string path, IEnumerable<byte> bytes);
+        void EndWriteAllBytes(string path, byte[] bytes);
 
         /// <see cref="IFileAccess.WriteAllBytes(System.String,System.Collections.Generic.IEnumerable{byte})" />
         void FailWriteAllBytes(ref Exception exception);
