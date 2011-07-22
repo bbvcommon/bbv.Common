@@ -44,19 +44,24 @@ namespace bbv.Common.EventBroker.Handlers
         /// <summary>
         /// Executes the subscription on a thread pool worker thread.
         /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        /// <returns>Returns null. Asynchronous operation cannot return exception here.</returns>
         public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
             ThreadPool.QueueUserWorkItem(
                 delegate(object state)
                     {
-                        CallInBackgroundArguments args = (CallInBackgroundArguments)state;
-                        args.Handler.DynamicInvoke(args.Sender, args.EventArgs);
-
-                        //add exception handling
+                        try
+                        {
+                            var args = (CallInBackgroundArguments)state;
+                            args.Handler.DynamicInvoke(args.Sender, args.EventArgs);
+                        }
+                        catch (TargetInvocationException exception)
+                        {
+                            this.HandleSubscriberMethodException(exception, eventTopic);
+                        }
                     },
                 new CallInBackgroundArguments(sender, e, subscriptionHandler));
         }

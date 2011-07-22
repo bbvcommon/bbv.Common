@@ -45,6 +45,7 @@ namespace bbv.Common.EventBroker
         /// <summary>
         /// Executes the subscription.
         /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>

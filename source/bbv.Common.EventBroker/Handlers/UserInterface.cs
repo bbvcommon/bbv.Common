@@ -57,21 +57,19 @@ namespace bbv.Common.EventBroker.Handlers
         /// <summary>
         /// Executes the subscription synchronously on the user interface thread.
         /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        /// <returns>
-        /// The exception that occurred during handling of the event. Null if no exception occurred
-        /// </returns>
         public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
             if (this.RunningOnUserInterfaceThread())
             {
-                this.CallWithoutThreadSwitch(subscriptionHandler, sender, e);
+                this.CallWithoutThreadSwitch(eventTopic, subscriptionHandler, sender, e);
             }
             else
             {
-                this.CallWithThreadSwitch(subscriptionHandler, sender, e);
+                this.CallWithThreadSwitch(eventTopic, subscriptionHandler, sender, e);
             }
         }
 
@@ -80,24 +78,20 @@ namespace bbv.Common.EventBroker.Handlers
             return Thread.CurrentThread.ManagedThreadId == this.syncContextHolder.ThreadId;
         }
 
-        private void CallWithoutThreadSwitch(Delegate subscriptionHandler, object sender, EventArgs e)
+        private void CallWithoutThreadSwitch(IEventTopic eventTopic, Delegate subscriptionHandler, object sender, EventArgs e)
         {
             try
             {
                 subscriptionHandler.DynamicInvoke(sender, e);
-
-                //return null;
             }
             catch (TargetInvocationException exception)
             {
-                //return exception;
+                this.HandleSubscriberMethodException(exception, eventTopic);
             }
         }
 
-        private void CallWithThreadSwitch(Delegate subscriptionHandler, object sender, EventArgs e)
+        private void CallWithThreadSwitch(IEventTopic eventTopic, Delegate subscriptionHandler, object sender, EventArgs e)
         {
-            Exception exception = null;
-
             this.syncContextHolder.SyncContext.Send(
                 delegate(object data)
                     {
@@ -105,14 +99,12 @@ namespace bbv.Common.EventBroker.Handlers
                         {
                             ((Delegate)data).DynamicInvoke(sender, e);
                         }
-                        catch (TargetInvocationException ex)
+                        catch (TargetInvocationException exception)
                         {
-                            exception = ex;
+                            this.HandleSubscriberMethodException(exception, eventTopic);
                         }
                     },
                 subscriptionHandler);
-
-            //return exception;
         }
     }
 }

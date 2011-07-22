@@ -47,7 +47,7 @@ namespace bbv.Common.EventBroker.Handlers
         /// </summary>
         /// <param name="subscriber">The subscriber.</param>
         /// <param name="handlerMethod">Handler method on the subscriber.</param>
-        /// <param name="extensionHost"></param>
+        /// <param name="extensionHost">The extension host.</param>
         public override void Initialize(object subscriber, MethodInfo handlerMethod, IExtensionHost extensionHost)
         {
             this.syncContextHolder.Initalize(subscriber, handlerMethod);
@@ -56,21 +56,25 @@ namespace bbv.Common.EventBroker.Handlers
         /// <summary>
         /// Executes the subscription asynchronously on the user interface thread.
         /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        /// <returns>Returns null. Asynchronous operation cannot return exception here.</returns>
         public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
             this.syncContextHolder.SyncContext.Post(
                 delegate(object data)
                     {
-                        ((Delegate)data).DynamicInvoke(sender, e);
-                        //exception handling
+                        try
+                        {
+                            ((Delegate)data).DynamicInvoke(sender, e);
+                        }
+                        catch (TargetInvocationException exception)
+                        {
+                            this.HandleSubscriberMethodException(exception, eventTopic);
+                        }
                     }, 
                     subscriptionHandler);
-
-            //return null;
         }
     }
 }

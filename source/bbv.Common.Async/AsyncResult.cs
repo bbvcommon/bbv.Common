@@ -310,12 +310,7 @@ namespace bbv.Common.Async
                 // Operation is done: if an exception occurred, re throw it
                 if (this.exception != null)
                 {
-                    // Set _remoteStackTraceString to keep existing stack trace
-                    FieldInfo remoteStackTraceString = typeof(Exception).GetField(
-                        "_remoteStackTraceString",
-                        BindingFlags.Instance | BindingFlags.NonPublic);
-                    remoteStackTraceString.SetValue(this.exception, this.exception.StackTrace + Environment.NewLine);
-                   
+                    this.exception.PreserveStackTrace();
                     throw this.exception;
                 }
             }
