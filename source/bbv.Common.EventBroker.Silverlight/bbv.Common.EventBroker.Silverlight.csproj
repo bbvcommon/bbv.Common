@@ -61,9 +61,6 @@
     <Compile Include="..\bbv.Common.EventBroker\EventSubscriptionAttribute.cs">
       <Link>EventSubscriptionAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\bbv.Common.EventBroker\ExceptionExensionMethods.cs">
-      <Link>ExceptionExensionMethods.cs</Link>
-    </Compile>
     <Compile Include="..\bbv.Common.EventBroker\ExceptionHandlingContext.cs">
       <Link>ExceptionHandlingContext.cs</Link>
     </Compile>
@@ -245,13 +242,19 @@
   <ItemGroup>
     <Content Include="Version.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.Silverlight\bbv.Common.Silverlight.csproj">
+      <Project>{8E3F34EB-5731-4A69-9B07-E016CFF04825}</Project>
+      <Name>bbv.Common.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="81de807d-d637-4b10-8ae1-13ea5ac1a80d" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="81de807d-d637-4b10-8ae1-13ea5ac1a80d" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

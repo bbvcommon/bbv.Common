@@ -23,30 +23,63 @@ namespace bbv.Common.EventBroker.Handlers
 
     using bbv.Common.EventBroker.Internals;
 
+    /// <summary>
+    /// Abstract base class for event broker handles providing the host of extensions.
+    /// </summary>
     public abstract class EventBrokerHandlerBase : IHandler
     {
-        protected IExtensionHost ExtensionHost { get; private set; }
-
+        /// <summary>
+        /// Gets the kind of the handler, whether it is a synchronous or asynchronous handler.
+        /// </summary>
+        /// <value>The kind of the handler (synchronous or asynchronous).</value>
         public abstract HandlerKind Kind { get; }
 
+        /// <summary>
+        /// Gets the extension host.
+        /// </summary>
+        /// <value>The extension host.</value>
+        protected IExtensionHost ExtensionHost { get; private set; }
+
+        /// <summary>
+        /// Initializes the handler.
+        /// </summary>
+        /// <param name="subscriber">The subscriber.</param>
+        /// <param name="handlerMethod">Name of the handler method on the subscriber.</param>
+        /// <param name="extensionHost">Provides access to all registered extensions.</param>
         public virtual void Initialize(object subscriber, MethodInfo handlerMethod, IExtensionHost extensionHost)
         {
             this.ExtensionHost = extensionHost;
         }
 
+        /// <summary>
+        /// Executes the subscription.
+        /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="subscriptionHandler">The subscription handler.</param>
         public abstract void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler);
 
-        protected void HandleSubscriberMethodException(TargetInvocationException ex, IEventTopic eventTopic)
+        /// <summary>
+        /// Handles a subscriber method exception by passing it to all extensions and re-throwing the inner exception in case that none of the
+        /// extensions handled it.
+        /// </summary>
+        /// <param name="targetInvocationException">The targetInvocationException.</param>
+        /// <param name="eventTopic">The event topic.</param>
+        protected void HandleSubscriberMethodException(TargetInvocationException targetInvocationException, IEventTopic eventTopic)
         {
-            ex.PreserveStackTrace();
+            Ensure.ArgumentNotNull(targetInvocationException, "targetInvocationException");
+
+            var innerException = targetInvocationException.InnerException;
+            innerException.PreserveStackTrace();
 
             var context = new ExceptionHandlingContext();
 
-            this.ExtensionHost.ForEach(extension => extension.SubscriberExceptionOccurred(eventTopic, ex.InnerException, context));
+            this.ExtensionHost.ForEach(extension => extension.SubscriberExceptionOccurred(eventTopic, innerException, context));
                 
             if (!context.Handled)
             {
-                throw ex.InnerException;
+                throw innerException;
             }
         }
     }

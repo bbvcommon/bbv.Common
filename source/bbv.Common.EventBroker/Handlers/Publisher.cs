@@ -49,6 +49,8 @@ namespace bbv.Common.EventBroker.Handlers
         /// <param name="subscriptionHandler">The subscription handler.</param>
         public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
+            Ensure.ArgumentNotNull(subscriptionHandler, "subscriptionHandler");
+
             try
             {
                 subscriptionHandler.DynamicInvoke(sender, e);

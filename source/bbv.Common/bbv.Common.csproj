@@ -38,6 +38,7 @@
     <Compile Include="Events\IEventFilter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExceptionExtensionMethods.cs" />
     <Compile Include="Formatters\FormatHelper.cs">
       <SubType>Code</SubType>
     </Compile>

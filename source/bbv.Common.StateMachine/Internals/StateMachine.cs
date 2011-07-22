@@ -21,7 +21,6 @@ namespace bbv.Common.StateMachine.Internals
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     /// <summary>
     /// Base implementation of a state machine.
@@ -363,17 +362,12 @@ namespace bbv.Common.StateMachine.Internals
             this.RaiseEvent(this.TransitionCompleted, new TransitionCompletedEventArgs<TState, TEvent>(this.CurrentStateId, transitionContext), transitionContext, true);
         }
 
-        private static void RestoreOriginalStackTrace(Exception exception)
-        {
-            FieldInfo remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
-            remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
-        }
-
         private static void RethrowExceptionIfNoHandlerRegistered<T>(Exception exception, EventHandler<T> exceptionHandler) where T : EventArgs
         {
             if (exceptionHandler == null)
             {
-                RestoreOriginalStackTrace(exception);
+                exception.PreserveStackTrace();
+
                 throw exception;
             }
         }
