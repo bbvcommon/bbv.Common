@@ -22,31 +22,23 @@ namespace bbv.Common.EventBroker.Handlers
     using System.Reflection;
     using System.Threading;
 
+    using bbv.Common.EventBroker.Internals;
+
     /// <summary>
     /// Handler that executes the subscription on a thread pool worker process (asynchronous).
     /// </summary>
-    public class Background : IHandler
+    public class Background : EventBrokerHandlerBase
     {
         /// <summary>
         /// Gets the kind of the handler, whether it is a synchronous or asynchronous handler.
         /// </summary>
         /// <value>The kind of the handler (synchronous or asynchronous).</value>
-        public HandlerKind Kind
+        public override HandlerKind Kind
         {
             get
             {
                 return HandlerKind.Asynchronous;
             }
-        }
-
-        /// <summary>
-        /// Initializes the handler.
-        /// </summary>
-        /// <param name="subscriber">The subscriber.</param>
-        /// <param name="handlerMethod">Name of the handler method on the subscriber.</param>
-        public void Initialize(object subscriber, MethodInfo handlerMethod)
-        {
-            // there is nothing to initialize
         }
 
         /// <summary>
@@ -56,17 +48,17 @@ namespace bbv.Common.EventBroker.Handlers
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
         /// <returns>Returns null. Asynchronous operation cannot return exception here.</returns>
-        public Exception Handle(object sender, EventArgs e, Delegate subscriptionHandler)
+        public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
             ThreadPool.QueueUserWorkItem(
                 delegate(object state)
                     {
                         CallInBackgroundArguments args = (CallInBackgroundArguments)state;
                         args.Handler.DynamicInvoke(args.Sender, args.EventArgs);
+
+                        //add exception handling
                     },
                 new CallInBackgroundArguments(sender, e, subscriptionHandler));
-
-            return null;
         }
 
         /// <summary>

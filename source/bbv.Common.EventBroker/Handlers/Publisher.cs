@@ -24,40 +24,30 @@ namespace bbv.Common.EventBroker.Handlers
     using System;
     using System.Reflection;
 
+    using bbv.Common.EventBroker.Internals;
+
     /// <summary>
     /// Handler that executes the subscription on the same thread the publisher is currently running (synchronous).
     /// </summary>
-    public class Publisher : IHandler
+    public class Publisher : EventBrokerHandlerBase
     {
         /// <summary>
         /// Gets the kind of the handler, whether it is a synchronous or asynchronous handler.
         /// </summary>
         /// <value>The kind of the handler (synchronous or asynchronous).</value>
-        public HandlerKind Kind
+        public override HandlerKind Kind
         {
             get { return HandlerKind.Synchronous; }
         }
 
         /// <summary>
-        /// Initializes the handler.
-        /// </summary>
-        /// <param name="subscriber">The subscriber.</param>
-        /// <param name="handlerMethod">Name of the handler method on the subscriber.</param>
-        public void Initialize(object subscriber, MethodInfo handlerMethod)
-        {
-            // there is nothing to initialize
-        }
-
-        /// <summary>
         /// Executes the subscription synchronously on the same thread as the publisher is currently running.
         /// </summary>
+        /// <param name="eventTopic">The event topic.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        /// <returns>
-        /// The exception that occurred during handling of the event. Null if no exception occurred
-        /// </returns>
-        public Exception Handle(object sender, EventArgs e, Delegate subscriptionHandler)
+        public override void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler)
         {
             try
             {
@@ -65,10 +55,8 @@ namespace bbv.Common.EventBroker.Handlers
             }
             catch (TargetInvocationException ex)
             {
-                return ex.InnerException;
+                this.HandleSubscriberMethodException(ex, eventTopic);
             }
-
-            return null;
         }
     }
 }

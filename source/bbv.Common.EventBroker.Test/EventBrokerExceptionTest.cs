@@ -19,7 +19,13 @@
 namespace bbv.Common.EventBroker
 {
     using System;
+
+    using bbv.Common.EventBroker.Extensions;
+
     using Exceptions;
+
+    using FluentAssertions;
+
     using NUnit.Framework;
 
     /// <summary>
@@ -95,22 +101,34 @@ namespace bbv.Common.EventBroker
         [Test]
         public void ExceptionHandling()
         {
-            try
-            {
-                Publisher p = new Publisher();
-                SubscriberThrowingException s = new SubscriberThrowingException();
+            Publisher p = new Publisher();
+            SubscriberThrowingException s = new SubscriberThrowingException();
 
-                this.testee.Register(p);
-                this.testee.Register(s);
+            this.testee.Register(p);
+            this.testee.Register(s);
 
-                p.CallSimpleEvent();
+            p.Invoking(x => x.CallSimpleEvent()).ShouldThrow<SubscriberThrowingException.TestException>();
+        }
 
-                Assert.Fail("must not be reached.");
-            }
-            catch (EventTopicException e)
-            {
-                Assert.IsTrue(e.InnerException is SubscriberThrowingException.TestException);
-            }
+        /// <summary>
+        /// When an extension handles the exception then the exception is not thrown.
+        /// </summary>
+        [Test]
+        public void ExceptionHandlingWithExtensionHandlingException()
+        {
+            Publisher p = new Publisher();
+            SubscriberThrowingException s = new SubscriberThrowingException();
+
+            var exceptionHandlingExtension = new ExceptionHandlingExtension();
+            this.testee.AddExtension(exceptionHandlingExtension);
+
+            this.testee.Register(p);
+            this.testee.Register(s);
+
+            p.CallSimpleEvent();
+
+            exceptionHandlingExtension.HandledException
+                .Should().BeOfType<SubscriberThrowingException.TestException>();
         }
 
         /// <summary>
@@ -128,7 +146,7 @@ namespace bbv.Common.EventBroker
             this.testee.Register(s1);
             this.testee.Register(s2);
 
-            Assert.Throws<EventTopicException>(
+            Assert.Throws<SubscriberThrowingException.TestException>(
                 () => p.CallSimpleEvent());
         }
 
@@ -406,5 +424,17 @@ namespace bbv.Common.EventBroker
         }
 
         #endregion
+
+        private class ExceptionHandlingExtension : EventBrokerExtensionBase
+        {
+            public Exception HandledException { get; private set; }
+
+            public override void SubscriberExceptionOccurred(Internals.IEventTopicInfo eventTopic, Exception exception, ExceptionHandlingContext context)
+            {
+                context.SetHandled();
+
+                this.HandledException = exception;
+            }
+        }
     }
 }

@@ -21,6 +21,9 @@ namespace bbv.Common.EventBroker
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
+    using bbv.Common.EventBroker.Handlers;
+
     using Internals;
     using Matchers;
 
@@ -130,11 +133,12 @@ namespace bbv.Common.EventBroker
         void Disposed(IEventTopicInfo eventTopic);
 
         /// <summary>
-        /// Called when exceptions occurred during event handling by subscribers.
+        /// Called when an exception occurred during event handling by a subscriber.
         /// </summary>
         /// <param name="eventTopic">The event topic.</param>
-        /// <param name="exceptions">The exceptions.</param>
-        void SubscriberExceptionsOccurred(IEventTopicInfo eventTopic, IEnumerable<Exception> exceptions);
+        /// <param name="exception">The exception.</param>
+        /// <param name="context">The context providing information whether the exception is handled by an extension or is re-thrown.</param>
+        void SubscriberExceptionOccurred(IEventTopicInfo eventTopic, Exception exception, ExceptionHandlingContext context);
 
         /// <summary>
         /// Called before an event is relayed from the publication to the subscribers.
@@ -156,8 +160,7 @@ namespace bbv.Common.EventBroker
         /// <param name="handler">The handler.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        /// <param name="exception">The exception that occurred during handling of the event by the subscriber.</param>
-        void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e, Exception exception);
+        void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e);
 
         /// <summary>
         /// Called when a publication or subscription matcher did not match and the event was not relayed to a subscription.
