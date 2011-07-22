@@ -82,6 +82,10 @@
     <Compile Include="Handlers\Background.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Handlers\EventBrokerHandlerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExceptionHandlingContext.cs" />
     <Compile Include="Handlers\Publisher.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -128,6 +132,7 @@
     <Compile Include="Internals\EventTopicHost.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExceptionExensionMethods.cs" />
     <Compile Include="Internals\GlobalMatchersHost.cs">
       <SubType>Code</SubType>
     </Compile>

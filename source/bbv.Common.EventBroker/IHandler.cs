@@ -21,6 +21,8 @@ namespace bbv.Common.EventBroker
     using System;
     using System.Reflection;
 
+    using bbv.Common.EventBroker.Internals;
+
     /// <summary>
     /// A handler defines how a subscription is executed (on which thread, sync, async, ...).
     /// </summary>
@@ -37,7 +39,8 @@ namespace bbv.Common.EventBroker
         /// </summary>
         /// <param name="subscriber">The subscriber.</param>
         /// <param name="handlerMethod">Name of the handler method on the subscriber.</param>
-        void Initialize(object subscriber, MethodInfo handlerMethod);
+        /// <param name="extensionHost">Provides access to all registered extensions.</param>
+        void Initialize(object subscriber, MethodInfo handlerMethod, IExtensionHost extensionHost);
 
         /// <summary>
         /// Executes the subscription.
@@ -45,7 +48,6 @@ namespace bbv.Common.EventBroker
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        /// <returns>The exception that occurred during handling of the event. Null if no exception occurred</returns>
-        Exception Handle(object sender, EventArgs e, Delegate subscriptionHandler);
+        void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler);
     }
 }

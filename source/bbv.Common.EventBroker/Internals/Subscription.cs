@@ -114,7 +114,7 @@ namespace bbv.Common.EventBroker.Internals
                 throw new InvalidSubscriptionSignatureException(handlerMethod);
             }
 
-            handler.Initialize(subscriber, handlerMethod);
+            handler.Initialize(subscriber, handlerMethod, this.extensionHost);
         }
 
         /// <summary>
@@ -221,8 +221,7 @@ namespace bbv.Common.EventBroker.Internals
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="publication">The publication.</param>
-        /// <param name="exceptions">The exceptions that occurred during firing sequence.</param>
-        private void EventTopicFireHandler(IEventTopic eventTopic, object sender, EventArgs e, IPublication publication, List<Exception> exceptions)
+        private void EventTopicFireHandler(IEventTopic eventTopic, object sender, EventArgs e, IPublication publication)
         {
             if (this.Subscriber == null)
             {
@@ -237,14 +236,9 @@ namespace bbv.Common.EventBroker.Internals
             
             this.extensionHost.ForEach(extension => extension.RelayingEvent(eventTopic, publication, this, this.handler, sender, e));
 
-                Exception exception = this.handler.Handle(sender, e, subscriptionHandler);
+            this.handler.Handle(eventTopic, sender, e, subscriptionHandler);
 
-                if (exception != null)
-                {
-                    exceptions.Add(exception);
-                }
-
-                this.extensionHost.ForEach(extension => extension.RelayedEvent(eventTopic, publication, this, this.handler, sender, e, exception));
+            this.extensionHost.ForEach(extension => extension.RelayedEvent(eventTopic, publication, this, this.handler, sender, e));
         }
 
         /// <summary>

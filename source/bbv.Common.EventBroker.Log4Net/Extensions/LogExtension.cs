@@ -269,17 +269,17 @@ namespace bbv.Common.EventBroker.Extensions
         /// <param name="handler">The handler.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        /// <param name="exception">The exception that occurred during handling of the event by the subscriber.</param>
-        public override void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e, Exception exception)
+        public override void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e)
         {
-            if (exception == null)
-            {
-                this.LogRelayedEventWithoutException(eventTopic, publication, subscription, handler, e);
-            }
-            else
-            {
-                this.LogRelayedEventWithException(eventTopic, publication, subscription, handler, e, exception);
-            }
+            this.log.DebugFormat(
+                "Relayed event '{6}' from publisher '{0}' [{1}] to subscriber '{2}' [{3}] with EventArgs '{4}' with handler '{5}'.",
+                publication.Publisher,
+                publication.Publisher is INamedItem ? ((INamedItem)publication.Publisher).EventBrokerItemName : string.Empty,
+                subscription.Subscriber,
+                subscription.Subscriber is INamedItem ? ((INamedItem)subscription.Subscriber).EventBrokerItemName : string.Empty,
+                e,
+                handler,
+                eventTopic.Uri);
         }
 
         /// <summary>
@@ -296,8 +296,8 @@ namespace bbv.Common.EventBroker.Extensions
             
             var publicationMatchers = from matcher in publication.PublicationMatchers where !matcher.Match(publication, subscription, e) select matcher;
             var subscriptionMatchers = from matcher in subscription.SubscriptionMatchers where !matcher.Match(publication, subscription, e) select matcher;
-            matchers.AddRange(publicationMatchers.Cast<IMatcher>());
-            matchers.AddRange(subscriptionMatchers.Cast<IMatcher>());
+            matchers.AddRange(publicationMatchers);
+            matchers.AddRange(subscriptionMatchers);
             
             StringBuilder sb = new StringBuilder();
             using (TextWriter writer = new StringWriter(sb))
@@ -322,74 +322,20 @@ namespace bbv.Common.EventBroker.Extensions
                 subscription.Subscriber,
                 subscription.Subscriber is INamedItem ? ((INamedItem)subscription.Subscriber).EventBrokerItemName : string.Empty,
                 e,
-                sb.ToString());
+                sb);
         }
 
         /// <summary>
-        /// Called when exceptions occurred during event handling by subscribers.
+        /// Called when an exception occurred during event handling by a subscriber.
         /// </summary>
         /// <param name="eventTopic">The event topic.</param>
-        /// <param name="exceptions">The exceptions.</param>
-        public override void SubscriberExceptionsOccurred(IEventTopicInfo eventTopic, IEnumerable<Exception> exceptions)
-        {
-            if (!this.log.IsErrorEnabled)
-            {
-                return;
-            }
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format("Errors occurred during firing of topic '{0}':", eventTopic.Uri));
-
-            foreach (Exception e in exceptions)
-            {
-                sb.AppendLine(e.ToString());
-            }
-
-            this.log.Error(sb.ToString());
-        }
-
-        /// <summary>
-        /// Logs the relayed event without exception.
-        /// </summary>
-        /// <param name="eventTopic">The event topic.</param>
-        /// <param name="publication">The publication.</param>
-        /// <param name="subscription">The subscription.</param>
-        /// <param name="handler">The handler.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void LogRelayedEventWithoutException(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, EventArgs e)
-        {
-            this.log.DebugFormat(
-                "Relayed event '{6}' from publisher '{0}' [{1}] to subscriber '{2}' [{3}] with EventArgs '{4}' with handler '{5}'.",
-                publication.Publisher,
-                publication.Publisher is INamedItem ? ((INamedItem)publication.Publisher).EventBrokerItemName : string.Empty,
-                subscription.Subscriber,
-                subscription.Subscriber is INamedItem ? ((INamedItem)subscription.Subscriber).EventBrokerItemName : string.Empty,
-                e,
-                handler,
-                eventTopic.Uri);
-        }
-
-        /// <summary>
-        /// Logs the relayed event with exception.
-        /// </summary>
-        /// <param name="eventTopic">The event topic.</param>
-        /// <param name="publication">The publication.</param>
-        /// <param name="subscription">The subscription.</param>
-        /// <param name="handler">The handler.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="exception">The exception.</param>
-        private void LogRelayedEventWithException(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, EventArgs e, Exception exception)
+        /// <param name="context">The context providing information whether the exception is handled by an extension or is re-thrown.</param>
+        public override void SubscriberExceptionOccurred(IEventTopicInfo eventTopic, Exception exception, ExceptionHandlingContext context)
         {
-            this.log.DebugFormat(
-                "Relayed event '{6}' from publisher '{0}' [{1}] to subscriber '{2}' [{3}] with EventArgs '{4}' with handler '{5}'. Exception = '{7}'",
-                publication.Publisher,
-                publication.Publisher is INamedItem ? ((INamedItem)publication.Publisher).EventBrokerItemName : string.Empty,
-                subscription.Subscriber,
-                subscription.Subscriber is INamedItem ? ((INamedItem)subscription.Subscriber).EventBrokerItemName : string.Empty,
-                e,
-                handler,
-                eventTopic.Uri,
-                exception != null ? exception.Message : string.Empty);
+            this.log.Error(
+                string.Format("An exception was thrown during handling the topic '{0}'", eventTopic.Uri),
+                exception);
         }
     }
 }

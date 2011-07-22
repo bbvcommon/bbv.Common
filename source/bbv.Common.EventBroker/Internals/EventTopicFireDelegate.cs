@@ -19,7 +19,6 @@
 namespace bbv.Common.EventBroker.Internals
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the signature for the subscription objects to get called from the <see cref="EventTopic"/> during
@@ -29,7 +28,5 @@ namespace bbv.Common.EventBroker.Internals
     /// <param name="sender">The publisher object firing the topic.</param>
     /// <param name="e">The <see cref="EventArgs"/> data to be passed to the subscribers.</param>
     /// <param name="publication">The publication firing the event.</param>
-    /// <param name="exceptions">An <see cref="Exception"/> list where a <see cref="Subscription"/> should 
-    /// register the exceptions that occurred during execution of the subscription code.</param>
-    public delegate void EventTopicFireDelegate(IEventTopic eventTopic, object sender, EventArgs e, IPublication publication, List<Exception> exceptions);
+    public delegate void EventTopicFireDelegate(IEventTopic eventTopic, object sender, EventArgs e, IPublication publication);
 }
