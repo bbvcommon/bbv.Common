@@ -79,8 +79,7 @@ namespace bbv.Common.StateMachine
         /// <param name="e">The <see cref="bbv.Common.StateMachine.ExceptionEventArgs&lt;TState,TEvent&gt;"/> instance containing the event data.</param>
         private static void HandleExceptionThrown(object sender, ExceptionEventArgs<TState, TEvent> e)
         {
-            e.Exception.PreserveStackTrace();
-            throw e.Exception;
+            throw e.Exception.PreserveStackTrace();
         }
 
         /// <summary>
@@ -90,8 +89,7 @@ namespace bbv.Common.StateMachine
         /// <param name="e">The <see cref="bbv.Common.StateMachine.ExceptionEventArgs&lt;TState,TEvent&gt;"/> instance containing the event data.</param>
         private static void HandleTranistionExceptionThrown(object sender, TransitionExceptionEventArgs<TState, TEvent> e)
         {
-            e.Exception.PreserveStackTrace();
-            throw e.Exception;
+            throw e.Exception.PreserveStackTrace();
         }
     }
 }

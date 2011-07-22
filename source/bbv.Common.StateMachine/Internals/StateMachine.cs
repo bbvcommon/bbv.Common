@@ -366,9 +366,7 @@ namespace bbv.Common.StateMachine.Internals
         {
             if (exceptionHandler == null)
             {
-                exception.PreserveStackTrace();
-
-                throw exception;
+                throw exception.PreserveStackTrace();
             }
         }
 
