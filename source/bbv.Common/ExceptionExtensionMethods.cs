@@ -30,7 +30,8 @@ namespace bbv.Common
         /// Preserves the stack trace of the exception.
         /// </summary>
         /// <param name="exception">The exception.</param>
-        public static void PreserveStackTrace(this Exception exception)
+        /// <returns>Returns the specified exception to allow writing throw exception.preserveStackTrace().</returns>
+        public static Exception PreserveStackTrace(this Exception exception)
         {
             Ensure.ArgumentNotNull(exception, "exception");
 
@@ -40,6 +41,8 @@ namespace bbv.Common
 
             remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
 #endif
+
+            return exception;
         }
     }
 }

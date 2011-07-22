@@ -310,8 +310,7 @@ namespace bbv.Common.Async
                 // Operation is done: if an exception occurred, re throw it
                 if (this.exception != null)
                 {
-                    this.exception.PreserveStackTrace();
-                    throw this.exception;
+                    throw this.exception.PreserveStackTrace();
                 }
             }
             finally
