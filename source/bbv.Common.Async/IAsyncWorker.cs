@@ -85,5 +85,60 @@ namespace bbv.Common.Async
         /// Clears all extensions.
         /// </summary>
         void ClearExtensions();
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        void Initialize(DoWorkEventHandler worker);
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        void Initialize(DoWorkEventHandler worker, RunWorkerCompletedEventHandler completed);
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        void Initialize(string name, DoWorkEventHandler worker);
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        void Initialize(
+            string name,
+            DoWorkEventHandler worker, 
+            RunWorkerCompletedEventHandler completed);
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="progress">The progress delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        void Initialize(
+            DoWorkEventHandler worker,
+            ProgressChangedEventHandler progress,
+            RunWorkerCompletedEventHandler completed);
+
+        /// <summary>
+        /// Initializes the <see cref="IAsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="progress">The progress delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        void Initialize(
+            string name,
+            DoWorkEventHandler worker,
+            ProgressChangedEventHandler progress,
+            RunWorkerCompletedEventHandler completed);
     }
 }

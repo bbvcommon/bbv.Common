@@ -18,6 +18,7 @@
 
 namespace bbv.Common.Async
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
 
@@ -28,101 +29,22 @@ namespace bbv.Common.Async
     /// </summary>
     public class AsyncWorker : IAsyncWorker
     {
-        /// <summary>The completed delegate.</summary>
-        private readonly RunWorkerCompletedEventHandler completed;
-
-        /// <summary>The background worker to execute the operation.</summary>
         private readonly BackgroundWorker backgroundWorker;
+        private readonly List<IAsyncWorkerExtension> extensions;
 
-        /// <summary>The worker delegate.</summary>
-        private readonly DoWorkEventHandler worker;
-
-        /// <summary>The progress delegate.</summary>
-        private readonly ProgressChangedEventHandler progress;
-
-        private List<IAsyncWorkerExtension> extensions;
+        private RunWorkerCompletedEventHandler completed;
+        private DoWorkEventHandler worker;
+        private ProgressChangedEventHandler progress;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
         /// </summary>
-        /// <param name="worker">The worker delegate.</param>
-        public AsyncWorker(DoWorkEventHandler worker)
-            : this(null, worker, null, null)
+        public AsyncWorker()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
-        /// </summary>
-        /// <param name="name">The name used in log messages.</param>
-        /// <param name="worker">The worker delegate.</param>
-        public AsyncWorker(string name, DoWorkEventHandler worker)
-            : this(name, worker, null, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
-        /// </summary>
-        /// <param name="worker">The worker delegate.</param>
-        /// <param name="completed">The completed delegate.</param>
-        public AsyncWorker(
-            DoWorkEventHandler worker,
-            RunWorkerCompletedEventHandler completed)
-            : this(null, worker, null, completed)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
-        /// </summary>
-        /// <param name="name">The name used in log messages.</param>
-        /// <param name="worker">The worker delegate.</param>
-        /// <param name="completed">The completed delegate.</param>
-        public AsyncWorker(
-            string name,
-            DoWorkEventHandler worker,
-            RunWorkerCompletedEventHandler completed)
-            : this(name, worker, null, completed)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
-        /// </summary>
-        /// <param name="worker">The worker delegate.</param>
-        /// <param name="progress">The progress delegate.</param>
-        /// <param name="completed">The completed delegate.</param>
-        public AsyncWorker(
-            DoWorkEventHandler worker,
-            ProgressChangedEventHandler progress,
-            RunWorkerCompletedEventHandler completed)
-            : this(null, worker, progress, completed)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncWorker"/> class.
-        /// </summary>
-        /// <param name="name">The name used in log messages.</param>
-        /// <param name="worker">The worker delegate.</param>
-        /// <param name="progress">The progress delegate.</param>
-        /// <param name="completed">The completed delegate.</param>
-        public AsyncWorker(
-            string name,
-            DoWorkEventHandler worker,
-            ProgressChangedEventHandler progress,
-            RunWorkerCompletedEventHandler completed)
-        {
-            this.Name = name;
-
-            this.worker = worker;
-            this.progress = progress;
-            this.completed = completed;
-
             this.extensions = new List<IAsyncWorkerExtension>();
 
             this.backgroundWorker = new BackgroundWorker();
+
             this.backgroundWorker.DoWork += this.DoWork;
             this.backgroundWorker.ProgressChanged += this.ProgressChanged;
             this.backgroundWorker.RunWorkerCompleted += this.Completed;
@@ -168,6 +90,82 @@ namespace bbv.Common.Async
         }
 
         /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        public void Initialize(DoWorkEventHandler worker)
+        {
+            this.Initialize(worker, null);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        public void Initialize(DoWorkEventHandler worker, RunWorkerCompletedEventHandler completed)
+        {
+            this.Initialize(null, worker, completed);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        public void Initialize(string name, DoWorkEventHandler worker)
+        {
+            this.Initialize(name, worker, null);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        public void Initialize(
+            string name,
+            DoWorkEventHandler worker, 
+            RunWorkerCompletedEventHandler completed)
+        {
+            this.Initialize(name, worker, null, completed);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="progress">The progress delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        public void Initialize(
+            DoWorkEventHandler worker,
+            ProgressChangedEventHandler progress,
+            RunWorkerCompletedEventHandler completed)
+        {
+            this.Initialize(null, worker, progress, completed);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="AsyncWorker"/>.
+        /// </summary>
+        /// <param name="name">The name used in log messages.</param>
+        /// <param name="worker">The worker delegate.</param>
+        /// <param name="progress">The progress delegate.</param>
+        /// <param name="completed">The completed delegate.</param>
+        public void Initialize(
+            string name,
+            DoWorkEventHandler worker,
+            ProgressChangedEventHandler progress,
+            RunWorkerCompletedEventHandler completed)
+        {
+            this.Name = name;
+            this.worker = worker;
+            this.progress = progress;
+            this.completed = completed;
+        }
+
+        /// <summary>
         /// Adds the extension.
         /// </summary>
         /// <param name="extension">The extension.</param>
@@ -207,8 +205,10 @@ namespace bbv.Common.Async
         /// <param name="argument">The argument passed to the worker delegate.</param>
         public void RunWorkerAsync(object argument)
         {
+            this.ThrowExceptionIfWorkerIsNotInitialized();
+
             this.extensions.ForEach(extension => extension.StartedExecution(this, this.worker, argument));
-            
+
             this.backgroundWorker.RunWorkerAsync(argument);
         }
 
@@ -218,7 +218,7 @@ namespace bbv.Common.Async
         public void CancelAsync()
         {
             this.extensions.ForEach(extension => extension.CancellingExecution(this, this.worker));
-            
+
             this.backgroundWorker.CancelAsync();
         }
 
@@ -230,7 +230,7 @@ namespace bbv.Common.Async
         public void ReportProgress(int percentProgress, object userState)
         {
             this.extensions.ForEach(extension => extension.ReportProgress(this, this.worker, this.progress, userState));
-            
+
             this.backgroundWorker.ReportProgress(percentProgress, userState);
         }
 
@@ -286,6 +286,14 @@ namespace bbv.Common.Async
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             this.progress(this, e);
+        }
+
+        private void ThrowExceptionIfWorkerIsNotInitialized()
+        {
+            if (this.worker == null)
+            {
+                throw new InvalidOperationException("The async worker has to be initialized");
+            }
         }
     }
 }
