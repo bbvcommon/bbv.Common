@@ -38,6 +38,8 @@ namespace bbv.Common.Async
         /// <summary>Event that signals that an unhandled exception was caught globally.</summary>
         private AutoResetEvent caughtExceptionSignal;
 
+        private AsyncWorker testee;
+
         /// <summary>
         /// Sets up a test.
         /// </summary>
@@ -46,6 +48,8 @@ namespace bbv.Common.Async
         {
             this.caughtException = null;
             this.caughtExceptionSignal = new AutoResetEvent(false);
+
+            this.testee = new AsyncWorker();
         }
 
         /// <summary>
@@ -63,9 +67,9 @@ namespace bbv.Common.Async
                 workerExecuted.Set();
             };
 
-            AsyncWorker testee = new AsyncWorker(worker);
+            this.testee.Initialize(worker);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
             go.Set();
 
             Assert.IsTrue(workerExecuted.WaitOne(TimeOut), "worker did not execute.");
@@ -89,9 +93,9 @@ namespace bbv.Common.Async
                 workerExecuted.Set();
             };
 
-            AsyncWorker testee = new AsyncWorker(worker);
+            this.testee.Initialize(worker);
 
-            testee.RunWorkerAsync(Argument);
+            this.testee.RunWorkerAsync(Argument);
             go.Set();
 
             Assert.IsTrue(workerExecuted.WaitOne(TimeOut), "worker did not execute.");
@@ -120,9 +124,9 @@ namespace bbv.Common.Async
                 workerExecuted.Set();
             };
 
-            AsyncWorker testee = new AsyncWorker(worker, completed);
+            this.testee.Initialize(worker, completed);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
 
             Assert.IsTrue(workerExecuted.WaitOne(TimeOut), "worker did not execute.");
         }
@@ -142,9 +146,9 @@ namespace bbv.Common.Async
                 throw new InvalidOperationException("test");
             };
 
-            AsyncWorker testee = new AsyncWorker(worker);
+            this.testee.Initialize(worker);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
 
             Assert.IsTrue(this.caughtExceptionSignal.WaitOne(TimeOut), "no exception caught");
 
@@ -173,9 +177,9 @@ namespace bbv.Common.Async
                 workerExecuted.Set();
             };
 
-            AsyncWorker testee = new AsyncWorker(worker, completed);
+            this.testee.Initialize(worker, completed);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
 
             Assert.IsTrue(workerExecuted.WaitOne(TimeOut), "worker did not execute.");
 
@@ -216,12 +220,12 @@ namespace bbv.Common.Async
                 workerExecuted.Set();
             };
 
-            AsyncWorker testee = new AsyncWorker(worker, completed);
+            this.testee.Initialize(worker, completed);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
             Assert.IsTrue(workerStarted.WaitOne(TimeOut), "worker did not start.");
 
-            testee.CancelAsync();
+            this.testee.CancelAsync();
             Assert.IsTrue(workerCancelled.WaitOne(TimeOut), "worker did not cancel.");
 
             allowTerminating.Set();
@@ -257,11 +261,19 @@ namespace bbv.Common.Async
                 }
             };
 
-            AsyncWorker testee = new AsyncWorker(worker, progress, null);
+            this.testee.Initialize(worker, progress, null);
 
-            testee.RunWorkerAsync();
+            this.testee.RunWorkerAsync();
 
             Assert.IsTrue(workerExecuted.WaitOne(TimeOut), "worker did not execute.");
+        }
+
+        [Test]
+        public void ThrowExceptionIfNotInitialized()
+        {
+            this.testee.Initialize(null);
+
+            Assert.Throws<InvalidOperationException>(() => this.testee.RunWorkerAsync());
         }
 
         /// <summary>
