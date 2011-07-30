@@ -34,5 +34,11 @@
   <ItemGroup>
     <Content Include="Version.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>

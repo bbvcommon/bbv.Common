@@ -554,15 +554,13 @@ namespace bbv.Common.EventBroker.Internals
         /// <param name="publication">The publication firing the event topic.</param>
         private void CallSubscriptionHandlers(object sender, EventArgs e, IEnumerable<KeyValuePair<ISubscription, EventTopicFireDelegate>> handlers, IPublication publication)
         {
-            List<Exception> exceptions = new List<Exception>();
-
             foreach (var handler in handlers)
             {
                 ISubscription subscription = handler.Key;
                 EventTopicFireDelegate handlerMethod = handler.Value;
                 if (this.CheckMatchers(publication, subscription, e))
                 {
-                    handlerMethod(this, sender, e, publication, exceptions);
+                    handlerMethod(this, sender, e, publication);
                 }
                 else
                 {
@@ -574,29 +572,6 @@ namespace bbv.Common.EventBroker.Internals
                                                                 e));
                 }
             }
-
-            switch (exceptions.Count)
-            {
-                case 0:
-                    break;
-
-                case 1:
-                    this.TraceExceptions(exceptions);
-                    throw new EventTopicException(this, exceptions[0]);
-
-                default:
-                    this.TraceExceptions(exceptions);
-                    throw new EventTopicException(this, new ReadOnlyCollection<Exception>(exceptions));       
-            }
-        }
-
-        /// <summary>
-        /// Logs the specified exceptions.
-        /// </summary>
-        /// <param name="exceptions">The exceptions.</param>
-        private void TraceExceptions(IEnumerable<Exception> exceptions)
-        {
-            this.extensionHost.ForEach(extension => extension.SubscriberExceptionsOccurred(this, exceptions));
         }
 
         /// <summary>

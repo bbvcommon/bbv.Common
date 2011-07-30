@@ -19,5 +19,8 @@
 		<language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <dependencies>
+      <dependency id="bbv.Common" version="%bbv.Common%"/>
+    </dependencies>
 	</metadata>
 </package>

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IHandler.cs" company="bbv Software Services AG">
+// <copyright file="EventBrokerHandlerBase.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EventBroker
+namespace bbv.Common.EventBroker.Handlers
 {
     using System;
     using System.Reflection;
@@ -24,15 +24,21 @@ namespace bbv.Common.EventBroker
     using bbv.Common.EventBroker.Internals;
 
     /// <summary>
-    /// A handler defines how a subscription is executed (on which thread, sync, async, ...).
+    /// Abstract base class for event broker handles providing the host of extensions.
     /// </summary>
-    public interface IHandler
+    public abstract class EventBrokerHandlerBase : IHandler
     {
         /// <summary>
         /// Gets the kind of the handler, whether it is a synchronous or asynchronous handler.
         /// </summary>
         /// <value>The kind of the handler (synchronous or asynchronous).</value>
-        HandlerKind Kind { get; }
+        public abstract HandlerKind Kind { get; }
+
+        /// <summary>
+        /// Gets the extension host.
+        /// </summary>
+        /// <value>The extension host.</value>
+        protected IExtensionHost ExtensionHost { get; private set; }
 
         /// <summary>
         /// Initializes the handler.
@@ -40,7 +46,10 @@ namespace bbv.Common.EventBroker
         /// <param name="subscriber">The subscriber.</param>
         /// <param name="handlerMethod">Name of the handler method on the subscriber.</param>
         /// <param name="extensionHost">Provides access to all registered extensions.</param>
-        void Initialize(object subscriber, MethodInfo handlerMethod, IExtensionHost extensionHost);
+        public virtual void Initialize(object subscriber, MethodInfo handlerMethod, IExtensionHost extensionHost)
+        {
+            this.ExtensionHost = extensionHost;
+        }
 
         /// <summary>
         /// Executes the subscription.
@@ -49,6 +58,29 @@ namespace bbv.Common.EventBroker
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         /// <param name="subscriptionHandler">The subscription handler.</param>
-        void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler);
+        public abstract void Handle(IEventTopic eventTopic, object sender, EventArgs e, Delegate subscriptionHandler);
+
+        /// <summary>
+        /// Handles a subscriber method exception by passing it to all extensions and re-throwing the inner exception in case that none of the
+        /// extensions handled it.
+        /// </summary>
+        /// <param name="targetInvocationException">The targetInvocationException.</param>
+        /// <param name="eventTopic">The event topic.</param>
+        protected void HandleSubscriberMethodException(TargetInvocationException targetInvocationException, IEventTopic eventTopic)
+        {
+            Ensure.ArgumentNotNull(targetInvocationException, "targetInvocationException");
+
+            var innerException = targetInvocationException.InnerException;
+            innerException.PreserveStackTrace();
+
+            var context = new ExceptionHandlingContext();
+
+            this.ExtensionHost.ForEach(extension => extension.SubscriberExceptionOccurred(eventTopic, innerException, context));
+                
+            if (!context.Handled)
+            {
+                throw innerException;
+            }
+        }
     }
 }

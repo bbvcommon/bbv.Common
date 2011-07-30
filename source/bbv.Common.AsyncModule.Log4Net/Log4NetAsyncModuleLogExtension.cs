@@ -37,7 +37,7 @@ namespace bbv.Common.AsyncModule.Log4Net
         /// </summary>
         public Log4NetAsyncModuleLogExtension()
         {
-            this.log = LogManager.GetLogger(this.GetType());
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
         }
 
         /// <summary>
@@ -47,6 +47,15 @@ namespace bbv.Common.AsyncModule.Log4Net
         public Log4NetAsyncModuleLogExtension(string logger)
         {
             this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetAsyncModuleLogExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetAsyncModuleLogExtension(ILog logger)
+        {
+            this.log = logger;
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomEventArguments.cs" company="bbv Software Services AG">
+// <copyright file="ExceptionExtensionMethods.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,28 +16,33 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.EventBroker
+namespace bbv.Common
 {
     using System;
+    using System.Reflection;
 
     /// <summary>
-    /// Custom event arguments sample
+    /// Extension methods for exceptions.
     /// </summary>
-    public class CustomEventArguments : EventArgs
+    public static class ExceptionExtensionMethods
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomEventArguments"/> class.
+        /// Preserves the stack trace of the exception.
         /// </summary>
-        /// <param name="s">A value for testing.</param>
-        public CustomEventArguments(string s)
+        /// <param name="exception">The exception.</param>
+        /// <returns>Returns the specified exception to allow writing throw exception.preserveStackTrace().</returns>
+        public static Exception PreserveStackTrace(this Exception exception)
         {
-            this.String = s;
-        }
+            Ensure.ArgumentNotNull(exception, "exception");
 
-        /// <summary>
-        /// Gets or sets the string.
-        /// </summary>
-        /// <value>The string.</value>
-        public string String { get; set; }
+#if SILVERLIGHT
+#else
+            var remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
+#endif
+
+            return exception;
+        }
     }
 }

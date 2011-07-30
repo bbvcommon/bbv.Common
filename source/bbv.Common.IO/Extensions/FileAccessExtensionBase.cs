@@ -465,12 +465,12 @@ namespace bbv.Common.IO.Extensions
         }
 
         /// <inheritdoc />
-        public virtual void BeginWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public virtual void BeginWriteAllBytes(string path, byte[] bytes)
         {
         }
 
         /// <inheritdoc />
-        public virtual void EndWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public virtual void EndWriteAllBytes(string path, byte[] bytes)
         {
         }
 

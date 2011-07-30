@@ -20,6 +20,8 @@ namespace bbv.Common.EventBroker.Extensions
 {
     using System;
     using System.Collections.Generic;
+
+    using bbv.Common.EventBroker.Handlers;
     using bbv.Common.EventBroker.Internals;
 
     /// <summary>
@@ -157,11 +159,12 @@ namespace bbv.Common.EventBroker.Extensions
         }
 
         /// <summary>
-        /// Called when exceptions occurred during event handling by subscribers.
+        /// Called when an exception occurred during event handling by a subscriber.
         /// </summary>
         /// <param name="eventTopic">The event topic.</param>
-        /// <param name="exceptions">The exceptions.</param>
-        public virtual void SubscriberExceptionsOccurred(IEventTopicInfo eventTopic, IEnumerable<Exception> exceptions)
+        /// <param name="exception">The exception.</param>
+        /// <param name="context">The context providing information whether the exception is handled by an extension or is re-thrown.</param>
+        public virtual void SubscriberExceptionOccurred(IEventTopicInfo eventTopic, Exception exception, ExceptionHandlingContext context)
         {
         }
 
@@ -187,8 +190,7 @@ namespace bbv.Common.EventBroker.Extensions
         /// <param name="handler">The handler.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        /// <param name="exception">The exception that occurred during handling of the event by the subscriber.</param>
-        public virtual void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e, Exception exception)
+        public virtual void RelayedEvent(IEventTopicInfo eventTopic, IPublication publication, ISubscription subscription, IHandler handler, object sender, EventArgs e)
         {
         }
 

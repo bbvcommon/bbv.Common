@@ -21,8 +21,10 @@ namespace bbv.Common.EventBroker
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Internals;
-    using Matchers;
+    using System.Linq;
+
+    using bbv.Common.EventBroker.Internals;
+    using bbv.Common.EventBroker.Matchers;
 
     /// <summary>
     /// The <see cref="EventBroker"/> is the facade component to the event broker framework.

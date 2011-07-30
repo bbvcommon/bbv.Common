@@ -18,7 +18,6 @@
 namespace bbv.Common.StateMachine
 {
     using System;
-    using System.Reflection;
     using Internals;
 
     /// <summary>
@@ -80,8 +79,7 @@ namespace bbv.Common.StateMachine
         /// <param name="e">The <see cref="bbv.Common.StateMachine.ExceptionEventArgs&lt;TState,TEvent&gt;"/> instance containing the event data.</param>
         private static void HandleExceptionThrown(object sender, ExceptionEventArgs<TState, TEvent> e)
         {
-            RestoreOriginalStackTrace(e.Exception);
-            throw e.Exception;
+            throw e.Exception.PreserveStackTrace();
         }
 
         /// <summary>
@@ -91,21 +89,7 @@ namespace bbv.Common.StateMachine
         /// <param name="e">The <see cref="bbv.Common.StateMachine.ExceptionEventArgs&lt;TState,TEvent&gt;"/> instance containing the event data.</param>
         private static void HandleTranistionExceptionThrown(object sender, TransitionExceptionEventArgs<TState, TEvent> e)
         {
-            RestoreOriginalStackTrace(e.Exception);
-            throw e.Exception;
-        }
-
-        /// <summary>
-        /// Restores the original stack trace of the specified exception.
-        /// </summary>
-        /// <param name="exception">The exception.</param>
-        private static void RestoreOriginalStackTrace(Exception exception)
-        {
-#if SILVERLIGHT
-#else
-            FieldInfo remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
-            remoteStackTraceString.SetValue(exception, exception.StackTrace + Environment.NewLine);
-#endif
+            throw e.Exception.PreserveStackTrace();
         }
     }
 }

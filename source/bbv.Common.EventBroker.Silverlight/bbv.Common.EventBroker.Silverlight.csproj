@@ -61,6 +61,9 @@
     <Compile Include="..\bbv.Common.EventBroker\EventSubscriptionAttribute.cs">
       <Link>EventSubscriptionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\ExceptionHandlingContext.cs">
+      <Link>ExceptionHandlingContext.cs</Link>
+    </Compile>
     <Compile Include="..\bbv.Common.EventBroker\Exceptions\InvalidPublicationSignatureException.cs">
       <Link>Exceptions\InvalidPublicationSignatureException.cs</Link>
     </Compile>
@@ -102,6 +105,9 @@
     </Compile>
     <Compile Include="..\bbv.Common.EventBroker\Handlers\Background.cs">
       <Link>Handlers\Background.cs</Link>
+    </Compile>
+    <Compile Include="..\bbv.Common.EventBroker\Handlers\EventBrokerHandlerBase.cs">
+      <Link>Handlers\EventBrokerHandlerBase.cs</Link>
     </Compile>
     <Compile Include="..\bbv.Common.EventBroker\Handlers\Publisher.cs">
       <Link>Handlers\Publisher.cs</Link>
@@ -235,6 +241,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.Silverlight\bbv.Common.Silverlight.csproj">
+      <Project>{8E3F34EB-5731-4A69-9B07-E016CFF04825}</Project>
+      <Name>bbv.Common.Silverlight</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

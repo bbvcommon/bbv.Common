@@ -50,6 +50,15 @@ namespace bbv.Common.Async.Log4Net
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetAsyncWorkerExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetAsyncWorkerExtension(ILog logger)
+        {
+            this.log = logger;
+        }
+
+        /// <summary>
         /// Called when an operation is started.
         /// </summary>
         /// <param name="asyncWorker">The async worker.</param>

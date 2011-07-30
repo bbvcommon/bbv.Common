@@ -33,7 +33,33 @@ namespace bbv.Common.IO.Extensions
     /// </summary>
     public class Log4NetFileAccessExtension : FileAccessExtensionBase
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILog log;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetFileAccessExtension"/> class.
+        /// </summary>
+        public Log4NetFileAccessExtension()
+        {
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetFileAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetFileAccessExtension(string logger)
+        {
+            this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetFileAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetFileAccessExtension(ILog logger)
+        {
+            this.log = logger;
+        }
 
         /// <inheritdoc />
         public override void BeginGetLastWriteTime(string path)
@@ -245,7 +271,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginDelete(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Deleting {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Deleting {0}.", path);
         }
 
         /// <inheritdoc />
@@ -253,7 +279,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndDelete(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Deleted {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Deleted {0}.", path);
         }
 
         /// <inheritdoc />
@@ -261,7 +287,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailDelete(ref exception);
 
-            Log.Error("Exception occured while deleting!", exception);
+            this.log.Error("Exception occured while deleting!", exception);
         }
 
         /// <inheritdoc />
@@ -269,7 +295,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginCopy(sourceFileName, destFileName);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Copying from {0} to {1}.", sourceFileName, destFileName);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Copying from {0} to {1}.", sourceFileName, destFileName);
         }
 
         /// <inheritdoc />
@@ -277,7 +303,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndCopy(sourceFileName, destFileName);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Copied from {0} to {1}.", sourceFileName, destFileName);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Copied from {0} to {1}.", sourceFileName, destFileName);
         }
 
         /// <inheritdoc />
@@ -285,7 +311,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginCopy(sourceFileName, destFileName, overwrite);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Copying from {0} to {1} {2} overwritting.", sourceFileName, destFileName, overwrite ? "with" : "without");
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Copying from {0} to {1} {2} overwritting.", sourceFileName, destFileName, overwrite ? "with" : "without");
         }
 
         /// <inheritdoc />
@@ -293,7 +319,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndCopy(sourceFileName, destFileName, overwrite);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Copied from {0} to {1} {2} overwritting.", sourceFileName, destFileName, overwrite ? "with" : "without");
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Copied from {0} to {1} {2} overwritting.", sourceFileName, destFileName, overwrite ? "with" : "without");
         }
 
         /// <inheritdoc />
@@ -301,7 +327,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginCreateText(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Creating text in {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Creating text in {0}.", path);
         }
 
         /// <inheritdoc />
@@ -309,7 +335,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndCreateText(result, path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Created text in {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Created text in {0}.", path);
         }
 
         /// <inheritdoc />
@@ -317,7 +343,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailCreateText(ref exception);
 
-            Log.Error("Exception occured while creating text!", exception);
+            this.log.Error("Exception occured while creating text!", exception);
         }
 
         /// <inheritdoc />
@@ -325,7 +351,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginGetAttributes(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Getting attributes from {0}.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Getting attributes from {0}.", path);
         }
 
         /// <inheritdoc />
@@ -333,7 +359,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndGetAttributes(result, path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Got attributes {0} from {1}.", result, path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Got attributes {0} from {1}.", result, path);
         }
 
         /// <inheritdoc />
@@ -341,7 +367,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailGetAttributes(ref exception);
 
-            Log.Error("Exception occured while getting attributes!", exception);
+            this.log.Error("Exception occured while getting attributes!", exception);
         }
 
         /// <inheritdoc />
@@ -349,7 +375,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginSetLastWriteTime(path, lastWriteTime);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Setting last write time from {0} to {1}.", path, lastWriteTime);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Setting last write time from {0} to {1}.", path, lastWriteTime);
         }
 
         /// <inheritdoc />
@@ -357,7 +383,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndSetLastWriteTime(path, lastWriteTime);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Set last write time from {0} to {1}.", path, lastWriteTime);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Set last write time from {0} to {1}.", path, lastWriteTime);
         }
 
         /// <inheritdoc />
@@ -365,7 +391,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailSetLastWriteTime(ref exception);
 
-            Log.Error("Exception occured while setting last write time!", exception);
+            this.log.Error("Exception occured while setting last write time!", exception);
         }
 
         /// <inheritdoc />
@@ -373,7 +399,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginSetAttributes(path, fileAttributes);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Setting file attribute from {0} to {1}.", path, fileAttributes);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Setting file attribute from {0} to {1}.", path, fileAttributes);
         }
 
         /// <inheritdoc />
@@ -381,7 +407,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndSetAttributes(path, fileAttributes);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Set file attribute from {0} to {1}.", path, fileAttributes);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Set file attribute from {0} to {1}.", path, fileAttributes);
         }
 
         /// <inheritdoc />
@@ -389,7 +415,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailSetAttributes(ref exception);
 
-            Log.Error("Exception occured while setting file attributes!", exception);
+            this.log.Error("Exception occured while setting file attributes!", exception);
         }
 
         /// <inheritdoc />
@@ -398,7 +424,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.BeginExists(path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "Checking file {0} for existance.", path);
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Checking file {0} for existance.", path);
         }
 
         /// <inheritdoc />
@@ -406,7 +432,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.EndExists(result, path);
 
-            Log.DebugFormat(CultureInfo.InvariantCulture, "FIle {0} {1}.", path, result ? "exists" : "does not exist");
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "FIle {0} {1}.", path, result ? "exists" : "does not exist");
         }
 
         /// <inheritdoc />
@@ -414,7 +440,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailExists(ref exception);
 
-            Log.Error("Exception occured while checking file existance!", exception);
+            this.log.Error("Exception occured while checking file existance!", exception);
         }
 
         /// <inheritdoc />
@@ -523,12 +549,12 @@ namespace bbv.Common.IO.Extensions
         }
 
         /// <inheritdoc />
-        public override void BeginWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public override void BeginWriteAllBytes(string path, byte[] bytes)
         {
         }
 
         /// <inheritdoc />
-        public override void EndWriteAllBytes(string path, IEnumerable<byte> bytes)
+        public override void EndWriteAllBytes(string path, byte[] bytes)
         {
         }
 
@@ -787,7 +813,7 @@ namespace bbv.Common.IO.Extensions
         {
             base.FailCopy(ref exception);
 
-            Log.Error("Exception occured while copying!", exception);
+            this.log.Error("Exception occured while copying!", exception);
         }
     }
 }

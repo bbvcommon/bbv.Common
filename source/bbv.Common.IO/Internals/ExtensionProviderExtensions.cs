@@ -53,8 +53,6 @@ namespace bbv.Common.IO.Internals
 
         private static readonly Cache ReflectionCache = new Cache();
 
-        private static FieldInfo remoteStackTraceString;
-
         /// <summary>
         /// Surrounds the specified function expression with extension methods following a certain convention.
         /// </summary>
@@ -117,9 +115,8 @@ namespace bbv.Common.IO.Internals
             }
             catch (TargetInvocationException exception)
             {
-                exception.PreserveStackTrace();
-
                 Exception innerException = exception.InnerException;
+                innerException.PreserveStackTrace();
 
                 InvokeFailExtensions(item, provider, ref innerException);
 
@@ -235,16 +232,6 @@ namespace bbv.Common.IO.Internals
             {
                 yield return i;
             }
-        }
-
-        private static void PreserveStackTrace(this TargetInvocationException targetInvocationException)
-        {
-            if (remoteStackTraceString == null)
-            {
-                remoteStackTraceString = typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
-            }
-            
-            remoteStackTraceString.SetValue(targetInvocationException.InnerException, targetInvocationException.InnerException.StackTrace + Environment.NewLine);
         }
 
         private static IEnumerable<Type> GetParameterTypes(this MethodInfo methodInfo)

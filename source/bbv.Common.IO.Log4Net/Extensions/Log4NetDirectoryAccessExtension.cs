@@ -19,6 +19,7 @@
 namespace bbv.Common.IO.Extensions
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Security.AccessControl;
@@ -30,11 +31,40 @@ namespace bbv.Common.IO.Extensions
     /// </summary>
     public class Log4NetDirectoryAccessExtension : DirectoryAccessExtensionBase
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILog log;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetDirectoryAccessExtension"/> class.
+        /// </summary>
+        public Log4NetDirectoryAccessExtension()
+        {
+            this.log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.FullName);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetDirectoryAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetDirectoryAccessExtension(string logger)
+        {
+            this.log = LogManager.GetLogger(logger);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Log4NetDirectoryAccessExtension"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public Log4NetDirectoryAccessExtension(ILog logger)
+        {
+            this.log = logger;
+        }
 
         /// <inheritdoc />
         public override void BeginExists(string path)
         {
+            base.BeginExists(path);
+
+            this.log.DebugFormat(CultureInfo.InvariantCulture, "Checking if file {0} exists.", path);
         }
 
         /// <inheritdoc />
