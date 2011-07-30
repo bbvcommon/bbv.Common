@@ -27,12 +27,50 @@ namespace bbv.Common.Bootstrapper.Configuration
     /// </summary>
     public class ExtensionConfigurationSectionBehavior : IBehavior<IExtension>
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Used after refactoring.")]
+        private readonly IExtensionPropertyReflector extensionPropertyReflector;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtensionConfigurationSectionBehavior"/> class.
+        /// </summary>
+        /// <remarks>Uses the default <see cref="ExtensionPublicPropertyReflector"/>.</remarks>
+        public ExtensionConfigurationSectionBehavior()
+            : this(new ExtensionPublicPropertyReflector())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtensionConfigurationSectionBehavior"/> class.
+        /// </summary>
+        /// <param name="extensionPropertyReflector">The extension property reflector.</param>
+        public ExtensionConfigurationSectionBehavior(IExtensionPropertyReflector extensionPropertyReflector)
+        {
+            this.extensionPropertyReflector = extensionPropertyReflector;
+        }
+
         /// <summary>
         /// Applies the extension configuration section loading behavior to the extensions.
         /// </summary>
         /// <param name="extensions">The extensions.</param>
         public void Behave(IEnumerable<IExtension> extensions)
         {
+            Ensure.ArgumentNotNull(extensions, "extensions");
+
+            foreach (IExtension extension in extensions)
+            {
+                IHaveConfigurationSectionName sectionNameProvider = this.CreateHaveConfigurationSectionName(extension);
+                ILoadConfigurationSection sectionProvider = this.CreateLoadConfigurationSection(extension);
+                IConsumeConfiguration consumer = this.CreateConsumeConfiguration(extension);
+
+                string sectionName = sectionNameProvider.SectionName;
+                ExtensionConfigurationSection section = sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ?? 
+                    ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
+
+                foreach (ExtensionSettingsElement settingsElement in section.Configuration)
+                {
+                    consumer.Configuration.Add(settingsElement.Key, settingsElement.Value);
+                }
+            }
         }
 
         /// <summary>

@@ -31,6 +31,9 @@
     <Compile Include="Configuration\ConfigurationSectionBehaviorTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationSectionTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationTest.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionBehaviorTest.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionHelperTest.cs" />
+    <Compile Include="Configuration\ExtensionPublicPropertyReflectorTest.cs" />
     <Compile Include="Configuration\HaveConversionCallbacksTest.cs" />
     <Compile Include="Configuration\HaveConfigurationSectionNameTest.cs" />
     <Compile Include="Configuration\LoadConfigurationSectionTest.cs" />

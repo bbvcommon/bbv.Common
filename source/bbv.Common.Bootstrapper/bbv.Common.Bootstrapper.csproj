@@ -18,12 +18,15 @@
     <Compile Include="Behavior\DisposeExtensionBehavior.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehavior.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionHelper.cs" />
     <Compile Include="Configuration\IConsumeConfiguration.cs" />
     <Compile Include="Configuration\IConsumeConfigurationSection.cs" />
+    <Compile Include="Configuration\IExtensionPropertyReflector.cs" />
     <Compile Include="Configuration\IHaveConversionCallbacks.cs" />
     <Compile Include="Configuration\IHaveConfigurationSectionName.cs" />
     <Compile Include="Configuration\ILoadConfigurationSection.cs" />
     <Compile Include="Configuration\Internals\ConsumeConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\ExtensionPublicPropertyReflector.cs" />
     <Compile Include="Configuration\Internals\HaveConversionCallbacks.cs" />
     <Compile Include="Configuration\Internals\LoadConfigurationSection.cs" />
     <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
