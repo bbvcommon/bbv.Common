@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionWithConfigurationWhichKnowsName.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionWithExtensionConfigurationStrategy.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,32 +18,17 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System.Configuration;
-
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Bootstrapper.Syntax;
 
-    public class CustomExtensionWithConfigurationWhichKnowsName : ICustomExtensionWithConfiguration, IConsumeConfigurationSection, IHaveConfigurationSectionName
+    public class CustomExtensionWithExtensionConfigurationStrategy : AbstractStrategy<ICustomExtensionWithExtensionConfiguration>
     {
-        public bool SectionNameAcquired { get; private set; }
-
-        public FakeConfigurationSection AppliedSection { get; private set; }
-
-        public string SectionName
+        protected override void DefineRunSyntax(ISyntaxBuilder<ICustomExtensionWithExtensionConfiguration> builder)
         {
-            get
-            {
-                this.SectionNameAcquired = true;
-
-                return "FakeConfigurationSection";
-            }
+            builder.Begin.With(new ExtensionConfigurationSectionBehavior());
         }
 
-        public void Apply(ConfigurationSection section)
-        {
-            this.AppliedSection = section as FakeConfigurationSection;
-        }
-
-        public void Dispose()
+        protected override void DefineShutdownSyntax(ISyntaxBuilder<ICustomExtensionWithExtensionConfiguration> builder)
         {
         }
     }

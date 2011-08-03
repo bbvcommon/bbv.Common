@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom.cs" company="bbv Software Services AG">
+// <copyright file="CustomExtensionWithExtensionConfigurationWhichConsumesConfiguration.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,39 +18,32 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
 
     using bbv.Common.Bootstrapper.Configuration;
 
-    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration, 
-        IHaveConfigurationSectionName, ILoadConfigurationSection, IConsumeConfigurationSection
+    public class CustomExtensionWithExtensionConfigurationWhichConsumesConfiguration : ICustomExtensionWithExtensionConfiguration,
+        ILoadConfigurationSection, IConsumeConfiguration
     {
-        public bool SectionNameAcquired { get; private set; }
+        public CustomExtensionWithExtensionConfigurationWhichConsumesConfiguration()
+        {
+            this.Configuration = new Dictionary<string, string>();
+        }
+
+        public IDictionary<string, string> Configuration { get; private set; }
 
         public string SectionAcquired { get; private set; }
-
-        public FakeConfigurationSection AppliedSection { get; private set; }
-
-        public string SectionName
-        {
-            get
-            {
-                this.SectionNameAcquired = true;
-
-                return "FakeConfigurationSection";
-            }
-        }
-
-        public void Apply(ConfigurationSection section)
-        {
-            this.AppliedSection = section as FakeConfigurationSection;
-        }
 
         public ConfigurationSection GetSection(string sectionName)
         {
             this.SectionAcquired = sectionName;
 
-            return sectionName == this.SectionName ? new FakeConfigurationSection("KnowsName|KnowsLoading") : null;
+            return ExtensionConfigurationSectionHelper.CreateSection(
+                new KeyValuePair<string, string>("SomeInt", "1"),
+                new KeyValuePair<string, string>("SomeString", "SomeString"),
+                new KeyValuePair<string, string>("SomeStringWithDefault", "SomeStringWithDefault"));
         }
     }
 }

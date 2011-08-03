@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom.cs" company="bbv Software Services AG">
+// <copyright file="ICustomExtensionWithExtensionConfiguration.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,27 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System.Configuration;
-
-    using bbv.Common.Bootstrapper.Configuration;
-
-    public class CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom : ICustomExtensionWithConfiguration, 
-        ILoadConfigurationSection, IConsumeConfigurationSection
+    public interface ICustomExtensionWithExtensionConfiguration : IExtension
     {
-        public string SectionAcquired { get; private set; }
-
-        public FakeConfigurationSection AppliedSection { get; private set; }
-
-        public void Apply(ConfigurationSection section)
-        {
-            this.AppliedSection = section as FakeConfigurationSection;
-        }
-
-        public ConfigurationSection GetSection(string sectionName)
-        {
-            this.SectionAcquired = sectionName;
-
-            return new FakeConfigurationSection("KnowsLoading");
-        }
     }
 }

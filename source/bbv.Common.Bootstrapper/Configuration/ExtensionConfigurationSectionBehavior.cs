@@ -18,7 +18,10 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
@@ -27,7 +30,6 @@ namespace bbv.Common.Bootstrapper.Configuration
     /// </summary>
     public class ExtensionConfigurationSectionBehavior : IBehavior<IExtension>
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Used after refactoring.")]
         private readonly IExtensionPropertyReflector extensionPropertyReflector;
 
         /// <summary>
@@ -61,15 +63,15 @@ namespace bbv.Common.Bootstrapper.Configuration
                 IHaveConfigurationSectionName sectionNameProvider = this.CreateHaveConfigurationSectionName(extension);
                 ILoadConfigurationSection sectionProvider = this.CreateLoadConfigurationSection(extension);
                 IConsumeConfiguration consumer = this.CreateConsumeConfiguration(extension);
+                IHaveConversionCallbacks callbackProvider = this.CreateHaveConversionCallbacks(extension);
 
                 string sectionName = sectionNameProvider.SectionName;
                 ExtensionConfigurationSection section = sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ?? 
                     ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
 
-                foreach (ExtensionSettingsElement settingsElement in section.Configuration)
-                {
-                    consumer.Configuration.Add(settingsElement.Key, settingsElement.Value);
-                }
+                FillConsumerConfiguration(section, consumer);
+
+                this.AutoFillExtensionPropertiesWithConfigurationEntries(extension, consumer, callbackProvider);
             }
         }
 
@@ -111,6 +113,45 @@ namespace bbv.Common.Bootstrapper.Configuration
         protected virtual IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
         {
             return new HaveConversionCallbacks(extension);
+        }
+
+        private static void FillConsumerConfiguration(ExtensionConfigurationSection section, IConsumeConfiguration consumer)
+        {
+            foreach (ExtensionSettingsElement settingsElement in section.Configuration)
+            {
+                string key = settingsElement.Key;
+                string value = settingsElement.Value;
+
+                consumer.Configuration.Add(key, value);
+            }
+        }
+
+        private void AutoFillExtensionPropertiesWithConfigurationEntries(IExtension extension, IConsumeConfiguration consumer, IHaveConversionCallbacks callbackProvider)
+        {
+            IEnumerable<PropertyInfo> properties = this.extensionPropertyReflector.Reflect(extension);
+            IDictionary<string, Func<string, PropertyInfo, object>> conversionCallbacks = callbackProvider.ConversionCallbacks;
+            Func<string, PropertyInfo, object> defaultCallback = callbackProvider.DefaultConversionCallback;
+
+            foreach (KeyValuePair<string, string> keyValuePair in consumer.Configuration)
+            {
+                KeyValuePair<string, string> pair = keyValuePair;
+
+                var matchedProperty = properties.Where(property => property.Name.Equals(pair.Key, StringComparison.OrdinalIgnoreCase))
+                    .SingleOrDefault();
+
+                if (matchedProperty == null)
+                {
+                    continue;
+                }
+
+                Func<string, PropertyInfo, object> conversionCallback;
+                if (!conversionCallbacks.TryGetValue(pair.Key, out conversionCallback))
+                {
+                    conversionCallback = defaultCallback;
+                }
+
+                matchedProperty.SetValue(extension, conversionCallback(pair.Value, matchedProperty), null);
+            }
         }
     }
 }

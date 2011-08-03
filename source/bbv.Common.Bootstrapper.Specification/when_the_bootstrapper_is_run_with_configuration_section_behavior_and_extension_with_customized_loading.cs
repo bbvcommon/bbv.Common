@@ -29,7 +29,6 @@ namespace bbv.Common.Bootstrapper.Specification
     {
         protected static CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom NameAndWhereToLoadFromExtension;
         protected static CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom WhereToLoadFromExtension;
-        protected static CustomExtensionWithConfigurationWhichKnowsName NameExtension;
 
         Establish context = () =>
         {

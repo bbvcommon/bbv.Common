@@ -26,6 +26,7 @@
     <Compile Include="BootstrapperSpecification.cs" />
     <Compile Include="BootstrapperWithBehaviorSpecification.cs" />
     <Compile Include="BootstrapperWithConfigurationSectionBehaviorSpecification.cs" />
+    <Compile Include="BootstrapperWithExtensionConfigurationSectionBehaviorSpecification.cs" />
     <Compile Include="Dummies\Behavior.cs" />
     <Compile Include="Dummies\BehaviorWithConfigurationContext.cs" />
     <Compile Include="Dummies\BehaviorWithStringContext.cs" />
@@ -33,20 +34,24 @@
     <Compile Include="Dummies\CustomExtensionExtensions.cs" />
     <Compile Include="Dummies\CustomExtensionStrategy.cs" />
     <Compile Include="Dummies\CustomExtensionWithBehaviorStrategy.cs" />
-    <Compile Include="Dummies\CustomExtensionWithConfigurationWhichKnowsName.cs" />
     <Compile Include="Dummies\CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom.cs" />
     <Compile Include="Dummies\CustomExtensionWithConfigurationStrategy.cs" />
     <Compile Include="Dummies\CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom.cs" />
+    <Compile Include="Dummies\CustomExtensionWithExtensionConfigurationStrategy.cs" />
+    <Compile Include="Dummies\CustomExtensionWithExtensionConfigurationWhichConsumesConfiguration.cs" />
+    <Compile Include="Dummies\CustomExtensionWithExtensionConfigurationWhichHasCallbacks.cs" />
     <Compile Include="Dummies\EnumerableExtensions.cs" />
     <Compile Include="Dummies\FakeConfigurationSection.cs" />
     <Compile Include="Dummies\FirstExtension.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
     <Compile Include="Dummies\ICustomExtensionWithConfiguration.cs" />
+    <Compile Include="Dummies\ICustomExtensionWithExtensionConfiguration.cs" />
     <Compile Include="Dummies\SecondExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="when_the_bootstrapper_is_run_with_behavior_attached.cs" />
     <Compile Include="when_the_bootstrapper_is_run.cs" />
     <Compile Include="when_the_bootstrapper_is_run_with_configuration_section_behavior_and_extension_with_customized_loading.cs" />
+    <Compile Include="when_the_bootstrapper_is_run_with_extension_configuration_section_behavior_and_extension_with_customized_loading.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown_with_behavior_attached.cs" />
   </ItemGroup>
