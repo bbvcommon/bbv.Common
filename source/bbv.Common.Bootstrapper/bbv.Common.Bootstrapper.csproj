@@ -17,9 +17,11 @@
     <Compile Include="AbstractStrategy.cs" />
     <Compile Include="Behavior\DisposeExtensionBehavior.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\DefaultConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Configuration\DefaultExtensionConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionHelper.cs" />
+    <Compile Include="Configuration\IConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Configuration\IConsumeConfiguration.cs" />
     <Compile Include="Configuration\IConsumeConfigurationSection.cs" />
     <Compile Include="Configuration\IExtensionPropertyReflector.cs" />

@@ -21,13 +21,30 @@ namespace bbv.Common.Bootstrapper.Configuration
     using System.Collections.Generic;
     using System.Configuration;
 
-    using bbv.Common.Bootstrapper.Configuration.Internals;
-
     /// <summary>
     /// Adds behavior to the IBootstrapper to load configuration sections.
     /// </summary>
     public class ConfigurationSectionBehavior : IBehavior<IExtension>
     {
+        private readonly IConfigurationSectionBehaviorFactory factory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationSectionBehavior"/> class.
+        /// </summary>
+        public ConfigurationSectionBehavior()
+            : this(new DefaultConfigurationSectionBehaviorFactory())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationSectionBehavior"/> class.
+        /// </summary>
+        /// <param name="factory">The factory.</param>
+        public ConfigurationSectionBehavior(IConfigurationSectionBehaviorFactory factory)
+        {
+            this.factory = factory;
+        }
+
         /// <summary>
         /// Behaves the specified extensions.
         /// </summary>
@@ -38,47 +55,15 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             foreach (IExtension extension in extensions)
             {
-                IConsumeConfigurationSection consumer = this.CreateConsumeConfigurationSection(extension);
-                IHaveConfigurationSectionName sectionNameProvider = this.CreateHaveConfigurationSectionName(extension);
-                ILoadConfigurationSection sectionProvider = this.CreateLoadConfigurationSection(extension);
+                IConsumeConfigurationSection consumer = this.factory.CreateConsumeConfigurationSection(extension);
+                IHaveConfigurationSectionName sectionNameProvider = this.factory.CreateHaveConfigurationSectionName(extension);
+                ILoadConfigurationSection sectionProvider = this.factory.CreateLoadConfigurationSection(extension);
 
                 string sectionName = sectionNameProvider.SectionName;
                 ConfigurationSection section = sectionProvider.GetSection(sectionName);
 
                 consumer.Apply(section);
             }
-        }
-
-        /// <summary>
-        /// Creates the instance which knows the section name.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>The istance.</returns>
-        protected virtual IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
-        {
-            return new HaveConfigurationSectionName(extension);
-        }
-
-        /// <summary>
-        /// Creates the instance which loads configuration sections.
-        /// </summary>
-        /// <param name="extension">The extensions.</param>
-        /// <returns>The instance.</returns>
-        protected virtual ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
-        {
-            return new LoadConfigurationSection(extension);
-        }
-
-        /// <summary>
-        /// Creates the instance which consumes a configuration section.
-        /// </summary>
-        /// <param name="extension">The extensions.</param>
-        /// <returns>
-        /// The instance.
-        /// </returns>
-        protected virtual IConsumeConfigurationSection CreateConsumeConfigurationSection(IExtension extension) 
-        {
-            return new ConsumeConfigurationSection(extension);
         }
     }
 }

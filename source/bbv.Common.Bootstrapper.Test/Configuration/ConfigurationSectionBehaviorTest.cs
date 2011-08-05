@@ -18,6 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
+    using System;
     using System.Collections.Generic;
     using System.Configuration;
 
@@ -33,6 +34,8 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<ILoadConfigurationSection> sectionProvider;
 
+        private readonly Mock<IConfigurationSectionBehaviorFactory> factory;
+
         private readonly List<IExtension> extensions;
 
         private readonly ConfigurationSectionBehavior testee;
@@ -43,9 +46,12 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.sectionNameProvider = new Mock<IHaveConfigurationSectionName>();
             this.sectionProvider = new Mock<ILoadConfigurationSection>();
 
+            this.factory = new Mock<IConfigurationSectionBehaviorFactory>();
+            this.AutoStubFactory();
+
             this.extensions = new List<IExtension> { Mock.Of<IExtension>(), Mock.Of<IExtension>(), };
 
-            this.testee = new TestableConfigurationSectionBehavior(this.consumer.Object, this.sectionNameProvider.Object, this.sectionProvider.Object);
+            this.testee = new ConfigurationSectionBehavior(this.factory.Object);
         }
 
         [Fact]
@@ -87,38 +93,14 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.sectionProvider.Verify(p => p.GetSection(AnySectionName));
         }
 
-        private class TestableConfigurationSectionBehavior : ConfigurationSectionBehavior
+        private void AutoStubFactory()
         {
-            private readonly IConsumeConfigurationSection consumer;
-
-            private readonly IHaveConfigurationSectionName sectionNameProvider;
-
-            private readonly ILoadConfigurationSection sectionProvider;
-
-            public TestableConfigurationSectionBehavior(
-                IConsumeConfigurationSection consumer,
-                IHaveConfigurationSectionName sectionNameProvider,
-                ILoadConfigurationSection sectionProvider)
-            {
-                this.sectionProvider = sectionProvider;
-                this.sectionNameProvider = sectionNameProvider;
-                this.consumer = consumer;
-            }
-
-            protected override IConsumeConfigurationSection CreateConsumeConfigurationSection(IExtension extension)
-            {
-                return this.consumer;
-            }
-
-            protected override IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
-            {
-                return this.sectionNameProvider;
-            }
-
-            protected override ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
-            {
-                return this.sectionProvider;
-            }
+            this.factory.Setup(f => f.CreateConsumeConfigurationSection(It.IsAny<IExtension>())).Returns(
+                this.consumer.Object);
+            this.factory.Setup(f => f.CreateHaveConfigurationSectionName(It.IsAny<IExtension>())).Returns(
+                this.sectionNameProvider.Object);
+            this.factory.Setup(f => f.CreateLoadConfigurationSection(It.IsAny<IExtension>())).Returns(
+                this.sectionProvider.Object);
         }
     }
 }
