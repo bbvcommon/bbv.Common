@@ -67,9 +67,9 @@ namespace bbv.Common.Bootstrapper.Specification
             {
                 WhichConsumesConfigurationExtension.Configuration.Should()
                     .HaveCount(3)
-                    .And.Contain(x => x.Key == "SomeInt" && x.Value == "1")
-                    .And.Contain(x => x.Key == "SomeString" && x.Value == "SomeString")
-                    .And.Contain(x => x.Key == "SomeStringWithDefault" && x.Value == "SomeStringWithDefault");
+                    .And.Contain("SomeInt", "1")
+                    .And.Contain("SomeString", "SomeString")
+                    .And.Contain("SomeStringWithDefault", "SomeStringWithDefault");
             };
 
         It should_acquire_section = () =>

@@ -625,8 +625,8 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.executableFactory.Setup(
                 f =>
                 f.CreateExecutable(
-                    It.IsAny<Func<IBehaviorAware<ICustomExtension>, object>>(), It.IsAny<Action<ICustomExtension, object>>())).
-                Callback<Func<IBehaviorAware<ICustomExtension>, object>, Action<ICustomExtension, object>>(
+                    It.IsAny<Func<IBehaviorAware<ICustomExtension>, object>>(),
+                    It.IsAny<Action<ICustomExtension, object>>())).Callback<Func<IBehaviorAware<ICustomExtension>, object>, Action<ICustomExtension, object>>(
                     (func, action) => contextInitializer = func).Returns(Mock.Of<IExecutable<ICustomExtension>>);
 
             var context = new object();

@@ -35,6 +35,8 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private const string SomeExtensionPropertyValue = "AnyValue";
 
+        private readonly Mock<IExtensionConfigurationSectionBehaviorFactory> factory;
+
         private readonly Mock<IHaveConversionCallbacks> conversionCallbacks;
 
         private readonly Mock<ILoadConfigurationSection> sectionProvider;
@@ -43,23 +45,26 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<IHaveConfigurationSectionName> sectionNameProvider;
 
-        private readonly List<IExtension> extensions;
-
         private readonly Mock<IExtensionPropertyReflector> extensionPropertyReflector;
+
+        private readonly List<IExtension> extensions;
 
         private readonly ExtensionConfigurationSectionBehavior testee;
 
         public ExtensionConfigurationSectionBehaviorTest()
         {
-            this.extensionPropertyReflector = new Mock<IExtensionPropertyReflector>();
             this.consumer = new Mock<IConsumeConfiguration>();
+            this.extensionPropertyReflector = new Mock<IExtensionPropertyReflector>();
             this.sectionNameProvider = new Mock<IHaveConfigurationSectionName>();
             this.sectionProvider = new Mock<ILoadConfigurationSection>();
             this.conversionCallbacks = new Mock<IHaveConversionCallbacks>();
 
+            this.factory = new Mock<IExtensionConfigurationSectionBehaviorFactory>();
+            this.SetupAutoStubFactory();
+
             this.extensions = new List<IExtension> { Mock.Of<IExtension>(), Mock.Of<IExtension>(), };
 
-            this.testee = new TestableExtensionConfigurationSectionBehavior(this.extensionPropertyReflector.Object, this.consumer.Object, this.sectionNameProvider.Object, this.sectionProvider.Object, this.conversionCallbacks.Object);
+            this.testee = new ExtensionConfigurationSectionBehavior(this.factory.Object);
         }
 
         [Fact]
@@ -185,54 +190,22 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string>());
         }
 
+        private void SetupAutoStubFactory()
+        {
+            this.factory.Setup(x => x.CreateConsumeConfiguration(It.IsAny<IExtension>())).Returns(this.consumer.Object);
+            this.factory.Setup(x => x.CreateExtensionPropertyReflector()).Returns(
+                this.extensionPropertyReflector.Object);
+            this.factory.Setup(x => x.CreateHaveConfigurationSectionName(It.IsAny<IExtension>())).Returns(
+                this.sectionNameProvider.Object);
+            this.factory.Setup(x => x.CreateHaveConversionCallbacks(It.IsAny<IExtension>())).Returns(
+                this.conversionCallbacks.Object);
+            this.factory.Setup(x => x.CreateLoadConfigurationSection(It.IsAny<IExtension>())).Returns(
+                this.sectionProvider.Object);
+        }
+
         private class SomeExtension : IExtension
         {
             public string SomeProperty { get; private set; }
-        }
-
-        private class TestableExtensionConfigurationSectionBehavior : ExtensionConfigurationSectionBehavior
-        {
-            private readonly IConsumeConfiguration consumer;
-
-            private readonly IHaveConfigurationSectionName sectionNameProvider;
-
-            private readonly ILoadConfigurationSection sectionProvider;
-
-            private readonly IHaveConversionCallbacks conversionCallbacks;
-
-            public TestableExtensionConfigurationSectionBehavior(
-                IExtensionPropertyReflector extensionPropertyReflector,
-                IConsumeConfiguration consumer,
-                IHaveConfigurationSectionName sectionNameProvider,
-                ILoadConfigurationSection sectionProvider,
-                IHaveConversionCallbacks conversionCallbacks)
-                : base(extensionPropertyReflector)
-            {
-                this.conversionCallbacks = conversionCallbacks;
-                this.sectionProvider = sectionProvider;
-                this.sectionNameProvider = sectionNameProvider;
-                this.consumer = consumer;
-            }
-
-            protected override IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
-            {
-                return this.sectionNameProvider;
-            }
-
-            protected override ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
-            {
-                return this.sectionProvider;
-            }
-
-            protected override IConsumeConfiguration CreateConsumeConfiguration(IExtension extension)
-            {
-                return this.consumer;
-            }
-
-            protected override IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
-            {
-                return this.conversionCallbacks;
-            }
         }
     }
 }

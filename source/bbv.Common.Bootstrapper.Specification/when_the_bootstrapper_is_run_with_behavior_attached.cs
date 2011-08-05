@@ -56,8 +56,8 @@ namespace bbv.Common.Bootstrapper.Specification
                     { "RunSecondValue", "RunTestValue" },
                 };
 
-            First.RunConfiguration.Should().BeEquivalentTo(expected);
-            Second.RunConfiguration.Should().BeEquivalentTo(expected);
+            First.RunConfiguration.Should().Equal(expected);
+            Second.RunConfiguration.Should().Equal(expected);
 
             First.Registered.Should().Be("RunTest");
             Second.Registered.Should().Be("RunTest");

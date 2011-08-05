@@ -50,10 +50,13 @@ namespace bbv.Common.Bootstrapper.Specification
 
         It should_pass_the_initialized_values_to_the_extension = () =>
         {
-            var expected = new KeyValuePair<string, string>("ShutdownTest", "ShutdownTestValue");
+            var expected = new Dictionary<string, string>
+                {
+                    { "ShutdownTest", "ShutdownTestValue" }
+                };
 
-            First.ShutdownConfiguration.Should().BeEquivalentTo(expected);
-            Second.ShutdownConfiguration.Should().BeEquivalentTo(expected);
+            First.ShutdownConfiguration.Should().Equal(expected);
+            Second.ShutdownConfiguration.Should().Equal(expected);
 
             First.Unregistered.Should().Be("ShutdownTest");
             Second.Unregistered.Should().Be("ShutdownTest");

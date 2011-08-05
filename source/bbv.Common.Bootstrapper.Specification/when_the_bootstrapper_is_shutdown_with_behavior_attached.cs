@@ -56,8 +56,8 @@ namespace bbv.Common.Bootstrapper.Specification
                     { "ShutdownSecondValue", "ShutdownTestValue" },
                 };
 
-            First.ShutdownConfiguration.Should().BeEquivalentTo(expected);
-            Second.ShutdownConfiguration.Should().BeEquivalentTo(expected);
+            First.ShutdownConfiguration.Should().Equal(expected);
+            Second.ShutdownConfiguration.Should().Equal(expected);
 
             First.Unregistered.Should().Be("ShutdownTest");
             Second.Unregistered.Should().Be("ShutdownTest");

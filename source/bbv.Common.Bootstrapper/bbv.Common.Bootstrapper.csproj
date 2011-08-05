@@ -17,6 +17,7 @@
     <Compile Include="AbstractStrategy.cs" />
     <Compile Include="Behavior\DisposeExtensionBehavior.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\DefaultExtensionConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSectionHelper.cs" />
     <Compile Include="Configuration\IConsumeConfiguration.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IDefaultExtension.cs" />
     <Compile Include="IExecutor.cs" />
+    <Compile Include="Configuration\IExtensionConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Syntax\ExecutableFactory.cs" />
     <Compile Include="Syntax\Executables\ActionExecutable.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionExecutable.cs" />
