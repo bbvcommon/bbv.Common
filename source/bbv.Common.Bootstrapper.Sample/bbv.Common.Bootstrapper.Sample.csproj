@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.Bootstrapper.Sample</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{4B7E6F03-A819-4273-86A3-8C10334E1BFF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simple\FirstSimpleExtension.cs" />
+    <Compile Include="Simple\ISimpleExtension.cs" />
+    <Compile Include="Simple\SecondSimpleExtension.cs" />
+    <Compile Include="Simple\SimpleExtensionBase.cs" />
+    <Compile Include="Simple\SimpleStrategy.cs" />
+    <Compile Include="Simple\ThirdSimpleExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.Bootstrapper\bbv.Common.Bootstrapper.csproj">
+      <Project>{F01E6FF8-4968-4078-8FA1-5CE2EB463904}</Project>
+      <Name>bbv.Common.Bootstrapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
+</Project>
