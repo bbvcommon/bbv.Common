@@ -38,6 +38,15 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <summary>
         /// Initializes a new instance of the <see cref="SyntaxBuilder&lt;TExtension&gt;"/> class.
         /// </summary>
+        /// <remarks>Uses the ExecutableFactory{TExtension}</remarks>
+        public SyntaxBuilder()
+            : this(new ExecutableFactory<TExtension>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyntaxBuilder&lt;TExtension&gt;"/> class.
+        /// </summary>
         /// <param name="executableFactory">The executable factory.</param>
         public SyntaxBuilder(IExecutableFactory<TExtension> executableFactory)
         {
@@ -104,6 +113,13 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
+        /// <summary>
+        /// Attaches a lazy behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
         IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(Func<IBehavior<TExtension>> behavior)
         {
             this.BuiltExecutable.Add(new LazyBehavior(behavior));
@@ -111,6 +127,13 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
+        /// <summary>
+        /// Attaches a behavior to the currently built executable.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>
+        /// The syntax.
+        /// </returns>
         IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(IBehavior<TExtension> behavior)
         {
             this.BuiltExecutable.Add(behavior);

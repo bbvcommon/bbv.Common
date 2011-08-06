@@ -18,10 +18,8 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
@@ -71,17 +69,29 @@ namespace bbv.Common.Bootstrapper.Configuration
             {
                 IHaveConfigurationSectionName sectionNameProvider = this.factory.CreateHaveConfigurationSectionName(extension);
                 ILoadConfigurationSection sectionProvider = this.factory.CreateLoadConfigurationSection(extension);
-                IConsumeConfiguration consumer = this.factory.CreateConsumeConfiguration(extension);
-                IHaveConversionCallbacks callbackProvider = this.factory.CreateHaveConversionCallbacks(extension);
 
-                string sectionName = sectionNameProvider.SectionName;
-                ExtensionConfigurationSection section = sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ?? 
-                    ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
+                ExtensionConfigurationSection section = GetExtensionConfigurationSection(sectionNameProvider, sectionProvider);
+
+                if (!section.Configuration.OfType<ExtensionSettingsElement>().Any())
+                {
+                    continue;
+                }
+
+                IConsumeConfiguration consumer = this.factory.CreateConsumeConfiguration(extension);
 
                 FillConsumerConfiguration(section, consumer);
 
+                IHaveConversionCallbacks callbackProvider = this.factory.CreateHaveConversionCallbacks(extension);
+
                 this.assignExtensionProperties.Assign(this.reflectExtensionProperties, extension, consumer, callbackProvider);
             }
+        }
+
+        private static ExtensionConfigurationSection GetExtensionConfigurationSection(IHaveConfigurationSectionName sectionNameProvider, ILoadConfigurationSection sectionProvider)
+        {
+            string sectionName = sectionNameProvider.SectionName;
+            return sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ?? 
+                   ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
         }
 
         private static void FillConsumerConfiguration(ExtensionConfigurationSection section, IConsumeConfiguration consumer)

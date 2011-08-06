@@ -18,6 +18,8 @@
 
 namespace bbv.Common.Bootstrapper
 {
+    using bbv.Common.Bootstrapper.Behavior;
+
     /// <summary>
     /// Interface for bootstrapper extensions
     /// </summary>
@@ -26,7 +28,8 @@ namespace bbv.Common.Bootstrapper
     /// ...
     /// (n-2). Finished --> Bootstrapping is finished.
     /// (n-1). Shutdown --> Bootstrapper shuts down.
-    /// (n). Dispose --> Bootstraper is being disposed.
+    /// (n). Dispose --> Bootstraper is being disposed. If you are using <see cref="DisposeExtensionBehavior"/> and 
+    /// your extensions implement IDisposable.
     /// </remarks>
     public interface IDefaultExtension : IExtension
     {

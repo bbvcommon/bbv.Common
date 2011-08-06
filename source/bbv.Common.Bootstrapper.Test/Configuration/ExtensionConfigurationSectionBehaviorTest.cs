@@ -19,7 +19,6 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using FluentAssertions;
 
@@ -59,7 +58,7 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.factory = new Mock<IExtensionConfigurationSectionBehaviorFactory>();
             this.SetupAutoStubFactory();
 
-            this.extensions = new List<IExtension> { Mock.Of<IExtension>(), Mock.Of<IExtension>(), };
+            this.extensions = new List<IExtension> { Mock.Of<IExtension>(), };
 
             this.testee = new ExtensionConfigurationSectionBehavior(this.factory.Object);
         }
@@ -75,7 +74,7 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.sectionProvider.Setup(p => p.GetSection(It.IsAny<string>())).Returns(configurationSection);
             this.consumer.Setup(c => c.Configuration).Returns(configuration);
 
-            this.testee.Behave(new List<IExtension> { this.extensions.First() });
+            this.testee.Behave(this.extensions);
 
             configuration.Should().BeEquivalentTo(expectedConfiguration);
         }
@@ -107,9 +106,31 @@ namespace bbv.Common.Bootstrapper.Configuration
         [Fact]
         public void Behave_ShouldAssign()
         {
+            this.SetupEmptyConsumerConfiguration();
+            this.SetupExtensionConfigurationSectionWithEntries();
+
             this.testee.Behave(this.extensions);
 
             this.assigner.Verify(a => a.Assign(this.extensionPropertyReflector.Object, It.IsAny<IExtension>(), this.consumer.Object, this.conversionCallbacks.Object));
+        }
+
+        [Fact]
+        public void Behave_ShouldNotProceedWhenNoConfigurationAvailable()
+        {
+            var configurationSection = ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
+
+            this.sectionProvider.Setup(p => p.GetSection(It.IsAny<string>())).Returns(configurationSection);
+
+            this.testee.Behave(this.extensions);
+
+            this.consumer.Verify(c => c.Configuration, Times.Never());
+            this.assigner.Verify(a => a.Assign(It.IsAny<IReflectExtensionProperties>(), It.IsAny<IExtension>(), It.IsAny<IConsumeConfiguration>(), It.IsAny<IHaveConversionCallbacks>()), Times.Never());
+        }
+
+        private void SetupExtensionConfigurationSectionWithEntries()
+        {
+            var configurationSection = ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string> { { "AnyKey", "AnyValue" } });
+            this.sectionProvider.Setup(p => p.GetSection(It.IsAny<string>())).Returns(configurationSection);
         }
 
         private void SetupEmptyConsumerConfiguration()
