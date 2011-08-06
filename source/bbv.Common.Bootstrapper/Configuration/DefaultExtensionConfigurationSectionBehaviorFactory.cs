@@ -18,6 +18,8 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
+    using System;
+
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
     /// <summary>
@@ -29,9 +31,20 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// Creates the extension property reflector.
         /// </summary>
         /// <returns>The instance.</returns>
-        public IExtensionPropertyReflector CreateExtensionPropertyReflector()
+        public IReflectExtensionProperties CreateReflectExtensionProperties()
         {
-            return new ExtensionPublicPropertyReflector();
+            return new ReflectExtensionPublicProperties();
+        }
+
+        /// <summary>
+        /// Creates the extension property assigner.
+        /// </summary>
+        /// <returns>
+        /// The instance.
+        /// </returns>
+        public IAssignExtensionProperties CreateAssignExtensionProperties()
+        {
+            return new AssignExtensionProperties();
         }
 
         /// <summary>

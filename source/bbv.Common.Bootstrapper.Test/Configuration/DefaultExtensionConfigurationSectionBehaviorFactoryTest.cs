@@ -44,11 +44,19 @@ namespace bbv.Common.Bootstrapper.Configuration
         }
 
         [Fact]
-        public void CreateExtensionPropertyReflector_ShouldCreateDefaultExtensionPropertyReflector()
+        public void CreateReflectExtensionProperties_ShouldCreateDefaultReflectExtensionProperties()
         {
-            var reflector = this.testee.CreateExtensionPropertyReflector();
+            var reflector = this.testee.CreateReflectExtensionProperties();
 
-            reflector.Should().BeOfType<ExtensionPublicPropertyReflector>();
+            reflector.Should().BeOfType<ReflectExtensionPublicProperties>();
+        }
+
+        [Fact]
+        public void CreateAssignExtensionProperties_ShouldCreateDefaultAssingExtensionProperties()
+        {
+            var assigner = this.testee.CreateAssignExtensionProperties();
+
+            assigner.Should().BeOfType<AssignExtensionProperties>();
         }
 
         [Fact]

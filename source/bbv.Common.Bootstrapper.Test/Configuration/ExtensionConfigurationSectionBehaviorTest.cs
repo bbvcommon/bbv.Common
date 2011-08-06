@@ -18,10 +18,8 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     using FluentAssertions;
 
@@ -31,10 +29,6 @@ namespace bbv.Common.Bootstrapper.Configuration
 
     public class ExtensionConfigurationSectionBehaviorTest
     {
-        private const string SomeExtensionPropertyName = "SomeProperty";
-
-        private const string SomeExtensionPropertyValue = "AnyValue";
-
         private readonly Mock<IExtensionConfigurationSectionBehaviorFactory> factory;
 
         private readonly Mock<IHaveConversionCallbacks> conversionCallbacks;
@@ -45,19 +39,22 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<IHaveConfigurationSectionName> sectionNameProvider;
 
-        private readonly Mock<IExtensionPropertyReflector> extensionPropertyReflector;
+        private readonly Mock<IReflectExtensionProperties> extensionPropertyReflector;
 
         private readonly List<IExtension> extensions;
+
+        private readonly Mock<IAssignExtensionProperties> assigner;
 
         private readonly ExtensionConfigurationSectionBehavior testee;
 
         public ExtensionConfigurationSectionBehaviorTest()
         {
             this.consumer = new Mock<IConsumeConfiguration>();
-            this.extensionPropertyReflector = new Mock<IExtensionPropertyReflector>();
+            this.extensionPropertyReflector = new Mock<IReflectExtensionProperties>();
             this.sectionNameProvider = new Mock<IHaveConfigurationSectionName>();
             this.sectionProvider = new Mock<ILoadConfigurationSection>();
             this.conversionCallbacks = new Mock<IHaveConversionCallbacks>();
+            this.assigner = new Mock<IAssignExtensionProperties>();
 
             this.factory = new Mock<IExtensionConfigurationSectionBehaviorFactory>();
             this.SetupAutoStubFactory();
@@ -108,81 +105,11 @@ namespace bbv.Common.Bootstrapper.Configuration
         }
 
         [Fact]
-        public void Behave_ShouldReflectPropertiesOfExtensions()
+        public void Behave_ShouldAssign()
         {
-            this.SetupEmptyConsumerConfiguration();
-
             this.testee.Behave(this.extensions);
 
-            this.extensionPropertyReflector.Verify(r => r.Reflect(It.IsAny<IExtension>()), Times.Exactly(2));
-        }
-
-        [Fact]
-        public void Behave_ShouldAcquireConversionCallbacks()
-        {
-            this.SetupEmptyConsumerConfiguration();
-
-            this.testee.Behave(this.extensions);
-
-            this.conversionCallbacks.VerifyGet(x => x.ConversionCallbacks);
-            this.conversionCallbacks.VerifyGet(x => x.DefaultConversionCallback);
-        }
-
-        [Fact]
-        public void Behave_WhenReflectedPropertyMatchesConfiguration_ShouldAcquireCallback()
-        {
-            bool wasCalled = false;
-
-            var dictionary = new Dictionary<string, Func<string, PropertyInfo, object>>
-                {
-                    {
-                        SomeExtensionPropertyName, (value, info) =>
-                            {
-                                wasCalled = true;
-                                return value;
-                            }
-                        }
-                };
-
-            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(dictionary);
-
-            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { GetSomePropertyPropertyInfo() });
-            this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
-
-            var someExtension = new SomeExtension();
-            this.testee.Behave(new List<IExtension> { someExtension });
-
-            wasCalled.Should().BeTrue();
-            someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);
-        }
-
-        [Fact]
-        public void Behave_WhenNoConversionCallbackFound_ShouldUseDefaultCallback()
-        {
-            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(
-                new Dictionary<string, Func<string, PropertyInfo, object>>());
-
-            bool wasCalled = false;
-            Func<string, PropertyInfo, object> defaultCallback = (value, info) =>
-                {
-                    wasCalled = true;
-                    return value;
-                };
-            this.conversionCallbacks.Setup(x => x.DefaultConversionCallback).Returns(defaultCallback);
-
-            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { GetSomePropertyPropertyInfo() });
-            this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
-
-            var someExtension = new SomeExtension();
-            this.testee.Behave(new List<IExtension> { someExtension });
-
-            wasCalled.Should().BeTrue();
-            someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);
-        }
-
-        private static PropertyInfo GetSomePropertyPropertyInfo()
-        {
-            return typeof(SomeExtension).GetProperty(SomeExtensionPropertyName);
+            this.assigner.Verify(a => a.Assign(this.extensionPropertyReflector.Object, It.IsAny<IExtension>(), this.consumer.Object, this.conversionCallbacks.Object));
         }
 
         private void SetupEmptyConsumerConfiguration()
@@ -193,19 +120,15 @@ namespace bbv.Common.Bootstrapper.Configuration
         private void SetupAutoStubFactory()
         {
             this.factory.Setup(x => x.CreateConsumeConfiguration(It.IsAny<IExtension>())).Returns(this.consumer.Object);
-            this.factory.Setup(x => x.CreateExtensionPropertyReflector()).Returns(
+            this.factory.Setup(x => x.CreateReflectExtensionProperties()).Returns(
                 this.extensionPropertyReflector.Object);
+            this.factory.Setup(x => x.CreateAssignExtensionProperties()).Returns(this.assigner.Object);
             this.factory.Setup(x => x.CreateHaveConfigurationSectionName(It.IsAny<IExtension>())).Returns(
                 this.sectionNameProvider.Object);
             this.factory.Setup(x => x.CreateHaveConversionCallbacks(It.IsAny<IExtension>())).Returns(
                 this.conversionCallbacks.Object);
             this.factory.Setup(x => x.CreateLoadConfigurationSection(It.IsAny<IExtension>())).Returns(
                 this.sectionProvider.Object);
-        }
-
-        private class SomeExtension : IExtension
-        {
-            public string SomeProperty { get; private set; }
         }
     }
 }

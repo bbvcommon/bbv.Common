@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExtensionPublicPropertyReflector.cs" company="bbv Software Services AG">
+// <copyright file="IAssignExtensionProperties.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,24 +16,20 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Configuration.Internals
+namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-
     /// <summary>
-    /// IExtensionPropertyReflector implementations which gives back PropertyInfo about all public instance 
-    /// properties which are writtable of the reflected extension
+    /// Identifies the implemenator as a property assigner for extensions.
     /// </summary>
-    public class ExtensionPublicPropertyReflector : IExtensionPropertyReflector
+    public interface IAssignExtensionProperties
     {
-        /// <inheritdoc />
-        public IEnumerable<PropertyInfo> Reflect(IExtension extension)
-        {
-            Ensure.ArgumentNotNull(extension, "extension");
-
-            return extension.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite);
-        }
+        /// <summary>
+        /// Automatically assigns the reflector property values on the provided extension properties if a match occurs..
+        /// </summary>
+        /// <param name="reflector">The reflector.</param>
+        /// <param name="extension">The extension.</param>
+        /// <param name="consumer">The configuration consumer.</param>
+        /// <param name="callbackProvider">The callback provider.</param>
+        void Assign(IReflectExtensionProperties reflector, IExtension extension, IConsumeConfiguration consumer, IHaveConversionCallbacks callbackProvider);
     }
 }

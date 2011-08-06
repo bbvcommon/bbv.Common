@@ -32,12 +32,14 @@ namespace bbv.Common.Bootstrapper.Configuration
     {
         private readonly IExtensionConfigurationSectionBehaviorFactory factory;
 
-        private readonly IExtensionPropertyReflector extensionPropertyReflector;
+        private readonly IReflectExtensionProperties reflectExtensionProperties;
+
+        private readonly IAssignExtensionProperties assignExtensionProperties;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionConfigurationSectionBehavior"/> class.
         /// </summary>
-        /// <remarks>Uses the default <see cref="ExtensionPublicPropertyReflector"/>.</remarks>
+        /// <remarks>Uses the default <see cref="ReflectExtensionPublicProperties"/>.</remarks>
         public ExtensionConfigurationSectionBehavior()
             : this(new DefaultExtensionConfigurationSectionBehaviorFactory())
         {
@@ -53,7 +55,8 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             this.factory = factory;
 
-            this.extensionPropertyReflector = this.factory.CreateExtensionPropertyReflector();
+            this.reflectExtensionProperties = this.factory.CreateReflectExtensionProperties();
+            this.assignExtensionProperties = this.factory.CreateAssignExtensionProperties();
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace bbv.Common.Bootstrapper.Configuration
 
                 FillConsumerConfiguration(section, consumer);
 
-                this.AutoFillExtensionPropertiesWithConfigurationEntries(extension, consumer, callbackProvider);
+                this.assignExtensionProperties.Assign(this.reflectExtensionProperties, extension, consumer, callbackProvider);
             }
         }
 
@@ -89,34 +92,6 @@ namespace bbv.Common.Bootstrapper.Configuration
                 string value = settingsElement.Value;
 
                 consumer.Configuration.Add(key, value);
-            }
-        }
-
-        private void AutoFillExtensionPropertiesWithConfigurationEntries(IExtension extension, IConsumeConfiguration consumer, IHaveConversionCallbacks callbackProvider)
-        {
-            IEnumerable<PropertyInfo> properties = this.extensionPropertyReflector.Reflect(extension);
-            IDictionary<string, Func<string, PropertyInfo, object>> conversionCallbacks = callbackProvider.ConversionCallbacks;
-            Func<string, PropertyInfo, object> defaultCallback = callbackProvider.DefaultConversionCallback;
-
-            foreach (KeyValuePair<string, string> keyValuePair in consumer.Configuration)
-            {
-                KeyValuePair<string, string> pair = keyValuePair;
-
-                var matchedProperty = properties.Where(property => property.Name.Equals(pair.Key, StringComparison.OrdinalIgnoreCase))
-                    .SingleOrDefault();
-
-                if (matchedProperty == null)
-                {
-                    continue;
-                }
-
-                Func<string, PropertyInfo, object> conversionCallback;
-                if (!conversionCallbacks.TryGetValue(pair.Key, out conversionCallback))
-                {
-                    conversionCallback = defaultCallback;
-                }
-
-                matchedProperty.SetValue(extension, conversionCallback(pair.Value, matchedProperty), null);
             }
         }
     }

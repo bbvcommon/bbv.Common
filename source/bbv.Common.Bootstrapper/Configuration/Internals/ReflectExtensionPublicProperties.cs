@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IExtensionPropertyReflector.cs" company="bbv Software Services AG">
+// <copyright file="ReflectExtensionPublicProperties.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,24 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Configuration
+namespace bbv.Common.Bootstrapper.Configuration.Internals
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
-    /// An extension property reflector is responsible for reflecting over properties of the inspected extension.
+    /// IReflectExtensionProperties implementations which gives back PropertyInfo about all public instance 
+    /// properties which are writtable of the reflected extension
     /// </summary>
-    public interface IExtensionPropertyReflector
+    public class ReflectExtensionPublicProperties : IReflectExtensionProperties
     {
-        /// <summary>
-        /// Reflects properties of the specified extension.
-        /// </summary>
-        /// <param name="extension">The extension to be inspected.</param>
-        /// <returns>The properties of the extension.</returns>
-        IEnumerable<PropertyInfo> Reflect(IExtension extension);
+        /// <inheritdoc />
+        public IEnumerable<PropertyInfo> Reflect(IExtension extension)
+        {
+            Ensure.ArgumentNotNull(extension, "extension");
+
+            return extension.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite);
+        }
     }
 }

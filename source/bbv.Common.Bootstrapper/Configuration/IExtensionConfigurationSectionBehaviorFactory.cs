@@ -27,7 +27,13 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// Creates the extension property reflector.
         /// </summary>
         /// <returns>The instance.</returns>
-        IExtensionPropertyReflector CreateExtensionPropertyReflector();
+        IReflectExtensionProperties CreateReflectExtensionProperties();
+
+        /// <summary>
+        /// Creates the extension property assigner.
+        /// </summary>
+        /// <returns>The instance.</returns>
+        IAssignExtensionProperties CreateAssignExtensionProperties();
 
         /// <summary>
         /// Creates the consume configuration instance.

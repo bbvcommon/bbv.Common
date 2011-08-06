@@ -28,13 +28,13 @@ namespace bbv.Common.Bootstrapper.Configuration
     {
         private readonly CustomExtension extension;
 
-        private readonly ExtensionPublicPropertyReflector testee;
+        private readonly ReflectExtensionPublicProperties testee;
 
         public ExtensionPublicPropertyReflectorTest()
         {
             this.extension = new CustomExtension();
 
-            this.testee = new ExtensionPublicPropertyReflector();
+            this.testee = new ReflectExtensionPublicProperties();
         }
 
         [Fact]
