@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper.Sample
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Sample.Complex;
     using bbv.Common.Bootstrapper.Sample.Simple;
 
     /// <summary>
@@ -36,16 +37,36 @@ namespace bbv.Common.Bootstrapper.Sample
             Console.WriteLine("================== Running simple ==================");
             Console.WriteLine();
 
-            var bootstrapper = new DefaultBootstrapper<ISimpleExtension>();
-            bootstrapper.Initialize(new SimpleStrategy());
+            var simpleBootstrapper = new DefaultBootstrapper<ISimpleExtension>();
+            simpleBootstrapper.Initialize(new SimpleStrategy());
 
-            bootstrapper.AddExtension(new FirstSimpleExtension());
-            bootstrapper.AddExtension(new SecondSimpleExtension());
-            bootstrapper.AddExtension(new ThirdSimpleExtension());
+            simpleBootstrapper.AddExtension(new FirstSimpleExtension());
+            simpleBootstrapper.AddExtension(new SecondSimpleExtension());
+            simpleBootstrapper.AddExtension(new ThirdSimpleExtension());
 
-            bootstrapper.Run();
-            bootstrapper.Shutdown();
+            simpleBootstrapper.Run();
+            simpleBootstrapper.Shutdown();
 
+            Console.WriteLine("================== End simple ==================");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadLine();
+
+            Console.WriteLine("================== Running complex ==================");
+            Console.WriteLine();
+
+            var complexBootstrapper = new DefaultBootstrapper<IComplexExtension>();
+            complexBootstrapper.Initialize(new ComplexStrategy());
+
+            complexBootstrapper.AddExtension(new Log4netExtension());
+            complexBootstrapper.AddExtension(new ExtensionWhichRegistersSomething());
+            complexBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
+            complexBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
+
+            complexBootstrapper.Run();
+            complexBootstrapper.Shutdown();
+
+            Console.WriteLine("================== End complex ==================");
+            Console.WriteLine("Press any key to continue");
             Console.ReadLine();
         }
     }
