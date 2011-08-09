@@ -30,6 +30,9 @@
     <Compile Include="Complex\ExtensionWhichIsFunqlet.cs" />
     <Compile Include="Complex\ExtensionWhichNeedsDependency.cs" />
     <Compile Include="Complex\ExtensionWhichRegistersSomething.cs" />
+    <Compile Include="Complex\ExtensionWithExtensionConfigurationSectionWithDictionary.cs" />
+    <Compile Include="Complex\ExtensionWithExtensionConfigurationSection.cs" />
+    <Compile Include="Complex\ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading.cs" />
     <Compile Include="Complex\FunqletProvidingBehavior.cs" />
     <Compile Include="Complex\IComplexExtension.cs" />
     <Compile Include="Complex\IDependency.cs" />
@@ -50,6 +53,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />

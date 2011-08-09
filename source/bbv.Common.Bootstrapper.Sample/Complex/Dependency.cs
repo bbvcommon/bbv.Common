@@ -32,13 +32,13 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         /// <inheritdoc />
         public void Hello()
         {
-            Log.Info("Dependency says hello.");
+            Log.Info(" - Dependency says hello.");
         }
 
         /// <inheritdoc />
         public void Goodbye()
         {
-            Log.Info("Dependency says good bye.");
+            Log.Info(" - Dependency says good bye.");
         }
     }
 }

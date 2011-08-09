@@ -61,6 +61,9 @@ namespace bbv.Common.Bootstrapper.Sample
             complexBootstrapper.AddExtension(new ExtensionWhichRegistersSomething());
             complexBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
             complexBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
+            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSection());
+            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
+            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
 
             complexBootstrapper.Run();
             complexBootstrapper.Shutdown();

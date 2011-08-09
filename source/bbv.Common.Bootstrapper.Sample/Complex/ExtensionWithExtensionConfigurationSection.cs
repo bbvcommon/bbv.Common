@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="CustomFunqlet.cs" company="bbv Software Services AG">
+// <copyright file="ExtensionWithExtensionConfigurationSection.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,26 +18,37 @@
 
 namespace bbv.Common.Bootstrapper.Sample.Complex
 {
+    using System.Globalization;
     using System.Reflection;
 
-    using Funq;
+    using bbv.Common.Bootstrapper.Configuration;
 
     using log4net;
 
     /// <summary>
-    /// Custom funqlet implementation.
+    /// Extension which uses the automatic property conversion mechanism from <see cref="ExtensionConfigurationSection"/>.
     /// </summary>
-    public class CustomFunqlet : IFunqlet
+    public class ExtensionWithExtensionConfigurationSection : ComplexExtensionBase
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        /// <inheritdoc />
-        public void Configure(Container container)
-        {
-            Log.Info(" - Registering dependency in CustomFunqlet");
+        /// <summary>
+        /// Gets or sets the endpoint address.
+        /// </summary>
+        public string EndpointAddress { get; set; }
 
-            container.Register<IDependency>(new Dependency());
-            container.Register<IBehavior<IComplexExtension>>(ctx => new DependencyUsingBehavior(ctx.Resolve<IDependency>()));
+        /// <summary>
+        /// Gets or sets a value indicating whether the server shall be started.
+        /// </summary>
+        public bool StartServer { get; set; }
+
+        /// <inheritdoc />
+        public override void Start()
+        {
+            Log.Info("ExtensionWithExtensionConfigurationSection is starting.");
+
+            Log.InfoFormat(CultureInfo.InvariantCulture, " - EndpointAddress: {0} <<{1}>>", this.EndpointAddress, this.EndpointAddress.GetType().Name);
+            Log.InfoFormat(CultureInfo.InvariantCulture, " - StartServer: {0}", this.StartServer);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
     using System.Collections.ObjectModel;
 
     using bbv.Common.Bootstrapper.Behavior;
+    using bbv.Common.Bootstrapper.Configuration;
     using bbv.Common.Bootstrapper.Syntax;
 
     using Funq;
@@ -49,6 +50,8 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         {
             builder
                 .Begin
+                    .With(new ConfigurationSectionBehavior())
+                    .With(new ExtensionConfigurationSectionBehavior())
                 .Execute(e => e.Start())
                 .Execute(() => this.funqlets, (e, ctx) => e.ContainerInitializing(ctx))
                     .With(flts => new FunqletProvidingBehavior(flts))

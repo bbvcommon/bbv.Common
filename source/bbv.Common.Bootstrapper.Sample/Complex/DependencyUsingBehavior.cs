@@ -44,7 +44,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         /// <inheritdoc />
         public void Behave(IEnumerable<IComplexExtension> extensions)
         {
-            Log.Info("DependencyUsingBehavior is behaving.");
+            Log.Info(" - DependencyUsingBehavior is behaving.");
 
             this.dependency.Hello();
         }
