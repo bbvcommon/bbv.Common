@@ -28,6 +28,7 @@
   <ItemGroup>
     <Compile Include="AbstractStrategyTest.cs" />
     <Compile Include="Behavior\DisposeExtensionBehaviorTest.cs" />
+    <Compile Include="Behavior\LazyBehaviorTest.cs" />
     <Compile Include="Configuration\AssignExtensionPropertiesTest.cs" />
     <Compile Include="Configuration\ConfigurationSectionBehaviorTest.cs" />
     <Compile Include="Configuration\ConsumeConfigurationSectionTest.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Syntax\Executables\ActionOnExtensionExecutableTest.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionWithInitializerExecutableTest.cs" />
     <Compile Include="Syntax\SyntaxBuilderTest.cs" />
+    <Compile Include="Syntax\SyntaxBuilderWithContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bbv.Common.Bootstrapper\bbv.Common.Bootstrapper.csproj">

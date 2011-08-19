@@ -43,15 +43,14 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         {
             this.context = new object();
 
-            this.testee =
-                new ActionOnExtensionWithInitializerExecutable<object, ICustomExtension>(
-                    aware =>
-                        {
-                            this.interceptedBehaviorAware = aware;
-                            this.contextAccessCounter++;
-                            return this.context;
-                        },
-                    (x, i) => x.SomeMethod(i));
+            this.testee = new ActionOnExtensionWithInitializerExecutable<object, ICustomExtension>(
+                () =>
+                    {
+                        this.contextAccessCounter++;
+                        return this.context;
+                    },
+                (x, i) => x.SomeMethod(i),
+                (aware, ctx) => { this.interceptedBehaviorAware = aware; });
         }
 
         [Fact]

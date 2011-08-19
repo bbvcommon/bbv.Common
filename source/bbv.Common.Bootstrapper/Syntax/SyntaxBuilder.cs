@@ -22,11 +22,13 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System.Collections;
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Behavior;
+
     /// <summary>
     /// The syntax builder.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public class SyntaxBuilder<TExtension> : ISyntaxBuilder<TExtension>, IWithBehavior<TExtension>, IEndWithBehavior<TExtension>
+    public class SyntaxBuilder<TExtension> : ISyntaxBuilderWithoutContext<TExtension>
         where TExtension : IExtension
     {
         private static readonly Action DoNothing = () => { };
@@ -54,9 +56,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             this.executables = new Queue<IExecutable<TExtension>>();
         }
 
-        /// <summary>
-        /// Gets the begin of the syntax chain and attaches behavior to the begin
-        /// </summary>
+        /// <inheritdoc />
         public IWithBehavior<TExtension> Begin
         {
             get
@@ -67,9 +67,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             }
         }
 
-        /// <summary>
-        /// Gets the end of the syntax chain and attaches behavior to the end
-        /// </summary>
+        /// <inheritdoc />
         public IEndWithBehavior<TExtension> End
         {
             get
@@ -84,6 +82,42 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// Gets the currently built executable
         /// </summary>
         protected IExecutable<TExtension> BuiltExecutable { get; private set; }
+
+        /// <summary>
+        /// Adds an execution action to the currently built syntax.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The current syntax builder.</returns>
+        public IWithBehavior<TExtension> Execute(Action action)
+        {
+            return this.WithAction(action);
+        }
+
+        /// <summary>
+        /// Adds an context initializer and an execution action which gets
+        /// access to the context to the currently built syntax.
+        /// </summary>
+        /// <typeparam name="TContext">The type of the context.</typeparam>
+        /// <param name="initializer">The context initializer.</param>
+        /// <param name="action">The action with access to the context.</param>
+        /// <returns>
+        /// The current syntax builder.
+        /// </returns>
+        public IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        {
+            return this.WithInitializerAndActionOnExtension(initializer, action);
+        }
+
+        /// <summary>
+        /// Adds an execution action which operates on the extension to the
+        /// currently built syntax.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The current syntax builder.</returns>
+        public IWithBehavior<TExtension> Execute(Action<TExtension> action)
+        {
+            return this.WithActionOnExtension(action);
+        }
 
         /// <summary>
         /// Attaches a behavior to the currently built executable.
@@ -108,7 +142,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </returns>
         public IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
         {
-            this.BuiltExecutable.Add(new LazyBehavior(behavior));
+            this.BuiltExecutable.Add(new LazyBehavior<TExtension>(behavior));
 
             return this;
         }
@@ -122,7 +156,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </returns>
         IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(Func<IBehavior<TExtension>> behavior)
         {
-            this.BuiltExecutable.Add(new LazyBehavior(behavior));
+            this.BuiltExecutable.Add(new LazyBehavior<TExtension>(behavior));
 
             return this;
         }
@@ -165,42 +199,6 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this.GetEnumerator();
         }
 
-        /// <summary>
-        /// Adds an execution action to the currently built syntax.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The current syntax builder.</returns>
-        public IWithBehavior<TExtension> Execute(Action action)
-        {
-            return this.WithAction(action);
-        }
-
-        /// <summary>
-        /// Adds an context initializer and an execution action which gets
-        /// access to the context to the currently built syntax.
-        /// </summary>
-        /// <typeparam name="TContext">The type of the context.</typeparam>
-        /// <param name="initializer">The context initializer.</param>
-        /// <param name="action">The action with access to the context.</param>
-        /// <returns>
-        /// The current syntax builder.
-        /// </returns>
-        public IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
-        {
-            return this.WithInitializerAndActionOnExtension(initializer, action);
-        }
-
-        /// <summary>
-        /// Adds an execution action which operates on the extension to the
-        /// currently built syntax.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The current syntax builder.</returns>
-        public IWithBehavior<TExtension> Execute(Action<TExtension> action)
-        {
-            return this.WithActionOnExtension(action);
-        }
-
         private IWithBehavior<TExtension> WithAction(Action action)
         {
             var executable = this.executableFactory.CreateExecutable(action);
@@ -226,105 +224,20 @@ namespace bbv.Common.Bootstrapper.Syntax
             var providerQueue = new Queue<Func<TContext, IBehavior<TExtension>>>();
 
             var executable = this.executableFactory.CreateExecutable(
-                behaviorAware =>
+                initializer,
+                action,
+                (behaviorAware, context) =>
                     {
-                        var context = initializer();
-
                         foreach (Func<TContext, IBehavior<TExtension>> provider in providerQueue)
                         {
                             behaviorAware.Add(provider(context));
                         }
-
-                    return context;
-                },
-                action);
+                    });
 
             this.executables.Enqueue(executable);
             this.BuiltExecutable = executable;
 
-            return new SyntaxBuilderWithContext<TContext>(this, providerQueue);
-        }
-
-        private class SyntaxBuilderWithContext<TContext> : IWithBehaviorOnContext<TExtension, TContext>, IEndWithBehavior<TExtension>
-        {
-            private readonly Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders;
-
-            private readonly SyntaxBuilder<TExtension> syntaxBuilder;
-
-            public SyntaxBuilderWithContext(SyntaxBuilder<TExtension> syntaxBuilder, Queue<Func<TContext, IBehavior<TExtension>>> behaviorProviders)
-            {
-                this.syntaxBuilder = syntaxBuilder;
-                this.behaviorProviders = behaviorProviders;
-            }
-
-            public IEndWithBehavior<TExtension> End
-            {
-                get
-                {
-                    this.syntaxBuilder.WithAction(DoNothing);
-
-                    return this;
-                }
-            }
-
-            public IWithBehavior<TExtension> Execute(Action action)
-            {
-                return this.syntaxBuilder.Execute(action);
-            }
-
-            public IWithBehavior<TExtension> Execute(Action<TExtension> action)
-            {
-                return this.syntaxBuilder.Execute(action);
-            }
-
-            public IWithBehaviorOnContext<TExtension, TChainedContext> Execute<TChainedContext>(Func<TChainedContext> initializer, Action<TExtension, TChainedContext> action)
-            {
-                return this.syntaxBuilder.Execute(initializer, action);
-            }
-
-            public IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider)
-            {
-                this.behaviorProviders.Enqueue(provider);
-
-                return this;
-            }
-
-            public IEnumerator<IExecutable<TExtension>> GetEnumerator()
-            {
-                return this.syntaxBuilder.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-
-            public IEndWithBehavior<TExtension> With(IBehavior<TExtension> behavior)
-            {
-                return ((IEndWithBehavior<TExtension>)this.syntaxBuilder).With(behavior);
-            }
-
-            public IEndWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
-            {
-                return ((IEndWithBehavior<TExtension>)this.syntaxBuilder).With(behavior);
-            }
-        }
-
-        private class LazyBehavior : IBehavior<TExtension>
-        {
-            private readonly Func<IBehavior<TExtension>> behaviorProvider;
-
-            public LazyBehavior(Func<IBehavior<TExtension>> behaviorProvider)
-            {
-                this.behaviorProvider = behaviorProvider;
-            }
-
-            public void Behave(IEnumerable<TExtension> extensions)
-            {
-                IBehavior<TExtension> behavior = this.behaviorProvider();
-
-                behavior.Behave(extensions);
-            }
+            return new SyntaxBuilderWithContext<TExtension, TContext>(this, providerQueue);
         }
     }
 }

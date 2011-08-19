@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExecutableFactory.cs" company="bbv Software Services AG">
+// <copyright file="LazyBehavior.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,35 +16,36 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Syntax
+namespace bbv.Common.Bootstrapper.Behavior
 {
     using System;
-
-    using bbv.Common.Bootstrapper.Syntax.Executables;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Factory which creates the set of executables.
+    /// The lazy behavior is responsible for creating a behavior at the time of the behave call.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public class ExecutableFactory<TExtension> : IExecutableFactory<TExtension>
+    public class LazyBehavior<TExtension> : IBehavior<TExtension>
         where TExtension : IExtension
     {
-        /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable(Action action)
+        private readonly Func<IBehavior<TExtension>> behaviorProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LazyBehavior&lt;TExtension&gt;"/> class.
+        /// </summary>
+        /// <param name="behaviorProvider">The behavior provider.</param>
+        public LazyBehavior(Func<IBehavior<TExtension>> behaviorProvider)
         {
-            return new ActionExecutable<TExtension>(action);
+            this.behaviorProvider = behaviorProvider;
         }
 
         /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
+        /// <remarks>Creates the behavior with the specified behavior provider and executes behave on the lazy initialized behavior.</remarks>
+        public void Behave(IEnumerable<TExtension> extensions)
         {
-            return new ActionOnExtensionWithInitializerExecutable<TContext, TExtension>(initializer, action, contextInterceptor);
-        }
+            IBehavior<TExtension> behavior = this.behaviorProvider();
 
-        /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable(Action<TExtension> action)
-        {
-            return new ActionOnExtensionExecutable<TExtension>(action);
+            behavior.Behave(extensions);
         }
     }
 }

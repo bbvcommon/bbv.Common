@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="Log4netExtension.cs" company="bbv Software Services AG">
+// <copyright file="Log4NetExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,14 +27,14 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
     /// <summary>
     /// Extension which configures log4net.
     /// </summary>
-    public class Log4netExtension : ComplexExtensionBase
+    public class Log4NetExtension : ComplexExtensionBase
     {
         /// <inheritdoc />
         public override void Start()
         {
             base.Start();
 
-            Console.WriteLine("Log4netExtension is starting.");
+            Console.WriteLine("Log4NetExtension is starting.");
 
             var appender = new ConsoleAppender
                 { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };

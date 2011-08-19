@@ -37,15 +37,22 @@ namespace bbv.Common.Bootstrapper.Sample
             Console.WriteLine("================== Running simple ==================");
             Console.WriteLine();
 
-            var simpleBootstrapper = new DefaultBootstrapper<ISimpleExtension>();
-            simpleBootstrapper.Initialize(new SimpleStrategy());
+            //// Actually it is not necessary to have the strategy and disposable extensions in a using scope. 
+            //// The bootstrapper takes care of that. I use it here to calm FxCop ;)
 
-            simpleBootstrapper.AddExtension(new FirstSimpleExtension());
-            simpleBootstrapper.AddExtension(new SecondSimpleExtension());
-            simpleBootstrapper.AddExtension(new ThirdSimpleExtension());
+            using (var simpleBootstrapper = new DefaultBootstrapper<ISimpleExtension>())
+            using (var simpleStrategy = new SimpleStrategy())
+            using (var thirdSimpleExtension = new ThirdSimpleExtension())
+            {
+                simpleBootstrapper.Initialize(simpleStrategy);
 
-            simpleBootstrapper.Run();
-            simpleBootstrapper.Shutdown();
+                simpleBootstrapper.AddExtension(new FirstSimpleExtension());
+                simpleBootstrapper.AddExtension(new SecondSimpleExtension());
+                simpleBootstrapper.AddExtension(thirdSimpleExtension);
+
+                simpleBootstrapper.Run();
+                simpleBootstrapper.Shutdown();
+            }
 
             Console.WriteLine("================== End simple ==================");
             Console.WriteLine("Press any key to continue");
@@ -54,19 +61,26 @@ namespace bbv.Common.Bootstrapper.Sample
             Console.WriteLine("================== Running complex ==================");
             Console.WriteLine();
 
-            var complexBootstrapper = new DefaultBootstrapper<IComplexExtension>();
-            complexBootstrapper.Initialize(new ComplexStrategy());
+            //// Actually it is not necessary to have the strategy and disposable extensions in a using scope. 
+            //// The bootstrapper takes care of that. I use it here to calm FxCop ;)
 
-            complexBootstrapper.AddExtension(new Log4netExtension());
-            complexBootstrapper.AddExtension(new ExtensionWhichRegistersSomething());
-            complexBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
-            complexBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
-            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSection());
-            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
-            complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+            using (var complexBootstrapper = new DefaultBootstrapper<IComplexExtension>())
+            using (var complexStrategy = new ComplexStrategy())
+            {
+                complexBootstrapper.Initialize(complexStrategy);
 
-            complexBootstrapper.Run();
-            complexBootstrapper.Shutdown();
+                complexBootstrapper.AddExtension(new Log4NetExtension());
+                complexBootstrapper.AddExtension(new ExtensionWhichRegistersSomething());
+                complexBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
+                complexBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
+                complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSection());
+                complexBootstrapper.AddExtension(
+                    new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
+                complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+
+                complexBootstrapper.Run();
+                complexBootstrapper.Shutdown();
+            }
 
             Console.WriteLine("================== End complex ==================");
             Console.WriteLine("Press any key to continue");

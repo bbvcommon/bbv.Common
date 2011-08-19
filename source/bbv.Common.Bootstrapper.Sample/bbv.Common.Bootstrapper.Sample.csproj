@@ -19,6 +19,7 @@
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
@@ -36,7 +37,10 @@
     <Compile Include="Complex\FunqletProvidingBehavior.cs" />
     <Compile Include="Complex\IComplexExtension.cs" />
     <Compile Include="Complex\IDependency.cs" />
-    <Compile Include="Complex\Log4netExtension.cs" />
+    <Compile Include="Complex\Log4NetExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simple\FirstSimpleExtension.cs" />

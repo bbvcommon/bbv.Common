@@ -32,17 +32,21 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     {
         private readonly Queue<IBehavior<TExtension>> behaviors;
 
-        private readonly Func<IBehaviorAware<TExtension>, TContext> initializer;
+        private readonly Func<TContext> initializer;
 
         private readonly Action<TExtension, TContext> action;
+
+        private readonly Action<IBehaviorAware<TExtension>, TContext> contextInterceptor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionOnExtensionWithInitializerExecutable{TContext, TExtension}"/> class.
         /// </summary>
         /// <param name="initializer">The initializer.</param>
         /// <param name="action">The action.</param>
-        public ActionOnExtensionWithInitializerExecutable(Func<IBehaviorAware<TExtension>, TContext> initializer, Action<TExtension, TContext> action)
+        /// <param name="contextInterceptor">The behavior aware.</param>
+        public ActionOnExtensionWithInitializerExecutable(Func<TContext> initializer, Action<TExtension, TContext> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
         {
+            this.contextInterceptor = contextInterceptor;
             this.behaviors = new Queue<IBehavior<TExtension>>();
 
             this.action = action;
@@ -57,7 +61,9 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
 
-            TContext context = this.initializer(this);
+            TContext context = this.initializer();
+
+            this.contextInterceptor(this, context);
 
             foreach (IBehavior<TExtension> behavior in this.behaviors)
             {

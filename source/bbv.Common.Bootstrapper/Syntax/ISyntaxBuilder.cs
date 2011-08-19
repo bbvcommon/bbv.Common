@@ -19,10 +19,29 @@
 namespace bbv.Common.Bootstrapper.Syntax
 {
     /// <summary>
-    /// Syntax builder.
+    /// Defines the interface for a syntax builder..
     /// </summary>
     /// <typeparam name="TExtension">The extension.</typeparam>
     public interface ISyntaxBuilder<TExtension> : IBeginSyntax<TExtension>
+        where TExtension : IExtension
+    {
+    }
+
+    /// <summary>
+    /// Defines the interface for a syntax builder without context
+    /// </summary>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    public interface ISyntaxBuilderWithoutContext<TExtension> : ISyntaxBuilder<TExtension>, IWithBehavior<TExtension>, IEndWithBehavior<TExtension>
+        where TExtension : IExtension
+    {
+    }
+
+    /// <summary>
+    /// Defines the interface for a syntax builder with context.
+    /// </summary>
+    /// <typeparam name="TExtension">The type of the extension.</typeparam>
+    /// <typeparam name="TContext">The type of the context.</typeparam>
+    public interface ISyntaxBuilderWithContext<TExtension, TContext> : IWithBehaviorOnContext<TExtension, TContext>, IEndWithBehavior<TExtension>
         where TExtension : IExtension
     {
     }
