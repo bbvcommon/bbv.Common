@@ -15,7 +15,7 @@
 
     <!-- Path to the results directory -->
     <BbvCommonResultsPath>bin\</BbvCommonResultsPath>
-	
+    
   </PropertyGroup>
 
   <!-- Default Visual Studio Project properties. -->
@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
 
     <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == ''">..\bbv.Common.snk</AssemblyOriginatorKeyFile>
-	
+    
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <AppDesignerFolder>Properties</AppDesignerFolder>
   </PropertyGroup>
@@ -52,8 +52,8 @@
     <!-- Code and Source Analysis settings is set to common files depending on project type (overridable in Project File). -->
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
     <CodeAnalysisRuleSet Condition="'$(CodeAnalysisRuleSet)' == ''">$(BbvCommonSourcePath)bbv.Common.ruleset</CodeAnalysisRuleSet>
-	<CodeAnalysisPath>..\..\tools\FxCop\</CodeAnalysisPath>
-    <SourceAnalysisOverrideSettingsFile Condition="'$(StyleCopOverrideSettingsFile)' == ''">$(BbvCommonSourcePath)bbv.Common.$(BbvCommonProjectType).stylecop</SourceAnalysisOverrideSettingsFile>
+    <CodeAnalysisPath>..\..\tools\FxCop\</CodeAnalysisPath>
+    <SourceAnalysisOverrideSettingsFile Condition="'$(SourceAnalysisOverrideSettingsFile)' == ''">$(BbvCommonSourcePath)bbv.Common.$(BbvCommonProjectType).stylecop</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
 
   
@@ -64,9 +64,9 @@
     <AssemblyName Condition="'$(AssemblyName)' == ''">$(BbvCommonProjectName)</AssemblyName>
 
     <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
-	
-	  <!-- Surpesses warning when informational version is set. -->
-	  <NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
+    
+    <!-- Surpesses warning when informational version is set. -->
+    <NoWarn>1607$(BbvCommonSuppressedWarnings)</NoWarn>
   </PropertyGroup>
   
   <!-- Default Visual Studio Project properties when project type is 'Test'. -->
@@ -87,12 +87,12 @@
   </PropertyGroup>
   
   <!-- 
-  		Debug|Any CPU = Debug|Any CPU
-		Debug|Mixed Platforms = Debug|Mixed Platforms
-		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|Mixed Platforms = Release|Mixed Platforms
-		Release|x86 = Release|x86
+       Debug|Any CPU = Debug|Any CPU
+       Debug|Mixed Platforms = Debug|Mixed Platforms
+       Debug|x86 = Debug|x86
+       Release|Any CPU = Release|Any CPU
+       Release|Mixed Platforms = Release|Mixed Platforms
+       Release|x86 = Release|x86
   -->
 
   <!-- Default Visual Studio Project properties when configuration is 'Debug'. -->
@@ -109,7 +109,7 @@
     <!-- Do not treat warnings as errors. -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
-    <SourceAnalysisTreatWarningsAsErrors>false</SourceAnalysisTreatWarningsAsErrors>
+    <SourceAnalysisTreatErrorsAsWarnings>true</SourceAnalysisTreatErrorsAsWarnings>
 
     <!-- Disable Source Analysis. -->
     <RunSourceAnalysis>true</RunSourceAnalysis>
@@ -132,9 +132,9 @@
     <!-- Do not treat warnings as errors. -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
-    <SourceAnalysisTreatWarningsAsErrors>false</SourceAnalysisTreatWarningsAsErrors>
+    <SourceAnalysisTreatErrorsAsWarnings>true</SourceAnalysisTreatErrorsAsWarnings>
 
-    <!-- Enable Source Analysis. -->
+      <!-- Enable Source Analysis. -->
     <RunSourceAnalysis>true</RunSourceAnalysis>
 
     <!-- Enable Code Analysis when Project Type is 'Source'. -->
@@ -155,7 +155,7 @@
     <!-- Treat all warnings as errors. -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <SourceAnalysisTreatErrorsAsWarnings>false</SourceAnalysisTreatErrorsAsWarnings>
 
     <!-- Enable Source Analysis. -->
     <RunSourceAnalysis>true</RunSourceAnalysis>
@@ -189,9 +189,7 @@
 
   <!-- Custom Dictionary linked files for all Projects of Type 'Source'. -->
   <ItemGroup Condition="'$(BbvCommonProjectType)' == 'Source'">
-    <CodeAnalysisDictionary Include="$(BbvCommonSourcePath)CodeAnalysisDictionary.xml">
-      <Link>Properties\CodeAnalysisDictionary.xml</Link>
-    </CodeAnalysisDictionary>
+    <CodeAnalysisDictionary Include="$(BbvCommonSourcePath)CodeAnalysisDictionary.xml" />
   </ItemGroup>
   
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
