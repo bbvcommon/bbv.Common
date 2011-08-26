@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.Bootstrapper</BbvCommonProjectName>
+    <BbvCommonProjectType>Source</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{F01E6FF8-4968-4078-8FA1-5CE2EB463904}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractStrategy.cs" />
+    <Compile Include="Behavior\DisposeExtensionBehavior.cs" />
+    <Compile Include="Behavior\LazyBehavior.cs" />
+    <Compile Include="Configuration\ConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\DefaultConfigurationSectionBehaviorFactory.cs" />
+    <Compile Include="Configuration\DefaultExtensionConfigurationSectionBehaviorFactory.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionBehavior.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSectionHelper.cs" />
+    <Compile Include="Configuration\IAssignExtensionProperties.cs" />
+    <Compile Include="Configuration\IConfigurationSectionBehaviorFactory.cs" />
+    <Compile Include="Configuration\IConsumeConfiguration.cs" />
+    <Compile Include="Configuration\IConsumeConfigurationSection.cs" />
+    <Compile Include="Configuration\IReflectExtensionProperties.cs" />
+    <Compile Include="Configuration\IHaveConversionCallbacks.cs" />
+    <Compile Include="Configuration\IHaveConfigurationSectionName.cs" />
+    <Compile Include="Configuration\ILoadConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\AssignExtensionProperties.cs" />
+    <Compile Include="Configuration\Internals\ConsumeConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\ReflectExtensionPublicProperties.cs" />
+    <Compile Include="Configuration\Internals\HaveConversionCallbacks.cs" />
+    <Compile Include="Configuration\Internals\LoadConfigurationSection.cs" />
+    <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
+    <Compile Include="Configuration\Internals\HaveConfigurationSectionName.cs" />
+    <Compile Include="DefaultBootstrapper.cs" />
+    <Compile Include="BootstrapperException.cs" />
+    <Compile Include="Configuration\ExtensionConfigurationSection.cs" />
+    <Compile Include="Configuration\ExtensionSettingsElement.cs" />
+    <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
+    <Compile Include="Execution\SynchronousExecutor.cs" />
+    <Compile Include="Execution\SynchronousReverseExecutor.cs" />
+    <Compile Include="ExtensionHost.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IBehavior.cs" />
+    <Compile Include="IBootstrapper.cs" />
+    <Compile Include="IDefaultExtension.cs" />
+    <Compile Include="IExecutor.cs" />
+    <Compile Include="Configuration\IExtensionConfigurationSectionBehaviorFactory.cs" />
+    <Compile Include="Syntax\ExecutableFactory.cs" />
+    <Compile Include="Syntax\Executables\ActionExecutable.cs" />
+    <Compile Include="Syntax\Executables\ActionOnExtensionExecutable.cs" />
+    <Compile Include="Syntax\Executables\ActionOnExtensionWithInitializerExecutable.cs" />
+    <Compile Include="Syntax\IBehaviorAware.cs" />
+    <Compile Include="Syntax\IExecutable.cs" />
+    <Compile Include="IExtension.cs" />
+    <Compile Include="IExtensionHost.cs" />
+    <Compile Include="IExtensionPoint.cs" />
+    <Compile Include="IStrategy.cs" />
+    <Compile Include="Syntax\IExecutableFactory.cs" />
+    <Compile Include="Syntax\ISyntax.cs" />
+    <Compile Include="Syntax\ISyntaxBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Syntax\SyntaxBuilder.cs" />
+    <Compile Include="Syntax\SyntaxBuilderWithContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common\bbv.Common.csproj">
+      <Project>{C843E9C0-8371-4CC9-802D-4C737A9FB035}</Project>
+      <Name>bbv.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
+</Project>

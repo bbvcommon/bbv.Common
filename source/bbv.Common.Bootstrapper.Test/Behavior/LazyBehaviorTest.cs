@@ -1,0 +1,73 @@
+﻿//-------------------------------------------------------------------------------
+// <copyright file="LazyBehaviorTest.cs" company="bbv Software Services AG">
+//   Copyright (c) 2008-2011 bbv Software Services AG
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//       http://www.apache.org/licenses/LICENSE-2.0
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+// </copyright>
+//-------------------------------------------------------------------------------
+
+namespace bbv.Common.Bootstrapper.Behavior
+{
+    using System.Linq;
+
+    using bbv.Common.Bootstrapper.Dummies;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using Xunit;
+
+    public class LazyBehaviorTest
+    {
+        private readonly Mock<IBehavior<ICustomExtension>> lazyBehavior;
+
+        private readonly LazyBehavior<ICustomExtension> testee;
+
+        private int accessCounter;
+
+        public LazyBehaviorTest()
+        {
+            this.lazyBehavior = new Mock<IBehavior<ICustomExtension>>();
+
+            this.testee = new LazyBehavior<ICustomExtension>(() =>
+                {
+                    this.accessCounter++;
+                    return this.lazyBehavior.Object;
+                });
+        }
+
+        [Fact]
+        public void Constructor_ShouldNotCreateBehavior()
+        {
+            this.accessCounter.Should().Be(default(int));
+        }
+
+        [Fact]
+        public void Behave_ShouldCreateBehavior()
+        {
+            const int AccessedOnce = 1;
+
+            this.testee.Behave(Enumerable.Empty<ICustomExtension>());
+
+            this.accessCounter.Should().Be(AccessedOnce);
+        }
+
+        [Fact]
+        public void Behave_ShouldBehaveOnLazyBehavior()
+        {
+            var expectedExtensions = Enumerable.Empty<ICustomExtension>();
+
+            this.testee.Behave(expectedExtensions);
+
+            this.lazyBehavior.Verify(b => b.Behave(expectedExtensions));
+        }
+    }
+}

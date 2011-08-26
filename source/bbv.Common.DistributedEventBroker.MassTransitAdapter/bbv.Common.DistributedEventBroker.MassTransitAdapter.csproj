@@ -14,6 +14,9 @@
     <DocumentationFile>bin\Release\bbv.Common.DistributedEventBroker.MassTransitAdapter\lib\.Net 4.0\bbv.Common.DistributedEventBroker.MassTransitAdapter.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MassTransit">
       <HintPath>Libs\MassTransit.dll</HintPath>
     </Reference>
@@ -48,6 +51,7 @@
     <None Include="bbv.Common.DistributedEventBroker.MassTransitAdapter.nuspec">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dependencies.txt" />
