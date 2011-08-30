@@ -44,11 +44,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.context = new object();
 
             this.testee = new ActionOnExtensionWithInitializerExecutable<object, ICustomExtension>(
-                () =>
-                    {
-                        this.contextAccessCounter++;
-                        return this.context;
-                    },
+                () => this.CountAccessToContext(),
                 (x, i) => x.SomeMethod(i),
                 (aware, ctx) => { this.interceptedBehaviorAware = aware; });
         }
@@ -107,6 +103,12 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             first.Verify(b => b.Behave(extensions));
             second.Verify(b => b.Behave(extensions));
+        }
+
+        private object CountAccessToContext()
+        {
+            this.contextAccessCounter++;
+            return this.context;
         }
     }
 }

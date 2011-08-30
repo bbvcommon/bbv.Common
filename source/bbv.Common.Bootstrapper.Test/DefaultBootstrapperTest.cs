@@ -45,7 +45,7 @@ namespace bbv.Common.Bootstrapper
             this.runExecutor = new Mock<IExecutor<IExtension>>();
             this.shutdownExecutor = new Mock<IExecutor<IExtension>>();
 
-            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.runExecutor.Object, this.shutdownExecutor.Object);
+            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object);
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void Run_ShouldBuildRunSyntax()
         {
-            var strategy = new Mock<IStrategy<IExtension>>();
+            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
             this.testee.Initialize(strategy.Object);
 
             this.testee.Run();
@@ -82,6 +82,7 @@ namespace bbv.Common.Bootstrapper
         {
             var runSyntax = new Mock<ISyntax<IExtension>>();
             var strategy = new Mock<IStrategy<IExtension>>();
+            this.SetupStrategyReturnsBuilder(strategy);
             strategy.Setup(s => s.BuildRunSyntax()).Returns(runSyntax.Object);
 
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
@@ -135,7 +136,7 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void Dispose_ShouldDisposeStrategy()
         {
-            var strategy = new Mock<IStrategy<IExtension>>();
+            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
             this.testee.Initialize(strategy.Object);
 
             this.testee.Dispose();
@@ -145,7 +146,8 @@ namespace bbv.Common.Bootstrapper
 
         private void ShouldBuildShutdownSyntax(Action executionAction)
         {
-            var strategy = new Mock<IStrategy<IExtension>>();
+            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
+
             this.testee.Initialize(strategy.Object);
 
             executionAction();
@@ -157,6 +159,7 @@ namespace bbv.Common.Bootstrapper
         {
             var shutdownSyntax = new Mock<ISyntax<IExtension>>();
             var strategy = new Mock<IStrategy<IExtension>>();
+            this.SetupStrategyReturnsBuilder(strategy);
             strategy.Setup(s => s.BuildShutdownSyntax()).Returns(shutdownSyntax.Object);
 
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
@@ -167,6 +170,12 @@ namespace bbv.Common.Bootstrapper
             executionAction();
 
             this.shutdownExecutor.Verify(r => r.Execute(shutdownSyntax.Object, extensions));
+        }
+
+        private void SetupStrategyReturnsBuilder(Mock<IStrategy<IExtension>> strategy)
+        {
+            strategy.Setup(s => s.CreateRunExecutor()).Returns(this.runExecutor.Object);
+            strategy.Setup(s => s.CreateShutdownExecutor()).Returns(this.shutdownExecutor.Object);
         }
     }
 }

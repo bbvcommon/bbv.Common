@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Execution;
     using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
@@ -73,12 +74,21 @@ namespace bbv.Common.Bootstrapper
         /// </value>
         protected bool IsDisposed { get; private set; }
 
-        /// <summary>
-        /// Builds the run syntax.
-        /// </summary>
-        /// <returns>
-        /// The run syntax.
-        /// </returns>
+        /// <inheritdoc />
+        /// <remarks>By default creates a SynchronousExecutor{TExtension}</remarks>
+        public virtual IExecutor<TExtension> CreateRunExecutor()
+        {
+            return new SynchronousExecutor<TExtension>();
+        }
+
+        /// <inheritdoc />
+        /// <remarks>By default creates a SynchronousReverseExecutor{TExtension}</remarks>
+        public virtual IExecutor<TExtension> CreateShutdownExecutor()
+        {
+            return new SynchronousReverseExecutor<TExtension>();
+        }
+
+        /// <inheritdoc />
         public ISyntax<TExtension> BuildRunSyntax()
         {
             this.CheckRunSyntaxNotAlreadyBuilt();
@@ -88,12 +98,7 @@ namespace bbv.Common.Bootstrapper
             return this.runSyntaxBuilder;
         }
 
-        /// <summary>
-        /// Builds the shutdown syntax.
-        /// </summary>
-        /// <returns>
-        /// The shutdown syntax.
-        /// </returns>
+        /// <inheritdoc />
         public ISyntax<TExtension> BuildShutdownSyntax()
         {
             this.CheckShutdownSyntaxNotAlreadyBuilt();
@@ -103,9 +108,7 @@ namespace bbv.Common.Bootstrapper
             return this.shutdownSyntaxBuilder;
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);

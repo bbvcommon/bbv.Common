@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Factory which is responsible for creating executables.
@@ -32,7 +33,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action to be executed.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable(Action action);
+        IExecutable<TExtension> CreateExecutable(Expression<Action> action);
 
         /// <summary>
         /// Creates an executable which executes an initializer and passes the initialized context to the action on the specified extension.
@@ -44,13 +45,13 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// An executable.
         /// </returns>
-        IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor);
+        IExecutable<TExtension> CreateExecutable<TContext>(Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor);
 
         /// <summary>
         /// Creates an executable which executes an action on the specified extension.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>An executable.</returns>
-        IExecutable<TExtension> CreateExecutable(Action<TExtension> action);
+        IExecutable<TExtension> CreateExecutable(Expression<Action<TExtension>> action);
     }
 }

@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// The executable which executes an action on an extension.
@@ -30,17 +31,21 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     {
         private readonly Queue<IBehavior<TExtension>> behaviors;
 
+        private readonly Expression<Action<TExtension>> actionExpression;
         private readonly Action<TExtension> action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionOnExtensionExecutable{TExtension}"/> class.
         /// </summary>
         /// <param name="action">The action.</param>
-        public ActionOnExtensionExecutable(Action<TExtension> action)
+        public ActionOnExtensionExecutable(Expression<Action<TExtension>> action)
         {
+            Ensure.ArgumentNotNull(action, "action");
+
             this.behaviors = new Queue<IBehavior<TExtension>>();
 
-            this.action = action;
+            this.actionExpression = action;
+            this.action = this.actionExpression.Compile();
         }
 
         /// <summary>

@@ -20,8 +20,6 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
-    using bbv.Common.Bootstrapper.Execution;
-
     /// <summary>
     /// The bootstrapper.
     /// </summary>
@@ -31,17 +29,13 @@ namespace bbv.Common.Bootstrapper
     {
         private readonly IExtensionHost<TExtension> extensionHost;
 
-        private readonly IExecutor<TExtension> runExecutor;
-
-        private readonly IExecutor<TExtension> shutdownExecutor;
-
         private IStrategy<TExtension> strategy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         public DefaultBootstrapper()
-            : this(new ExtensionHost<TExtension>(), new SynchronousExecutor<TExtension>(), new SynchronousReverseExecutor<TExtension>())
+            : this(new ExtensionHost<TExtension>())
         {
         }
 
@@ -49,12 +43,8 @@ namespace bbv.Common.Bootstrapper
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         /// <param name="extensionHost">The extension host.</param>
-        /// <param name="runExecutor">The run executor.</param>
-        /// <param name="shutdownExecutor">The shutdown executor.</param>
-        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost, IExecutor<TExtension> runExecutor, IExecutor<TExtension> shutdownExecutor)
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost)
         {
-            this.shutdownExecutor = shutdownExecutor;
-            this.runExecutor = runExecutor;
             this.extensionHost = extensionHost;
         }
 
@@ -104,8 +94,9 @@ namespace bbv.Common.Bootstrapper
             this.CheckIsInitialized();
 
             var syntax = this.strategy.BuildRunSyntax();
-
-            this.runExecutor.Execute(syntax, this.extensionHost.Extensions);
+            
+            IExecutor<TExtension> runExecutor = this.strategy.CreateRunExecutor();
+            runExecutor.Execute(syntax, this.extensionHost.Extensions);
         }
 
         /// <summary>
@@ -140,7 +131,8 @@ namespace bbv.Common.Bootstrapper
             {
                 var syntax = this.strategy.BuildShutdownSyntax();
 
-                this.shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
+                IExecutor<TExtension> shutdownExecutor = this.strategy.CreateShutdownExecutor();
+                shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
 
                 this.strategy.Dispose();
 

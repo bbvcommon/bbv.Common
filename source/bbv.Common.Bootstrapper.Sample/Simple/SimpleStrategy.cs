@@ -29,7 +29,8 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
         /// <inheritdoc />
         protected override void DefineRunSyntax(ISyntaxBuilder<ISimpleExtension> builder)
         {
-            builder.Execute(x => x.Start());
+            builder
+                .Execute(x => x.Start());
         }
 
         /// <inheritdoc />

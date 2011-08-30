@@ -20,6 +20,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Executable which executes an initializer and passes the initialized
@@ -32,8 +34,10 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     {
         private readonly Queue<IBehavior<TExtension>> behaviors;
 
+        private readonly Expression<Func<TContext>> initializerExpression;
         private readonly Func<TContext> initializer;
 
+        private readonly Expression<Action<TExtension, TContext>> actionExpression;
         private readonly Action<TExtension, TContext> action;
 
         private readonly Action<IBehaviorAware<TExtension>, TContext> contextInterceptor;
@@ -44,13 +48,18 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <param name="initializer">The initializer.</param>
         /// <param name="action">The action.</param>
         /// <param name="contextInterceptor">The behavior aware.</param>
-        public ActionOnExtensionWithInitializerExecutable(Func<TContext> initializer, Action<TExtension, TContext> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
+        public ActionOnExtensionWithInitializerExecutable(Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
         {
+            Ensure.ArgumentNotNull(action, "action");
+
             this.contextInterceptor = contextInterceptor;
             this.behaviors = new Queue<IBehavior<TExtension>>();
 
-            this.action = action;
-            this.initializer = initializer;
+            this.actionExpression = action;
+            this.initializerExpression = initializer;
+
+            this.action = this.actionExpression.Compile();
+            this.initializer = this.initializerExpression.Compile();
         }
 
         /// <summary>

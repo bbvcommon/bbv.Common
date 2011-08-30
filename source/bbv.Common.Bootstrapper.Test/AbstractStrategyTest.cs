@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Execution;
     using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
@@ -76,6 +77,22 @@ namespace bbv.Common.Bootstrapper
 
             syntax.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();
             this.testee.ShutdownSyntaxBuilder.Equals(this.shutdownSyntaxBuilder.Object).Should().BeTrue();
+        }
+
+        [Fact]
+        public void CreateRunExecutor_MustCreateSynchronousExecutor()
+        {
+            var runExecutor = this.testee.CreateRunExecutor();
+
+            runExecutor.Should().BeOfType<SynchronousExecutor<IExtension>>();
+        }
+
+        [Fact]
+        public void CreateShutdownExecutor_MustCreateSynchronousReverseExecutor()
+        {
+            var runExecutor = this.testee.CreateShutdownExecutor();
+
+            runExecutor.Should().BeOfType<SynchronousReverseExecutor<IExtension>>();
         }
 
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>

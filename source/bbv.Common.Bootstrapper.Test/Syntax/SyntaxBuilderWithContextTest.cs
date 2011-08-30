@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using bbv.Common.Bootstrapper.Dummies;
 
@@ -62,10 +63,11 @@ namespace bbv.Common.Bootstrapper.Syntax
         public void Execute_WithAction_ShouldDelegateToInternal()
         {
             Action action = () => { };
+            Expression<Action> expression = () => action();
 
-            this.testee.Execute(action);
+            this.testee.Execute(expression);
 
-            this.syntaxBuilder.Verify(b => b.Execute(action));
+            this.syntaxBuilder.Verify(b => b.Execute(expression));
         }
 
         [Fact]
@@ -73,9 +75,9 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             Action<ICustomExtension> action = e => { };
 
-            this.testee.Execute(action);
+            this.testee.Execute(e => action(e));
 
-            this.syntaxBuilder.Verify(b => b.Execute(action));
+            this.syntaxBuilder.Verify(b => b.Execute(e => action(e)));
         }
 
         [Fact]
@@ -84,9 +86,12 @@ namespace bbv.Common.Bootstrapper.Syntax
             Func<object> initializer = () => new object();
             Action<ICustomExtension, object> action = (e, ctx) => { };
 
-            this.testee.Execute(initializer, action);
+            Expression<Func<object>> initializationExpression = () => initializer();
+            Expression<Action<ICustomExtension, object>> expression = (e, ctx) => action(e, ctx);
 
-            this.syntaxBuilder.Verify(b => b.Execute(initializer, action));
+            this.testee.Execute(initializationExpression, expression);
+
+            this.syntaxBuilder.Verify(b => b.Execute(initializationExpression, expression));
         }
 
         [Fact]
