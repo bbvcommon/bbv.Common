@@ -30,6 +30,18 @@ namespace bbv.Common.Bootstrapper
         where TExtension : IExtension
     {
         /// <summary>
+        /// Creates an executor which is responsible for executing the run syntax.
+        /// </summary>
+        /// <returns>The run executor.</returns>
+        IExecutor<TExtension> CreateRunExecutor();
+
+        /// <summary>
+        /// Creates an executor which is responsible for executing the shutdown syntax.
+        /// </summary>
+        /// <returns>The shutdown executor.</returns>
+        IExecutor<TExtension> CreateShutdownExecutor();
+            
+        /// <summary>
         /// Builds the run syntax.
         /// </summary>
         /// <returns>The run syntax.</returns>
