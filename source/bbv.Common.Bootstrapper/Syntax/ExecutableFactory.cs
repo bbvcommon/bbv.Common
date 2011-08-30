@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
+    using System.Linq.Expressions;
 
     using bbv.Common.Bootstrapper.Syntax.Executables;
 
@@ -30,19 +31,19 @@ namespace bbv.Common.Bootstrapper.Syntax
         where TExtension : IExtension
     {
         /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable(Action action)
+        public IExecutable<TExtension> CreateExecutable(Expression<Action> action)
         {
             return new ActionExecutable<TExtension>(action);
         }
 
         /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
+        public IExecutable<TExtension> CreateExecutable<TContext>(Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action, Action<IBehaviorAware<TExtension>, TContext> contextInterceptor)
         {
             return new ActionOnExtensionWithInitializerExecutable<TContext, TExtension>(initializer, action, contextInterceptor);
         }
 
         /// <inheritdoc />
-        public IExecutable<TExtension> CreateExecutable(Action<TExtension> action)
+        public IExecutable<TExtension> CreateExecutable(Expression<Action<TExtension>> action)
         {
             return new ActionOnExtensionExecutable<TExtension>(action);
         }

@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Special syntax builder which is used for chaining when a context initializer is used.
@@ -55,19 +56,19 @@ namespace bbv.Common.Bootstrapper.Syntax
         }
 
         /// <inheritdoc />
-        public IWithBehavior<TExtension> Execute(Action action)
+        public IWithBehavior<TExtension> Execute(Expression<Action> action)
         {
             return this.syntaxBuilder.Execute(action);
         }
 
         /// <inheritdoc />
-        public IWithBehavior<TExtension> Execute(Action<TExtension> action)
+        public IWithBehavior<TExtension> Execute(Expression<Action<TExtension>> action)
         {
             return this.syntaxBuilder.Execute(action);
         }
 
         /// <inheritdoc />
-        public IWithBehaviorOnContext<TExtension, TChainedContext> Execute<TChainedContext>(Func<TChainedContext> initializer, Action<TExtension, TChainedContext> action)
+        public IWithBehaviorOnContext<TExtension, TChainedContext> Execute<TChainedContext>(Expression<Func<TChainedContext>> initializer, Expression<Action<TExtension, TChainedContext>> action)
         {
             return this.syntaxBuilder.Execute(initializer, action);
         }

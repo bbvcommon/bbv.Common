@@ -20,7 +20,7 @@ namespace bbv.Common.Bootstrapper.Syntax
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Generic syntax which operates on extensions.
@@ -71,7 +71,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        IWithBehavior<TExtension> Execute(Action action);
+        IWithBehavior<TExtension> Execute(Expression<Action> action);
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        IWithBehavior<TExtension> Execute(Action<TExtension> action);
+        IWithBehavior<TExtension> Execute(Expression<Action<TExtension>> action);
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// The current syntax builder.
         /// </returns>
         IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(
-            Func<TContext> initializer, Action<TExtension, TContext> action);
+            Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action);
     }
 
     /// <summary>

@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     using bbv.Common.Bootstrapper.Behavior;
 
@@ -31,7 +32,9 @@ namespace bbv.Common.Bootstrapper.Syntax
     public class SyntaxBuilder<TExtension> : ISyntaxBuilderWithoutContext<TExtension>
         where TExtension : IExtension
     {
-        private static readonly Action DoNothing = () => { };
+        private static readonly Action BeginWith = () => { };
+
+        private static readonly Action EndWith = () => { };
 
         private readonly Queue<IExecutable<TExtension>> executables;
 
@@ -61,7 +64,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             get
             {
-                this.WithAction(DoNothing);
+                this.WithAction(() => BeginWith());
 
                 return this;
             }
@@ -72,7 +75,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         {
             get
             {
-                this.WithAction(DoNothing);
+                this.WithAction(() => EndWith());
 
                 return this;
             }
@@ -88,7 +91,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        public IWithBehavior<TExtension> Execute(Action action)
+        public IWithBehavior<TExtension> Execute(Expression<Action> action)
         {
             return this.WithAction(action);
         }
@@ -103,7 +106,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The current syntax builder.
         /// </returns>
-        public IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        public IWithBehaviorOnContext<TExtension, TContext> Execute<TContext>(Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action)
         {
             return this.WithInitializerAndActionOnExtension(initializer, action);
         }
@@ -114,7 +117,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The current syntax builder.</returns>
-        public IWithBehavior<TExtension> Execute(Action<TExtension> action)
+        public IWithBehavior<TExtension> Execute(Expression<Action<TExtension>> action)
         {
             return this.WithActionOnExtension(action);
         }
@@ -199,7 +202,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this.GetEnumerator();
         }
 
-        private IWithBehavior<TExtension> WithAction(Action action)
+        private IWithBehavior<TExtension> WithAction(Expression<Action> action)
         {
             var executable = this.executableFactory.CreateExecutable(action);
 
@@ -209,7 +212,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
-        private IWithBehavior<TExtension> WithActionOnExtension(Action<TExtension> action)
+        private IWithBehavior<TExtension> WithActionOnExtension(Expression<Action<TExtension>> action)
         {
             var executable = this.executableFactory.CreateExecutable(action);
 
@@ -219,7 +222,7 @@ namespace bbv.Common.Bootstrapper.Syntax
             return this;
         }
 
-        private IWithBehaviorOnContext<TExtension, TContext> WithInitializerAndActionOnExtension<TContext>(Func<TContext> initializer, Action<TExtension, TContext> action)
+        private IWithBehaviorOnContext<TExtension, TContext> WithInitializerAndActionOnExtension<TContext>(Expression<Func<TContext>> initializer, Expression<Action<TExtension, TContext>> action)
         {
             var providerQueue = new Queue<Func<TContext, IBehavior<TExtension>>>();
 

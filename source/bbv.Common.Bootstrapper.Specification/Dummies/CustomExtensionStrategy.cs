@@ -40,7 +40,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             builder
                 .Execute(() => CustomExtensionBase.DumpAction("CustomRun"))
                 .Execute(extension => extension.Start())
-                .Execute(this.RunInitializeConfiguration, (extension, dictionary) => extension.Configure(dictionary))
+                .Execute(() => this.RunInitializeConfiguration(), (extension, dictionary) => extension.Configure(dictionary))
                 .Execute(extension => extension.Initialize())
                 .Execute(() => "RunTest", (extension, ctx) => extension.Register(ctx));
         }
@@ -50,7 +50,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             syntax
                 .Execute(() => CustomExtensionBase.DumpAction("CustomShutdown"))
                 .Execute(() => "ShutdownTest", (extension, ctx) => extension.Unregister(ctx))
-                .Execute(this.ShutdownInitializeConfiguration, (extension, dictionary) => extension.DeConfigure(dictionary))
+                .Execute(() => this.ShutdownInitializeConfiguration(), (extension, dictionary) => extension.DeConfigure(dictionary))
                 .Execute(extension => extension.Stop());
         }
 
