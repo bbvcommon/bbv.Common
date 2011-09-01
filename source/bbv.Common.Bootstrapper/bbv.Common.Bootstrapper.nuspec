@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-	<metadata>
-		<id>bbv.Common.Bootstrapper</id>
-		<version>%bbv.Common.BootstrapperFileVersion%</version>
-		<projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
-		<authors>bbv Software Services AG and Contributers</authors>
+  <metadata>
+    <id>bbv.Common.Bootstrapper</id>
+    <version>%bbv.Common.BootstrapperFileVersion%</version>
+    <projectUrl>http://code.google.com/p/bbvcommon/</projectUrl>
+    <authors>bbv Software Services AG and Contributers</authors>
     <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
     <summary>Bootstrapper provides a simple and flexible way to make your application's startup and shutdown behavior pluggable and extendable.</summary>
-		<description>Bootstrapper provides a simple and flexible way to make your application's startup and shutdown behavior pluggable and extendable.
-
-      bbv.Common.Bootstrapper is a part of bbv.Common, a library of .NET components and functionality including:
+    <description>Bootstrapper provides a simple and flexible way to make your application's startup and shutdown behavior pluggable and extendable:
       * The bootstrapper provides a single entry point to startup and shutdown the application.
       * Fluent definition syntax allowing to expressively define the startup and shutdown behavior of the application.
       * Pluggable behaviors which allow to extend the bootstrapping mechanism in AOP like style.
-	  * ConfigurationSection support with behavior.
-	  * Unobtrusive Key/Value pair configuration section support with behavior.</description>
+      * ConfigurationSection support with behavior.
+      * Unobtrusive Key/Value pair configuration section support with behavior.</description>
     <tags>bootstrapper startup shutdown</tags>
-		<language>en-US</language>
+    <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
-	<dependencies>
+  <dependencies>
       <dependency id="bbv.Common" version="%bbv.Common%"/>
     </dependencies>
-	</metadata>
+  </metadata>
 </package>
