@@ -75,7 +75,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bbv.Common.Bootstrapper.nuspec" />
+    <None Include="bbv.Common.Bootstrapper.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>
