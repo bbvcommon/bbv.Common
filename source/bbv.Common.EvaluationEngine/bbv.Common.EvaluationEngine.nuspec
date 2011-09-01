@@ -8,20 +8,15 @@
     <iconUrl>https://github.com/bbvcommon/bbv.Common/raw/master/documents/nuget.png</iconUrl>
     <summary>The evaluation engine provides an infrastructure for decoupled evaluation.</summary>
     <description>The evaluation engine provides an infrastructure for decoupled evaluation.
-Features:
-* The evaluation engine provides a single entry point to ask questions (queries, calculations, ...)
-* Questioner is completely decoupled from answer finding algorithm.
-* Hierarchical evaluation engines (children inherit knowledge from parent)
-* Solution definitions can be loaded from modules or plug-ins.
-* Extensible to solve any kind of question (validation rules, status queries, …)
-* Fluent definition syntax allowing constraints, strategies, aggregators and multiple expressions per question.
-* Thorough customizable logging.
 
-bbv.Common.EvaluationEngine is a part of bbv.Common, a library of .NET components and functionality including:
-* (a)synchronous notification component with thread switching using publisher-subscriber pattern,
-* hierarchical state machine with fluent definition syntax,
-* programmatic, loosely coupled, context based rule engine,
-* support for active objects to build multi-threaded applications</description>
+		bbv.Common.EvaluationEngine is a part of bbv.Common, a library of .NET components and functionality including:
+		* The evaluation engine provides a single entry point to ask questions (queries, calculations, ...)
+		* Questioner is completely decoupled from answer finding algorithm.
+		* Hierarchical evaluation engines (children inherit knowledge from parent)
+		* Solution definitions can be loaded from modules or plug-ins.
+		* Extensible to solve any kind of question (validation rules, status queries, …)
+		* Fluent definition syntax allowing constraints, strategies, aggregators and multiple expressions per question.
+		* Thorough customizable logging.</description>
     <tags>evaluation rules</tags>
     <language>en-US</language>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>

@@ -35,7 +35,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
         public ActionExecutableTest()
         {
-            this.testee = new ActionExecutable<IExtension>(() => this.wasExecuted = true);
+            this.testee = new ActionExecutable<IExtension>(() => this.SetWasExecuted());
         }
 
         [Fact]
@@ -70,6 +70,11 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             first.Verify(b => b.Behave(extensions));
             second.Verify(b => b.Behave(extensions));
+        }
+
+        private bool SetWasExecuted()
+        {
+            return this.wasExecuted = true;
         }
     }
 }
