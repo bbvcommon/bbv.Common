@@ -8,6 +8,10 @@
     <ProjectGuid>{F01E6FF8-4968-4078-8FA1-5CE2EB463904}</ProjectGuid>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\bbv.Common.Bootstrapperr\lib\.Net 4\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Bootstrapperr\lib\.Net 4\bbv.Common.Bootstrapper.XML</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
