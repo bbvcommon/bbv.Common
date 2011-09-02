@@ -11,8 +11,8 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\bbv.Common.Threading\lib\.Net 4.0\</OutputPath>
-    <DocumentationFile>bin\Release\bbv.Common.Threading\lib\.Net 4.0\bbv.Common.Threading.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.Threading\lib\Net40\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Threading\lib\Net40\bbv.Common.Threading.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

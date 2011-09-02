@@ -12,8 +12,8 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\</OutputPath>
-    <DocumentationFile>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\.Net 4.0\bbv.Common.AutoMapperEventBrokerExtension.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\Net40\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.MappingEventBrokerExtension\lib\Net40\bbv.Common.AutoMapperEventBrokerExtension.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">

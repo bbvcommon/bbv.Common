@@ -12,8 +12,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-    <OutputPath>bin\Release\bbv.Common.EventBroker\lib\.Net 4\</OutputPath>
-    <DocumentationFile>bin\Release\bbv.Common.EventBroker\lib\.Net 4\bbv.Common.EventBroker.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.EventBroker\lib\Net40\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.EventBroker\lib\Net40\bbv.Common.EventBroker.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>

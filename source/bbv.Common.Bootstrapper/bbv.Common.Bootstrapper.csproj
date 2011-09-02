@@ -9,8 +9,8 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\bbv.Common.Bootstrapperr\lib\.Net 4\</OutputPath>
-    <DocumentationFile>bin\Release\bbv.Common.Bootstrapperr\lib\.Net 4\bbv.Common.Bootstrapper.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.Bootstrapper\lib\Net40\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.Bootstrapper\lib\Net40\bbv.Common.Bootstrapper.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

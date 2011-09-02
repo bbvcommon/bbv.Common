@@ -16,8 +16,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-    <OutputPath>bin\Release\bbv.Common.EventBroker.Log4Net\lib\.Net 4.0\</OutputPath>
-    <DocumentationFile>bin\Release\.Net 4.0\bbv.Common.EventBroker.Log4Net.XML</DocumentationFile>
+    <OutputPath>bin\Release\bbv.Common.EventBroker.Log4Net\lib\Net40\</OutputPath>
+    <DocumentationFile>bin\Release\bbv.Common.EventBroker.Log4Net\lib\Net40\bbv.Common.EventBroker.Log4Net.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
