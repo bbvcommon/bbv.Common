@@ -37,7 +37,8 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
     public interface IBeginSyntax<TExtension> : IExecuteAction<TExtension>,
                                                 IExecuteActionOnExtension<TExtension>,
-                                                IExecuteActionOnExtensionWithContext<TExtension>
+                                                IExecuteActionOnExtensionWithContext<TExtension>,
+                                                IEndSyntax<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
