@@ -34,10 +34,13 @@ namespace bbv.Common.Bootstrapper.Execution
         public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {
             Ensure.ArgumentNotNull(syntax, "syntax");
+            Ensure.ArgumentNotNull(executionContext, "executionContext");
 
             foreach (IExecutable<TExtension> executable in syntax)
             {
-                executable.Execute(extensions);
+                IExecutableContext executableContext = executionContext.CreateExecutableContext(executable);
+
+                executable.Execute(extensions, executableContext);
             }
         }
 

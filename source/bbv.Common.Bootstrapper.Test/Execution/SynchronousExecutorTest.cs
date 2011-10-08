@@ -44,24 +44,6 @@ namespace bbv.Common.Bootstrapper.Execution
         }
 
         [Fact]
-        public void Execute_ShouldExecuteSyntaxWithExtensions()
-        {
-            var firstExecutable = new Mock<IExecutable<IExtension>>();
-            var secondExecutable = new Mock<IExecutable<IExtension>>();
-            var syntax = new Mock<ISyntax<IExtension>>();
-            var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
-
-            syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object }
-                .GetEnumerator());
-
-            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
-
-            firstExecutable.Verify(e => e.Execute(extensions));
-            secondExecutable.Verify(e => e.Execute(extensions));
-        }
-
-        [Fact]
         public void Execute_ShouldExecuteSyntaxWithExtensionsInOrderOfAppearance()
         {
             var executable = new Mock<IExecutable<IExtension>>();
@@ -73,8 +55,8 @@ namespace bbv.Common.Bootstrapper.Execution
 
             IEnumerable<IExtension> passedExtensions = Enumerable.Empty<IExtension>();
 
-            executable.Setup(e => e.Execute(It.IsAny<IEnumerable<IExtension>>()))
-                .Callback<IEnumerable<IExtension>>(ext => passedExtensions = ext);
+            executable.Setup(e => e.Execute(It.IsAny<IEnumerable<IExtension>>(), It.IsAny<IExecutableContext>()))
+                .Callback<IEnumerable<IExtension>, IExecutableContext>((ext, ctx) => passedExtensions = ext);
 
             syntax.Setup(s => s.GetEnumerator())
                 .Returns(new List<IExecutable<IExtension>> { executable.Object }

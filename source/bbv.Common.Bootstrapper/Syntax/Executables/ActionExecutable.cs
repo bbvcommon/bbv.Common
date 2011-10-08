@@ -22,6 +22,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using bbv.Common.Bootstrapper.Reporting;
+
     /// <summary>
     /// The executable which executes an action.
     /// </summary>
@@ -49,11 +51,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.action = this.actionExpression.Compile();
         }
 
-        /// <summary>
-        /// Executes an operation on the specified extensions.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(IEnumerable<TExtension> extensions) 
+        /// <inheritdoc />
+        public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             foreach (IBehavior<TExtension> behavior in this.behaviors)
             {
@@ -63,13 +62,16 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.action();
         }
 
-        /// <summary>
-        /// Adds the specified behavior.
-        /// </summary>
-        /// <param name="behavior">The behavior.</param>
+        /// <inheritdoc />
         public void Add(IBehavior<TExtension> behavior)
         {
             this.behaviors.Enqueue(behavior);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return null;
         }
     }
 }

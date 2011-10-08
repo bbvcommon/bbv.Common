@@ -34,12 +34,15 @@ namespace bbv.Common.Bootstrapper.Execution
         public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {
             Ensure.ArgumentNotNull(syntax, "syntax");
+            Ensure.ArgumentNotNull(executionContext, "executionContext");
 
             var reversedExtensions = new Stack<TExtension>(extensions);
 
             foreach (IExecutable<TExtension> executable in syntax)
             {
-                executable.Execute(reversedExtensions);
+                IExecutableContext executableContext = executionContext.CreateExecutableContext(executable);
+
+                executable.Execute(reversedExtensions, executableContext);
             }
         }
 

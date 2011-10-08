@@ -20,8 +20,9 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq.Expressions;
+
+    using bbv.Common.Bootstrapper.Reporting;
 
     /// <summary>
     /// Executable which executes an initializer and passes the initialized
@@ -62,11 +63,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.initializer = this.initializerExpression.Compile();
         }
 
-        /// <summary>
-        /// Executes an operation on the specified extensions.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
 
@@ -92,6 +90,12 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         public void Add(IBehavior<TExtension> behavior)
         {
             this.behaviors.Enqueue(behavior);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return null;
         }
     }
 }

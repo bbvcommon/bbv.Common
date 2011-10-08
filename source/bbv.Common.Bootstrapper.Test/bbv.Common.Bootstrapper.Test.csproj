@@ -45,6 +45,7 @@
     <Compile Include="Dummies\ICustomExtension.cs" />
     <Compile Include="Dummies\IDisposableExtension.cs" />
     <Compile Include="Dummies\INonDisposableExtension.cs" />
+    <Compile Include="Execution\ExecutorTest.cs" />
     <Compile Include="Execution\SynchronousExecutorTest.cs" />
     <Compile Include="Execution\SynchronousReverseExecutorTest.cs" />
     <Compile Include="ExtensionHostTest.cs" />

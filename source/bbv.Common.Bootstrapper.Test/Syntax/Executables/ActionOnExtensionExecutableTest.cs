@@ -20,19 +20,21 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Bootstrapper.Reporting;
     using Moq;
-
     using Xunit;
 
     public class ActionOnExtensionExecutableTest
     {
+        private readonly Mock<IExecutableContext> executableContext;
+
         private readonly ActionOnExtensionExecutable<ICustomExtension> testee;
 
         public ActionOnExtensionExecutableTest()
         {
+            this.executableContext = new Mock<IExecutableContext>();
+
             this.testee = new ActionOnExtensionExecutable<ICustomExtension>(x => x.Dispose());
         }
 
@@ -42,7 +44,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             var firstExtension = new Mock<ICustomExtension>();
             var secondExtension = new Mock<ICustomExtension>();
 
-            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object });
+            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object }, this.executableContext.Object);
 
             firstExtension.Verify(x => x.Dispose());
             secondExtension.Verify(x => x.Dispose());
@@ -58,7 +60,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.testee.Add(first.Object);
             this.testee.Add(second.Object);
 
-            this.testee.Execute(extensions);
+            this.testee.Execute(extensions, this.executableContext.Object);
 
             first.Verify(b => b.Behave(extensions));
             second.Verify(b => b.Behave(extensions));
