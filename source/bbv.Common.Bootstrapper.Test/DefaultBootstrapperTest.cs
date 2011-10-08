@@ -159,6 +159,18 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Shutdown_ShouldCreateShutdownExecutionContextWithShutdownExecutor()
+        {
+            this.ShouldCreateShutdownExecutionContextWithShutdownExecutor(() => this.testee.Shutdown());
+        }
+
+        [Fact]
+        public void Shutdown_ShouldProvideShutdownExecutionContextForShutdownExecutor()
+        {
+            this.ShouldProvideShutdownExecutionContextForShutdownExecutor(() => this.testee.Shutdown());
+        }
+
+        [Fact]
         public void Dispose_ShouldBuildShutdownSyntax()
         {
             this.ShouldBuildShutdownSyntax(() => this.testee.Dispose());
@@ -171,6 +183,18 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Dispose_ShouldCreateShutdownExecutionContextWithShutdownExecutor()
+        {
+            this.ShouldCreateShutdownExecutionContextWithShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        [Fact]
+        public void Dispose_ShouldProvideShutdownExecutionContextForShutdownExecutor()
+        {
+            this.ShouldProvideShutdownExecutionContextForShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        [Fact]
         public void Dispose_ShouldDisposeStrategy()
         {
             this.InitializeTestee();
@@ -178,6 +202,29 @@ namespace bbv.Common.Bootstrapper
             this.testee.Dispose();
 
             this.strategy.Verify(s => s.Dispose());
+        }
+
+        private void ShouldCreateShutdownExecutionContextWithShutdownExecutor(Action executionAction)
+        {
+            this.InitializeTestee();
+
+            executionAction();
+
+            this.reportingContext.Verify(c => c.CreateShutdownExecutionContext(this.shutdownExecutor.Object));
+        }
+
+        private void ShouldProvideShutdownExecutionContextForShutdownExecutor(Action executionAction)
+        {
+            var shutdownExecutionContext = Mock.Of<IExecutionContext>();
+
+            this.reportingContext.Setup(c => c.CreateShutdownExecutionContext(It.IsAny<IDescribable>()))
+                .Returns(shutdownExecutionContext);
+
+            this.InitializeTestee();
+
+            executionAction();
+
+            this.shutdownExecutor.Verify(r => r.Execute(It.IsAny<ISyntax<IExtension>>(), It.IsAny<IEnumerable<IExtension>>(), shutdownExecutionContext));
         }
 
         private void ShouldBuildShutdownSyntax(Action executionAction)

@@ -141,7 +141,9 @@ namespace bbv.Common.Bootstrapper
                 var syntax = this.strategy.BuildShutdownSyntax();
 
                 IExecutor<TExtension> shutdownExecutor = this.strategy.CreateShutdownExecutor();
-                shutdownExecutor.Execute(syntax, this.extensionHost.Extensions, null);
+                IExecutionContext shutdownExecutionContext = this.reportingContext.CreateShutdownExecutionContext(shutdownExecutor);
+
+                shutdownExecutor.Execute(syntax, this.extensionHost.Extensions, shutdownExecutionContext);
 
                 this.strategy.Dispose();
 
