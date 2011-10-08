@@ -27,18 +27,11 @@ namespace bbv.Common.Bootstrapper.Reporting
 
         public ExecutionContext(IDescribable describable)
         {
+            Ensure.ArgumentNotNull(describable, "describable");
+
             this.executables = new Collection<IExecutableContext>();
 
             this.Description = describable.Describe();
-        }
-
-        public IExecutableContext CreateExecutableContext(IDescribable describable)
-        {
-            var executableInfo = new ExecutableContext(describable);
-
-            this.executables.Add(executableInfo);
-
-            return executableInfo;
         }
 
         public string Description { get; private set; }
@@ -49,6 +42,15 @@ namespace bbv.Common.Bootstrapper.Reporting
             {
                 return this.executables;
             }
+        }
+
+        public IExecutableContext CreateExecutableContext(IDescribable describable)
+        {
+            var executableInfo = new ExecutableContext(describable);
+
+            this.executables.Add(executableInfo);
+
+            return executableInfo;
         }
     }
 }

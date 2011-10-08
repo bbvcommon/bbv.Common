@@ -18,9 +18,9 @@
 
 namespace bbv.Common.Bootstrapper.Execution
 {
-    using System;
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
@@ -30,12 +30,8 @@ namespace bbv.Common.Bootstrapper.Execution
     public class SynchronousReverseExecutor<TExtension> : IExecutor<TExtension>
         where TExtension : IExtension
     {
-        /// <summary>
-        /// Executes the specified syntax.
-        /// </summary>
-        /// <param name="syntax">The syntax.</param>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {
             Ensure.ArgumentNotNull(syntax, "syntax");
 
@@ -45,6 +41,12 @@ namespace bbv.Common.Bootstrapper.Execution
             {
                 executable.Execute(reversedExtensions);
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return "Runs all executables synchronously on the extensions in the reverse order which they were added.";
         }
     }
 }

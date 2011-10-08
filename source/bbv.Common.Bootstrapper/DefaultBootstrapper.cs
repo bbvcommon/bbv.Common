@@ -20,6 +20,8 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Reporting;
+
     /// <summary>
     /// The bootstrapper.
     /// </summary>
@@ -30,6 +32,8 @@ namespace bbv.Common.Bootstrapper
         private readonly IExtensionHost<TExtension> extensionHost;
 
         private IStrategy<TExtension> strategy;
+
+        private IReportingContext reportingContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
@@ -80,9 +84,12 @@ namespace bbv.Common.Bootstrapper
         /// <param name="strategy">The strategy.</param>
         public void Initialize(IStrategy<TExtension> strategy)
         {
+            Ensure.ArgumentNotNull(strategy, "strategy");
+
             this.CheckAlreadyInitialized();
 
             this.strategy = strategy;
+            this.reportingContext = this.strategy.CreateReportingContext();
         }
 
         /// <summary>
@@ -94,9 +101,11 @@ namespace bbv.Common.Bootstrapper
             this.CheckIsInitialized();
 
             var syntax = this.strategy.BuildRunSyntax();
-            
+
             IExecutor<TExtension> runExecutor = this.strategy.CreateRunExecutor();
-            runExecutor.Execute(syntax, this.extensionHost.Extensions);
+            IExecutionContext runExecutionContext = this.reportingContext.CreateRunExecutionContext(runExecutor);
+
+            runExecutor.Execute(syntax, this.extensionHost.Extensions, runExecutionContext);
         }
 
         /// <summary>
@@ -132,7 +141,7 @@ namespace bbv.Common.Bootstrapper
                 var syntax = this.strategy.BuildShutdownSyntax();
 
                 IExecutor<TExtension> shutdownExecutor = this.strategy.CreateShutdownExecutor();
-                shutdownExecutor.Execute(syntax, this.extensionHost.Extensions);
+                shutdownExecutor.Execute(syntax, this.extensionHost.Extensions, null);
 
                 this.strategy.Dispose();
 

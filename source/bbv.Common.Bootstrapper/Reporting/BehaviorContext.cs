@@ -22,6 +22,8 @@ namespace bbv.Common.Bootstrapper.Reporting
     {
         public BehaviorContext(IDescribable describable)
         {
+            Ensure.ArgumentNotNull(describable, "describable");
+
             this.Description = describable.Describe();
         }
 

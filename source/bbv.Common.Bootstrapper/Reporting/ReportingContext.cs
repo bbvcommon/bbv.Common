@@ -30,18 +30,6 @@ namespace bbv.Common.Bootstrapper.Reporting
             this.extensions = new Collection<IExtensionContext>();
         }
 
-        public IExecutionContext CreateRunExecutionContext(IDescribable describable)
-        {
-            this.Run = new ExecutionContext(describable);
-            return this.Run;
-        }
-
-        public IExecutionContext CreateShutdownExecutionContext(IDescribable describable)
-        {
-            this.Shutdown = new ExecutionContext(describable);
-            return this.Shutdown;
-        }
-
         public IExecutionContext Run { get; private set; }
 
         public IExecutionContext Shutdown { get; private set; }
@@ -52,6 +40,18 @@ namespace bbv.Common.Bootstrapper.Reporting
             {
                 return this.extensions;
             }
+        }
+
+        public IExecutionContext CreateRunExecutionContext(IDescribable describable)
+        {
+            this.Run = new ExecutionContext(describable);
+            return this.Run;
+        }
+
+        public IExecutionContext CreateShutdownExecutionContext(IDescribable describable)
+        {
+            this.Shutdown = new ExecutionContext(describable);
+            return this.Shutdown;
         }
 
         public IExtensionContext CreateExtensionContext(IDescribable describable)

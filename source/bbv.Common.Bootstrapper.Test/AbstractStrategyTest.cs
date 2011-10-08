@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper
     using System;
 
     using bbv.Common.Bootstrapper.Execution;
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
@@ -80,7 +81,7 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
-        public void CreateRunExecutor_MustCreateSynchronousExecutor()
+        public void CreateRunExecutor_ShouldCreateSynchronousExecutor()
         {
             var runExecutor = this.testee.CreateRunExecutor();
 
@@ -88,11 +89,19 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
-        public void CreateShutdownExecutor_MustCreateSynchronousReverseExecutor()
+        public void CreateShutdownExecutor_ShouldCreateSynchronousReverseExecutor()
         {
             var runExecutor = this.testee.CreateShutdownExecutor();
 
             runExecutor.Should().BeOfType<SynchronousReverseExecutor<IExtension>>();
+        }
+
+        [Fact]
+        public void CreateReportingContext_ShouldCreateReportingContext()
+        {
+            var reportingContext = this.testee.CreateReportingContext();
+
+            reportingContext.Should().BeOfType<ReportingContext>();
         }
 
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>

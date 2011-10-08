@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Execution
     using System.Collections.Generic;
     using System.Linq;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
@@ -31,10 +32,14 @@ namespace bbv.Common.Bootstrapper.Execution
 
     public class SynchronousExecutorTest
     {
+        private readonly Mock<IExecutionContext> executionContext;
+
         private readonly SynchronousExecutor<IExtension> testee;
 
         public SynchronousExecutorTest()
         {
+            this.executionContext = new Mock<IExecutionContext>();
+
             this.testee = new SynchronousExecutor<IExtension>();
         }
 
@@ -47,10 +52,10 @@ namespace bbv.Common.Bootstrapper.Execution
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
 
             syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object } 
+                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object }
                 .GetEnumerator());
 
-            this.testee.Execute(syntax.Object, extensions);
+            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
 
             firstExecutable.Verify(e => e.Execute(extensions));
             secondExecutable.Verify(e => e.Execute(extensions));
@@ -72,12 +77,18 @@ namespace bbv.Common.Bootstrapper.Execution
                 .Callback<IEnumerable<IExtension>>(ext => passedExtensions = ext);
 
             syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { executable.Object } 
+                .Returns(new List<IExecutable<IExtension>> { executable.Object }
                 .GetEnumerator());
 
-            this.testee.Execute(syntax.Object, extensions);
+            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
 
             passedExtensions.Should().ContainInOrder(extensions);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Runs all executables synchronously on the extensions in the order which they were added.");
         }
     }
 }

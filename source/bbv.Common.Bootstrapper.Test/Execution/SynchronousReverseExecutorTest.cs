@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Execution
     using System.Collections.Generic;
     using System.Linq;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
@@ -31,10 +32,14 @@ namespace bbv.Common.Bootstrapper.Execution
 
     public class SynchronousReverseExecutorTest
     {
+        private readonly Mock<IExecutionContext> executionContext;
+
         private readonly SynchronousReverseExecutor<IExtension> testee;
 
         public SynchronousReverseExecutorTest()
         {
+            this.executionContext = new Mock<IExecutionContext>();
+
             this.testee = new SynchronousReverseExecutor<IExtension>();
         }
 
@@ -50,7 +55,7 @@ namespace bbv.Common.Bootstrapper.Execution
                 .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object }
                 .GetEnumerator());
 
-            this.testee.Execute(syntax.Object, extensions);
+            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
 
             firstExecutable.Verify(e => e.Execute(extensions));
             secondExecutable.Verify(e => e.Execute(extensions));
@@ -75,9 +80,15 @@ namespace bbv.Common.Bootstrapper.Execution
                 .Returns(new List<IExecutable<IExtension>> { executable.Object }
                 .GetEnumerator());
 
-            this.testee.Execute(syntax.Object, extensions);
+            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
 
             passedExtensions.Should().ContainInOrder(new Stack<IExtension>(extensions));
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Runs all executables synchronously on the extensions in the reverse order which they were added.");
         }
     }
 }
