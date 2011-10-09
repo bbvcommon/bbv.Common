@@ -23,6 +23,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BootstrapperReportingSpecification.cs" />
     <Compile Include="BootstrapperSpecification.cs" />
     <Compile Include="BootstrapperWithBehaviorSpecification.cs" />
     <Compile Include="BootstrapperWithConfigurationSectionBehaviorSpecification.cs" />
@@ -47,6 +48,8 @@
     <Compile Include="Dummies\ICustomExtensionWithConfiguration.cs" />
     <Compile Include="Dummies\ICustomExtensionWithExtensionConfiguration.cs" />
     <Compile Include="Dummies\SecondExtension.cs" />
+    <Compile Include="Helpers\IReportContextBuilder.cs" />
+    <Compile Include="Helpers\ReportingContextBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="when_the_bootstrapper_is_run_with_behavior_attached.cs" />
     <Compile Include="when_the_bootstrapper_is_run.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="when_the_bootstrapper_is_run_with_extension_configuration_section_behavior_and_extension_with_customized_loading.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown.cs" />
     <Compile Include="when_the_bootstrapper_is_shutdown_with_behavior_attached.cs" />
+    <Compile Include="when_the_bootstrapping_process_is_reported.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

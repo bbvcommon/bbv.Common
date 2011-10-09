@@ -31,6 +31,8 @@ namespace bbv.Common.Bootstrapper
     {
         private readonly IExtensionHost<TExtension> extensionHost;
 
+        private readonly IReporter reporter;
+
         private IStrategy<TExtension> strategy;
 
         private IReportingContext reportingContext;
@@ -39,7 +41,25 @@ namespace bbv.Common.Bootstrapper
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         public DefaultBootstrapper()
-            : this(new ExtensionHost<TExtension>())
+            : this(new ExtensionHost<TExtension>(), new NullReporter())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultBootstrapper&lt;TExtension&gt;"/> class.
+        /// </summary>
+        /// <param name="reporter">The boostrapping process reporter.</param>
+        public DefaultBootstrapper(IReporter reporter)
+            : this(new ExtensionHost<TExtension>(), reporter)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultBootstrapper&lt;TExtension&gt;"/> class.
+        /// </summary>
+        /// <param name="extensionHost">The extension host.</param>
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost)
+            : this(extensionHost, new NullReporter())
         {
         }
 
@@ -47,9 +67,11 @@ namespace bbv.Common.Bootstrapper
         /// Initializes a new instance of the <see cref="DefaultBootstrapper{TExtension}"/> class.
         /// </summary>
         /// <param name="extensionHost">The extension host.</param>
-        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost)
+        /// <param name="reporter">The boostrapping process reporter.</param>
+        public DefaultBootstrapper(IExtensionHost<TExtension> extensionHost, IReporter reporter)
         {
             this.extensionHost = extensionHost;
+            this.reporter = reporter;
         }
 
         /// <summary>
@@ -68,20 +90,13 @@ namespace bbv.Common.Bootstrapper
         /// </value>
         protected bool IsDisposed { get; private set; }
 
-        /// <summary>
-        /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
-        /// added.
-        /// </summary>
-        /// <param name="extension">The extension to be added.</param>
+        /// <inheritdoc />
         public void AddExtension(TExtension extension)
         {
             this.extensionHost.AddExtension(extension);
         }
 
-        /// <summary>
-        /// Initializes the bootstrapper with the strategy.
-        /// </summary>
-        /// <param name="strategy">The strategy.</param>
+        /// <inheritdoc />
         public void Initialize(IStrategy<TExtension> strategy)
         {
             Ensure.ArgumentNotNull(strategy, "strategy");
@@ -92,10 +107,7 @@ namespace bbv.Common.Bootstrapper
             this.reportingContext = this.strategy.CreateReportingContext();
         }
 
-        /// <summary>
-        /// Runs the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
+        /// <inheritdoc />
         public void Run()
         {
             this.CheckIsInitialized();
@@ -108,10 +120,7 @@ namespace bbv.Common.Bootstrapper
             runExecutor.Execute(syntax, this.extensionHost.Extensions, runExecutionContext);
         }
 
-        /// <summary>
-        /// Shutdowns the bootstrapper.
-        /// </summary>
-        /// <exception cref="BootstrapperException">When an exception occurred during bootstrapping.</exception>
+        /// <inheritdoc />
         public void Shutdown()
         {
             this.CheckIsInitialized();
@@ -119,10 +128,7 @@ namespace bbv.Common.Bootstrapper
             this.Dispose();
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);
@@ -144,6 +150,8 @@ namespace bbv.Common.Bootstrapper
                 IExecutionContext shutdownExecutionContext = this.reportingContext.CreateShutdownExecutionContext(shutdownExecutor);
 
                 shutdownExecutor.Execute(syntax, this.extensionHost.Extensions, shutdownExecutionContext);
+
+                this.reporter.Report(this.reportingContext);
 
                 this.strategy.Dispose();
 
