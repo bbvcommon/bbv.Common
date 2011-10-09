@@ -19,9 +19,10 @@
 namespace bbv.Common.Bootstrapper.Execution
 {
     using System.Collections.Generic;
-
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
+    using bbv.Common.Formatters;
+    using FluentAssertions;
     using Moq;
     using Xunit.Extensions;
 
@@ -102,6 +103,15 @@ namespace bbv.Common.Bootstrapper.Execution
 
             this.firstExecutable.Verify(e => e.Execute(It.IsAny<IEnumerable<IExtension>>(), firstExecutableContext));
             this.secondExecutable.Verify(e => e.Execute(It.IsAny<IEnumerable<IExtension>>(), secondExecutableContext));
+        }
+
+        [Theory]
+        [PropertyData("Testees")]
+        public void Name_ShouldReturnTypeName(IExecutor<IExtension> testee)
+        {
+            string expectedName = testee.GetType().FullNameToString();
+
+            testee.Name.Should().Be(expectedName);
         }
 
         private void SetupSyntaxReturnsExecutables()

@@ -31,8 +31,11 @@ namespace bbv.Common.Bootstrapper.Reporting
 
             this.executables = new Collection<IExecutableContext>();
 
+            this.Name = describable.Name;
             this.Description = describable.Describe();
         }
+
+        public string Name { get; private set; }
 
         public string Description { get; private set; }
 

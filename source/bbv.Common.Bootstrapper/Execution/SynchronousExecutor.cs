@@ -22,6 +22,7 @@ namespace bbv.Common.Bootstrapper.Execution
 
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Synchronously executes the specified syntax on the provided extensions.
@@ -30,6 +31,15 @@ namespace bbv.Common.Bootstrapper.Execution
     public class SynchronousExecutor<TExtension> : IExecutor<TExtension>
         where TExtension : IExtension
     {
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <inheritdoc />
         public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {

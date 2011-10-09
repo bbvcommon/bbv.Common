@@ -20,14 +20,10 @@ namespace bbv.Common.Bootstrapper.Execution
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class SynchronousExecutorTest

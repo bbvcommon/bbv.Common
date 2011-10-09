@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="ExtensionContext.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="TypeExtensionsTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +16,21 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Reporting
+namespace bbv.Common.Formatters
 {
-    public class ExtensionContext : IExtensionContext
+    using System;
+    using System.Collections.Generic;
+    using FluentAssertions;
+    using Xunit.Extensions;
+
+    public class TypeExtensionsTest
     {
-        public ExtensionContext(IDescribable describable)
+        [Theory]
+        [InlineData(typeof(KeyValuePair<string, string>), "System.Collections.Generic.KeyValuePair<System.String,System.String>")]
+        [InlineData(typeof(ICollection<int>), "System.Collections.Generic.ICollection<System.Int32>")]
+        public void FullNameToString_ShouldPrettyPrint(Type type, string expectedPrettyPrint)
         {
-            Ensure.ArgumentNotNull(describable, "describable");
-
-            this.Name = describable.Name;
-            this.Description = describable.Describe();
+            type.FullNameToString().Should().Be(expectedPrettyPrint);
         }
-
-        public string Name { get; private set; }
-
-        public string Description { get; private set; }
     }
 }

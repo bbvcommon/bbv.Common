@@ -22,6 +22,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     using System.Linq;
     using bbv.Common.Bootstrapper.Dummies;
     using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
     using FluentAssertions;
     using Moq;
     using Xunit;
@@ -104,6 +105,20 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             first.Verify(b => b.Behave(extensions));
             second.Verify(b => b.Behave(extensions));
+        }
+
+        [Fact]
+        public void Name_ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Initializes the context once with \"() => value(bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionWithInitializerExecutableTest).CountAccessToContext()\" and executes \"(x, i) => x.SomeMethod(i)\" on each extension during bootstrapping.");
         }
 
         private object CountAccessToContext()

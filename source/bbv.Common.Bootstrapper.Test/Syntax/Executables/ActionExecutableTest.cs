@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     using System.Collections.Generic;
     using System.Linq;
     using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
     using FluentAssertions;
     using Moq;
     using Xunit;
@@ -72,6 +73,20 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             first.Verify(b => b.Behave(extensions));
             second.Verify(b => b.Behave(extensions));
+        }
+
+        [Fact]
+        public void Name_ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Executes \"() => value(bbv.Common.Bootstrapper.Syntax.Executables.ActionExecutableTest).SetWasExecuted()\" during bootstrapping.");
         }
 
         private bool SetWasExecuted()

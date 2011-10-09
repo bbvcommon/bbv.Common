@@ -22,6 +22,7 @@ namespace bbv.Common.Bootstrapper.Execution
 
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Synchronously executes the provided syntax on the extensions by reversing the order the the extensions.
@@ -30,6 +31,15 @@ namespace bbv.Common.Bootstrapper.Execution
     public class SynchronousReverseExecutor<TExtension> : IExecutor<TExtension>
         where TExtension : IExtension
     {
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <inheritdoc />
         public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {

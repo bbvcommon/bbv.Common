@@ -31,8 +31,11 @@ namespace bbv.Common.Bootstrapper.Reporting
 
             this.behaviors = new Collection<IBehaviorContext>();
 
+            this.Name = describable.Name;
             this.Description = describable.Describe();
         }
+
+        public string Name { get; private set; }
 
         public string Description { get; private set; }
 

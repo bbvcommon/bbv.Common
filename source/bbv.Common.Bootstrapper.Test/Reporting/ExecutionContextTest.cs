@@ -34,12 +34,15 @@ namespace bbv.Common.Bootstrapper.Reporting
         [Fact]
         public void Constructor_ShouldDescribe()
         {
+            const string ExpectedName = "Name";
             const string ExpectedDescription = "TestDescription";
 
+            this.describable.Setup(d => d.Name).Returns(ExpectedName);
             this.describable.Setup(d => d.Describe()).Returns(ExpectedDescription);
 
             ExecutionContext testee = CreateTestee(this.describable.Object);
 
+            testee.Name.Should().Be(ExpectedName);
             testee.Description.Should().Be(ExpectedDescription);
             this.describable.Verify(d => d.Describe());
         }

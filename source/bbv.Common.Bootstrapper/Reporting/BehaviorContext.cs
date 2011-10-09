@@ -24,8 +24,11 @@ namespace bbv.Common.Bootstrapper.Reporting
         {
             Ensure.ArgumentNotNull(describable, "describable");
 
+            this.Name = describable.Name;
             this.Description = describable.Describe();
         }
+
+        public string Name { get; private set; }
 
         public string Description { get; private set; }
     }

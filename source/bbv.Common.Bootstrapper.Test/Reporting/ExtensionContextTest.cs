@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="BehaviorContextTest.cs" company="bbv Software Services AG">
+// <copyright file="ExtensionContextTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,11 @@ namespace bbv.Common.Bootstrapper.Reporting
 
     using Xunit;
 
-    public class BehaviorContextTest
+    public class ExtensionContextTest
     {
         private readonly Mock<IDescribable> describable;
 
-        public BehaviorContextTest()
+        public ExtensionContextTest()
         {
             this.describable = new Mock<IDescribable>();
         }
@@ -39,19 +39,19 @@ namespace bbv.Common.Bootstrapper.Reporting
             const string ExpectedName = "Name";
             const string ExpectedDescription = "TestDescription";
 
-            this.describable.Setup(d => d.Describe()).Returns(ExpectedDescription);
             this.describable.Setup(d => d.Name).Returns(ExpectedName);
+            this.describable.Setup(d => d.Describe()).Returns(ExpectedDescription);
 
-            BehaviorContext testee = CreateTestee(this.describable.Object);
+            ExtensionContext testee = CreateTestee(this.describable.Object);
 
             testee.Name.Should().Be(ExpectedName);
             testee.Description.Should().Be(ExpectedDescription);
             this.describable.Verify(d => d.Describe());
         }
 
-        private static BehaviorContext CreateTestee(IDescribable describable)
+        private static ExtensionContext CreateTestee(IDescribable describable)
         {
-            return new BehaviorContext(describable);
+            return new ExtensionContext(describable);
         }
     }
 }

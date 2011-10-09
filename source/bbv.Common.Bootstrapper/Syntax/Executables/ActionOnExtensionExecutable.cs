@@ -20,9 +20,11 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
 
     using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// The executable which executes an action on an extension.
@@ -51,6 +53,15 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         }
 
         /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
@@ -75,7 +86,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <inheritdoc />
         public string Describe()
         {
-            return null;
+            return string.Format(CultureInfo.InvariantCulture, "Executes \"{0}\" on each extension during bootstrapping.", this.actionExpression);
         }
     }
 }

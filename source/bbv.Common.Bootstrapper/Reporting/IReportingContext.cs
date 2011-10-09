@@ -51,11 +51,15 @@ namespace bbv.Common.Bootstrapper.Reporting
 
     public interface IExtensionContext
     {
+        string Name { get; }
+
         string Description { get; }
     }
 
     public interface IExecutionContext : IExecutableContextFactory
     {
+        string Name { get; }
+
         string Description { get; }
 
         IEnumerable<IExecutableContext> Executables { get; }
@@ -63,6 +67,8 @@ namespace bbv.Common.Bootstrapper.Reporting
 
     public interface IExecutableContext : IBehaviorContextFactory
     {
+        string Name { get; }
+
         string Description { get; }
 
         IEnumerable<IBehaviorContext> Behaviors { get; }
@@ -75,11 +81,15 @@ namespace bbv.Common.Bootstrapper.Reporting
 
     public interface IBehaviorContext
     {
+        string Name { get; }
+
         string Description { get; }
     }
 
     public interface IDescribable
     {
+        string Name { get; }
+
         string Describe();
     }
 }

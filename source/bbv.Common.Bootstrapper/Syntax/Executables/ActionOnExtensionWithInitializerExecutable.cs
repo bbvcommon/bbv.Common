@@ -20,9 +20,11 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
 
     using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Executable which executes an initializer and passes the initialized
@@ -64,6 +66,15 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         }
 
         /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
@@ -95,7 +106,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <inheritdoc />
         public string Describe()
         {
-            return null;
+            return string.Format(CultureInfo.InvariantCulture, "Initializes the context once with \"{0}\" and executes \"{1}\" on each extension during bootstrapping.", this.initializerExpression, this.actionExpression);
         }
     }
 }
