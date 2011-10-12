@@ -19,10 +19,8 @@
 namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System.Collections.Generic;
-    using System.Linq;
     using bbv.Common.Bootstrapper.Dummies;
     using bbv.Common.Bootstrapper.Reporting;
-    using bbv.Common.Formatters;
     using FluentAssertions;
     using Moq;
     using Xunit;
@@ -50,30 +48,6 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             firstExtension.Verify(x => x.Dispose());
             secondExtension.Verify(x => x.Dispose());
-        }
-
-        [Fact]
-        public void Execute_ShouldExecuteBehavior()
-        {
-            var first = new Mock<IBehavior<ICustomExtension>>();
-            var second = new Mock<IBehavior<ICustomExtension>>();
-            var extensions = Enumerable.Empty<ICustomExtension>();
-
-            this.testee.Add(first.Object);
-            this.testee.Add(second.Object);
-
-            this.testee.Execute(extensions, this.executableContext.Object);
-
-            first.Verify(b => b.Behave(extensions));
-            second.Verify(b => b.Behave(extensions));
-        }
-
-        [Fact]
-        public void Name_ShouldReturnTypeName()
-        {
-            string expectedName = this.testee.GetType().FullNameToString();
-
-            this.testee.Name.Should().Be(expectedName);
         }
 
         [Fact]

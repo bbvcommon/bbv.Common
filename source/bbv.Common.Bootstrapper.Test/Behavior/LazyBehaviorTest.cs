@@ -16,13 +16,10 @@
 namespace bbv.Common.Bootstrapper.Behavior
 {
     using System.Linq;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class LazyBehaviorTest
@@ -68,6 +65,20 @@ namespace bbv.Common.Bootstrapper.Behavior
             this.testee.Behave(expectedExtensions);
 
             this.lazyBehavior.Verify(b => b.Behave(expectedExtensions));
+        }
+
+        [Fact]
+        public void ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Behaves by creating the behavior with the specified behavior provider and executing behave on the lazy initialized behavior.");
         }
     }
 }

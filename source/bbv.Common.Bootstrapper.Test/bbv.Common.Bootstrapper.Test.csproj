@@ -58,6 +58,7 @@
     <Compile Include="Syntax\Executables\ActionExecutableTest.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionExecutableTest.cs" />
     <Compile Include="Syntax\Executables\ActionOnExtensionWithInitializerExecutableTest.cs" />
+    <Compile Include="Syntax\Executables\ExecutableTest.cs" />
     <Compile Include="Syntax\SyntaxBuilderTest.cs" />
     <Compile Include="Syntax\SyntaxBuilderWithContextTest.cs" />
   </ItemGroup>

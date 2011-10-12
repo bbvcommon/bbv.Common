@@ -22,6 +22,7 @@ namespace bbv.Common.Bootstrapper.Configuration
     using System.Linq;
 
     using bbv.Common.Bootstrapper.Configuration.Internals;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Behavior which automatically loads extension configuration sections.
@@ -57,6 +58,15 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.assignExtensionProperties = this.factory.CreateAssignExtensionProperties();
         }
 
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <summary>
         /// Applies the extension configuration section loading behavior to the extensions.
         /// </summary>
@@ -87,10 +97,17 @@ namespace bbv.Common.Bootstrapper.Configuration
             }
         }
 
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return
+                "Behaves on all extensions by checking whether the corresponding configuration section is an ExtensionConfigurationSection and automatically propagiting properties with configuration values.";
+        }
+
         private static ExtensionConfigurationSection GetExtensionConfigurationSection(IHaveConfigurationSectionName sectionNameProvider, ILoadConfigurationSection sectionProvider)
         {
             string sectionName = sectionNameProvider.SectionName;
-            return sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ?? 
+            return sectionProvider.GetSection(sectionName) as ExtensionConfigurationSection ??
                    ExtensionConfigurationSectionHelper.CreateSection(new Dictionary<string, string>());
         }
 

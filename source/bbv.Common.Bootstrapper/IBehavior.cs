@@ -20,11 +20,13 @@ namespace bbv.Common.Bootstrapper
 {
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
+
     /// <summary>
     /// Behaviors are elements that can be attached to executables.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IBehavior<in TExtension>
+    public interface IBehavior<in TExtension> : IDescribable
         where TExtension : IExtension
     {
         /// <summary>

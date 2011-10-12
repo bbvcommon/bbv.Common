@@ -19,22 +19,45 @@
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
     using System.Collections.Generic;
+    using System.Globalization;
+
+    using bbv.Common.Formatters;
 
     public class Behavior : IBehavior<ICustomExtension>
     {
         private readonly string access;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Behavior"/> class.
+        /// </summary>
+        /// <param name="access">The access.</param>
         public Behavior(string access)
         {
             this.access = access;
         }
 
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
             foreach (ICustomExtension extension in extensions)
             {
                 extension.Dump(this.access);
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Behaves on all extensions by dumping \"{0}\" on the extensions.", this.access);
         }
     }
 }

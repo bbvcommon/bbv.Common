@@ -50,7 +50,6 @@ namespace bbv.Common.Bootstrapper.Reporting
         public IBehaviorContext CreateBehaviorContext(IDescribable describable)
         {
             var behaviorInfo = new BehaviorContext(describable);
-
             this.behaviors.Add(behaviorInfo);
 
             return behaviorInfo;

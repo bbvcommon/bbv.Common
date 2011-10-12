@@ -65,8 +65,12 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         /// <inheritdoc />
         public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
+            Ensure.ArgumentNotNull(executableContext, "executableContext");
+
             foreach (IBehavior<TExtension> behavior in this.behaviors)
             {
+                executableContext.CreateBehaviorContext(behavior);
+
                 behavior.Behave(extensions);
             }
 

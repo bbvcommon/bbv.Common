@@ -21,7 +21,6 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     using System.Collections.Generic;
     using System.Linq;
     using bbv.Common.Bootstrapper.Reporting;
-    using bbv.Common.Formatters;
     using FluentAssertions;
     using Moq;
     using Xunit;
@@ -57,30 +56,6 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.testee.Execute(enumerator.Object, this.executableContext.Object);
 
             enumerator.Verify(e => e.GetEnumerator(), Times.Never());
-        }
-
-        [Fact]
-        public void Execute_ShouldExecuteBehavior()
-        {
-            var first = new Mock<IBehavior<IExtension>>();
-            var second = new Mock<IBehavior<IExtension>>();
-            var extensions = Enumerable.Empty<IExtension>();
-
-            this.testee.Add(first.Object);
-            this.testee.Add(second.Object);
-
-            this.testee.Execute(extensions, this.executableContext.Object);
-
-            first.Verify(b => b.Behave(extensions));
-            second.Verify(b => b.Behave(extensions));
-        }
-
-        [Fact]
-        public void Name_ShouldReturnTypeName()
-        {
-            string expectedName = this.testee.GetType().FullNameToString();
-
-            this.testee.Name.Should().Be(expectedName);
         }
 
         [Fact]

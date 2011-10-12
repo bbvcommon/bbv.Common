@@ -22,6 +22,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Globalization;
     using System.Linq;
 
+    using bbv.Common.Formatters;
+
     public class BehaviorWithStringContext : IBehavior<ICustomExtension>
     {
         private readonly string addition;
@@ -34,11 +36,27 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.input = input;
         }
 
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
             extensions.ToList().ForEach(e => e.Dump(string.Format(CultureInfo.InvariantCulture, "input modification with {0}", this.addition)));
 
             this.input += " " + this.addition;
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Behaves on all extensions by dumping \"{0}\" on the extensions.", this.addition);
         }
     }
 }

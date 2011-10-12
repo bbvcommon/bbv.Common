@@ -20,6 +20,9 @@ namespace bbv.Common.Bootstrapper.Behavior
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// The lazy behavior is responsible for creating a behavior at the time of the behave call.
@@ -40,12 +43,28 @@ namespace bbv.Common.Bootstrapper.Behavior
         }
 
         /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         /// <remarks>Creates the behavior with the specified behavior provider and executes behave on the lazy initialized behavior.</remarks>
         public void Behave(IEnumerable<TExtension> extensions)
         {
             IBehavior<TExtension> behavior = this.behaviorProvider();
 
             behavior.Behave(extensions);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture, "Behaves by creating the behavior with the specified behavior provider and executing behave on the lazy initialized behavior.");
         }
     }
 }

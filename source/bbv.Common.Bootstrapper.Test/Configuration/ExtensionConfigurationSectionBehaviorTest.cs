@@ -19,11 +19,9 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Collections.Generic;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class ExtensionConfigurationSectionBehaviorTest
@@ -125,6 +123,20 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             this.consumer.Verify(c => c.Configuration, Times.Never());
             this.assigner.Verify(a => a.Assign(It.IsAny<IReflectExtensionProperties>(), It.IsAny<IExtension>(), It.IsAny<IConsumeConfiguration>(), It.IsAny<IHaveConversionCallbacks>()), Times.Never());
+        }
+
+        [Fact]
+        public void ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Behaves on all extensions by checking whether the corresponding configuration section is an ExtensionConfigurationSection and automatically propagiting properties with configuration values.");
         }
 
         private void SetupExtensionConfigurationSectionWithEntries()

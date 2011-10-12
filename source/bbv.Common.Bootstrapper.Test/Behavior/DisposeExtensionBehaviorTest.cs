@@ -19,11 +19,10 @@
 namespace bbv.Common.Bootstrapper.Behavior
 {
     using System.Collections.Generic;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Formatters;
+    using FluentAssertions;
     using Moq;
-
     using Xunit;
 
     public class DisposeExtensionBehaviorTest
@@ -45,6 +44,20 @@ namespace bbv.Common.Bootstrapper.Behavior
 
             notDisposableExtension.Verify(e => e.Dispose(), Times.Never());
             disposableExtension.Verify(e => e.Dispose(), Times.Once());
+        }
+
+        [Fact]
+        public void ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Behaves on all extensions by checking whether they implement IDisposable and disposing them if this is the case.");
         }
     }
 }
