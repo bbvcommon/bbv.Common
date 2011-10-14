@@ -19,20 +19,30 @@
 namespace bbv.Common.Bootstrapper.Sample.Complex
 {
     using System.Collections.Generic;
-
+    using bbv.Common.Formatters;
     using Funq;
 
     /// <summary>
     /// Base class for complex extensions.
     /// </summary>
-    public class ComplexExtensionBase : IComplexExtension
+    public abstract class ComplexExtensionBase : IComplexExtension
     {
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <summary>
         /// Gets the container which is registered when the extension point ContainerInitialized is called.
         /// </summary>
         protected Container Container
         {
-            get;  private set;
+            get;
+            private set;
         }
 
         /// <inheritdoc />
@@ -60,5 +70,8 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         public virtual void Shutdown()
         {
         }
+
+        /// <inheritdoc />
+        public abstract string Describe();
     }
 }

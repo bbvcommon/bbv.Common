@@ -36,5 +36,10 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         {
             Log.Info("ExtensionWhichIsFunqlet is configuring the container.");
         }
+
+        public override string Describe()
+        {
+            return "Extension which implements IFunqlet";
+        }
     }
 }

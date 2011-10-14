@@ -85,11 +85,4 @@ namespace bbv.Common.Bootstrapper.Reporting
 
         string Description { get; }
     }
-
-    public interface IDescribable
-    {
-        string Name { get; }
-
-        string Describe();
-    }
 }

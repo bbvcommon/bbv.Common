@@ -62,5 +62,10 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 
             this.Dependency.Goodbye();
         }
+
+        public override string Describe()
+        {
+            return "Extension which needs a custom dependency";
+        }
     }
 }

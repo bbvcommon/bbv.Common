@@ -18,11 +18,11 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System;
     using System.Collections.Generic;
     using System.Configuration;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Formatters;
 
     public class CustomExtensionWithExtensionConfigurationWhichConsumesConfiguration : ICustomExtensionWithExtensionConfiguration,
         ILoadConfigurationSection, IConsumeConfiguration
@@ -35,6 +35,20 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         public IDictionary<string, string> Configuration { get; private set; }
 
         public string SectionAcquired { get; private set; }
+
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        public string Describe()
+        {
+            return "Custom extension which consumes the configuration section as dictionary";
+        }
 
         public ConfigurationSection GetSection(string sectionName)
         {

@@ -41,6 +41,7 @@
     <Compile Include="Configuration\Internals\LoadConfigurationSection.cs" />
     <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
     <Compile Include="Configuration\Internals\HaveConfigurationSectionName.cs" />
+    <Compile Include="IDescribable.cs" />
     <Compile Include="IReporter.cs" />
     <Compile Include="Reporting\BehaviorContext.cs" />
     <Compile Include="Reporting\NullReporter.cs" />

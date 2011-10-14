@@ -21,7 +21,7 @@ namespace bbv.Common.Bootstrapper
     /// <summary>
     /// Interface for extensions.
     /// </summary>
-    public interface IExtension
+    public interface IExtension : IDescribable
     {
     }
 }

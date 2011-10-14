@@ -20,5 +20,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
     public class SecondExtension : CustomExtensionBase
     {
+        public override string Describe()
+        {
+            return "Second extension";
+        }
     }
 }

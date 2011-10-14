@@ -25,8 +25,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Formatters;
 
-    public class CustomExtensionWithExtensionConfigurationWhichHasCallbacks : ICustomExtensionWithExtensionConfiguration, 
+    public class CustomExtensionWithExtensionConfigurationWhichHasCallbacks : ICustomExtensionWithExtensionConfiguration,
         IHaveConversionCallbacks, ILoadConfigurationSection
     {
         public Func<string, PropertyInfo, object> DefaultConversionCallback
@@ -58,6 +59,20 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         public string SomeStringWhichIsIgnored { get; set; }
 
         public string SectionAcquired { get; private set; }
+
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        public string Describe()
+        {
+            return "Custom extension which defines conversion callbacks";
+        }
 
         public ConfigurationSection GetSection(string sectionName)
         {

@@ -59,5 +59,10 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
                 Log.InfoFormat(CultureInfo.InvariantCulture, " - Key {0} / Value {1}", keyValuePair.Key, keyValuePair.Value);
             }
         }
+
+        public override string Describe()
+        {
+            return "Extension which has a dictionary which is filled through a configuration section";
+        }
     }
 }

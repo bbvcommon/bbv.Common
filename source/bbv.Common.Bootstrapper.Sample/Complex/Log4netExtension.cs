@@ -36,10 +36,14 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 
             Console.WriteLine("Log4NetExtension is starting.");
 
-            var appender = new ConsoleAppender
-                { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
+            var appender = new ConsoleAppender { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
 
             BasicConfigurator.Configure(appender);
+        }
+
+        public override string Describe()
+        {
+            return "Extension which configures log4net.";
         }
     }
 }
