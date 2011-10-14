@@ -74,13 +74,33 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void AddExtension_WhenNotInitialized_ShouldThrowInvalidOperationException()
+        {
+            this.testee.Invoking(x => x.AddExtension(Mock.Of<IExtension>())).ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
         public void AddExtension_ShouldTrackExtension()
         {
+            this.InitializeTestee();
+
             var extension = Mock.Of<IExtension>();
 
             this.testee.AddExtension(extension);
 
             this.extensionHost.Verify(x => x.AddExtension(extension));
+        }
+
+        [Fact]
+        public void AddExtension_ShouldCreateExtensionContext()
+        {
+            this.InitializeTestee();
+
+            var extension = Mock.Of<IExtension>();
+
+            this.testee.AddExtension(extension);
+
+            this.reportingContext.Verify(c => c.CreateExtensionContext(extension));
         }
 
         [Fact]

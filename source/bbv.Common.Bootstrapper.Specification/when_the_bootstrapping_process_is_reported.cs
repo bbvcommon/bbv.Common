@@ -18,6 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Specification
 {
+    using bbv.Common.Bootstrapper.Specification.Helpers;
     using FluentAssertions;
     using Machine.Specifications;
 
@@ -40,6 +41,24 @@ namespace bbv.Common.Bootstrapper.Specification
 
         It should_report_complete_bootstrapping_process = () =>
             {
+                const string ActionExecutableCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionExecutable<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
+                const string ActionExecutableWithDictionaryContextCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionWithInitializerExecutable<System.Collections.Generic.IDictionary<System.String,System.String>,bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
+                const string ActionExecutableWithStringContextCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionWithInitializerExecutable<System.String,bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
+
+                var context = ReportingContextBuilder.Create()
+                    .Extension("bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension", "FirstExtension")
+                    .Extension("bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension", "SecondExtension")
+                    .Run("bbv.Common.Bootstrapper.Execution.SynchronousExecutor<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>", "Runs all executables synchronously on the extensions in the order which they were added.")
+                        .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.BeginWith)\" during bootstrapping.")
+                        .Executable(ActionExecutableCustomExtension, "Executes \"() => DumpAction(\"CustomRun\")\" during bootstrapping.")
+                        .Executable(ActionExecutableCustomExtension, "Executes \"extension => extension.Start()\" on each extension during bootstrapping.")
+                        .Executable(ActionExecutableWithDictionaryContextCustomExtension, "Initializes the context once with \"() => value(bbv.Common.Bootstrapper.Specification.Dummies.CustomExtensionWithBehaviorStrategy).RunInitializeConfiguration()\" and executes \"(extension, dictionary) => extension.Configure(dictionary)\" on each extension during bootstrapping.")
+                        .Executable(ActionExecutableCustomExtension, "Executes \"extension => extension.Initialize()\" on each extension during bootstrapping.")
+                        .Executable(ActionExecutableWithStringContextCustomExtension, "Initializes the context once with \"() => \"RunTest\"\" and executes \"(extension, context) => extension.Register(context)\" on each extension during bootstrapping.")
+                    .Shutdown("bbv.Common.Bootstrapper.Execution.SynchronousReverseExecutor<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>", "Runs all executables synchronously on the extensions in the reverse order which they were added.")
+                        .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.BeginWith)\" during bootstrapping.")
+                    .Build();
+
                 ReportingContext.Should().NotBeNull();
             };
     }

@@ -93,6 +93,10 @@ namespace bbv.Common.Bootstrapper
         /// <inheritdoc />
         public void AddExtension(TExtension extension)
         {
+            this.CheckIsInitialized();
+
+            this.reportingContext.CreateExtensionContext(extension);
+
             this.extensionHost.AddExtension(extension);
         }
 
