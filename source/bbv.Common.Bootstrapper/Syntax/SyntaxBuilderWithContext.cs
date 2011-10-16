@@ -86,9 +86,11 @@ namespace bbv.Common.Bootstrapper.Syntax
         }
 
         /// <inheritdoc />
-        public IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider)
+        public IWithBehaviorOnContext<TExtension, TContext> With(Expression<Func<TContext, IBehavior<TExtension>>> provider)
         {
-            this.behaviorProviders.Enqueue(provider);
+            Ensure.ArgumentNotNull(provider, "provider");
+
+            this.behaviorProviders.Enqueue(provider.Compile());
 
             return this;
         }

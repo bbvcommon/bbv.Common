@@ -146,7 +146,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
     /// <typeparam name="TContext">The type of the context.</typeparam>
-    public interface IWithBehaviorOnContext<TExtension, out TContext> : IExecuteAction<TExtension>,
+    public interface IWithBehaviorOnContext<TExtension, TContext> : IExecuteAction<TExtension>,
                                                                         IExecuteActionOnExtension<TExtension>,
                                                                         IExecuteActionOnExtensionWithContext<TExtension>,
                                                                         IEndSyntax<TExtension>
@@ -157,7 +157,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="provider">The behavior provider.</param>
         /// <returns>The syntax.</returns>
-        IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider);
+        IWithBehaviorOnContext<TExtension, TContext> With(Expression<Func<TContext, IBehavior<TExtension>>> provider);
     }
 
     /// <summary>
