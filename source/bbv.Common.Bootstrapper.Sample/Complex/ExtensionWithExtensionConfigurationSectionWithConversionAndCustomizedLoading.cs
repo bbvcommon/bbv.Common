@@ -104,6 +104,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             Log.InfoFormat(CultureInfo.InvariantCulture, " - EndpointAddress: {0} <<{1}>>", this.EndpointAddress, this.EndpointAddress.GetType().Name);
         }
 
+        /// <inheritdoc />
         public override string Describe()
         {
             return

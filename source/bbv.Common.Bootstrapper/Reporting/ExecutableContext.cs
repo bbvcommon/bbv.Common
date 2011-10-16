@@ -21,10 +21,18 @@ namespace bbv.Common.Bootstrapper.Reporting
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
+    /// <summary>
+    /// Executable context implementation which is also responsible for creating behavior contexts.
+    /// The IDescribable is released right after creation.
+    /// </summary>
     public class ExecutableContext : IExecutableContext
     {
-        private ICollection<IBehaviorContext> behaviors;
+        private readonly ICollection<IBehaviorContext> behaviors;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutableContext"/> class.
+        /// </summary>
+        /// <param name="describable">The describable.</param>
         public ExecutableContext(IDescribable describable)
         {
             Ensure.ArgumentNotNull(describable, "describable");
@@ -35,10 +43,13 @@ namespace bbv.Common.Bootstrapper.Reporting
             this.Description = describable.Describe();
         }
 
+        /// <inheritdoc />
         public string Name { get; private set; }
 
+        /// <inheritdoc />
         public string Description { get; private set; }
 
+        /// <inheritdoc />
         public IEnumerable<IBehaviorContext> Behaviors
         {
             get
@@ -47,6 +58,7 @@ namespace bbv.Common.Bootstrapper.Reporting
             }
         }
 
+        /// <inheritdoc />
         public IBehaviorContext CreateBehaviorContext(IDescribable describable)
         {
             var behaviorInfo = new BehaviorContext(describable);

@@ -85,6 +85,15 @@ namespace bbv.Common.Bootstrapper.Configuration
                 }
             }
 
+            /// <inheritdoc />
+            public string Name
+            {
+                get
+                {
+                    return this.GetType().FullNameToString();
+                }
+            }
+
             internal static string InternalStaticProperty { get; set; }
 
             internal string InternalProperty { get; set; }
@@ -98,14 +107,6 @@ namespace bbv.Common.Bootstrapper.Configuration
             private string PrivateProperty { get; set; }
 
             /// <inheritdoc />
-            public string Name
-            {
-                get
-                {
-                    return this.GetType().FullNameToString();
-                }
-            }
-
             public string Describe()
             {
                 return string.Empty;

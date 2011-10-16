@@ -18,8 +18,15 @@
 
 namespace bbv.Common.Bootstrapper.Reporting
 {
+    /// <summary>
+    /// Behavior context implementation which release the IDescribable right after creation.
+    /// </summary>
     public class BehaviorContext : IBehaviorContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BehaviorContext"/> class.
+        /// </summary>
+        /// <param name="describable">The describable.</param>
         public BehaviorContext(IDescribable describable)
         {
             Ensure.ArgumentNotNull(describable, "describable");
@@ -28,8 +35,10 @@ namespace bbv.Common.Bootstrapper.Reporting
             this.Description = describable.Describe();
         }
 
+        /// <inheritdoc />
         public string Name { get; private set; }
 
+        /// <inheritdoc />
         public string Description { get; private set; }
     }
 }

@@ -18,8 +18,12 @@
 
 namespace bbv.Common.Bootstrapper.Reporting
 {
+    /// <summary>
+    /// An implementation of IReporter which does nothing.
+    /// </summary>
     internal class NullReporter : IReporter
     {
+        /// <inheritdoc />
         public void Report(IReportingContext context)
         {
         }

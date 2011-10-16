@@ -44,6 +44,7 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
         {
         }
 
+        /// <inheritdoc />
         public abstract string Describe();
     }
 }

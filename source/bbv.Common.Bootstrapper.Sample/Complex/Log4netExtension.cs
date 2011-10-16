@@ -41,6 +41,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             BasicConfigurator.Configure(appender);
         }
 
+        /// <inheritdoc />
         public override string Describe()
         {
             return "Extension which configures log4net.";

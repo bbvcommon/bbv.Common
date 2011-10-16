@@ -21,8 +21,16 @@ namespace bbv.Common.Formatters
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Contains extension methods for Type.
+    /// </summary>
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Correctly formats the FullName of the specified type by taking generics into consideration.
+        /// </summary>
+        /// <param name="t">The type whose full name is formatted.</param>
+        /// <returns>A correctly formatted full name.</returns>
         public static string FullNameToString(this Type t)
         {
             if (!t.IsGenericType)

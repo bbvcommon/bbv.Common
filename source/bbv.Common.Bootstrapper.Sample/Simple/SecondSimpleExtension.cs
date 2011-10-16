@@ -41,6 +41,7 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
             Console.WriteLine("Second Simple Extension is shutting down.");
         }
 
+        /// <inheritdoc />
         public override string Describe()
         {
             return "Second simple extension";

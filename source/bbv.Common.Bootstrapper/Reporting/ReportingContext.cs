@@ -21,19 +21,28 @@ namespace bbv.Common.Bootstrapper.Reporting
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
+    /// <summary>
+    /// The reporting context contains all necessary information about the bootstrapping process.
+    /// </summary>
     public class ReportingContext : IReportingContext
     {
-        private Collection<IExtensionContext> extensions;
+        private readonly Collection<IExtensionContext> extensions;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportingContext"/> class.
+        /// </summary>
         public ReportingContext()
         {
             this.extensions = new Collection<IExtensionContext>();
         }
 
+        /// <inheritdoc />
         public IExecutionContext Run { get; private set; }
 
+        /// <inheritdoc />
         public IExecutionContext Shutdown { get; private set; }
 
+        /// <inheritdoc />
         public IEnumerable<IExtensionContext> Extensions
         {
             get
@@ -42,18 +51,21 @@ namespace bbv.Common.Bootstrapper.Reporting
             }
         }
 
+        /// <inheritdoc />
         public IExecutionContext CreateRunExecutionContext(IDescribable describable)
         {
             this.Run = new ExecutionContext(describable);
             return this.Run;
         }
 
+        /// <inheritdoc />
         public IExecutionContext CreateShutdownExecutionContext(IDescribable describable)
         {
             this.Shutdown = new ExecutionContext(describable);
             return this.Shutdown;
         }
 
+        /// <inheritdoc />
         public IExtensionContext CreateExtensionContext(IDescribable describable)
         {
             var extensionInfo = new ExtensionContext(describable);

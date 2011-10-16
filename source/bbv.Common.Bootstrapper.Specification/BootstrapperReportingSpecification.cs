@@ -27,8 +27,6 @@ namespace bbv.Common.Bootstrapper.Specification
 
     public class BootstrapperReportingSpecification
     {
-        private static ReporterCollection Reporters;
-
         protected const string Concern = "Bootstrapper reporting";
 
         protected static CustomExtensionWithBehaviorStrategy Strategy;
@@ -40,6 +38,8 @@ namespace bbv.Common.Bootstrapper.Specification
         protected static IBootstrapper<ICustomExtension> Bootstrapper;
 
         protected static IReportingContext ReportingContext;
+
+        private static ReporterCollection Reporters;
 
         Establish context = () =>
         {

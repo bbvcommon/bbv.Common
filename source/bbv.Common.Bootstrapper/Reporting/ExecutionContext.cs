@@ -21,10 +21,18 @@ namespace bbv.Common.Bootstrapper.Reporting
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
+    /// <summary>
+    /// Execution context implementation which is also responsible for creating executable contexts.
+    /// The IDescribable is released right after creation.
+    /// </summary>
     public class ExecutionContext : IExecutionContext
     {
         private readonly ICollection<IExecutableContext> executables;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionContext"/> class.
+        /// </summary>
+        /// <param name="describable">The describable.</param>
         public ExecutionContext(IDescribable describable)
         {
             Ensure.ArgumentNotNull(describable, "describable");
@@ -35,10 +43,13 @@ namespace bbv.Common.Bootstrapper.Reporting
             this.Description = describable.Describe();
         }
 
+        /// <inheritdoc />
         public string Name { get; private set; }
 
+        /// <inheritdoc />
         public string Description { get; private set; }
 
+        /// <inheritdoc />
         public IEnumerable<IExecutableContext> Executables
         {
             get
@@ -47,6 +58,7 @@ namespace bbv.Common.Bootstrapper.Reporting
             }
         }
 
+        /// <inheritdoc />
         public IExecutableContext CreateExecutableContext(IDescribable describable)
         {
             var executableInfo = new ExecutableContext(describable);

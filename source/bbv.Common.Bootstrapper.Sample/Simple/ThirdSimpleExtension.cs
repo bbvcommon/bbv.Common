@@ -51,6 +51,7 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc />
         public override string Describe()
         {
             return "Third simple extension";

@@ -60,6 +60,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             }
         }
 
+        /// <inheritdoc />
         public override string Describe()
         {
             return "Extension which has a dictionary which is filled through a configuration section";
