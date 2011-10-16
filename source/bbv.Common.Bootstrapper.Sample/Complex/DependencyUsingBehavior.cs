@@ -19,7 +19,10 @@
 namespace bbv.Common.Bootstrapper.Sample.Complex
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Reflection;
+
+    using bbv.Common.Formatters;
 
     using log4net;
 
@@ -42,11 +45,26 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         }
 
         /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Behave(IEnumerable<IComplexExtension> extensions)
         {
             Log.Info(" - DependencyUsingBehavior is behaving.");
 
             this.dependency.Hello();
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Behaves on \"{0}\" during bootstrapping.", this.dependency);
         }
     }
 }

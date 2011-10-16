@@ -41,5 +41,11 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 
             funqlets.Add(new CustomFunqlet());
         }
+
+        /// <inheritdoc />
+        public override string Describe()
+        {
+            return "Extension which registers something on the container";
+        }
     }
 }

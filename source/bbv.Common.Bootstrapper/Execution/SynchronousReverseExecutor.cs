@@ -18,10 +18,11 @@
 
 namespace bbv.Common.Bootstrapper.Execution
 {
-    using System;
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Synchronously executes the provided syntax on the extensions by reversing the order the the extensions.
@@ -30,21 +31,35 @@ namespace bbv.Common.Bootstrapper.Execution
     public class SynchronousReverseExecutor<TExtension> : IExecutor<TExtension>
         where TExtension : IExtension
     {
-        /// <summary>
-        /// Executes the specified syntax.
-        /// </summary>
-        /// <param name="syntax">The syntax.</param>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
+        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {
             Ensure.ArgumentNotNull(syntax, "syntax");
+            Ensure.ArgumentNotNull(executionContext, "executionContext");
 
             var reversedExtensions = new Stack<TExtension>(extensions);
 
             foreach (IExecutable<TExtension> executable in syntax)
             {
-                executable.Execute(reversedExtensions);
+                IExecutableContext executableContext = executionContext.CreateExecutableContext(executable);
+
+                executable.Execute(reversedExtensions, executableContext);
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return "Runs all executables synchronously on the extensions in the reverse order which they were added.";
         }
     }
 }

@@ -21,6 +21,8 @@ namespace bbv.Common.Bootstrapper.Configuration
     using System.Collections.Generic;
     using System.Configuration;
 
+    using bbv.Common.Formatters;
+
     /// <summary>
     /// Adds behavior to the IBootstrapper to load configuration sections.
     /// </summary>
@@ -45,10 +47,16 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.factory = factory;
         }
 
-        /// <summary>
-        /// Behaves the specified extensions.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Behave(IEnumerable<IExtension> extensions)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
@@ -64,6 +72,12 @@ namespace bbv.Common.Bootstrapper.Configuration
 
                 consumer.Apply(section);
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return "Behaves on all extensions by automatically providing configuration sections for them.";
         }
     }
 }

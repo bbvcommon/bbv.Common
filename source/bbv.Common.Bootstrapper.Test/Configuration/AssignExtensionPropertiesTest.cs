@@ -21,13 +21,10 @@ namespace bbv.Common.Bootstrapper.Configuration
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-
     using bbv.Common.Bootstrapper.Configuration.Internals;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class AssignExtensionPropertiesTest
@@ -139,6 +136,20 @@ namespace bbv.Common.Bootstrapper.Configuration
         private class SomeExtension : IExtension
         {
             public string SomeProperty { get; private set; }
+
+            /// <inheritdoc />
+            public string Name
+            {
+                get
+                {
+                    return this.GetType().FullNameToString();
+                }
+            }
+
+            public string Describe()
+            {
+                return string.Empty;
+            }
         }
     }
 }

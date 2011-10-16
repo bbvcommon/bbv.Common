@@ -20,40 +20,23 @@ namespace bbv.Common.Bootstrapper.Execution
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class SynchronousExecutorTest
     {
+        private readonly Mock<IExecutionContext> executionContext;
+
         private readonly SynchronousExecutor<IExtension> testee;
 
         public SynchronousExecutorTest()
         {
+            this.executionContext = new Mock<IExecutionContext>();
+
             this.testee = new SynchronousExecutor<IExtension>();
-        }
-
-        [Fact]
-        public void Execute_ShouldExecuteSyntaxWithExtensions()
-        {
-            var firstExecutable = new Mock<IExecutable<IExtension>>();
-            var secondExecutable = new Mock<IExecutable<IExtension>>();
-            var syntax = new Mock<ISyntax<IExtension>>();
-            var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
-
-            syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { firstExecutable.Object, secondExecutable.Object } 
-                .GetEnumerator());
-
-            this.testee.Execute(syntax.Object, extensions);
-
-            firstExecutable.Verify(e => e.Execute(extensions));
-            secondExecutable.Verify(e => e.Execute(extensions));
         }
 
         [Fact]
@@ -68,16 +51,22 @@ namespace bbv.Common.Bootstrapper.Execution
 
             IEnumerable<IExtension> passedExtensions = Enumerable.Empty<IExtension>();
 
-            executable.Setup(e => e.Execute(It.IsAny<IEnumerable<IExtension>>()))
-                .Callback<IEnumerable<IExtension>>(ext => passedExtensions = ext);
+            executable.Setup(e => e.Execute(It.IsAny<IEnumerable<IExtension>>(), It.IsAny<IExecutableContext>()))
+                .Callback<IEnumerable<IExtension>, IExecutableContext>((ext, ctx) => passedExtensions = ext);
 
             syntax.Setup(s => s.GetEnumerator())
-                .Returns(new List<IExecutable<IExtension>> { executable.Object } 
+                .Returns(new List<IExecutable<IExtension>> { executable.Object }
                 .GetEnumerator());
 
-            this.testee.Execute(syntax.Object, extensions);
+            this.testee.Execute(syntax.Object, extensions, this.executionContext.Object);
 
             passedExtensions.Should().ContainInOrder(extensions);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Runs all executables synchronously on the extensions in the order which they were added.");
         }
     }
 }

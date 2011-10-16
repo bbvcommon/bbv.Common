@@ -23,6 +23,9 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
     using System.Globalization;
     using System.Linq.Expressions;
 
+    using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
+
     /// <summary>
     /// Executable which executes an initializer and passes the initialized
     /// context to the action which operates on the extension.
@@ -62,13 +65,20 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.initializer = this.initializerExpression.Compile();
         }
 
-        /// <summary>
-        /// Executes an operation on the specified extensions.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
+        public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
+            Ensure.ArgumentNotNull(executableContext, "executableContext");
 
             TContext context = this.initializer();
 
@@ -76,6 +86,8 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
             foreach (IBehavior<TExtension> behavior in this.behaviors)
             {
+                executableContext.CreateBehaviorContext(behavior);
+
                 behavior.Behave(extensions);
             }
 
@@ -92,6 +104,12 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         public void Add(IBehavior<TExtension> behavior)
         {
             this.behaviors.Enqueue(behavior);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Initializes the context once with \"{0}\" and executes \"{1}\" on each extension during bootstrapping.", this.initializerExpression, this.actionExpression);
         }
     }
 }

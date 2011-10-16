@@ -20,7 +20,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using bbv.Common.Formatters;
     using Funq;
 
     /// <summary>
@@ -39,6 +39,15 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             this.funqlets = funqlets;
         }
 
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <summary>
         /// Scans all extensions which implement IFunqlet and adds them to the funqlet collection.
         /// </summary>
@@ -46,6 +55,12 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         public void Behave(IEnumerable<IComplexExtension> extensions)
         {
             extensions.OfType<IFunqlet>().ToList().ForEach(x => this.funqlets.Add(x));
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return "Behaves on all extensions by collection IFunqlet providing extensions during bootstrapping.";
         }
     }
 }

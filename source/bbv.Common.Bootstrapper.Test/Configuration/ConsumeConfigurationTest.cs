@@ -44,12 +44,13 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             var extension = new Mock<IExtension>();
             var consumer = extension.As<IConsumeConfiguration>();
-            var expected = new Dictionary<string, string> { { "Value", "Key" } };
+            var expected = new KeyValuePair<string, string>("Value", "Key");
 
-            consumer.Setup(n => n.Configuration).Returns(expected);
+            consumer.Setup(n => n.Configuration).Returns(
+                new Dictionary<string, string> { { expected.Key, expected.Value } });
 
             var testee = new ConsumeConfiguration(extension.Object);
-            testee.Configuration.Should().BeEquivalentTo(expected);
+            testee.Configuration.Should().Contain(expected);
         }
     }
 }

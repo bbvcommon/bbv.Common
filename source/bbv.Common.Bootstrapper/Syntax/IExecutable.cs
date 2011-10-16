@@ -20,17 +20,20 @@ namespace bbv.Common.Bootstrapper.Syntax
 {
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
+
     /// <summary>
     /// Executable definition. The executable is part of a syntax.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExecutable<TExtension> : IBehaviorAware<TExtension>
+    public interface IExecutable<TExtension> : IBehaviorAware<TExtension>, IDescribable
         where TExtension : IExtension
     {
         /// <summary>
         /// Executes an operation on the specified extensions.
         /// </summary>
         /// <param name="extensions">The extensions.</param>
-        void Execute(IEnumerable<TExtension> extensions);
+        /// <param name="executableContext">The executable context which is used for reporting</param>
+        void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext);
     }
 }

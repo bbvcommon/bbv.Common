@@ -40,5 +40,11 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
 
             Console.WriteLine("First Simple Extension is shutting down.");
         }
+
+        /// <inheritdoc />
+        public override string Describe()
+        {
+            return "First simple extension";
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
@@ -40,7 +41,13 @@ namespace bbv.Common.Bootstrapper
         /// </summary>
         /// <returns>The shutdown executor.</returns>
         IExecutor<TExtension> CreateShutdownExecutor();
-            
+
+        /// <summary>
+        /// Creates a context which is used to track information about the bootstrapping process.
+        /// </summary>
+        /// <returns>The reporting context.</returns>
+        IReportingContext CreateReportingContext();
+
         /// <summary>
         /// Builds the run syntax.
         /// </summary>

@@ -22,6 +22,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Globalization;
     using System.Linq;
 
+    using bbv.Common.Formatters;
+
     public class BehaviorWithConfigurationContext : IBehavior<ICustomExtension>
     {
         private readonly IDictionary<string, string> configuration;
@@ -37,11 +39,31 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
             this.configuration = configuration;
         }
 
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
         public void Behave(IEnumerable<ICustomExtension> extensions)
         {
             extensions.ToList().ForEach(e => e.Dump(string.Format(CultureInfo.InvariantCulture, "configuration modification with {0} = {1}", this.key, this.value)));
 
             this.configuration.Add(this.key, this.value);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Behaves on all extensions by dumping the key \"{0}\" and value \"{1}\" and modifying the configuration with it.",
+                this.key,
+                this.value);
         }
     }
 }

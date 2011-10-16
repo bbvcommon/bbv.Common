@@ -20,7 +20,9 @@ namespace bbv.Common.Bootstrapper.Execution
 {
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// Synchronously executes the specified syntax on the provided extensions.
@@ -29,19 +31,33 @@ namespace bbv.Common.Bootstrapper.Execution
     public class SynchronousExecutor<TExtension> : IExecutor<TExtension>
         where TExtension : IExtension
     {
-        /// <summary>
-        /// Executes the specified syntax on the extensions.
-        /// </summary>
-        /// <param name="syntax">The syntax.</param>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
+        public void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext)
         {
             Ensure.ArgumentNotNull(syntax, "syntax");
+            Ensure.ArgumentNotNull(executionContext, "executionContext");
 
             foreach (IExecutable<TExtension> executable in syntax)
             {
-                executable.Execute(extensions);
+                IExecutableContext executableContext = executionContext.CreateExecutableContext(executable);
+
+                executable.Execute(extensions, executableContext);
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return "Runs all executables synchronously on the extensions in the order which they were added.";
         }
     }
 }

@@ -18,13 +18,14 @@
 
 namespace bbv.Common.Bootstrapper.Specification.Dummies
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
 
-    public class CustomExtensionBase : ICustomExtension
+    using bbv.Common.Formatters;
+
+    public abstract class CustomExtensionBase : ICustomExtension
     {
         private static readonly Queue<string> sequenceQueue = new Queue<string>();
 
@@ -44,7 +45,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public IDictionary<string, string> RunConfiguration
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public IDictionary<string, string> ShutdownConfiguration
@@ -55,13 +57,23 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
         public string Registered
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public string Unregistered
         {
             get;
             private set;
+        }
+
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
         }
 
         public void Start()
@@ -111,6 +123,8 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             this.Dump(MethodBase.GetCurrentMethod().Name);
         }
+
+        public abstract string Describe();
 
         internal static void DumpAction(string actionName)
         {

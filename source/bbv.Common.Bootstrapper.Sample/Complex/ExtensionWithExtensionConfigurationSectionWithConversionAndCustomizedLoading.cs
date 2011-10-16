@@ -33,7 +33,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
     /// Extension which uses the configuration entries from another
     /// configuration section and provides callbacks for value conversion.
     /// </summary>
-    public class ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading : ComplexExtensionBase, 
+    public class ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading : ComplexExtensionBase,
         IHaveConfigurationSectionName, IHaveConversionCallbacks
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -102,6 +102,13 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             Log.Info("ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading is starting.");
 
             Log.InfoFormat(CultureInfo.InvariantCulture, " - EndpointAddress: {0} <<{1}>>", this.EndpointAddress, this.EndpointAddress.GetType().Name);
+        }
+
+        /// <inheritdoc />
+        public override string Describe()
+        {
+            return
+                "Extension which overloads the default configuration section loading mechanism and provides callback functions to turn the section values into properties";
         }
     }
 }

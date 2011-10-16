@@ -46,6 +46,7 @@
     <Compile Include="Formatters\StringTruncationFormatter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Formatters\TypeExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IDateTimeProvider.cs">
       <SubType>Code</SubType>
