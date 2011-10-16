@@ -98,7 +98,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         public void With_WithConstantBehaviorWhichReturnsEndWithBehavior_ShouldDelegateToInternal()
         {
             var behavior = Mock.Of<IBehavior<ICustomExtension>>();
-            
+
             this.testee.With(behavior);
 
             this.endWithBehavior.Verify(b => b.With(behavior));
@@ -107,7 +107,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         [Fact]
         public void With_WithLazyBehaviorWhichReturnsEndWithBehavior_ShouldDelegateToInternal()
         {
-            Func<IBehavior<ICustomExtension>> behaviorProvider = () => Mock.Of<IBehavior<ICustomExtension>>();
+            Expression<Func<IBehavior<ICustomExtension>>> behaviorProvider = () => Mock.Of<IBehavior<ICustomExtension>>();
 
             this.testee.With(behaviorProvider);
 

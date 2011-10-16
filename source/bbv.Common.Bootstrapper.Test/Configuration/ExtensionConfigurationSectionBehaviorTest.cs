@@ -64,7 +64,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         [Fact]
         public void Behave_ShouldConsumeSectionFromProvider()
         {
-            var expectedConfiguration = new Dictionary<string, string> { { "AnyKey", "AnyValue" } };
+            var expectedConfiguration = new KeyValuePair<string, string>("AnyKey", "AnyValue");
             var configuration = new Dictionary<string, string>();
 
             var configurationSection = ExtensionConfigurationSectionHelper.CreateSection(expectedConfiguration);
@@ -74,7 +74,7 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             this.testee.Behave(this.extensions);
 
-            configuration.Should().BeEquivalentTo(expectedConfiguration);
+            configuration.Should().Contain(expectedConfiguration);
         }
 
         [Fact]

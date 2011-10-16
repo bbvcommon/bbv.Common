@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper.Specification
 {
     using System;
+    using System.Collections.ObjectModel;
 
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Specification.Dummies;
@@ -26,6 +27,8 @@ namespace bbv.Common.Bootstrapper.Specification
 
     public class BootstrapperReportingSpecification
     {
+        private static ReporterCollection Reporters;
+
         protected const string Concern = "Bootstrapper reporting";
 
         protected static CustomExtensionWithBehaviorStrategy Strategy;
@@ -40,12 +43,32 @@ namespace bbv.Common.Bootstrapper.Specification
 
         Establish context = () =>
         {
-            Bootstrapper = new DefaultBootstrapper<ICustomExtension>(new InterceptingReporter(ctx => ReportingContext = ctx));
+            Reporters = new ReporterCollection();
+
+            Bootstrapper = new DefaultBootstrapper<ICustomExtension>(Reporters);
 
             Strategy = new CustomExtensionWithBehaviorStrategy();
             First = new FirstExtension();
             Second = new SecondExtension();
+
+            RegisterReporter(new InterceptingReporter(ctx => ReportingContext = ctx));
         };
+
+        protected static void RegisterReporter(IReporter reporter)
+        {
+            Reporters.Add(reporter);
+        }
+
+        private class ReporterCollection : Collection<IReporter>, IReporter
+        {
+            public void Report(IReportingContext context)
+            {
+                foreach (IReporter reporter in Items)
+                {
+                    reporter.Report(context);
+                }
+            }
+        }
 
         private class InterceptingReporter : IReporter
         {

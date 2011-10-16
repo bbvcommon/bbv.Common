@@ -51,11 +51,6 @@ namespace bbv.Common.Bootstrapper.Specification.Helpers
 
     public interface IShutdownBuilder
     {
-        IShutdownExecutableBuilder Shutdown(string name, string description);
-    }
-
-    public interface IShutdownExecutableBuilder
-    {
-        IBehaviorBuilder Executable(string name, string description);
+        IExecutableBuilder Shutdown(string name, string description);
     }
 }

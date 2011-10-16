@@ -22,7 +22,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     {
         public override string Describe()
         {
-            return "Second extension";
+            return "Second Extension";
         }
     }
 }

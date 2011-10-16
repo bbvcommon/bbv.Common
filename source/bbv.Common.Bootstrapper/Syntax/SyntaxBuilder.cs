@@ -143,7 +143,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The syntax.
         /// </returns>
-        public IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
+        public IWithBehavior<TExtension> With(Expression<Func<IBehavior<TExtension>>> behavior)
         {
             this.BuiltExecutable.Add(new LazyBehavior<TExtension>(behavior));
 
@@ -157,7 +157,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The syntax.
         /// </returns>
-        IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(Func<IBehavior<TExtension>> behavior)
+        IEndWithBehavior<TExtension> IEndWithBehavior<TExtension>.With(Expression<Func<IBehavior<TExtension>>> behavior)
         {
             this.BuiltExecutable.Add(new LazyBehavior<TExtension>(behavior));
 
@@ -230,12 +230,12 @@ namespace bbv.Common.Bootstrapper.Syntax
                 initializer,
                 action,
                 (behaviorAware, context) =>
+                {
+                    foreach (Func<TContext, IBehavior<TExtension>> provider in providerQueue)
                     {
-                        foreach (Func<TContext, IBehavior<TExtension>> provider in providerQueue)
-                        {
-                            behaviorAware.Add(provider(context));
-                        }
-                    });
+                        behaviorAware.Add(provider(context));
+                    }
+                });
 
             this.executables.Enqueue(executable);
             this.BuiltExecutable = executable;

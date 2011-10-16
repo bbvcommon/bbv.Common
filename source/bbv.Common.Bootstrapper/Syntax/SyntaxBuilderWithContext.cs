@@ -80,7 +80,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         }
 
         /// <inheritdoc />
-        public IEndWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior)
+        public IEndWithBehavior<TExtension> With(Expression<Func<IBehavior<TExtension>>> behavior)
         {
             return ((IEndWithBehavior<TExtension>)this.syntaxBuilder).With(behavior);
         }

@@ -20,11 +20,11 @@ namespace bbv.Common.Bootstrapper.Specification.Helpers
 {
     using bbv.Common.Bootstrapper.Reporting;
 
-    public class ReportingContextBuilder : IReportContextBuilder, IBehaviorBuilder, IShutdownExecutableBuilder
+    public class ReportingContextBuilder : IReportContextBuilder, IBehaviorBuilder
     {
         private ReportingContext reportingContext;
 
-        private IExecutionContext runExecutionContext;
+        private IExecutionContext currentExecutionContext;
 
         private IExecutableContext currentExecutableContext;
 
@@ -49,26 +49,23 @@ namespace bbv.Common.Bootstrapper.Specification.Helpers
 
         public IExecutableBuilder Run(string name, string description)
         {
-            this.runExecutionContext = this.reportingContext.CreateRunExecutionContext(new Describable(name, description));
+            this.currentExecutionContext = this.reportingContext.CreateRunExecutionContext(new Describable(name, description));
 
             return this;
         }
 
-        public IShutdownExecutableBuilder Shutdown(string name, string description)
+        public IExecutableBuilder Shutdown(string name, string description)
         {
-            this.shutdownExecutionContext = this.reportingContext.CreateShutdownExecutionContext(new Describable(name, description));
+            this.currentExecutionContext = this.reportingContext.CreateShutdownExecutionContext(new Describable(name, description));
 
             return this;
         }
 
         public IBehaviorBuilder Executable(string name, string description)
         {
-            return this.Executable(this.runExecutionContext, name, description);
-        }
+            this.currentExecutableContext = this.currentExecutionContext.CreateExecutableContext(new Describable(name, description));
 
-        IBehaviorBuilder IShutdownExecutableBuilder.Executable(string name, string description)
-        {
-            return this.Executable(this.shutdownExecutionContext, name, description);
+            return this;
         }
 
         public IBehaviorBuilder Behavior(string name, string description)
@@ -81,13 +78,6 @@ namespace bbv.Common.Bootstrapper.Specification.Helpers
         public IReportingContext Build()
         {
             return this.reportingContext;
-        }
-
-        private ReportingContextBuilder Executable(IExecutionContext context, string name, string description)
-        {
-            this.currentExecutableContext = context.CreateExecutableContext(new Describable(name, description));
-
-            return this;
         }
 
         private class Describable : IDescribable

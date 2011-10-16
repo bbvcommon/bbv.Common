@@ -34,11 +34,7 @@ namespace bbv.Common.Bootstrapper.Behavior
         {
             this.lazyBehavior = new Mock<IBehavior<ICustomExtension>>();
 
-            this.testee = new LazyBehavior<ICustomExtension>(() =>
-                {
-                    this.accessCounter++;
-                    return this.lazyBehavior.Object;
-                });
+            this.testee = new LazyBehavior<ICustomExtension>(() => this.DelayCreation());
         }
 
         [Fact]
@@ -78,7 +74,13 @@ namespace bbv.Common.Bootstrapper.Behavior
         [Fact]
         public void ShouldDescribeItself()
         {
-            this.testee.Describe().Should().Be("Behaves by creating the behavior with the specified behavior provider and executing behave on the lazy initialized behavior.");
+            this.testee.Describe().Should().Be("Behaves by creating the behavior with () => value(bbv.Common.Bootstrapper.Behavior.LazyBehaviorTest).DelayCreation() and executing behave on the lazy initialized behavior.");
+        }
+
+        private IBehavior<ICustomExtension> DelayCreation()
+        {
+            this.accessCounter++;
+            return this.lazyBehavior.Object;
         }
     }
 }
