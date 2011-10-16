@@ -20,6 +20,7 @@ namespace bbv.Common.Formatters
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Contains extension methods for Type.
@@ -29,17 +30,19 @@ namespace bbv.Common.Formatters
         /// <summary>
         /// Correctly formats the FullName of the specified type by taking generics into consideration.
         /// </summary>
-        /// <param name="t">The type whose full name is formatted.</param>
+        /// <param name="type">The type whose full name is formatted.</param>
         /// <returns>A correctly formatted full name.</returns>
-        public static string FullNameToString(this Type t)
+        public static string FullNameToString(this Type type)
         {
-            if (!t.IsGenericType)
+            Ensure.ArgumentNotNull(type, "type");
+
+            if (!type.IsGenericType)
             {
-                return t.FullName;
+                return type.FullName;
             }
 
-            string value = t.FullName.Substring(0, t.FullName.IndexOf('`')) + "<";
-            Type[] genericArgs = t.GetGenericArguments();
+            string value = type.FullName.Substring(0, type.FullName.IndexOf('`')) + "<";
+            Type[] genericArgs = type.GetGenericArguments();
             var list = new List<string>();
 
             for (int i = 0; i < genericArgs.Length; i++)
@@ -51,7 +54,7 @@ namespace bbv.Common.Formatters
 
             value = value.TrimEnd(',');
             value += ">";
-            value = string.Format(value, list.ToArray());
+            value = string.Format(CultureInfo.InvariantCulture, value, list.ToArray());
             return value;
         }
     }
