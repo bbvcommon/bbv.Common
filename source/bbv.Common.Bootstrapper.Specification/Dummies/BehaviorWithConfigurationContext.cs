@@ -61,7 +61,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         {
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "Behaves on all extensions by dumping the key \"{0}\" and value \"{1}\" and modifying the configuration with it.",
+                "Dumps the key \"{0}\" and value \"{1}\" and modifies the configuration with it.",
                 this.key,
                 this.value);
         }

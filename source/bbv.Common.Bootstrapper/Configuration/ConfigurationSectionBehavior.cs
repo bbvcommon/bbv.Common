@@ -77,7 +77,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// <inheritdoc />
         public string Describe()
         {
-            return "Behaves on all extensions by automatically providing configuration sections for them.";
+            return "Automatically provides configuration sections for all extensions.";
         }
     }
 }

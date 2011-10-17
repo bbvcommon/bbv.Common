@@ -53,8 +53,7 @@ namespace bbv.Common.Bootstrapper.Behavior
         /// <inheritdoc />
         public string Describe()
         {
-            return
-                "Behaves on all extensions by checking whether they implement IDisposable and disposing them if this is the case.";
+            return "Disposes all extensions which implement IDisposable.";
         }
     }
 }

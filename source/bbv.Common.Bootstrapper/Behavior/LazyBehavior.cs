@@ -69,7 +69,7 @@ namespace bbv.Common.Bootstrapper.Behavior
         public string Describe()
         {
             return string.Format(
-                CultureInfo.InvariantCulture, "Behaves by creating the behavior with {0} and executing behave on the lazy initialized behavior.", this.behaviorProviderExpression);
+                CultureInfo.InvariantCulture, "Creates the behavior with {0} and executes behave on the lazy initialized behavior.", this.behaviorProviderExpression);
         }
     }
 }
