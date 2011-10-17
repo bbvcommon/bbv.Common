@@ -16,13 +16,10 @@
 namespace bbv.Common.Bootstrapper.Behavior
 {
     using System.Linq;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class LazyBehaviorTest
@@ -37,11 +34,7 @@ namespace bbv.Common.Bootstrapper.Behavior
         {
             this.lazyBehavior = new Mock<IBehavior<ICustomExtension>>();
 
-            this.testee = new LazyBehavior<ICustomExtension>(() =>
-                {
-                    this.accessCounter++;
-                    return this.lazyBehavior.Object;
-                });
+            this.testee = new LazyBehavior<ICustomExtension>(() => this.DelayCreation());
         }
 
         [Fact]
@@ -68,6 +61,26 @@ namespace bbv.Common.Bootstrapper.Behavior
             this.testee.Behave(expectedExtensions);
 
             this.lazyBehavior.Verify(b => b.Behave(expectedExtensions));
+        }
+
+        [Fact]
+        public void ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Behaves by creating the behavior with () => value(bbv.Common.Bootstrapper.Behavior.LazyBehaviorTest).DelayCreation() and executing behave on the lazy initialized behavior.");
+        }
+
+        private IBehavior<ICustomExtension> DelayCreation()
+        {
+            this.accessCounter++;
+            return this.lazyBehavior.Object;
         }
     }
 }

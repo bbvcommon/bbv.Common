@@ -21,8 +21,9 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Configuration;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Formatters;
 
-    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration, 
+    public class CustomExtensionWithConfigurationWhichKnowsNameAndWhereToLoadFrom : ICustomExtensionWithConfiguration,
         IHaveConfigurationSectionName, ILoadConfigurationSection, IConsumeConfigurationSection
     {
         public bool SectionNameAcquired { get; private set; }
@@ -39,6 +40,21 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
 
                 return "FakeConfigurationSection";
             }
+        }
+
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        public string Describe()
+        {
+            return
+                "Custom Extension which defines a custom section name and overrides the configuration section loading mechanism";
         }
 
         public void Apply(ConfigurationSection section)

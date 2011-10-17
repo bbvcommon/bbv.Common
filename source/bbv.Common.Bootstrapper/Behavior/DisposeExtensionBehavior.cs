@@ -22,11 +22,22 @@ namespace bbv.Common.Bootstrapper.Behavior
     using System.Collections.Generic;
     using System.Linq;
 
+    using bbv.Common.Formatters;
+
     /// <summary>
     /// Behavior which disposes all extensions which implement IDisposable
     /// </summary>
     public class DisposeExtensionBehavior : IBehavior<IExtension>
     {
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <summary>
         /// Diposes all extensions which implement IDisposable.
         /// </summary>
@@ -37,6 +48,13 @@ namespace bbv.Common.Bootstrapper.Behavior
             {
                 extension.Dispose();
             }
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return
+                "Behaves on all extensions by checking whether they implement IDisposable and disposing them if this is the case.";
         }
     }
 }

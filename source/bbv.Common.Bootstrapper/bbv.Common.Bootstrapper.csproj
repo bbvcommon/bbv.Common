@@ -41,6 +41,15 @@
     <Compile Include="Configuration\Internals\LoadConfigurationSection.cs" />
     <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
     <Compile Include="Configuration\Internals\HaveConfigurationSectionName.cs" />
+    <Compile Include="IDescribable.cs" />
+    <Compile Include="IReporter.cs" />
+    <Compile Include="Reporting\BehaviorContext.cs" />
+    <Compile Include="Reporting\NullReporter.cs" />
+    <Compile Include="Reporting\ReportingContext.cs" />
+    <Compile Include="Reporting\ExecutableContext.cs" />
+    <Compile Include="Reporting\ExecutionContext.cs" />
+    <Compile Include="Reporting\ExtensionContext.cs" />
+    <Compile Include="Reporting\IReportingContext.cs" />
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="BootstrapperException.cs" />
     <Compile Include="Configuration\ExtensionConfigurationSection.cs" />

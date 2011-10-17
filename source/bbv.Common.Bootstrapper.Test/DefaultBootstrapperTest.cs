@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper
     using System;
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     using FluentAssertions;
@@ -32,20 +33,28 @@ namespace bbv.Common.Bootstrapper
     public class DefaultBootstrapperTest
     {
         private readonly Mock<IExtensionHost<IExtension>> extensionHost;
+        private readonly Mock<IReporter> reporter;
 
         private readonly Mock<IExecutor<IExtension>> runExecutor;
 
         private readonly Mock<IExecutor<IExtension>> shutdownExecutor;
+
+        private readonly Mock<IReportingContext> reportingContext;
+
+        private readonly Mock<IStrategy<IExtension>> strategy;
 
         private readonly DefaultBootstrapper<IExtension> testee;
 
         public DefaultBootstrapperTest()
         {
             this.extensionHost = new Mock<IExtensionHost<IExtension>>();
+            this.reporter = new Mock<IReporter>();
+            this.strategy = new Mock<IStrategy<IExtension>>();
             this.runExecutor = new Mock<IExecutor<IExtension>>();
             this.shutdownExecutor = new Mock<IExecutor<IExtension>>();
+            this.reportingContext = new Mock<IReportingContext> { DefaultValue = DefaultValue.Mock };
 
-            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object);
+            this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.reporter.Object);
         }
 
         [Fact]
@@ -57,8 +66,24 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Initialize_ShouldCreateReportingContext()
+        {
+            this.testee.Initialize(this.strategy.Object);
+
+            this.strategy.Verify(s => s.CreateReportingContext());
+        }
+
+        [Fact]
+        public void AddExtension_WhenNotInitialized_ShouldThrowInvalidOperationException()
+        {
+            this.testee.Invoking(x => x.AddExtension(Mock.Of<IExtension>())).ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
         public void AddExtension_ShouldTrackExtension()
         {
+            this.InitializeTestee();
+
             var extension = Mock.Of<IExtension>();
 
             this.testee.AddExtension(extension);
@@ -67,32 +92,41 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void AddExtension_ShouldCreateExtensionContext()
+        {
+            this.InitializeTestee();
+
+            var extension = Mock.Of<IExtension>();
+
+            this.testee.AddExtension(extension);
+
+            this.reportingContext.Verify(c => c.CreateExtensionContext(extension));
+        }
+
+        [Fact]
         public void Run_ShouldBuildRunSyntax()
         {
-            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
-            this.testee.Initialize(strategy.Object);
+            this.InitializeTestee();
 
             this.testee.Run();
 
-            strategy.Verify(s => s.BuildRunSyntax());
+            this.strategy.Verify(s => s.BuildRunSyntax());
         }
 
         [Fact]
         public void Run_ShouldExecuteSyntaxAndExtensionsOnRunExecutor()
         {
             var runSyntax = new Mock<ISyntax<IExtension>>();
-            var strategy = new Mock<IStrategy<IExtension>>();
-            this.SetupStrategyReturnsBuilder(strategy);
-            strategy.Setup(s => s.BuildRunSyntax()).Returns(runSyntax.Object);
+            this.strategy.Setup(s => s.BuildRunSyntax()).Returns(runSyntax.Object);
 
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
             this.extensionHost.Setup(e => e.Extensions).Returns(extensions);
 
-            this.testee.Initialize(strategy.Object);
+            this.InitializeTestee();
 
             this.testee.Run();
 
-            this.runExecutor.Verify(r => r.Execute(runSyntax.Object, extensions));
+            this.runExecutor.Verify(r => r.Execute(runSyntax.Object, extensions, It.IsAny<IExecutionContext>()));
         }
 
         [Fact]
@@ -100,6 +134,31 @@ namespace bbv.Common.Bootstrapper
         {
             this.testee.Invoking(t => t.Run())
                 .ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Run_ShouldCreateRunExecutionContextWithRunExecutor()
+        {
+            this.InitializeTestee();
+
+            this.testee.Run();
+
+            this.reportingContext.Verify(c => c.CreateRunExecutionContext(this.runExecutor.Object));
+        }
+
+        [Fact]
+        public void Run_ShouldProvideRunExecutionContextForRunExecutor()
+        {
+            var runExecutionContext = Mock.Of<IExecutionContext>();
+
+            this.reportingContext.Setup(c => c.CreateRunExecutionContext(It.IsAny<IDescribable>()))
+                .Returns(runExecutionContext);
+
+            this.InitializeTestee();
+
+            this.testee.Run();
+
+            this.runExecutor.Verify(r => r.Execute(It.IsAny<ISyntax<IExtension>>(), It.IsAny<IEnumerable<IExtension>>(), runExecutionContext));
         }
 
         [Fact]
@@ -122,6 +181,24 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Shutdown_ShouldCreateShutdownExecutionContextWithShutdownExecutor()
+        {
+            this.ShouldCreateShutdownExecutionContextWithShutdownExecutor(() => this.testee.Shutdown());
+        }
+
+        [Fact]
+        public void Shutdown_ShouldProvideShutdownExecutionContextForShutdownExecutor()
+        {
+            this.ShouldProvideShutdownExecutionContextForShutdownExecutor(() => this.testee.Shutdown());
+        }
+
+        [Fact]
+        public void Shutdown_ShouldReport()
+        {
+            this.ShouldReportBeforeStrategyDisposal(() => this.testee.Shutdown());
+        }
+
+        [Fact]
         public void Dispose_ShouldBuildShutdownSyntax()
         {
             this.ShouldBuildShutdownSyntax(() => this.testee.Dispose());
@@ -134,48 +211,106 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void Dispose_ShouldCreateShutdownExecutionContextWithShutdownExecutor()
+        {
+            this.ShouldCreateShutdownExecutionContextWithShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        [Fact]
+        public void Dispose_ShouldProvideShutdownExecutionContextForShutdownExecutor()
+        {
+            this.ShouldProvideShutdownExecutionContextForShutdownExecutor(() => this.testee.Dispose());
+        }
+
+        [Fact]
+        public void Dispose_ShouldReport()
+        {
+            this.ShouldReportBeforeStrategyDisposal(() => this.testee.Dispose());
+        }
+
+        [Fact]
         public void Dispose_ShouldDisposeStrategy()
         {
-            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
-            this.testee.Initialize(strategy.Object);
+            this.InitializeTestee();
 
             this.testee.Dispose();
 
-            strategy.Verify(s => s.Dispose());
+            this.strategy.Verify(s => s.Dispose());
+        }
+
+        private void ShouldCreateShutdownExecutionContextWithShutdownExecutor(Action executionAction)
+        {
+            this.InitializeTestee();
+
+            executionAction();
+
+            this.reportingContext.Verify(c => c.CreateShutdownExecutionContext(this.shutdownExecutor.Object));
+        }
+
+        private void ShouldProvideShutdownExecutionContextForShutdownExecutor(Action executionAction)
+        {
+            var shutdownExecutionContext = Mock.Of<IExecutionContext>();
+
+            this.reportingContext.Setup(c => c.CreateShutdownExecutionContext(It.IsAny<IDescribable>()))
+                .Returns(shutdownExecutionContext);
+
+            this.InitializeTestee();
+
+            executionAction();
+
+            this.shutdownExecutor.Verify(r => r.Execute(It.IsAny<ISyntax<IExtension>>(), It.IsAny<IEnumerable<IExtension>>(), shutdownExecutionContext));
         }
 
         private void ShouldBuildShutdownSyntax(Action executionAction)
         {
-            var strategy = new Mock<IStrategy<IExtension>> { DefaultValue = DefaultValue.Mock };
-
-            this.testee.Initialize(strategy.Object);
+            this.InitializeTestee();
 
             executionAction();
 
-            strategy.Verify(s => s.BuildShutdownSyntax());
+            this.strategy.Verify(s => s.BuildShutdownSyntax());
         }
 
         private void ShouldExecuteSyntaxAndExtensionsOnShutdownExecutor(Action executionAction)
         {
             var shutdownSyntax = new Mock<ISyntax<IExtension>>();
-            var strategy = new Mock<IStrategy<IExtension>>();
-            this.SetupStrategyReturnsBuilder(strategy);
-            strategy.Setup(s => s.BuildShutdownSyntax()).Returns(shutdownSyntax.Object);
+            this.strategy.Setup(s => s.BuildShutdownSyntax()).Returns(shutdownSyntax.Object);
 
             var extensions = new List<IExtension> { Mock.Of<IExtension>(), };
             this.extensionHost.Setup(e => e.Extensions).Returns(extensions);
 
-            this.testee.Initialize(strategy.Object);
+            this.InitializeTestee();
 
             executionAction();
 
-            this.shutdownExecutor.Verify(r => r.Execute(shutdownSyntax.Object, extensions));
+            this.shutdownExecutor.Verify(r => r.Execute(shutdownSyntax.Object, extensions, It.IsAny<IExecutionContext>()));
         }
 
-        private void SetupStrategyReturnsBuilder(Mock<IStrategy<IExtension>> strategy)
+        private void ShouldReportBeforeStrategyDisposal(Action executionAction)
         {
-            strategy.Setup(s => s.CreateRunExecutor()).Returns(this.runExecutor.Object);
-            strategy.Setup(s => s.CreateShutdownExecutor()).Returns(this.shutdownExecutor.Object);
+            var queue = new Queue<string>();
+
+            this.strategy.Setup(s => s.Dispose()).Callback(() => queue.Enqueue("Dispose"));
+            this.reporter.Setup(s => s.Report(It.IsAny<IReportingContext>())).Callback<IReportingContext>(ctx => queue.Enqueue("Report"));
+
+            this.InitializeTestee();
+
+            executionAction();
+
+            queue.Should().ContainInOrder(new List<string> { "Report", "Dispose" });
+        }
+
+        private void SetupStrategyReturnsBuilderAnContext()
+        {
+            this.strategy.Setup(s => s.CreateReportingContext()).Returns(this.reportingContext.Object);
+            this.strategy.Setup(s => s.CreateRunExecutor()).Returns(this.runExecutor.Object);
+            this.strategy.Setup(s => s.CreateShutdownExecutor()).Returns(this.shutdownExecutor.Object);
+        }
+
+        private void InitializeTestee()
+        {
+            this.SetupStrategyReturnsBuilderAnContext();
+
+            this.testee.Initialize(this.strategy.Object);
         }
     }
 }

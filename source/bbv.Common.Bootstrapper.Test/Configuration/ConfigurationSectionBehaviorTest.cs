@@ -18,12 +18,11 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
     using System.Configuration;
-
+    using bbv.Common.Formatters;
+    using FluentAssertions;
     using Moq;
-
     using Xunit;
 
     public class ConfigurationSectionBehaviorTest
@@ -91,6 +90,20 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.testee.Behave(this.extensions);
 
             this.sectionProvider.Verify(p => p.GetSection(AnySectionName));
+        }
+
+        [Fact]
+        public void ShouldReturnTypeName()
+        {
+            string expectedName = this.testee.GetType().FullNameToString();
+
+            this.testee.Name.Should().Be(expectedName);
+        }
+
+        [Fact]
+        public void ShouldDescribeItself()
+        {
+            this.testee.Describe().Should().Be("Behaves on all extensions by automatically providing configuration sections for them.");
         }
 
         private void AutoStubFactory()

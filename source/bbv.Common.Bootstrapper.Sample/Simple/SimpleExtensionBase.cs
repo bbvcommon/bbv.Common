@@ -18,11 +18,22 @@
 
 namespace bbv.Common.Bootstrapper.Sample.Simple
 {
+    using bbv.Common.Formatters;
+
     /// <summary>
     /// Base class for ISimpleExtension implementors.
     /// </summary>
-    public class SimpleExtensionBase : ISimpleExtension
+    public abstract class SimpleExtensionBase : ISimpleExtension
     {
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
         /// <inheritdoc />
         public virtual void Start()
         {
@@ -32,5 +43,8 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
         public virtual void Shutdown()
         {
         }
+
+        /// <inheritdoc />
+        public abstract string Describe();
     }
 }

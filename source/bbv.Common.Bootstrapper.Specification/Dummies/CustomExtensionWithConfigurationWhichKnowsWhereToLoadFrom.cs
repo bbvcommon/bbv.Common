@@ -21,13 +21,28 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Configuration;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Formatters;
 
-    public class CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom : ICustomExtensionWithConfiguration, 
+    public class CustomExtensionWithConfigurationWhichKnowsWhereToLoadFrom : ICustomExtensionWithConfiguration,
         ILoadConfigurationSection, IConsumeConfigurationSection
     {
         public string SectionAcquired { get; private set; }
 
         public FakeConfigurationSection AppliedSection { get; private set; }
+
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        public string Describe()
+        {
+            return "Custom extension which overrides the configuration section loading mechanism";
+        }
 
         public void Apply(ConfigurationSection section)
         {

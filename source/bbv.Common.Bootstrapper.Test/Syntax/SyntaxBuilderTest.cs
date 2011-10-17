@@ -23,13 +23,10 @@ namespace bbv.Common.Bootstrapper.Syntax
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
     using Xunit.Extensions;
 
@@ -648,6 +645,15 @@ namespace bbv.Common.Bootstrapper.Syntax
                 this.context = context;
             }
 
+            /// <inheritdoc />
+            public string Name
+            {
+                get
+                {
+                    return this.GetType().FullNameToString();
+                }
+            }
+
             public object Context
             {
                 get
@@ -658,6 +664,11 @@ namespace bbv.Common.Bootstrapper.Syntax
 
             public void Behave(IEnumerable<ICustomExtension> extensions)
             {
+            }
+
+            public string Describe()
+            {
+                return "Behaves by doing nothing.";
             }
         }
 

@@ -37,7 +37,8 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
     public interface IBeginSyntax<TExtension> : IExecuteAction<TExtension>,
                                                 IExecuteActionOnExtension<TExtension>,
-                                                IExecuteActionOnExtensionWithContext<TExtension>
+                                                IExecuteActionOnExtensionWithContext<TExtension>,
+                                                IEndSyntax<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
@@ -50,7 +51,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// End syntax which allows to define behavior which is executed at the end.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IEndSyntax<out TExtension>
+    public interface IEndSyntax<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
@@ -137,7 +138,7 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The syntax.
         /// </returns>
-        IWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior);
+        IWithBehavior<TExtension> With(Expression<Func<IBehavior<TExtension>>> behavior);
     }
 
     /// <summary>
@@ -145,7 +146,7 @@ namespace bbv.Common.Bootstrapper.Syntax
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
     /// <typeparam name="TContext">The type of the context.</typeparam>
-    public interface IWithBehaviorOnContext<TExtension, out TContext> : IExecuteAction<TExtension>,
+    public interface IWithBehaviorOnContext<TExtension, TContext> : IExecuteAction<TExtension>,
                                                                         IExecuteActionOnExtension<TExtension>,
                                                                         IExecuteActionOnExtensionWithContext<TExtension>,
                                                                         IEndSyntax<TExtension>
@@ -156,14 +157,14 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// </summary>
         /// <param name="provider">The behavior provider.</param>
         /// <returns>The syntax.</returns>
-        IWithBehaviorOnContext<TExtension, TContext> With(Func<TContext, IBehavior<TExtension>> provider);
+        IWithBehaviorOnContext<TExtension, TContext> With(Expression<Func<TContext, IBehavior<TExtension>>> provider);
     }
 
     /// <summary>
     /// Terminal fluent definition syntax interface for behaviors.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IEndWithBehavior<out TExtension>
+    public interface IEndWithBehavior<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
@@ -182,6 +183,6 @@ namespace bbv.Common.Bootstrapper.Syntax
         /// <returns>
         /// The syntax.
         /// </returns>
-        IEndWithBehavior<TExtension> With(Func<IBehavior<TExtension>> behavior);
+        IEndWithBehavior<TExtension> With(Expression<Func<IBehavior<TExtension>>> behavior);
     }
 }

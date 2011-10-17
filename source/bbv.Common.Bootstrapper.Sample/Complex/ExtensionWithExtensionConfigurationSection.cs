@@ -50,5 +50,11 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             Log.InfoFormat(CultureInfo.InvariantCulture, " - EndpointAddress: {0} <<{1}>>", this.EndpointAddress, this.EndpointAddress.GetType().Name);
             Log.InfoFormat(CultureInfo.InvariantCulture, " - StartServer: {0}", this.StartServer);
         }
+
+        /// <inheritdoc />
+        public override string Describe()
+        {
+            return "Extensions which consumes a configuration section";
+        }
     }
 }

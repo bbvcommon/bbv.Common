@@ -46,12 +46,12 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             var extension = new Mock<IExtension>();
             var consumer = extension.As<IHaveConversionCallbacks>();
-            var expected = new Dictionary<string, Func<string, PropertyInfo, object>> { { "Value", (value, info) => new object() } };
+            var expected = new KeyValuePair<string, Func<string, PropertyInfo, object>>("Value", (value, info) => new object());
 
-            consumer.Setup(n => n.ConversionCallbacks).Returns(expected);
+            consumer.Setup(n => n.ConversionCallbacks).Returns(new Dictionary<string, Func<string, PropertyInfo, object>> { { expected.Key, expected.Value } });
 
             var testee = new HaveConversionCallbacks(extension.Object);
-            testee.ConversionCallbacks.Should().BeEquivalentTo(expected);
+            testee.ConversionCallbacks.Should().Contain(expected);
         }
 
         [Fact]

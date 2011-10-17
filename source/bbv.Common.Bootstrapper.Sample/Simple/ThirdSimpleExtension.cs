@@ -19,7 +19,7 @@
 namespace bbv.Common.Bootstrapper.Sample.Simple
 {
     using System;
-    
+
     /// <summary>
     /// Third simple extension.
     /// </summary>
@@ -49,6 +49,12 @@ namespace bbv.Common.Bootstrapper.Sample.Simple
             this.Dispose(true);
 
             GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc />
+        public override string Describe()
+        {
+            return "Third simple extension";
         }
 
         private void Dispose(bool disposing)

@@ -20,7 +20,11 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
+
+    using bbv.Common.Bootstrapper.Reporting;
+    using bbv.Common.Formatters;
 
     /// <summary>
     /// The executable which executes an action on an extension.
@@ -48,16 +52,25 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             this.action = this.actionExpression.Compile();
         }
 
-        /// <summary>
-        /// Executes an operation on the specified extensions.
-        /// </summary>
-        /// <param name="extensions">The extensions.</param>
-        public void Execute(IEnumerable<TExtension> extensions)
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.GetType().FullNameToString();
+            }
+        }
+
+        /// <inheritdoc />
+        public void Execute(IEnumerable<TExtension> extensions, IExecutableContext executableContext)
         {
             Ensure.ArgumentNotNull(extensions, "extensions");
+            Ensure.ArgumentNotNull(executableContext, "executableContext");
 
             foreach (IBehavior<TExtension> behavior in this.behaviors)
             {
+                executableContext.CreateBehaviorContext(behavior);
+
                 behavior.Behave(extensions);
             }
 
@@ -67,13 +80,16 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             }
         }
 
-        /// <summary>
-        /// Adds the specified behavior.
-        /// </summary>
-        /// <param name="behavior">The behavior.</param>
+        /// <inheritdoc />
         public void Add(IBehavior<TExtension> behavior)
         {
             this.behaviors.Enqueue(behavior);
+        }
+
+        /// <inheritdoc />
+        public string Describe()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "Executes \"{0}\" on each extension during bootstrapping.", this.actionExpression);
         }
     }
 }

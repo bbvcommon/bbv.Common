@@ -20,13 +20,14 @@ namespace bbv.Common.Bootstrapper
 {
     using System.Collections.Generic;
 
+    using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
     /// The executor is responsible for executing a given syntax on the extensions.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExecutor<TExtension>
+    public interface IExecutor<TExtension> : IDescribable
         where TExtension : IExtension
     {
         /// <summary>
@@ -34,6 +35,7 @@ namespace bbv.Common.Bootstrapper
         /// </summary>
         /// <param name="syntax">The syntax.</param>
         /// <param name="extensions">The extensions.</param>
-        void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions);
+        /// <param name="executionContext">The execution context which is used for reporting</param>
+        void Execute(ISyntax<TExtension> syntax, IEnumerable<TExtension> extensions, IExecutionContext executionContext);
     }
 }

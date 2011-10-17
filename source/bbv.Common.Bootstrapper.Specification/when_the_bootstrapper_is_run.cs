@@ -20,11 +20,8 @@ namespace bbv.Common.Bootstrapper.Specification
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using bbv.Common.Bootstrapper.Specification.Dummies;
-
     using FluentAssertions;
-
     using Machine.Specifications;
 
     [Subject(Concern)]

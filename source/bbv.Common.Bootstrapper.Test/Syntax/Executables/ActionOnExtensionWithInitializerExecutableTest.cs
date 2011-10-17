@@ -19,14 +19,10 @@
 namespace bbv.Common.Bootstrapper.Syntax.Executables
 {
     using System.Collections.Generic;
-    using System.Linq;
-
     using bbv.Common.Bootstrapper.Dummies;
-
+    using bbv.Common.Bootstrapper.Reporting;
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class ActionOnExtensionWithInitializerExecutableTest
@@ -35,12 +31,16 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
 
         private readonly ActionOnExtensionWithInitializerExecutable<object, ICustomExtension> testee;
 
+        private readonly Mock<IExecutableContext> executableContext;
+
         private int contextAccessCounter;
 
         private IBehaviorAware<IExtension> interceptedBehaviorAware;
 
         public ActionOnExtensionWithInitializerExecutableTest()
         {
+            this.executableContext = new Mock<IExecutableContext>();
+
             this.context = new object();
 
             this.testee = new ActionOnExtensionWithInitializerExecutable<object, ICustomExtension>(
@@ -52,7 +52,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         [Fact]
         public void Execute_ShouldCallInitializerOnce()
         {
-            this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() });
+            this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() }, this.executableContext.Object);
 
             this.contextAccessCounter.Should().Be(1);
         }
@@ -60,7 +60,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
         [Fact]
         public void Execute_ShouldPassItselfToInitializer()
         {
-            this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() });
+            this.testee.Execute(new List<ICustomExtension> { Mock.Of<ICustomExtension>(), Mock.Of<ICustomExtension>() }, this.executableContext.Object);
 
             this.interceptedBehaviorAware.Should().Be(this.testee);
         }
@@ -71,7 +71,7 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             var firstExtension = new Mock<ICustomExtension>();
             var secondExtension = new Mock<ICustomExtension>();
 
-            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object });
+            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object }, this.executableContext.Object);
 
             firstExtension.Verify(x => x.SomeMethod(It.IsAny<object>()));
             secondExtension.Verify(x => x.SomeMethod(It.IsAny<object>()));
@@ -83,26 +83,16 @@ namespace bbv.Common.Bootstrapper.Syntax.Executables
             var firstExtension = new Mock<ICustomExtension>();
             var secondExtension = new Mock<ICustomExtension>();
 
-            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object });
+            this.testee.Execute(new List<ICustomExtension> { firstExtension.Object, secondExtension.Object }, this.executableContext.Object);
 
             firstExtension.Verify(x => x.SomeMethod(this.context));
             secondExtension.Verify(x => x.SomeMethod(this.context));
         }
 
         [Fact]
-        public void Execute_ShouldExecuteBehavior()
+        public void ShouldDescribeItself()
         {
-            var first = new Mock<IBehavior<ICustomExtension>>();
-            var second = new Mock<IBehavior<ICustomExtension>>();
-            var extensions = Enumerable.Empty<ICustomExtension>();
-
-            this.testee.Add(first.Object);
-            this.testee.Add(second.Object);
-
-            this.testee.Execute(extensions);
-
-            first.Verify(b => b.Behave(extensions));
-            second.Verify(b => b.Behave(extensions));
+            this.testee.Describe().Should().Be("Initializes the context once with \"() => value(bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionWithInitializerExecutableTest).CountAccessToContext()\" and executes \"(x, i) => x.SomeMethod(i)\" on each extension during bootstrapping.");
         }
 
         private object CountAccessToContext()

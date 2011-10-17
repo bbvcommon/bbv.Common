@@ -19,9 +19,8 @@
 namespace bbv.Common.Bootstrapper.Configuration
 {
     using bbv.Common.Bootstrapper.Configuration.Internals;
-
+    using bbv.Common.Formatters;
     using FluentAssertions;
-
     using Xunit;
 
     public class ExtensionPublicPropertyReflectorTest
@@ -86,6 +85,15 @@ namespace bbv.Common.Bootstrapper.Configuration
                 }
             }
 
+            /// <inheritdoc />
+            public string Name
+            {
+                get
+                {
+                    return this.GetType().FullNameToString();
+                }
+            }
+
             internal static string InternalStaticProperty { get; set; }
 
             internal string InternalProperty { get; set; }
@@ -97,6 +105,12 @@ namespace bbv.Common.Bootstrapper.Configuration
             private static string PrivateStaticProperty { get; set; }
 
             private string PrivateProperty { get; set; }
+
+            /// <inheritdoc />
+            public string Describe()
+            {
+                return string.Empty;
+            }
         }
     }
 }
