@@ -100,8 +100,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// <inheritdoc />
         public string Describe()
         {
-            return
-                "Behaves on all extensions by checking whether the corresponding configuration section is an ExtensionConfigurationSection and automatically propagiting properties with configuration values.";
+            return "Automatically propagates properties of all extensions with configuration values when a matching ExtensionConfigurationSection is found.";
         }
 
         private static ExtensionConfigurationSection GetExtensionConfigurationSection(IHaveConfigurationSectionName sectionNameProvider, ILoadConfigurationSection sectionProvider)
