@@ -57,7 +57,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
         /// <inheritdoc />
         public string Describe()
         {
-            return string.Format(CultureInfo.InvariantCulture, "Behaves on all extensions by dumping \"{0}\" on the extensions.", this.access);
+            return string.Format(CultureInfo.InvariantCulture, "Dumps \"{0}\" on all extensions.", this.access);
         }
     }
 }

@@ -103,7 +103,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         [Fact]
         public void ShouldDescribeItself()
         {
-            this.testee.Describe().Should().Be("Behaves on all extensions by automatically providing configuration sections for them.");
+            this.testee.Describe().Should().Be("Automatically provides configuration sections for all extensions.");
         }
 
         private void AutoStubFactory()

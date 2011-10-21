@@ -26,7 +26,6 @@ namespace bbv.Common.Bootstrapper.Specification
     using FluentAssertions;
     using Machine.Specifications;
     using Machine.Specifications.Runner.Impl;
-    using Xunit;
 
     [Subject(Concern)]
     public class when_the_bootstrapping_process_is_reported : BootstrapperReportingSpecification
@@ -55,8 +54,6 @@ namespace bbv.Common.Bootstrapper.Specification
 
         It should_report_complete_bootstrapping_process = () =>
             {
-                Assert.True(true);
-
                 const string ActionExecutableCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionExecutable<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
                 const string ActionOnExtensionExecutableCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionExecutable<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
                 const string ActionExecutableWithDictionaryContextCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionWithInitializerExecutable<System.Collections.Generic.IDictionary<System.String,System.String>,bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
@@ -64,56 +61,84 @@ namespace bbv.Common.Bootstrapper.Specification
 
                 const string BehaviorCustomExtension = "bbv.Common.Bootstrapper.Specification.Dummies.Behavior";
                 const string LazyBehaviorCustomExtension = "bbv.Common.Bootstrapper.Behavior.LazyBehavior<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
-                const string BehaviorWithConfigurationContextCustomExtesion = "bbv.Common.Bootstrapper.Specification.Dummies.BehaviorWithConfigurationContext";
-                const string BehaviorWithStringContextCustomExtesion = "bbv.Common.Bootstrapper.Specification.Dummies.BehaviorWithStringContext";
+                const string BehaviorWithConfigurationContextCustomExtension = "bbv.Common.Bootstrapper.Specification.Dummies.BehaviorWithConfigurationContext";
+                const string BehaviorWithStringContextCustomExtension = "bbv.Common.Bootstrapper.Specification.Dummies.BehaviorWithStringContext";
 
                 var expectedContext = ReportingContextBuilder.Create()
                     .Extension("bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension", "First Extension")
                     .Extension("bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension", "Second Extension")
                     .Run("bbv.Common.Bootstrapper.Execution.SynchronousExecutor<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>", "Runs all executables synchronously on the extensions in the order which they were added.")
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.BeginWith)\" during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"run first beginning\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"run second beginning\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("run first beginning"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"run second beginning\")"))
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => DumpAction(\"CustomRun\")\" during bootstrapping.")
                         .Executable(ActionOnExtensionExecutableCustomExtension, "Executes \"extension => extension.Start()\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"run first start\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"run second start\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("run first start"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"run second start\")"))
                         .Executable(ActionExecutableWithDictionaryContextCustomExtension, "Initializes the context once with \"() => value(bbv.Common.Bootstrapper.Specification.Dummies.CustomExtensionWithBehaviorStrategy).RunInitializeConfiguration()\" and executes \"(extension, dictionary) => extension.Configure(dictionary)\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorWithConfigurationContextCustomExtesion, "Behaves on all extensions by dumping the key \"RunFirstValue\" and value \"RunTestValue\" and modifying the configuration with it.")
-                            .Behavior(BehaviorWithConfigurationContextCustomExtesion, "Behaves on all extensions by dumping the key \"RunSecondValue\" and value \"RunTestValue\" and modifying the configuration with it.")
+                            .Behavior(BehaviorWithConfigurationContextCustomExtension, BehaviorWithConfigurationContextCustomExtensionDescriptionWith("RunFirstValue", "RunTestValue"))
+                            .Behavior(BehaviorWithConfigurationContextCustomExtension, BehaviorWithConfigurationContextCustomExtensionDescriptionWith("RunSecondValue", "RunTestValue"))
                         .Executable(ActionOnExtensionExecutableCustomExtension, "Executes \"extension => extension.Initialize()\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"run first initialize\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"run second initialize\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("run first initialize"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"run second initialize\")"))
                         .Executable(ActionExecutableWithStringContextCustomExtension, "Initializes the context once with \"() => \"RunTest\"\" and executes \"(extension, context) => extension.Register(context)\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorWithStringContextCustomExtesion, "Behaves on all extensions by dumping \"RunTestValueFirst\" on the extensions.")
-                            .Behavior(BehaviorWithStringContextCustomExtesion, "Behaves on all extensions by dumping \"RunTestValueSecond\" on the extensions.")
+                            .Behavior(BehaviorWithStringContextCustomExtension, BehaviorWithStringContextCustomExtensionDescriptionWith("RunTestValueFirst"))
+                            .Behavior(BehaviorWithStringContextCustomExtension, BehaviorWithStringContextCustomExtensionDescriptionWith("RunTestValueSecond"))
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.EndWith)\" during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"run first end\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"run second end\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("run first end"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"run second end\")"))
                     .Shutdown("bbv.Common.Bootstrapper.Execution.SynchronousReverseExecutor<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>", "Runs all executables synchronously on the extensions in the reverse order which they were added.")
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.BeginWith)\" during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"shutdown first beginning\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"shutdown second beginning\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("shutdown first beginning"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"shutdown second beginning\")"))
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => DumpAction(\"CustomShutdown\")\" during bootstrapping.")
                         .Executable(ActionExecutableWithStringContextCustomExtension, "Initializes the context once with \"() => \"ShutdownTest\"\" and executes \"(extension, ctx) => extension.Unregister(ctx)\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorWithStringContextCustomExtesion, "Behaves on all extensions by dumping \"ShutdownTestValueFirst\" on the extensions.")
-                            .Behavior(BehaviorWithStringContextCustomExtesion, "Behaves on all extensions by dumping \"ShutdownTestValueSecond\" on the extensions.")
+                            .Behavior(BehaviorWithStringContextCustomExtension, BehaviorWithStringContextCustomExtensionDescriptionWith("ShutdownTestValueFirst"))
+                            .Behavior(BehaviorWithStringContextCustomExtension, BehaviorWithStringContextCustomExtensionDescriptionWith("ShutdownTestValueSecond"))
                         .Executable(ActionExecutableWithDictionaryContextCustomExtension, "Initializes the context once with \"() => value(bbv.Common.Bootstrapper.Specification.Dummies.CustomExtensionWithBehaviorStrategy).ShutdownInitializeConfiguration()\" and executes \"(extension, dictionary) => extension.DeConfigure(dictionary)\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorWithConfigurationContextCustomExtesion, "Behaves on all extensions by dumping the key \"ShutdownFirstValue\" and value \"ShutdownTestValue\" and modifying the configuration with it.")
-                            .Behavior(BehaviorWithConfigurationContextCustomExtesion, "Behaves on all extensions by dumping the key \"ShutdownSecondValue\" and value \"ShutdownTestValue\" and modifying the configuration with it.")
+                            .Behavior(BehaviorWithConfigurationContextCustomExtension, BehaviorWithConfigurationContextCustomExtensionDescriptionWith("ShutdownFirstValue", "ShutdownTestValue"))
+                            .Behavior(BehaviorWithConfigurationContextCustomExtension, BehaviorWithConfigurationContextCustomExtensionDescriptionWith("ShutdownSecondValue", "ShutdownTestValue"))
                         .Executable(ActionOnExtensionExecutableCustomExtension, "Executes \"extension => extension.Stop()\" on each extension during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"shutdown first stop\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"shutdown second stop\") and executing behave on the lazy initialized behavior.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("shutdown first stop"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"shutdown second stop\")"))
                         .Executable(ActionExecutableCustomExtension, "Executes \"() => Invoke(SyntaxBuilder`1.EndWith)\" during bootstrapping.")
-                            .Behavior(BehaviorCustomExtension, "Behaves on all extensions by dumping \"shutdown first end\" on the extensions.")
-                            .Behavior(LazyBehaviorCustomExtension, "Behaves by creating the behavior with () => new Behavior(\"shutdown second end\") and executing behave on the lazy initialized behavior.")
-                            .Behavior("bbv.Common.Bootstrapper.Behavior.DisposeExtensionBehavior", "Behaves on all extensions by checking whether they implement IDisposable and disposing them if this is the case.")
+                            .Behavior(BehaviorCustomExtension, BehaviorCustomExtensionDescriptionWith("shutdown first end"))
+                            .Behavior(LazyBehaviorCustomExtension, LazyBehaviorCustomExtensionDescriptionWith("() => new Behavior(\"shutdown second end\")"))
+                            .Behavior("bbv.Common.Bootstrapper.Behavior.DisposeExtensionBehavior", "Disposes all extensions which implement IDisposable.")
                     .Build();
 
                 ExpectedContextReporter.Report(expectedContext);
 
                 InterceptingContextReporter.ToString().Should().Be(ExpectedContextReporter.ToString());
             };
+
+        private static string LazyBehaviorCustomExtensionDescriptionWith(string action)
+        {
+            const string LazyBehaviorDescriptionFormat = "Creates the behavior with {0} and executes behave on the lazy initialized behavior.";
+
+            return string.Format(CultureInfo.InvariantCulture, LazyBehaviorDescriptionFormat, action);
+        }
+
+        private static string BehaviorCustomExtensionDescriptionWith(string action)
+        {
+            const string BehaviorDescription = "Dumps \"{0}\" on all extensions.";
+
+            return string.Format(CultureInfo.InvariantCulture, BehaviorDescription, action);
+        }
+
+        private static string BehaviorWithConfigurationContextCustomExtensionDescriptionWith(string key, string value)
+        {
+            const string BehaviorWithConfigurationContextCustomExtensionDescription = "Dumps the key \"{0}\" and value \"{1}\" and modifies the configuration with it.";
+
+            return string.Format(CultureInfo.InvariantCulture, BehaviorWithConfigurationContextCustomExtensionDescription, key, value);
+        }
+
+        private static string BehaviorWithStringContextCustomExtensionDescriptionWith(string value)
+        {
+            const string BehaviorWithStringContextCustomExtensionDescription = "Dumps \"{0}\" on all extensions.";
+
+            return string.Format(CultureInfo.InvariantCulture, BehaviorWithStringContextCustomExtensionDescription, value);
+        }
 
         private class StringReporter : IReporter
         {

@@ -57,7 +57,7 @@ namespace bbv.Common.Bootstrapper.Behavior
         [Fact]
         public void ShouldDescribeItself()
         {
-            this.testee.Describe().Should().Be("Behaves on all extensions by checking whether they implement IDisposable and disposing them if this is the case.");
+            this.testee.Describe().Should().Be("Disposes all extensions which implement IDisposable.");
         }
     }
 }
