@@ -18,7 +18,6 @@
 
 namespace bbv.Common.Bootstrapper.Specification
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -43,12 +42,12 @@ namespace bbv.Common.Bootstrapper.Specification
             Bootstrapper.Shutdown();
         };
 
-        It should_only_initialize_once_for_all_extensions = () =>
+        It should_only_initialize_contexts_once_for_all_extensions = () =>
         {
             Strategy.ShutdownConfigurationInitializerAccessCounter.Should().Be(1);
         };
 
-        It should_pass_the_initialized_values_to_the_extension = () =>
+        It should_pass_the_initialized_values_from_the_contexts_to_the_extensions = () =>
         {
             var expected = new Dictionary<string, string>
                 {
@@ -62,7 +61,7 @@ namespace bbv.Common.Bootstrapper.Specification
             Second.Unregistered.Should().Be("ShutdownTest");
         };
 
-        It should_execute_the_extensions_and_the_extension_point_according_to_the_strategy_defined_order = () =>
+        It should_execute_the_extensions_and_the_extension_points_according_to_the_strategy_defined_order = () =>
         {
             var sequence = CustomExtensionBase.Sequence;
 
