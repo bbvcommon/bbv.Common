@@ -52,7 +52,7 @@ namespace bbv.Common.Bootstrapper.Specification
             Bootstrapper.Dispose();
         };
 
-        It should_report_complete_bootstrapping_process = () =>
+        It should_report_names_and_descriptions_of_all_extensions_including_executables_with_behaviors_attached_to_it_and_run_and_shutdown_executors = () =>
             {
                 const string ActionExecutableCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionExecutable<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";
                 const string ActionOnExtensionExecutableCustomExtension = "bbv.Common.Bootstrapper.Syntax.Executables.ActionOnExtensionExecutable<bbv.Common.Bootstrapper.Specification.Dummies.ICustomExtension>";

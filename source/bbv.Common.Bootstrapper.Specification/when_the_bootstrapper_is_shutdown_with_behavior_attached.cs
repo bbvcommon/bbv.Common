@@ -42,12 +42,12 @@ namespace bbv.Common.Bootstrapper.Specification
             Bootstrapper.Shutdown();
         };
 
-        It should_only_initialize_once_for_all_extensions = () =>
+        It should_only_initialize_contexts_once_for_all_extensions = () =>
         {
             Strategy.ShutdownConfigurationInitializerAccessCounter.Should().Be(1);
         };
 
-        It should_pass_the_initialized_values_to_the_extension = () =>
+        It should_pass_the_initialized_values_from_the_contexts_to_the_extensions = () =>
         {
             var expected = new Dictionary<string, string>
                 {
@@ -63,7 +63,7 @@ namespace bbv.Common.Bootstrapper.Specification
             Second.Unregistered.Should().Be("ShutdownTest");
         };
 
-        It should_execute_the_extensions_and_the_extension_point_according_to_the_strategy_defined_order = () =>
+        It should_execute_the_extensions_with_its_extension_points_and_the_behaviors_according_to_the_strategy_defined_order = () =>
         {
             var sequence = CustomExtensionBase.Sequence;
 
@@ -72,7 +72,7 @@ namespace bbv.Common.Bootstrapper.Specification
             sequence.ElementAt(1).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown first beginning.");
             sequence.ElementAt(2).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at shutdown second beginning.");
             sequence.ElementAt(3).Should().BeEquivalentTo("FirstExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.FirstExtension at shutdown second beginning.");
-            
+
             sequence.ElementAt(4).Should().BeEquivalentTo("Action: CustomShutdown");
 
             sequence.ElementAt(5).Should().BeEquivalentTo("SecondExtension: Behaving on bbv.Common.Bootstrapper.Specification.Dummies.SecondExtension at input modification with ShutdownTestValueFirst.");
