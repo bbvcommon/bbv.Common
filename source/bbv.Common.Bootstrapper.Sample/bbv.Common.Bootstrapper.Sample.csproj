@@ -25,6 +25,9 @@
   <ItemGroup>
     <Compile Include="Complex\ComplexExtensionBase.cs" />
     <Compile Include="Complex\ComplexStrategy.cs" />
+    <Compile Include="Customization\AsynchronousRunExecutor.cs" />
+    <Compile Include="Customization\AsynchronousShutdownExecutor.cs" />
+    <Compile Include="Customization\CustomExtensionResolver.cs" />
     <Compile Include="Complex\CustomFunqlet.cs" />
     <Compile Include="Complex\Dependency.cs" />
     <Compile Include="Complex\DependencyUsingBehavior.cs" />
@@ -40,6 +43,7 @@
     <Compile Include="Complex\Log4NetExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Customization\CustomizationStrategy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

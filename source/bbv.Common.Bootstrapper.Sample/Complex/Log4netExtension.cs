@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 {
     using System;
 
+    using log4net;
     using log4net.Appender;
     using log4net.Config;
     using log4net.Layout;
@@ -35,6 +36,8 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             base.Start();
 
             Console.WriteLine("Log4NetExtension is starting.");
+
+            LogManager.GetRepository().ResetConfiguration();
 
             var appender = new ConsoleAppender { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
 
