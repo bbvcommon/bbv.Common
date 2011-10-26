@@ -43,6 +43,12 @@ namespace bbv.Common.Bootstrapper
         IExecutor<TExtension> CreateShutdownExecutor();
 
         /// <summary>
+        /// Creates an extension resolver which can resolve extension and add them onto the provided extension point
+        /// </summary>
+        /// <returns>The extension resolver.</returns>
+        IExtensionResolver<TExtension> CreateExtensionResolver();
+
+        /// <summary>
         /// Creates a context which is used to track information about the bootstrapping process.
         /// </summary>
         /// <returns>The reporting context.</returns>

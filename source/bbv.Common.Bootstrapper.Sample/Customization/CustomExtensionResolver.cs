@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="IExtensionPoint.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="CustomExtensionResolver.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +16,22 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper
+namespace bbv.Common.Bootstrapper.Sample.Customization
 {
+    using bbv.Common.Bootstrapper.Sample.Complex;
+
     /// <summary>
-    /// Extension point for bootstrapper.
+    /// Custom extension resolver.
     /// </summary>
-    /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExtensionPoint<TExtension>
-        where TExtension : IExtension
+    public class CustomExtensionResolver : IExtensionResolver<IComplexExtension>
     {
-        /// <summary>
-        /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
-        /// added.
-        /// </summary>
-        /// <param name="extension">The extension to be added.</param>
-        void AddExtension(TExtension extension);
+        /// <inheritdoc />
+        public void Resolve(IExtensionPoint<IComplexExtension> extensionPoint)
+        {
+            Ensure.ArgumentNotNull(extensionPoint, "extensionPoint");
+
+            extensionPoint.AddExtension(new Log4NetExtension());
+            extensionPoint.AddExtension(new ExtensionWhichRegistersSomething());
+        }
     }
 }

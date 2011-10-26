@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="IExtensionPoint.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IExtensionResolver.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,18 @@
 namespace bbv.Common.Bootstrapper
 {
     /// <summary>
-    /// Extension point for bootstrapper.
+    /// The extension resolver can resolve extensions and add it to the provided extension point.
     /// </summary>
     /// <typeparam name="TExtension">The type of the extension.</typeparam>
-    public interface IExtensionPoint<TExtension>
+    public interface IExtensionResolver<TExtension>
         where TExtension : IExtension
     {
         /// <summary>
-        /// Adds the extension to the bootstrapping mechanism. The extensions are executed in the order which they were
-        /// added.
+        /// Resolves extensions.
         /// </summary>
-        /// <param name="extension">The extension to be added.</param>
-        void AddExtension(TExtension extension);
+        /// <remarks>All extensions resolved through the extension resolver are added 
+        /// to the bootstrapper before manual adding of extensions occurs.</remarks>
+        /// <param name="extensionPoint">The extension point which allows to add the resolved extensions.</param>
+        void Resolve(IExtensionPoint<TExtension> extensionPoint);
     }
 }

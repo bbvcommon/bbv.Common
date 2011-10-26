@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Sample
     using System;
 
     using bbv.Common.Bootstrapper.Sample.Complex;
+    using bbv.Common.Bootstrapper.Sample.Customization;
     using bbv.Common.Bootstrapper.Sample.Simple;
 
     /// <summary>
@@ -84,6 +85,33 @@ namespace bbv.Common.Bootstrapper.Sample
 
             Console.WriteLine("================== End complex ==================");
             Console.WriteLine("Press any key to continue");
+            Console.ReadLine();
+
+            Console.WriteLine("================== Running customization ==================");
+            Console.WriteLine();
+
+            //// Actually it is not necessary to have the strategy and disposable extensions in a using scope. 
+            //// The bootstrapper takes care of that. I use it here to calm FxCop ;)
+
+            using (var customizationBootstrapper = new DefaultBootstrapper<IComplexExtension>())
+            using (var customizationStrategy = new CustomizationStrategy())
+            {
+                customizationBootstrapper.Initialize(customizationStrategy);
+
+                customizationBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
+                customizationBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
+                customizationBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSection());
+                customizationBootstrapper.AddExtension(
+                    new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
+                customizationBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+
+                customizationBootstrapper.Run();
+                customizationBootstrapper.Shutdown();
+            }
+
+            Console.WriteLine("================== End customization ==================");
+            Console.WriteLine("Press any key to end the sample");
+
             Console.ReadLine();
         }
     }

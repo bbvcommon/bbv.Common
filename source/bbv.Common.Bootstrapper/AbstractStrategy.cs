@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper
     using System;
 
     using bbv.Common.Bootstrapper.Execution;
+    using bbv.Common.Bootstrapper.Extension;
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
@@ -87,6 +88,13 @@ namespace bbv.Common.Bootstrapper
         public virtual IExecutor<TExtension> CreateShutdownExecutor()
         {
             return new SynchronousReverseExecutor<TExtension>();
+        }
+
+        /// <inheritdoc />
+        /// <remarks>By default creates a NullExtensionResolver{TExtension}</remarks>
+        public virtual IExtensionResolver<TExtension> CreateExtensionResolver()
+        {
+            return new NullExtensionResolver<TExtension>();
         }
 
         /// <inheritdoc />

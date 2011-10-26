@@ -43,6 +43,8 @@ namespace bbv.Common.Bootstrapper
 
         private readonly Mock<IStrategy<IExtension>> strategy;
 
+        private readonly Mock<IExtensionResolver<IExtension>> extensionResolver;
+
         private readonly DefaultBootstrapper<IExtension> testee;
 
         public DefaultBootstrapperTest()
@@ -53,6 +55,7 @@ namespace bbv.Common.Bootstrapper
             this.runExecutor = new Mock<IExecutor<IExtension>>();
             this.shutdownExecutor = new Mock<IExecutor<IExtension>>();
             this.reportingContext = new Mock<IReportingContext> { DefaultValue = DefaultValue.Mock };
+            this.extensionResolver = new Mock<IExtensionResolver<IExtension>>();
 
             this.testee = new DefaultBootstrapper<IExtension>(this.extensionHost.Object, this.reporter.Object);
         }
@@ -60,7 +63,9 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void Initialize_MultipleTimes_ShouldThrowException()
         {
-            this.testee.Initialize(Mock.Of<IStrategy<IExtension>>());
+            this.SetupStrategyReturnsBuilderAndContextAndResolver();
+
+            this.testee.Initialize(this.strategy.Object);
 
             this.testee.Invoking(x => x.Initialize(Mock.Of<IStrategy<IExtension>>())).ShouldThrow<InvalidOperationException>();
         }
@@ -68,9 +73,31 @@ namespace bbv.Common.Bootstrapper
         [Fact]
         public void Initialize_ShouldCreateReportingContext()
         {
+            this.SetupStrategyReturnsBuilderAndContextAndResolver();
+
             this.testee.Initialize(this.strategy.Object);
 
             this.strategy.Verify(s => s.CreateReportingContext());
+        }
+
+        [Fact]
+        public void Initialize_ShouldCreateExtensionResolver()
+        {
+            this.SetupStrategyReturnsBuilderAndContextAndResolver();
+
+            this.testee.Initialize(this.strategy.Object);
+
+            this.strategy.Verify(s => s.CreateExtensionResolver());
+        }
+
+        [Fact]
+        public void Initialize_ShouldPassItselfToExtensionResolver()
+        {
+            this.SetupStrategyReturnsBuilderAndContextAndResolver();
+
+            this.testee.Initialize(this.strategy.Object);
+
+            this.extensionResolver.Verify(er => er.Resolve(this.testee));
         }
 
         [Fact]
@@ -299,16 +326,17 @@ namespace bbv.Common.Bootstrapper
             queue.Should().ContainInOrder(new List<string> { "Report", "Dispose" });
         }
 
-        private void SetupStrategyReturnsBuilderAnContext()
+        private void SetupStrategyReturnsBuilderAndContextAndResolver()
         {
             this.strategy.Setup(s => s.CreateReportingContext()).Returns(this.reportingContext.Object);
+            this.strategy.Setup(s => s.CreateExtensionResolver()).Returns(this.extensionResolver.Object);
             this.strategy.Setup(s => s.CreateRunExecutor()).Returns(this.runExecutor.Object);
             this.strategy.Setup(s => s.CreateShutdownExecutor()).Returns(this.shutdownExecutor.Object);
         }
 
         private void InitializeTestee()
         {
-            this.SetupStrategyReturnsBuilderAnContext();
+            this.SetupStrategyReturnsBuilderAndContextAndResolver();
 
             this.testee.Initialize(this.strategy.Object);
         }
