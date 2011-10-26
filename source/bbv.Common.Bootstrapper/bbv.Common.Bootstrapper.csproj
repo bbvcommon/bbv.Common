@@ -41,7 +41,9 @@
     <Compile Include="Configuration\Internals\LoadConfigurationSection.cs" />
     <Compile Include="Configuration\Internals\ConsumeConfiguration.cs" />
     <Compile Include="Configuration\Internals\HaveConfigurationSectionName.cs" />
+    <Compile Include="Extension\NullExtensionResolver.cs" />
     <Compile Include="IDescribable.cs" />
+    <Compile Include="IExtensionResolver.cs" />
     <Compile Include="IReporter.cs" />
     <Compile Include="Reporting\BehaviorContext.cs" />
     <Compile Include="Reporting\NullReporter.cs" />
@@ -57,11 +59,10 @@
     <Compile Include="Configuration\ExtensionSettingsElementCollection.cs" />
     <Compile Include="Execution\SynchronousExecutor.cs" />
     <Compile Include="Execution\SynchronousReverseExecutor.cs" />
-    <Compile Include="ExtensionHost.cs" />
+    <Compile Include="Extension\ExtensionHost.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBehavior.cs" />
     <Compile Include="IBootstrapper.cs" />
-    <Compile Include="IDefaultExtension.cs" />
     <Compile Include="IExecutor.cs" />
     <Compile Include="Configuration\IExtensionConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Syntax\ExecutableFactory.cs" />
