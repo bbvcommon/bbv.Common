@@ -20,6 +20,7 @@ namespace bbv.Common.Bootstrapper
 {
     using System;
 
+    using bbv.Common.Bootstrapper.Extension;
     using bbv.Common.Bootstrapper.Reporting;
 
     /// <summary>
@@ -109,6 +110,9 @@ namespace bbv.Common.Bootstrapper
 
             this.strategy = strategy;
             this.reportingContext = this.strategy.CreateReportingContext();
+
+            var extensionResolver = this.strategy.CreateExtensionResolver();
+            extensionResolver.Resolve(this);
         }
 
         /// <inheritdoc />

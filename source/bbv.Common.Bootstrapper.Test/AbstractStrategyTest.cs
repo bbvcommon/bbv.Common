@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper
     using System;
 
     using bbv.Common.Bootstrapper.Execution;
+    using bbv.Common.Bootstrapper.Extension;
     using bbv.Common.Bootstrapper.Reporting;
     using bbv.Common.Bootstrapper.Syntax;
 
@@ -97,11 +98,27 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
+        public void CreateExtensionResolver_ShouldCreateNullExtensionResolver()
+        {
+            var extensionResolver = this.testee.CreateExtensionResolver();
+
+            extensionResolver.Should().BeOfType<NullExtensionResolver<IExtension>>();
+        }
+
+        [Fact]
         public void CreateReportingContext_ShouldCreateReportingContext()
         {
             var reportingContext = this.testee.CreateReportingContext();
 
             reportingContext.Should().BeOfType<ReportingContext>();
+        }
+
+        [Fact]
+        public void Dispose_MultipleTimes_ShouldNotThrow()
+        {
+            this.testee.Dispose();
+
+            this.testee.Invoking(t => t.Dispose()).ShouldNotThrow();
         }
 
         private class TestableAbstractStrategy : AbstractStrategy<IExtension>
