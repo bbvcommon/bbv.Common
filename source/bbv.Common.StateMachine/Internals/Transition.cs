@@ -72,7 +72,7 @@ namespace bbv.Common.StateMachine.Internals
         public IGuardHolder Guard { get; set; }
 
         /// <summary>
-        /// Gets the actions of this transaction.
+        /// Gets the actions of this transition.
         /// </summary>
         /// <value>The actions.</value>
         public ICollection<ITransitionActionHolder> Actions
