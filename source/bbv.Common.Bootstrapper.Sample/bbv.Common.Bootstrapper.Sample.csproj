@@ -23,8 +23,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Complex\ColorElement.cs" />
     <Compile Include="Complex\ComplexExtensionBase.cs" />
     <Compile Include="Complex\ComplexStrategy.cs" />
+    <Compile Include="Complex\CustomConfigurationSection.cs" />
+    <Compile Include="Complex\ExtensionWithCustomConfigurationSection.cs" />
+    <Compile Include="Complex\FontElement.cs" />
     <Compile Include="Customization\AsynchronousRunExecutor.cs" />
     <Compile Include="Customization\AsynchronousShutdownExecutor.cs" />
     <Compile Include="Customization\CustomExtensionResolver.cs" />

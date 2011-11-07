@@ -78,6 +78,7 @@ namespace bbv.Common.Bootstrapper.Sample
                 complexBootstrapper.AddExtension(
                     new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
                 complexBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+                complexBootstrapper.AddExtension(new ExtensionWithCustomConfigurationSection());
 
                 complexBootstrapper.Run();
                 complexBootstrapper.Shutdown();
@@ -104,6 +105,7 @@ namespace bbv.Common.Bootstrapper.Sample
                 customizationBootstrapper.AddExtension(
                     new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
                 customizationBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+                customizationBootstrapper.AddExtension(new ExtensionWithCustomConfigurationSection());
 
                 customizationBootstrapper.Run();
                 customizationBootstrapper.Shutdown();
