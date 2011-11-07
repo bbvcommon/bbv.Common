@@ -43,7 +43,7 @@ namespace bbv.Common.StateMachine.Internals
         IState<TState, TEvent> Target { get; set; }
 
         /// <summary>
-        /// Gets the actions of this transaction.
+        /// Gets the actions of this transition.
         /// </summary>
         /// <value>The actions.</value>
         ICollection<ITransitionActionHolder> Actions { get; }
