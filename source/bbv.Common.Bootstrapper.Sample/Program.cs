@@ -94,7 +94,7 @@ namespace bbv.Common.Bootstrapper.Sample
             //// Actually it is not necessary to have the strategy and disposable extensions in a using scope. 
             //// The bootstrapper takes care of that. I use it here to calm FxCop ;)
 
-            using (var customizationBootstrapper = new DefaultBootstrapper<IComplexExtension>())
+            using (var customizationBootstrapper = new DefaultBootstrapper<IComplexExtension>(new TextFileReporter()))
             using (var customizationStrategy = new CustomizationStrategy())
             {
                 customizationBootstrapper.Initialize(customizationStrategy);
