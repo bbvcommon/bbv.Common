@@ -23,28 +23,28 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Complex\ColorElement.cs" />
+    <Compile Include="Complex\Configuration\ColorElement.cs" />
     <Compile Include="Complex\ComplexExtensionBase.cs" />
     <Compile Include="Complex\ComplexStrategy.cs" />
-    <Compile Include="Complex\CustomConfigurationSection.cs" />
-    <Compile Include="Complex\ExtensionWithCustomConfigurationSection.cs" />
-    <Compile Include="Complex\FontElement.cs" />
+    <Compile Include="Complex\Configuration\CustomConfigurationSection.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWithCustomConfigurationSection.cs" />
+    <Compile Include="Complex\Configuration\FontElement.cs" />
     <Compile Include="Customization\AsynchronousRunExecutor.cs" />
     <Compile Include="Customization\AsynchronousShutdownExecutor.cs" />
     <Compile Include="Customization\CustomExtensionResolver.cs" />
     <Compile Include="Complex\CustomFunqlet.cs" />
     <Compile Include="Complex\Dependency.cs" />
-    <Compile Include="Complex\DependencyUsingBehavior.cs" />
-    <Compile Include="Complex\ExtensionWhichIsFunqlet.cs" />
-    <Compile Include="Complex\ExtensionWhichNeedsDependency.cs" />
-    <Compile Include="Complex\ExtensionWhichRegistersSomething.cs" />
-    <Compile Include="Complex\ExtensionWithExtensionConfigurationSectionWithDictionary.cs" />
-    <Compile Include="Complex\ExtensionWithExtensionConfigurationSection.cs" />
-    <Compile Include="Complex\ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading.cs" />
-    <Compile Include="Complex\FunqletProvidingBehavior.cs" />
+    <Compile Include="Complex\Behaviors\DependencyUsingBehavior.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWhichIsFunqlet.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWhichNeedsDependency.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWhichRegistersSomething.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWithExtensionConfigurationSectionWithDictionary.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWithExtensionConfigurationSection.cs" />
+    <Compile Include="Complex\Extensions\ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading.cs" />
+    <Compile Include="Complex\Behaviors\FunqletProvidingBehavior.cs" />
     <Compile Include="Complex\IComplexExtension.cs" />
     <Compile Include="Complex\IDependency.cs" />
-    <Compile Include="Complex\Log4NetExtension.cs">
+    <Compile Include="Complex\Extensions\Log4NetExtension.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Customization\CustomizationStrategy.cs" />
@@ -73,5 +73,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\bbv.Common.msbuild" />
 </Project>

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="Log4NetExtension.cs" company="bbv Software Services AG">
+// <copyright file="ExtensionWhichIsFunqlet.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,38 +16,31 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
-    using System;
+    using System.Reflection;
+
+    using Funq;
 
     using log4net;
-    using log4net.Appender;
-    using log4net.Config;
-    using log4net.Layout;
 
     /// <summary>
-    /// Extension which configures log4net.
+    /// Extension which is a IFunqlet.
     /// </summary>
-    public class Log4NetExtension : ComplexExtensionBase
+    public class ExtensionWhichIsFunqlet : ComplexExtensionBase, IFunqlet
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <inheritdoc />
-        public override void Start()
+        public void Configure(Container container)
         {
-            base.Start();
-
-            Console.WriteLine("Log4NetExtension is starting.");
-
-            LogManager.GetRepository().ResetConfiguration();
-
-            var appender = new ConsoleAppender { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
-
-            BasicConfigurator.Configure(appender);
+            Log.Info("ExtensionWhichIsFunqlet is configuring the container.");
         }
 
         /// <inheritdoc />
         public override string Describe()
         {
-            return "Extension which configures log4net.";
+            return "Extension which implements IFunqlet";
         }
     }
 }

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExtensionWhichRegistersSomething.cs" company="bbv Software Services AG">
+// <copyright file="Log4NetExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,36 +16,38 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
-    using System.Collections.Generic;
-    using System.Reflection;
-
-    using Funq;
+    using System;
 
     using log4net;
+    using log4net.Appender;
+    using log4net.Config;
+    using log4net.Layout;
 
     /// <summary>
-    /// Extension which registers CustomFunqlet
+    /// Extension which configures log4net.
     /// </summary>
-    public class ExtensionWhichRegistersSomething : ComplexExtensionBase
+    public class Log4NetExtension : ComplexExtensionBase
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <inheritdoc />
-        public override void ContainerInitializing(ICollection<IFunqlet> funqlets)
+        public override void Start()
         {
-            base.ContainerInitializing(funqlets);
+            base.Start();
 
-            Log.Info("ExtensionWhichRegistersSomething is initializing the container.");
+            Console.WriteLine("Log4NetExtension is starting.");
 
-            funqlets.Add(new CustomFunqlet());
+            LogManager.GetRepository().ResetConfiguration();
+
+            var appender = new ConsoleAppender { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
+
+            BasicConfigurator.Configure(appender);
         }
 
         /// <inheritdoc />
         public override string Describe()
         {
-            return "Extension which registers something on the container";
+            return "Extension which configures log4net.";
         }
     }
 }

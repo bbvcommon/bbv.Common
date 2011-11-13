@@ -16,13 +16,14 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
     using System.Configuration;
     using System.Globalization;
     using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Bootstrapper.Sample.Complex.Configuration;
 
     using log4net;
 

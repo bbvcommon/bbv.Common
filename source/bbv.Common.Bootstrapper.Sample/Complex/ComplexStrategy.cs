@@ -23,6 +23,7 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 
     using bbv.Common.Bootstrapper.Behavior;
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Bootstrapper.Sample.Complex.Behaviors;
     using bbv.Common.Bootstrapper.Syntax;
 
     using Funq;

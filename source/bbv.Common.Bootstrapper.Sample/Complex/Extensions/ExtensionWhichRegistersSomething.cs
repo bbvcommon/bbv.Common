@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExtensionWhichIsFunqlet.cs" company="bbv Software Services AG">
+// <copyright file="ExtensionWhichRegistersSomething.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,9 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
+    using System.Collections.Generic;
     using System.Reflection;
 
     using Funq;
@@ -25,22 +26,28 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
     using log4net;
 
     /// <summary>
-    /// Extension which is a IFunqlet.
+    /// Extension which registers CustomFunqlet
     /// </summary>
-    public class ExtensionWhichIsFunqlet : ComplexExtensionBase, IFunqlet
+    public class ExtensionWhichRegistersSomething : ComplexExtensionBase
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <inheritdoc />
-        public void Configure(Container container)
+        public override void ContainerInitializing(ICollection<IFunqlet> funqlets)
         {
-            Log.Info("ExtensionWhichIsFunqlet is configuring the container.");
+            Ensure.ArgumentNotNull(funqlets, "funqlets");
+
+            base.ContainerInitializing(funqlets);
+
+            Log.Info("ExtensionWhichRegistersSomething is initializing the container.");
+
+            funqlets.Add(new CustomFunqlet());
         }
 
         /// <inheritdoc />
         public override string Describe()
         {
-            return "Extension which implements IFunqlet";
+            return "Extension which registers something on the container";
         }
     }
 }

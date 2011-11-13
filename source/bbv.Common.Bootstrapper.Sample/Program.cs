@@ -21,6 +21,7 @@ namespace bbv.Common.Bootstrapper.Sample
     using System;
 
     using bbv.Common.Bootstrapper.Sample.Complex;
+    using bbv.Common.Bootstrapper.Sample.Complex.Extensions;
     using bbv.Common.Bootstrapper.Sample.Customization;
     using bbv.Common.Bootstrapper.Sample.Simple;
 

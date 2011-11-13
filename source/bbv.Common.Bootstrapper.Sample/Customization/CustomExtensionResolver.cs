@@ -19,6 +19,7 @@
 namespace bbv.Common.Bootstrapper.Sample.Customization
 {
     using bbv.Common.Bootstrapper.Sample.Complex;
+    using bbv.Common.Bootstrapper.Sample.Complex.Extensions;
 
     /// <summary>
     /// Custom extension resolver.
