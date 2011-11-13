@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="IHaveConversionCallbacks.cs" company="bbv Software Services AG">
+// <copyright file="IConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,23 +18,19 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System.Collections.Generic;
+    using System.Reflection;
 
     /// <summary>
-    /// Identifies the implemenator as conversion callback provider
+    /// A conversion callback is responsible for converting a string value to the target property type.
     /// </summary>
-    public interface IHaveConversionCallbacks
+    public interface IConversionCallback
     {
         /// <summary>
-        /// Gets the conversion callback which is used as fallback when no suitable conversion 
-        /// callback can be found in <see cref="ConversionCallbacks"/>
+        /// Converts the specified value to the target property type.
         /// </summary>
-        IConversionCallback DefaultConversionCallback { get; }
-
-        /// <summary>
-        /// Gets the conversion callbacks
-        /// </summary>
-        /// <remarks>The key of the dictionary represent the property name</remarks>
-        IDictionary<string, IConversionCallback> ConversionCallbacks { get; }
+        /// <param name="value">The value to be converted.</param>
+        /// <param name="targetProperty">The target property.</param>
+        /// <returns>The converted value</returns>
+        object Convert(string value, PropertyInfo targetProperty);
     }
 }

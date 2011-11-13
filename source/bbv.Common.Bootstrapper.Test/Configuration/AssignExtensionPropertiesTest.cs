@@ -18,7 +18,6 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using bbv.Common.Bootstrapper.Configuration.Internals;
@@ -39,6 +38,8 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<IReflectExtensionProperties> extensionPropertyReflector;
 
+        private readonly Mock<IConversionCallback> conversionCallback;
+
         private readonly AssignExtensionProperties testee;
 
         public AssignExtensionPropertiesTest()
@@ -46,6 +47,7 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.consumer = new Mock<IConsumeConfiguration>();
             this.extensionPropertyReflector = new Mock<IReflectExtensionProperties>();
             this.conversionCallbacks = new Mock<IHaveConversionCallbacks>();
+            this.conversionCallback = new Mock<IConversionCallback>();
 
             this.testee = new AssignExtensionProperties();
         }
@@ -74,52 +76,38 @@ namespace bbv.Common.Bootstrapper.Configuration
         [Fact]
         public void Assign_WhenReflectedPropertyMatchesConfiguration_ShouldAcquireCallback()
         {
-            bool wasCalled = false;
+            this.SetupConversionCallbackReturnsInput();
 
-            var dictionary = new Dictionary<string, Func<string, PropertyInfo, object>>
-                {
-                    {
-                        SomeExtensionPropertyName, (value, info) =>
-                            {
-                                wasCalled = true;
-                                return value;
-                            }
-                        }
-                };
-
+            var dictionary = new Dictionary<string, IConversionCallback> { { SomeExtensionPropertyName, this.conversionCallback.Object } };
             this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(dictionary);
 
-            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { GetSomePropertyPropertyInfo() });
+            PropertyInfo propertyInfo = GetSomePropertyPropertyInfo();
+            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { propertyInfo });
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
 
             var someExtension = new SomeExtension();
             this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacks.Object);
 
-            wasCalled.Should().BeTrue();
+            this.conversionCallback.Verify(callback => callback.Convert(SomeExtensionPropertyValue, propertyInfo));
             someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);
         }
 
         [Fact]
         public void Assign_WhenNoConversionCallbackFound_ShouldUseDefaultCallback()
         {
-            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(
-                new Dictionary<string, Func<string, PropertyInfo, object>>());
+            this.SetupConversionCallbackReturnsInput();
 
-            bool wasCalled = false;
-            Func<string, PropertyInfo, object> defaultCallback = (value, info) =>
-            {
-                wasCalled = true;
-                return value;
-            };
-            this.conversionCallbacks.Setup(x => x.DefaultConversionCallback).Returns(defaultCallback);
+            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(new Dictionary<string, IConversionCallback>());
+            this.conversionCallbacks.Setup(x => x.DefaultConversionCallback).Returns(this.conversionCallback.Object);
 
-            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { GetSomePropertyPropertyInfo() });
+            PropertyInfo propertyInfo = GetSomePropertyPropertyInfo();
+            this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { propertyInfo });
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
 
             var someExtension = new SomeExtension();
             this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacks.Object);
 
-            wasCalled.Should().BeTrue();
+            this.conversionCallback.Verify(callback => callback.Convert(SomeExtensionPropertyValue, propertyInfo));
             someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);
         }
 
@@ -131,6 +119,14 @@ namespace bbv.Common.Bootstrapper.Configuration
         private void SetupEmptyConsumerConfiguration()
         {
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string>());
+        }
+
+        private void SetupConversionCallbackReturnsInput()
+        {
+            string interceptedValue = null;
+            this.conversionCallback.Setup(callback => callback.Convert(It.IsAny<string>(), It.IsAny<PropertyInfo>()))
+                .Callback<string, PropertyInfo>((value, info) => interceptedValue = value)
+                .Returns(() => interceptedValue);
         }
 
         private class SomeExtension : IExtension

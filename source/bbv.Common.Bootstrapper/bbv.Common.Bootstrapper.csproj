@@ -30,6 +30,9 @@
     <Compile Include="Configuration\IConfigurationSectionBehaviorFactory.cs" />
     <Compile Include="Configuration\IConsumeConfiguration.cs" />
     <Compile Include="Configuration\IConsumeConfigurationSection.cs" />
+    <Compile Include="Configuration\IConversionCallback.cs" />
+    <Compile Include="Configuration\Internals\DefaultConversionCallback.cs" />
+    <Compile Include="Configuration\Internals\FuncConversionCallback.cs" />
     <Compile Include="Configuration\IReflectExtensionProperties.cs" />
     <Compile Include="Configuration\IHaveConversionCallbacks.cs" />
     <Compile Include="Configuration\IHaveConfigurationSectionName.cs" />

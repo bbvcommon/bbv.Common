@@ -18,9 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
@@ -46,9 +44,9 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             var extension = new Mock<IExtension>();
             var consumer = extension.As<IHaveConversionCallbacks>();
-            var expected = new KeyValuePair<string, Func<string, PropertyInfo, object>>("Value", (value, info) => new object());
+            var expected = new KeyValuePair<string, IConversionCallback>("Value", Mock.Of<IConversionCallback>());
 
-            consumer.Setup(n => n.ConversionCallbacks).Returns(new Dictionary<string, Func<string, PropertyInfo, object>> { { expected.Key, expected.Value } });
+            consumer.Setup(n => n.ConversionCallbacks).Returns(new Dictionary<string, IConversionCallback> { { expected.Key, expected.Value } });
 
             var testee = new HaveConversionCallbacks(extension.Object);
             testee.ConversionCallbacks.Should().Contain(expected);
@@ -61,7 +59,7 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             var testee = new HaveConversionCallbacks(extension.Object);
 
-            testee.DefaultConversionCallback.Should().Be(HaveConversionCallbacks.DefaultCallback);
+            testee.DefaultConversionCallback.Should().BeOfType<DefaultConversionCallback>();
         }
 
         [Fact]
@@ -69,7 +67,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             var extension = new Mock<IExtension>();
             var consumer = extension.As<IHaveConversionCallbacks>();
-            Func<string, PropertyInfo, object> expected = (value, info) => new object();
+            var expected = Mock.Of<IConversionCallback>();
 
             consumer.Setup(n => n.DefaultConversionCallback).Returns(expected);
 

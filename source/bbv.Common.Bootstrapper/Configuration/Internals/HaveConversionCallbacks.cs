@@ -18,10 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Configuration.Internals
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.Reflection;
 
     /// <summary>
     /// Default IHaveConversionCallbacks
@@ -38,30 +35,22 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
 
             this.ConversionCallbacks = callbacksProvider != null
                 ? callbacksProvider.ConversionCallbacks
-                : new Dictionary<string, Func<string, PropertyInfo, object>>();
+                : new Dictionary<string, IConversionCallback>();
 
             this.DefaultConversionCallback = callbacksProvider != null
                 ? callbacksProvider.DefaultConversionCallback
-                : DefaultCallback;
-        }
-
-        /// <summary>
-        /// Gets the default conversion callback
-        /// </summary>
-        public static Func<string, PropertyInfo, object> DefaultCallback
-        {
-            get { return (value, info) => Convert.ChangeType(value, info.PropertyType, CultureInfo.InvariantCulture); }
+                : new DefaultConversionCallback();
         }
 
         /// <summary>
         /// Gets the conversion callback which is used as fallback when no suitable conversion
         /// callback can be found in <see cref="ConversionCallbacks"/>
         /// </summary>
-        public Func<string, PropertyInfo, object> DefaultConversionCallback { get; private set; }
+        public IConversionCallback DefaultConversionCallback { get; private set; }
 
         /// <summary>
         /// Gets the conversion callbacks
         /// </summary>
-        public IDictionary<string, Func<string, PropertyInfo, object>> ConversionCallbacks { get; private set; }
+        public IDictionary<string, IConversionCallback> ConversionCallbacks { get; private set; }
     }
 }

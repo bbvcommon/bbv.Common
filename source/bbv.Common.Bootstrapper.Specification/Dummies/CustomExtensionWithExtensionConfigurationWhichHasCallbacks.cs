@@ -22,30 +22,30 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using System.Collections.Generic;
     using System.Configuration;
     using System.Globalization;
-    using System.Reflection;
 
     using bbv.Common.Bootstrapper.Configuration;
+    using bbv.Common.Bootstrapper.Configuration.Internals;
     using bbv.Common.Formatters;
 
     public class CustomExtensionWithExtensionConfigurationWhichHasCallbacks : ICustomExtensionWithExtensionConfiguration,
         IHaveConversionCallbacks, ILoadConfigurationSection
     {
-        public Func<string, PropertyInfo, object> DefaultConversionCallback
+        public IConversionCallback DefaultConversionCallback
         {
             get
             {
-                return (value, info) => string.Format(CultureInfo.InvariantCulture, "{0}. Modified by Default!", value);
+                return new FuncConversionCallback((value, info) => string.Format(CultureInfo.InvariantCulture, "{0}. Modified by Default!", value));
             }
         }
 
-        public IDictionary<string, Func<string, PropertyInfo, object>> ConversionCallbacks
+        public IDictionary<string, IConversionCallback> ConversionCallbacks
         {
             get
             {
-                return new Dictionary<string, Func<string, PropertyInfo, object>>
+                return new Dictionary<string, IConversionCallback>
                     {
-                        { "SomeInt", (value, info) => { return Convert.ToInt32(value); } },
-                        { "SomeString", (value, info) => { return string.Format(CultureInfo.InvariantCulture, "{0}. Modified by Callback!", value); } },
+                        { "SomeInt", new FuncConversionCallback((value, info) => Convert.ToInt32(value)) },
+                        { "SomeString", new FuncConversionCallback((value, info) => string.Format(CultureInfo.InvariantCulture, "{0}. Modified by Callback!", value)) },
                     };
             }
         }

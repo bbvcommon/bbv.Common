@@ -36,8 +36,8 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
             Ensure.ArgumentNotNull(callbackProvider, "callbackProvider");
 
             IEnumerable<PropertyInfo> properties = reflector.Reflect(extension);
-            IDictionary<string, Func<string, PropertyInfo, object>> conversionCallbacks = callbackProvider.ConversionCallbacks;
-            Func<string, PropertyInfo, object> defaultCallback = callbackProvider.DefaultConversionCallback;
+            IDictionary<string, IConversionCallback> conversionCallbacks = callbackProvider.ConversionCallbacks;
+            IConversionCallback defaultCallback = callbackProvider.DefaultConversionCallback;
 
             foreach (KeyValuePair<string, string> keyValuePair in consumer.Configuration)
             {
@@ -51,13 +51,13 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
                     continue;
                 }
 
-                Func<string, PropertyInfo, object> conversionCallback;
+                IConversionCallback conversionCallback;
                 if (!conversionCallbacks.TryGetValue(pair.Key, out conversionCallback))
                 {
                     conversionCallback = defaultCallback;
                 }
 
-                matchedProperty.SetValue(extension, conversionCallback(pair.Value, matchedProperty), null);
+                matchedProperty.SetValue(extension, conversionCallback.Convert(pair.Value, matchedProperty), null);
             }
         }
     }
