@@ -19,12 +19,21 @@
 namespace bbv.Common.Bootstrapper.Sample.Customization
 {
     using bbv.Common.Bootstrapper.Sample.Complex;
+    using bbv.Common.Bootstrapper.Syntax;
 
     /// <summary>
     /// Strategy which inherits from <see cref="ComplexStrategy"/> but customizes the core infrastructure
     /// </summary>
     public class CustomizationStrategy : ComplexStrategy
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomizationStrategy"/> class.
+        /// </summary>
+        public CustomizationStrategy()
+            : base(new SyntaxBuilder<IComplexExtension>(new DecoratingExecutableFactory<IComplexExtension>()), new SyntaxBuilder<IComplexExtension>(new DecoratingExecutableFactory<IComplexExtension>()))
+        {
+        }
+
         /// <inheritdoc />
         /// <remarks>Creates a <see cref="CustomExtensionResolver"/></remarks>
         public override IExtensionResolver<IComplexExtension> CreateExtensionResolver()

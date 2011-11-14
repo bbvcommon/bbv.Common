@@ -46,6 +46,18 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
             this.container = new Lazy<Container>(() => new Container());
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComplexStrategy"/> class.
+        /// </summary>
+        /// <param name="runSyntaxBuilder">The run syntax builder.</param>
+        /// <param name="shutdownSyntaxBuilder">The shutdown syntax builder.</param>
+        protected ComplexStrategy(ISyntaxBuilder<IComplexExtension> runSyntaxBuilder, ISyntaxBuilder<IComplexExtension> shutdownSyntaxBuilder)
+            : base(runSyntaxBuilder, shutdownSyntaxBuilder)
+        {
+            this.funqlets = new Collection<IFunqlet>();
+            this.container = new Lazy<Container>(() => new Container());
+        }
+
         /// <inheritdoc />
         protected override void DefineRunSyntax(ISyntaxBuilder<IComplexExtension> builder)
         {
