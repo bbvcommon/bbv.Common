@@ -20,6 +20,8 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
 {
     using System.Reflection;
 
+    using bbv.Common.Bootstrapper.Sample.Complex.Behaviors;
+
     using Funq;
 
     using log4net;

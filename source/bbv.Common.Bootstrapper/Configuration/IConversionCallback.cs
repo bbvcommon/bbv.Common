@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ExtensionWhichIsFunqlet.cs" company="bbv Software Services AG">
+// <copyright file="IConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,31 +16,21 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Configuration
 {
     using System.Reflection;
 
-    using Funq;
-
-    using log4net;
-
     /// <summary>
-    /// Extension which is a IFunqlet.
+    /// A conversion callback is responsible for converting a string value to the target property type.
     /// </summary>
-    public class ExtensionWhichIsFunqlet : ComplexExtensionBase, IFunqlet
+    public interface IConversionCallback
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        /// <inheritdoc />
-        public void Configure(Container container)
-        {
-            Log.Info("ExtensionWhichIsFunqlet is configuring the container.");
-        }
-
-        /// <inheritdoc />
-        public override string Describe()
-        {
-            return "Extension which implements IFunqlet";
-        }
+        /// <summary>
+        /// Converts the specified value to the target property type.
+        /// </summary>
+        /// <param name="value">The value to be converted.</param>
+        /// <param name="targetProperty">The target property.</param>
+        /// <returns>The converted value</returns>
+        object Convert(string value, PropertyInfo targetProperty);
     }
 }

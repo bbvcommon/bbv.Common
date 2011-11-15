@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -38,19 +38,23 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly Lazy<IDictionary<string, Func<string, PropertyInfo, object>>> conversion;
+        private readonly Lazy<IDictionary<string, IConversionCallback>> conversion;
+
+        private readonly Lazy<IConversionCallback> defaultConversionCallback;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading"/> class.
         /// </summary>
         public ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading()
         {
+            this.defaultConversionCallback = new Lazy<IConversionCallback>(() => new DefaultConversionCallback());
+
             this.conversion =
-                new Lazy<IDictionary<string, Func<string, PropertyInfo, object>>>(
+                new Lazy<IDictionary<string, IConversionCallback>>(
                     () =>
-                    new Dictionary<string, Func<string, PropertyInfo, object>>
+                    new Dictionary<string, IConversionCallback>
                         {
-                            { "EndpointAddress", (input, prop) => IPAddress.Parse(input) },
+                            { "EndpointAddress", new FuncConversionCallback((input, prop) => IPAddress.Parse(input)) },
                         });
         }
 
@@ -75,18 +79,18 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         /// Gets the conversion callback which is used as fallback when no suitable conversion 
         /// callback can be found in <see cref="IHaveConversionCallbacks.ConversionCallbacks"/>
         /// </summary>
-        public Func<string, PropertyInfo, object> DefaultConversionCallback
+        public IConversionCallback DefaultConversionCallback
         {
             get
             {
-                return HaveConversionCallbacks.DefaultCallback;
+                return this.defaultConversionCallback.Value;
             }
         }
 
         /// <summary>
         /// Gets the conversion callbacks
         /// </summary>
-        public IDictionary<string, Func<string, PropertyInfo, object>> ConversionCallbacks
+        public IDictionary<string, IConversionCallback> ConversionCallbacks
         {
             get
             {

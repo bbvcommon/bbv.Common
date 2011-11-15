@@ -20,8 +20,6 @@ namespace bbv.Common.Bootstrapper
 {
     using System.Collections.Generic;
 
-    using bbv.Common.Bootstrapper.Reporting;
-
     /// <summary>
     /// Behaviors are elements that can be attached to executables.
     /// </summary>

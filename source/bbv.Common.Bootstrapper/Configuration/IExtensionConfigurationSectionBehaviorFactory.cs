@@ -62,5 +62,12 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// <param name="extension">The extensions.</param>
         /// <returns>The instance.</returns>
         IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension);
+
+        /// <summary>
+        /// Creates the instance which has the default conversion callback.
+        /// </summary>
+        /// <param name="extension">The extensions.</param>
+        /// <returns>The instance.</returns>
+        IHaveDefaultConversionCallback CreateHaveDefaultConversionCallback(IExtension extension);
     }
 }

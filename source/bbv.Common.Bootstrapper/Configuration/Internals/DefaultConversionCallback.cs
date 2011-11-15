@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionResolver.cs" company="bbv Software Services AG">
+// <copyright file="DefaultConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +16,22 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Customization
+namespace bbv.Common.Bootstrapper.Configuration.Internals
 {
-    using bbv.Common.Bootstrapper.Sample.Complex;
-    using bbv.Common.Bootstrapper.Sample.Complex.Extensions;
+    using System.Globalization;
+    using System.Reflection;
 
     /// <summary>
-    /// Custom extension resolver.
+    /// Default conversion callback which uses System.Convert and invariant culture to convert to the target property type.
     /// </summary>
-    public class CustomExtensionResolver : IExtensionResolver<IComplexExtension>
+    public class DefaultConversionCallback : IConversionCallback
     {
         /// <inheritdoc />
-        public void Resolve(IExtensionPoint<IComplexExtension> extensionPoint)
+        public object Convert(string value, PropertyInfo targetProperty)
         {
-            Ensure.ArgumentNotNull(extensionPoint, "extensionPoint");
+            Ensure.ArgumentNotNull(targetProperty, "targetProperty");
 
-            extensionPoint.AddExtension(new Log4NetExtension());
-            extensionPoint.AddExtension(new ExtensionWhichRegistersSomething());
+            return System.Convert.ChangeType(value, targetProperty.PropertyType, CultureInfo.InvariantCulture);
         }
     }
 }

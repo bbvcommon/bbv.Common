@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
     using System.Collections.Generic;
     using System.Globalization;

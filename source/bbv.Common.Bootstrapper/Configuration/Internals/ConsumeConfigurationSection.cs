@@ -34,7 +34,7 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
         public ConsumeConfigurationSection(IExtension extension)
         {
             var consumerCandidate = extension as IConsumeConfigurationSection;
-            this.consumer = consumerCandidate ?? new DefaultConsumer();
+            this.consumer = consumerCandidate ?? new NullConsumer();
         }
 
         /// <summary>
@@ -46,8 +46,12 @@ namespace bbv.Common.Bootstrapper.Configuration.Internals
             this.consumer.Apply(section);
         }
 
-        private class DefaultConsumer : IConsumeConfigurationSection 
+        /// <summary>
+        /// Consumer which does nothing with the applied configuration section.
+        /// </summary>
+        private class NullConsumer : IConsumeConfigurationSection
         {
+            /// <inheritdoc />
             public void Apply(ConfigurationSection section)
             {
             }

@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="HaveConversionCallbacks.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="HaveDefaultConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,27 +18,25 @@
 
 namespace bbv.Common.Bootstrapper.Configuration.Internals
 {
-    using System.Collections.Generic;
-
     /// <summary>
-    /// Default IHaveConversionCallbacks
+    /// Default IHaveDefaultConversionCallback
     /// </summary>
-    public class HaveConversionCallbacks : IHaveConversionCallbacks
+    public class HaveDefaultConversionCallback : IHaveDefaultConversionCallback
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HaveConversionCallbacks"/> class.
+        /// Initializes a new instance of the <see cref="HaveDefaultConversionCallback"/> class.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        public HaveConversionCallbacks(IExtension extension)
+        public HaveDefaultConversionCallback(IExtension extension)
         {
-            var callbacksProvider = extension as IHaveConversionCallbacks;
+            var callbacksProvider = extension as IHaveDefaultConversionCallback;
 
-            this.ConversionCallbacks = callbacksProvider != null
-                ? callbacksProvider.ConversionCallbacks
-                : new Dictionary<string, IConversionCallback>();
+            this.DefaultConversionCallback = callbacksProvider != null
+                ? callbacksProvider.DefaultConversionCallback
+                : new DefaultConversionCallback();
         }
 
         /// <inheritdoc />
-        public IDictionary<string, IConversionCallback> ConversionCallbacks { get; private set; }
+        public IConversionCallback DefaultConversionCallback { get; private set; }
     }
 }

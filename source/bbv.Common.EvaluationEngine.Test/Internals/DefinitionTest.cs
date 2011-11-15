@@ -55,7 +55,7 @@ namespace bbv.Common.EvaluationEngine.Internals
         {
             var questionType = this.testee.QuestionType;
 
-            questionType.Should().BeSameAs(typeof(TestQuestion));
+            questionType.Should().Be<TestQuestion>();
         }
 
         [Fact]
@@ -109,12 +109,12 @@ namespace bbv.Common.EvaluationEngine.Internals
 
             this.testee.AddExpressionProviderSet(
                 CreateSet(
-                    q => true, 
+                    q => true,
                     new SingleExpressionProvider<TestQuestion, Answer, Parameter, ExpressionResult>(q => new TestExpression()),
                     new SingleExpressionProvider<TestQuestion, Answer, Parameter, ExpressionResult>(q => new TestExpression())));
             this.testee.AddExpressionProviderSet(
                 CreateSet(
-                    q => true, 
+                    q => true,
                     new SingleExpressionProvider<TestQuestion, Answer, Parameter, ExpressionResult>(q => new TestExpression())));
 
             var clone = this.testee.Clone();

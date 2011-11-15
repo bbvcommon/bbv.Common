@@ -54,23 +54,45 @@ namespace bbv.Common.Bootstrapper.Reporting
         /// <inheritdoc />
         public IExecutionContext CreateRunExecutionContext(IDescribable describable)
         {
-            this.Run = new ExecutionContext(describable);
+            this.Run = this.CreateExecutionContextCore(describable);
             return this.Run;
         }
 
         /// <inheritdoc />
         public IExecutionContext CreateShutdownExecutionContext(IDescribable describable)
         {
-            this.Shutdown = new ExecutionContext(describable);
+            this.Shutdown = this.CreateExecutionContextCore(describable);
             return this.Shutdown;
         }
 
         /// <inheritdoc />
         public IExtensionContext CreateExtensionContext(IDescribable describable)
         {
-            var extensionInfo = new ExtensionContext(describable);
+            var extensionInfo = this.CreateExtensionContextCore(describable);
+
             this.extensions.Add(extensionInfo);
+
             return extensionInfo;
+        }
+
+        /// <summary>
+        /// Creates the extension context implementation.
+        /// </summary>
+        /// <param name="describable">The describable which is passed to the extension context.</param>
+        /// <returns>A new instance of the extension context implementation.</returns>
+        protected virtual IExtensionContext CreateExtensionContextCore(IDescribable describable)
+        {
+            return new ExtensionContext(describable);
+        }
+
+        /// <summary>
+        /// Creates the execution context implementation.
+        /// </summary>
+        /// <param name="describable">The describable which is passed to the execution context.</param>
+        /// <returns>A new instance of the execution context implementation.</returns>
+        protected virtual IExecutionContext CreateExecutionContextCore(IDescribable describable)
+        {
+            return new ExecutionContext(describable);
         }
     }
 }

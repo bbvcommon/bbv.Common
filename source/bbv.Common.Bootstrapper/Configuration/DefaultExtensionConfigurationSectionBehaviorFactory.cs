@@ -18,8 +18,6 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
-
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
     /// <summary>
@@ -27,64 +25,46 @@ namespace bbv.Common.Bootstrapper.Configuration
     /// </summary>
     public class DefaultExtensionConfigurationSectionBehaviorFactory : IExtensionConfigurationSectionBehaviorFactory
     {
-        /// <summary>
-        /// Creates the extension property reflector.
-        /// </summary>
-        /// <returns>The instance.</returns>
+        /// <inheritdoc />
         public IReflectExtensionProperties CreateReflectExtensionProperties()
         {
             return new ReflectExtensionPublicProperties();
         }
 
-        /// <summary>
-        /// Creates the extension property assigner.
-        /// </summary>
-        /// <returns>
-        /// The instance.
-        /// </returns>
+        /// <inheritdoc />
         public IAssignExtensionProperties CreateAssignExtensionProperties()
         {
             return new AssignExtensionProperties();
         }
 
-        /// <summary>
-        /// Creates the consume configuration instance.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>The instance.</returns>
+        /// <inheritdoc />
         public IConsumeConfiguration CreateConsumeConfiguration(IExtension extension)
         {
             return new ConsumeConfiguration(extension);
         }
 
-        /// <summary>
-        /// Creates the instance which knows the section name.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>The instance.</returns>
+        /// <inheritdoc />
         public IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
         {
             return new HaveConfigurationSectionName(extension);
         }
 
-        /// <summary>
-        /// Creates the instance which loads configuration sections.
-        /// </summary>
-        /// <param name="extension">The extensions.</param>
-        /// <returns>The instance.</returns>
+        /// <inheritdoc />
         public ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
         {
             return new LoadConfigurationSection(extension);
         }
 
-        /// <summary>
-        /// Creates the instance which has conversion callbacks.
-        /// </summary>
-        /// <param name="extension">The extensions.</param>
-        /// <returns>The instance.</returns>
+        /// <inheritdoc />
         public IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
         {
             return new HaveConversionCallbacks(extension);
+        }
+
+        /// <inheritdoc />
+        public IHaveDefaultConversionCallback CreateHaveDefaultConversionCallback(IExtension extension)
+        {
+            return new HaveDefaultConversionCallback(extension);
         }
     }
 }

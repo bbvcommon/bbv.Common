@@ -18,9 +18,7 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
     /// <summary>
     /// Identifies the implemenator as conversion callback provider
@@ -28,14 +26,9 @@ namespace bbv.Common.Bootstrapper.Configuration
     public interface IHaveConversionCallbacks
     {
         /// <summary>
-        /// Gets the conversion callback which is used as fallback when no suitable conversion 
-        /// callback can be found in <see cref="ConversionCallbacks"/>
-        /// </summary>
-        Func<string, PropertyInfo, object> DefaultConversionCallback { get; }
-
-        /// <summary>
         /// Gets the conversion callbacks
         /// </summary>
-        IDictionary<string, Func<string, PropertyInfo, object>> ConversionCallbacks { get; }
+        /// <remarks>The key of the dictionary represent the property name</remarks>
+        IDictionary<string, IConversionCallback> ConversionCallbacks { get; }
     }
 }

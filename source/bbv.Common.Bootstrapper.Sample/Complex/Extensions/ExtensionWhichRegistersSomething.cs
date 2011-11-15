@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
     using System.Collections.Generic;
     using System.Reflection;
@@ -35,6 +35,8 @@ namespace bbv.Common.Bootstrapper.Sample.Complex
         /// <inheritdoc />
         public override void ContainerInitializing(ICollection<IFunqlet> funqlets)
         {
+            Ensure.ArgumentNotNull(funqlets, "funqlets");
+
             base.ContainerInitializing(funqlets);
 
             Log.Info("ExtensionWhichRegistersSomething is initializing the container.");

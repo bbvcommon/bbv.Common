@@ -16,11 +16,13 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Behaviors
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using bbv.Common.Formatters;
+
     using Funq;
 
     /// <summary>

@@ -28,7 +28,7 @@ namespace bbv.Common.Bootstrapper.Configuration
     {
         private readonly Mock<IExtensionConfigurationSectionBehaviorFactory> factory;
 
-        private readonly Mock<IHaveConversionCallbacks> conversionCallbacks;
+        private readonly Mock<IHaveConversionCallbacks> conversionCallbacksProvider;
 
         private readonly Mock<ILoadConfigurationSection> sectionProvider;
 
@@ -42,6 +42,8 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<IAssignExtensionProperties> assigner;
 
+        private readonly Mock<IHaveDefaultConversionCallback> defaultConversionCallbackProvider;
+
         private readonly ExtensionConfigurationSectionBehavior testee;
 
         public ExtensionConfigurationSectionBehaviorTest()
@@ -50,7 +52,8 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.extensionPropertyReflector = new Mock<IReflectExtensionProperties>();
             this.sectionNameProvider = new Mock<IHaveConfigurationSectionName>();
             this.sectionProvider = new Mock<ILoadConfigurationSection>();
-            this.conversionCallbacks = new Mock<IHaveConversionCallbacks>();
+            this.conversionCallbacksProvider = new Mock<IHaveConversionCallbacks>();
+            this.defaultConversionCallbackProvider = new Mock<IHaveDefaultConversionCallback>();
             this.assigner = new Mock<IAssignExtensionProperties>();
 
             this.factory = new Mock<IExtensionConfigurationSectionBehaviorFactory>();
@@ -109,7 +112,7 @@ namespace bbv.Common.Bootstrapper.Configuration
 
             this.testee.Behave(this.extensions);
 
-            this.assigner.Verify(a => a.Assign(this.extensionPropertyReflector.Object, It.IsAny<IExtension>(), this.consumer.Object, this.conversionCallbacks.Object));
+            this.assigner.Verify(a => a.Assign(this.extensionPropertyReflector.Object, It.IsAny<IExtension>(), this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object));
         }
 
         [Fact]
@@ -122,7 +125,7 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.testee.Behave(this.extensions);
 
             this.consumer.Verify(c => c.Configuration, Times.Never());
-            this.assigner.Verify(a => a.Assign(It.IsAny<IReflectExtensionProperties>(), It.IsAny<IExtension>(), It.IsAny<IConsumeConfiguration>(), It.IsAny<IHaveConversionCallbacks>()), Times.Never());
+            this.assigner.Verify(a => a.Assign(It.IsAny<IReflectExtensionProperties>(), It.IsAny<IExtension>(), It.IsAny<IConsumeConfiguration>(), It.IsAny<IHaveConversionCallbacks>(), It.IsAny<IHaveDefaultConversionCallback>()), Times.Never());
         }
 
         [Fact]
@@ -159,7 +162,9 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.factory.Setup(x => x.CreateHaveConfigurationSectionName(It.IsAny<IExtension>())).Returns(
                 this.sectionNameProvider.Object);
             this.factory.Setup(x => x.CreateHaveConversionCallbacks(It.IsAny<IExtension>())).Returns(
-                this.conversionCallbacks.Object);
+                this.conversionCallbacksProvider.Object);
+            this.factory.Setup(x => x.CreateHaveDefaultConversionCallback(It.IsAny<IExtension>())).Returns(
+                this.defaultConversionCallbackProvider.Object);
             this.factory.Setup(x => x.CreateLoadConfigurationSection(It.IsAny<IExtension>())).Returns(
                 this.sectionProvider.Object);
         }
