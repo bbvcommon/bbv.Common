@@ -76,6 +76,14 @@ namespace bbv.Common.Bootstrapper.Configuration
         }
 
         [Fact]
+        public void CreateHaveDefaultConversionCallback_ShouldCreateDefaultHaveDefaultConversionCallback()
+        {
+            var defaultConversionCallback = this.testee.CreateHaveDefaultConversionCallback(Mock.Of<IExtension>());
+
+            defaultConversionCallback.Should().BeOfType<HaveDefaultConversionCallback>();
+        }
+
+        [Fact]
         public void CreateLoadConfigurationSection_ShouldCreateDefaultLoadConfigurationSection()
         {
             var sectionProvider = this.testee.CreateLoadConfigurationSection(Mock.Of<IExtension>());

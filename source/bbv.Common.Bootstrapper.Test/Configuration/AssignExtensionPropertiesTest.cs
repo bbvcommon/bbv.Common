@@ -34,11 +34,13 @@ namespace bbv.Common.Bootstrapper.Configuration
 
         private readonly Mock<IConsumeConfiguration> consumer;
 
-        private readonly Mock<IHaveConversionCallbacks> conversionCallbacks;
+        private readonly Mock<IHaveConversionCallbacks> conversionCallbacksProvider;
 
         private readonly Mock<IReflectExtensionProperties> extensionPropertyReflector;
 
         private readonly Mock<IConversionCallback> conversionCallback;
+
+        private readonly Mock<IHaveDefaultConversionCallback> defaultConversionCallbackProvider;
 
         private readonly AssignExtensionProperties testee;
 
@@ -46,7 +48,8 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             this.consumer = new Mock<IConsumeConfiguration>();
             this.extensionPropertyReflector = new Mock<IReflectExtensionProperties>();
-            this.conversionCallbacks = new Mock<IHaveConversionCallbacks>();
+            this.conversionCallbacksProvider = new Mock<IHaveConversionCallbacks>();
+            this.defaultConversionCallbackProvider = new Mock<IHaveDefaultConversionCallback>();
             this.conversionCallback = new Mock<IConversionCallback>();
 
             this.testee = new AssignExtensionProperties();
@@ -57,7 +60,7 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             this.SetupEmptyConsumerConfiguration();
 
-            this.testee.Assign(this.extensionPropertyReflector.Object, Mock.Of<IExtension>(), this.consumer.Object, this.conversionCallbacks.Object);
+            this.testee.Assign(this.extensionPropertyReflector.Object, Mock.Of<IExtension>(), this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object);
 
             this.extensionPropertyReflector.Verify(r => r.Reflect(It.IsAny<IExtension>()));
         }
@@ -67,10 +70,19 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             this.SetupEmptyConsumerConfiguration();
 
-            this.testee.Assign(this.extensionPropertyReflector.Object, Mock.Of<IExtension>(), this.consumer.Object, this.conversionCallbacks.Object);
+            this.testee.Assign(this.extensionPropertyReflector.Object, Mock.Of<IExtension>(), this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object);
 
-            this.conversionCallbacks.VerifyGet(x => x.ConversionCallbacks);
-            this.conversionCallbacks.VerifyGet(x => x.DefaultConversionCallback);
+            this.conversionCallbacksProvider.VerifyGet(x => x.ConversionCallbacks);
+        }
+
+        [Fact]
+        public void Assign_ShouldAcquireDefaultConversionCallback()
+        {
+            this.SetupEmptyConsumerConfiguration();
+
+            this.testee.Assign(this.extensionPropertyReflector.Object, Mock.Of<IExtension>(), this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object);
+
+            this.defaultConversionCallbackProvider.VerifyGet(x => x.DefaultConversionCallback);
         }
 
         [Fact]
@@ -79,14 +91,14 @@ namespace bbv.Common.Bootstrapper.Configuration
             this.SetupConversionCallbackReturnsInput();
 
             var dictionary = new Dictionary<string, IConversionCallback> { { SomeExtensionPropertyName, this.conversionCallback.Object } };
-            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(dictionary);
+            this.conversionCallbacksProvider.Setup(x => x.ConversionCallbacks).Returns(dictionary);
 
             PropertyInfo propertyInfo = GetSomePropertyPropertyInfo();
             this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { propertyInfo });
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
 
             var someExtension = new SomeExtension();
-            this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacks.Object);
+            this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object);
 
             this.conversionCallback.Verify(callback => callback.Convert(SomeExtensionPropertyValue, propertyInfo));
             someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);
@@ -97,15 +109,15 @@ namespace bbv.Common.Bootstrapper.Configuration
         {
             this.SetupConversionCallbackReturnsInput();
 
-            this.conversionCallbacks.Setup(x => x.ConversionCallbacks).Returns(new Dictionary<string, IConversionCallback>());
-            this.conversionCallbacks.Setup(x => x.DefaultConversionCallback).Returns(this.conversionCallback.Object);
+            this.conversionCallbacksProvider.Setup(x => x.ConversionCallbacks).Returns(new Dictionary<string, IConversionCallback>());
+            this.defaultConversionCallbackProvider.Setup(x => x.DefaultConversionCallback).Returns(this.conversionCallback.Object);
 
             PropertyInfo propertyInfo = GetSomePropertyPropertyInfo();
             this.extensionPropertyReflector.Setup(x => x.Reflect(It.IsAny<IExtension>())).Returns(new List<PropertyInfo> { propertyInfo });
             this.consumer.Setup(x => x.Configuration).Returns(new Dictionary<string, string> { { SomeExtensionPropertyName, SomeExtensionPropertyValue } });
 
             var someExtension = new SomeExtension();
-            this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacks.Object);
+            this.testee.Assign(this.extensionPropertyReflector.Object, someExtension, this.consumer.Object, this.conversionCallbacksProvider.Object, this.defaultConversionCallbackProvider.Object);
 
             this.conversionCallback.Verify(callback => callback.Convert(SomeExtensionPropertyValue, propertyInfo));
             someExtension.SomeProperty.Should().Be(SomeExtensionPropertyValue);

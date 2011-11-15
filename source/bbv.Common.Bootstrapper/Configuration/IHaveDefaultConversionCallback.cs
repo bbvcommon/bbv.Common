@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="IHaveConversionCallbacks.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IHaveDefaultConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +18,15 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System.Collections.Generic;
-
     /// <summary>
-    /// Identifies the implemenator as conversion callback provider
+    /// Identifies the implemenator as default conversion callback provider
     /// </summary>
-    public interface IHaveConversionCallbacks
+    public interface IHaveDefaultConversionCallback
     {
         /// <summary>
-        /// Gets the conversion callbacks
+        /// Gets the conversion callback which is used as fallback when no suitable conversion 
+        /// callback can be found in <see cref="IHaveConversionCallbacks.ConversionCallbacks"/>
         /// </summary>
-        /// <remarks>The key of the dictionary represent the property name</remarks>
-        IDictionary<string, IConversionCallback> ConversionCallbacks { get; }
+        IConversionCallback DefaultConversionCallback { get; }
     }
 }

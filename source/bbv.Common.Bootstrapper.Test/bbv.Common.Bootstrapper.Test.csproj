@@ -44,6 +44,7 @@
     <Compile Include="Configuration\FuncConversionCallbackTest.cs" />
     <Compile Include="Configuration\HaveConversionCallbacksTest.cs" />
     <Compile Include="Configuration\HaveConfigurationSectionNameTest.cs" />
+    <Compile Include="Configuration\HaveDefaultConversionCallbackTest.cs" />
     <Compile Include="Configuration\LoadConfigurationSectionTest.cs" />
     <Compile Include="DefaultBootstrapperTest.cs" />
     <Compile Include="Dummies\ICustomExtension.cs" />
