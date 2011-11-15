@@ -28,7 +28,7 @@ namespace bbv.Common.Bootstrapper.Specification.Dummies
     using bbv.Common.Formatters;
 
     public class CustomExtensionWithExtensionConfigurationWhichHasCallbacks : ICustomExtensionWithExtensionConfiguration,
-        IHaveConversionCallbacks, ILoadConfigurationSection
+        IHaveConversionCallbacks, IHaveDefaultConversionCallback, ILoadConfigurationSection
     {
         public IConversionCallback DefaultConversionCallback
         {
