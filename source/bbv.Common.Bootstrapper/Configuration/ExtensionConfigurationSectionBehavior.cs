@@ -91,9 +91,10 @@ namespace bbv.Common.Bootstrapper.Configuration
 
                 FillConsumerConfiguration(section, consumer);
 
-                IHaveConversionCallbacks callbackProvider = this.factory.CreateHaveConversionCallbacks(extension);
+                IHaveConversionCallbacks conversionCallbacksProvider = this.factory.CreateHaveConversionCallbacks(extension);
+                IHaveDefaultConversionCallback defaultConversionCallbackProvider = this.factory.CreateHaveDefaultConversionCallback(extension);
 
-                this.assignExtensionProperties.Assign(this.reflectExtensionProperties, extension, consumer, callbackProvider);
+                this.assignExtensionProperties.Assign(this.reflectExtensionProperties, extension, consumer, conversionCallbacksProvider, defaultConversionCallbackProvider);
             }
         }
 

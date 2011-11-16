@@ -99,7 +99,7 @@ namespace bbv.Common.Bootstrapper
 
         /// <inheritdoc />
         /// <remarks>By default creates a ReportingContext</remarks>
-        public IReportingContext CreateReportingContext()
+        public virtual IReportingContext CreateReportingContext()
         {
             return new ReportingContext();
         }

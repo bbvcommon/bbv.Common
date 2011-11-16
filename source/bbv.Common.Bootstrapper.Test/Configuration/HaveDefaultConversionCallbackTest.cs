@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="HaveConversionCallbacksTest.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="HaveDefaultConversionCallbackTest.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,38 +18,34 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System.Collections.Generic;
-
     using bbv.Common.Bootstrapper.Configuration.Internals;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
-    public class HaveConversionCallbacksTest
+    public class HaveDefaultConversionCallbackTest
     {
         [Fact]
-        public void ConversionCallbacks_ExtensionNotIHaveConversionCallbacks_ShouldUseEmptyOne()
+        public void DefaultConversionCallback_ExtensionNotIHaveDefaultConversionCallback_ShouldUseDefault()
         {
             var extension = new Mock<IExtension>();
 
-            var testee = new HaveConversionCallbacks(extension.Object);
-            testee.ConversionCallbacks.Should().BeEmpty();
+            var testee = new HaveDefaultConversionCallback(extension.Object);
+
+            testee.DefaultConversionCallback.Should().BeOfType<DefaultConversionCallback>();
         }
 
         [Fact]
-        public void ConversionCallbacks_ExtensionIsIHaveConversionCallbacks_ShouldAcquireCallbacksFromExtension()
+        public void DefaultConversionCallback_ExtensionIsIHaveDefaultConversionCallback_ShouldAcquireDefaultCallbackFromExtension()
         {
             var extension = new Mock<IExtension>();
-            var consumer = extension.As<IHaveConversionCallbacks>();
-            var expected = new KeyValuePair<string, IConversionCallback>("Value", Mock.Of<IConversionCallback>());
+            var consumer = extension.As<IHaveDefaultConversionCallback>();
+            var expected = Mock.Of<IConversionCallback>();
 
-            consumer.Setup(n => n.ConversionCallbacks).Returns(new Dictionary<string, IConversionCallback> { { expected.Key, expected.Value } });
+            consumer.Setup(n => n.DefaultConversionCallback).Returns(expected);
 
-            var testee = new HaveConversionCallbacks(extension.Object);
-            testee.ConversionCallbacks.Should().Contain(expected);
+            var testee = new HaveDefaultConversionCallback(extension.Object);
+            testee.DefaultConversionCallback.Should().Be(expected);
         }
     }
 }

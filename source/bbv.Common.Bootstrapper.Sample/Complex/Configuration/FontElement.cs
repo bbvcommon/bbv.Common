@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="ColorElement.cs" company="bbv Software Services AG">
+// <copyright file="FontElement.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,58 +16,58 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Complex
+namespace bbv.Common.Bootstrapper.Sample.Complex.Configuration
 {
     using System.Configuration;
 
     /// <summary>
-    /// Configuration element which represents a color.
+    /// The configuration element which represents font configuration possibilities.
     /// </summary>
-    public sealed class ColorElement : ConfigurationElement
+    public sealed class FontElement : ConfigurationElement
     {
-        private const string BackgroundKeyName = "background";
+        private const string NameKeyName = "name";
 
-        private const string ForegroundKeyName = "foreground";
+        private const string SizeKeyName = "size";
 
         /// <summary>
-        /// Gets or sets the background color.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The background color.
+        /// The name.
         /// </value>
-        [ConfigurationProperty(BackgroundKeyName, DefaultValue = "FFFFFF", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\GHIJKLMNOPQRSTUVWXYZ", MinLength = 6, MaxLength = 6)]
-        public string Background
+        [ConfigurationProperty(NameKeyName, DefaultValue = "Arial", IsRequired = true)]
+        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\", MinLength = 1, MaxLength = 60)]
+        public string Name
         {
             get
             {
-                return (string)this[BackgroundKeyName];
+                return (string)this[NameKeyName];
             }
 
             set
             {
-                this[BackgroundKeyName] = value;
+                this[NameKeyName] = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the foreground color.
+        /// Gets or sets the font size.
         /// </summary>
         /// <value>
-        /// The foreground color.
+        /// The font size.
         /// </value>
-        [ConfigurationProperty(ForegroundKeyName, DefaultValue = "000000", IsRequired = true)]
-        [StringValidator(InvalidCharacters = "~!@#$%^&*()[]{}/;'\"|\\GHIJKLMNOPQRSTUVWXYZ", MinLength = 6, MaxLength = 6)]
-        public string Foreground
+        [ConfigurationProperty(SizeKeyName, DefaultValue = "12", IsRequired = false)]
+        [IntegerValidator(ExcludeRange = false, MaxValue = 24, MinValue = 6)]
+        public int Size
         {
             get
             {
-                return (string)this[ForegroundKeyName];
+                return (int)this[SizeKeyName];
             }
 
             set
             {
-                this[ForegroundKeyName] = value;
+                this[SizeKeyName] = value;
             }
         }
     }

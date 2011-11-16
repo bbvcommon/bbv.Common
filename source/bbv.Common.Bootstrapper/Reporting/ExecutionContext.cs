@@ -61,11 +61,21 @@ namespace bbv.Common.Bootstrapper.Reporting
         /// <inheritdoc />
         public IExecutableContext CreateExecutableContext(IDescribable describable)
         {
-            var executableInfo = new ExecutableContext(describable);
+            var executableInfo = this.CreateExecutableContextCore(describable);
 
             this.executables.Add(executableInfo);
 
             return executableInfo;
+        }
+
+        /// <summary>
+        /// Creates the executable context implementation.
+        /// </summary>
+        /// <param name="describable">The describable which is passed to the executable context.</param>
+        /// <returns>A new instance of the executable context implementation.</returns>
+        protected virtual IExecutableContext CreateExecutableContextCore(IDescribable describable)
+        {
+            return new ExecutableContext(describable);
         }
     }
 }

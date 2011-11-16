@@ -61,10 +61,21 @@ namespace bbv.Common.Bootstrapper.Reporting
         /// <inheritdoc />
         public IBehaviorContext CreateBehaviorContext(IDescribable describable)
         {
-            var behaviorInfo = new BehaviorContext(describable);
+            var behaviorInfo = this.CreateBehaviorContextCore(describable);
+
             this.behaviors.Add(behaviorInfo);
 
             return behaviorInfo;
+        }
+
+        /// <summary>
+        /// Creates the behavior context implementation.
+        /// </summary>
+        /// <param name="describable">The describable which is passed to the behavior context.</param>
+        /// <returns>A new instance of the behavior context implementation.</returns>
+        protected virtual IBehaviorContext CreateBehaviorContextCore(IDescribable describable)
+        {
+            return new BehaviorContext(describable);
         }
     }
 }

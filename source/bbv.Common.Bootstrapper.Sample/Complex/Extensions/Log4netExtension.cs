@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="HaveConversionCallbacks.cs" company="bbv Software Services AG">
+// <copyright file="Log4NetExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,29 +16,38 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Configuration.Internals
+namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 {
-    using System.Collections.Generic;
+    using System;
+
+    using log4net;
+    using log4net.Appender;
+    using log4net.Config;
+    using log4net.Layout;
 
     /// <summary>
-    /// Default IHaveConversionCallbacks
+    /// Extension which configures log4net.
     /// </summary>
-    public class HaveConversionCallbacks : IHaveConversionCallbacks
+    public class Log4NetExtension : ComplexExtensionBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HaveConversionCallbacks"/> class.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        public HaveConversionCallbacks(IExtension extension)
+        /// <inheritdoc />
+        public override void Start()
         {
-            var callbacksProvider = extension as IHaveConversionCallbacks;
+            base.Start();
 
-            this.ConversionCallbacks = callbacksProvider != null
-                ? callbacksProvider.ConversionCallbacks
-                : new Dictionary<string, IConversionCallback>();
+            Console.WriteLine("Log4NetExtension is starting.");
+
+            LogManager.GetRepository().ResetConfiguration();
+
+            var appender = new ConsoleAppender { Layout = new PatternLayout { ConversionPattern = "%logger - %message%newline" } };
+
+            BasicConfigurator.Configure(appender);
         }
 
         /// <inheritdoc />
-        public IDictionary<string, IConversionCallback> ConversionCallbacks { get; private set; }
+        public override string Describe()
+        {
+            return "Extension which configures log4net.";
+        }
     }
 }

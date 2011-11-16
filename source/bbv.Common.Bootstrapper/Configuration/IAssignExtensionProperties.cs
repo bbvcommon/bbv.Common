@@ -29,7 +29,8 @@ namespace bbv.Common.Bootstrapper.Configuration
         /// <param name="reflector">The reflector.</param>
         /// <param name="extension">The extension.</param>
         /// <param name="consumer">The configuration consumer.</param>
-        /// <param name="callbackProvider">The callback provider.</param>
-        void Assign(IReflectExtensionProperties reflector, IExtension extension, IConsumeConfiguration consumer, IHaveConversionCallbacks callbackProvider);
+        /// <param name="conversionCallbacksProvider">The conversion callbacks provider.</param>
+        /// <param name="defaultConversionCallbackProvider">The default conversion callback provider.</param>
+        void Assign(IReflectExtensionProperties reflector, IExtension extension, IConsumeConfiguration consumer, IHaveConversionCallbacks conversionCallbacksProvider, IHaveDefaultConversionCallback defaultConversionCallbackProvider);
     }
 }

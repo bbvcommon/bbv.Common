@@ -1,5 +1,5 @@
 ﻿//-------------------------------------------------------------------------------
-// <copyright file="CustomExtensionResolver.cs" company="bbv Software Services AG">
+// <copyright file="IHaveDefaultConversionCallback.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +16,17 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.Bootstrapper.Sample.Customization
+namespace bbv.Common.Bootstrapper.Configuration
 {
-    using bbv.Common.Bootstrapper.Sample.Complex;
-    using bbv.Common.Bootstrapper.Sample.Complex.Extensions;
-
     /// <summary>
-    /// Custom extension resolver.
+    /// Identifies the implemenator as default conversion callback provider
     /// </summary>
-    public class CustomExtensionResolver : IExtensionResolver<IComplexExtension>
+    public interface IHaveDefaultConversionCallback
     {
-        /// <inheritdoc />
-        public void Resolve(IExtensionPoint<IComplexExtension> extensionPoint)
-        {
-            Ensure.ArgumentNotNull(extensionPoint, "extensionPoint");
-
-            extensionPoint.AddExtension(new Log4NetExtension());
-            extensionPoint.AddExtension(new ExtensionWhichRegistersSomething());
-        }
+        /// <summary>
+        /// Gets the conversion callback which is used as fallback when no suitable conversion 
+        /// callback can be found in <see cref="IHaveConversionCallbacks.ConversionCallbacks"/>
+        /// </summary>
+        IConversionCallback DefaultConversionCallback { get; }
     }
 }
