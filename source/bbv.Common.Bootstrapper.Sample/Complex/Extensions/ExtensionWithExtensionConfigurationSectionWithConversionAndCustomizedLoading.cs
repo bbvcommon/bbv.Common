@@ -40,15 +40,11 @@ namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
 
         private readonly Lazy<IDictionary<string, IConversionCallback>> conversion;
 
-        private readonly Lazy<IConversionCallback> defaultConversionCallback;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading"/> class.
         /// </summary>
         public ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading()
         {
-            this.defaultConversionCallback = new Lazy<IConversionCallback>(() => new DefaultConversionCallback());
-
             this.conversion =
                 new Lazy<IDictionary<string, IConversionCallback>>(
                     () =>
@@ -74,18 +70,6 @@ namespace bbv.Common.Bootstrapper.Sample.Complex.Extensions
         /// Gets or sets the endpoint address.
         /// </summary>
         public IPAddress EndpointAddress { get; set; }
-
-        /// <summary>
-        /// Gets the conversion callback which is used as fallback when no suitable conversion 
-        /// callback can be found in <see cref="IHaveConversionCallbacks.ConversionCallbacks"/>
-        /// </summary>
-        public IConversionCallback DefaultConversionCallback
-        {
-            get
-            {
-                return this.defaultConversionCallback.Value;
-            }
-        }
 
         /// <summary>
         /// Gets the conversion callbacks
