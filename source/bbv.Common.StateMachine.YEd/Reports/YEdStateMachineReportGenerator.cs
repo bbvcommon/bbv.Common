@@ -42,7 +42,7 @@ namespace bbv.Common.StateMachine.Reports
         private static readonly XNamespace yed = "http://www.yworks.com/xml/yed/3";
         private static readonly XNamespace schemaLocation = "http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd";
 
-        private readonly Stream outputStream;
+        private readonly TextWriter _textWriter;
 
         private int edgeId;
 
@@ -51,10 +51,10 @@ namespace bbv.Common.StateMachine.Reports
         /// <summary>
         /// Initializes a new instance of the <see cref="YEdStateMachineReportGenerator&lt;TState, TEvent&gt;"/> class.
         /// </summary>
-        /// <param name="outputStream">The output stream.</param>
-        public YEdStateMachineReportGenerator(Stream outputStream)
+        /// <param name="textWriter">The output writer.</param>
+        public YEdStateMachineReportGenerator(TextWriter textWriter)
         {
-            this.outputStream = outputStream;
+            this._textWriter = textWriter;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace bbv.Common.StateMachine.Reports
             
             XDocument doc = CreateXmlDocument(graph);
 
-            doc.Save(this.outputStream);
+            doc.Save(this._textWriter);
         }
 
         private static XElement CreateGraph()
