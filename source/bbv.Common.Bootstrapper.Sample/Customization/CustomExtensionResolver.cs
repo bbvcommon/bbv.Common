@@ -31,8 +31,13 @@ namespace bbv.Common.Bootstrapper.Sample.Customization
         {
             Ensure.ArgumentNotNull(extensionPoint, "extensionPoint");
 
-            extensionPoint.AddExtension(new Log4NetExtension());
-            extensionPoint.AddExtension(new ExtensionWhichRegistersSomething());
+            extensionPoint.AddExtension(new ExtensionWhichNeedsDependency());
+            extensionPoint.AddExtension(new ExtensionWhichIsFunqlet());
+            extensionPoint.AddExtension(new ExtensionWithExtensionConfigurationSection());
+            extensionPoint.AddExtension(
+                new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
+            extensionPoint.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
+            extensionPoint.AddExtension(new ExtensionWithCustomConfigurationSection());
         }
     }
 }
