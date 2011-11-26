@@ -159,10 +159,8 @@
 
   <target name="tests" description="Execute unit tests.">
 	<call target="NunitTests" />
-	<asynccall FailFast="true">
-		<call target="xUnitTests" />
-		<call target="MSpecTests" />
-	</asynccall>
+	<call target="xUnitTests" />
+	<call target="MSpecTests" />
   </target>
   
   <target name="NunitTests">
