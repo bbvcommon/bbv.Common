@@ -158,9 +158,8 @@
   </target>
 
   <target name="tests" description="Execute unit tests.">
-	<!-- Might be a bit risky to call Nunit and xUnit tests in parallel because they are scanning the same assemblies -->
+	<call target="NunitTests" />
 	<asynccall FailFast="true">
-		<call target="NunitTests" />
 		<call target="xUnitTests" />
 		<call target="MSpecTests" />
 	</asynccall>
