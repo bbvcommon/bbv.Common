@@ -29,7 +29,7 @@ namespace bbv.Common.Bootstrapper
         /// Resolves extensions.
         /// </summary>
         /// <remarks>All extensions resolved through the extension resolver are added 
-        /// to the bootstrapper before manual adding of extensions occurs.</remarks>
+        /// to the bootstrapper after manual adding of extensions occurs.</remarks>
         /// <param name="extensionPoint">The extension point which allows to add the resolved extensions.</param>
         void Resolve(IExtensionPoint<TExtension> extensionPoint);
     }

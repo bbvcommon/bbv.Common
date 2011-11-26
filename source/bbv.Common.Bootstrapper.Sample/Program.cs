@@ -100,13 +100,8 @@ namespace bbv.Common.Bootstrapper.Sample
             {
                 customizationBootstrapper.Initialize(customizationStrategy);
 
-                customizationBootstrapper.AddExtension(new ExtensionWhichNeedsDependency());
-                customizationBootstrapper.AddExtension(new ExtensionWhichIsFunqlet());
-                customizationBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSection());
-                customizationBootstrapper.AddExtension(
-                    new ExtensionWithExtensionConfigurationSectionWithConversionAndCustomizedLoading());
-                customizationBootstrapper.AddExtension(new ExtensionWithExtensionConfigurationSectionWithDictionary());
-                customizationBootstrapper.AddExtension(new ExtensionWithCustomConfigurationSection());
+                customizationBootstrapper.AddExtension(new Log4NetExtension());
+                customizationBootstrapper.AddExtension(new ExtensionWhichRegistersSomething());
 
                 customizationBootstrapper.Run();
                 customizationBootstrapper.Shutdown();
