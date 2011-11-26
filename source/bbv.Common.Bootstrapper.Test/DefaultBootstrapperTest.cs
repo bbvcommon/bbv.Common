@@ -33,6 +33,7 @@ namespace bbv.Common.Bootstrapper
     public class DefaultBootstrapperTest
     {
         private readonly Mock<IExtensionHost<IExtension>> extensionHost;
+
         private readonly Mock<IReporter> reporter;
 
         private readonly Mock<IExecutor<IExtension>> runExecutor;
@@ -81,26 +82,6 @@ namespace bbv.Common.Bootstrapper
         }
 
         [Fact]
-        public void Initialize_ShouldCreateExtensionResolver()
-        {
-            this.SetupStrategyReturnsBuilderAndContextAndResolver();
-
-            this.testee.Initialize(this.strategy.Object);
-
-            this.strategy.Verify(s => s.CreateExtensionResolver());
-        }
-
-        [Fact]
-        public void Initialize_ShouldPassItselfToExtensionResolver()
-        {
-            this.SetupStrategyReturnsBuilderAndContextAndResolver();
-
-            this.testee.Initialize(this.strategy.Object);
-
-            this.extensionResolver.Verify(er => er.Resolve(this.testee));
-        }
-
-        [Fact]
         public void AddExtension_WhenNotInitialized_ShouldThrowInvalidOperationException()
         {
             this.testee.Invoking(x => x.AddExtension(Mock.Of<IExtension>())).ShouldThrow<InvalidOperationException>();
@@ -138,6 +119,26 @@ namespace bbv.Common.Bootstrapper
             this.testee.Run();
 
             this.strategy.Verify(s => s.BuildRunSyntax());
+        }
+
+        [Fact]
+        public void Run_ShouldCreateExtensionResolver()
+        {
+            this.InitializeTestee();
+
+            this.testee.Run();
+
+            this.strategy.Verify(s => s.CreateExtensionResolver());
+        }
+
+        [Fact]
+        public void Run_ShouldPassItselfToExtensionResolver()
+        {
+            this.InitializeTestee();
+
+            this.testee.Run();
+
+            this.extensionResolver.Verify(er => er.Resolve(this.testee));
         }
 
         [Fact]

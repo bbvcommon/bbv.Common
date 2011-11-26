@@ -110,15 +110,15 @@ namespace bbv.Common.Bootstrapper
 
             this.strategy = strategy;
             this.reportingContext = this.strategy.CreateReportingContext();
-
-            var extensionResolver = this.strategy.CreateExtensionResolver();
-            extensionResolver.Resolve(this);
         }
 
         /// <inheritdoc />
         public void Run()
         {
             this.CheckIsInitialized();
+
+            var extensionResolver = this.strategy.CreateExtensionResolver();
+            extensionResolver.Resolve(this);
 
             var syntax = this.strategy.BuildRunSyntax();
 
