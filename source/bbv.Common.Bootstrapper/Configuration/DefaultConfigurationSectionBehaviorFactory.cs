@@ -18,8 +18,6 @@
 
 namespace bbv.Common.Bootstrapper.Configuration
 {
-    using System;
-
     using bbv.Common.Bootstrapper.Configuration.Internals;
 
     /// <summary>
@@ -27,38 +25,20 @@ namespace bbv.Common.Bootstrapper.Configuration
     /// </summary>
     public class DefaultConfigurationSectionBehaviorFactory : IConfigurationSectionBehaviorFactory
     {
-        /// <summary>
-        /// Creates the instance which knows the section name.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>
-        /// The istance.
-        /// </returns>
-        public IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
+        /// <inheritdoc />
+        public virtual IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
         {
             return new HaveConfigurationSectionName(extension);
         }
 
-        /// <summary>
-        /// Creates the instance which loads configuration sections.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>
-        /// The instance.
-        /// </returns>
-        public ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
+        /// <inheritdoc />
+        public virtual ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
         {
             return new LoadConfigurationSection(extension);
         }
 
-        /// <summary>
-        /// Creates the instance which consumes a configuration section.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>
-        /// The instance.
-        /// </returns>
-        public IConsumeConfigurationSection CreateConsumeConfigurationSection(IExtension extension)
+        /// <inheritdoc />
+        public virtual IConsumeConfigurationSection CreateConsumeConfigurationSection(IExtension extension)
         {
             return new ConsumeConfigurationSection(extension);
         }

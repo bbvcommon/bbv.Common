@@ -26,43 +26,43 @@ namespace bbv.Common.Bootstrapper.Configuration
     public class DefaultExtensionConfigurationSectionBehaviorFactory : IExtensionConfigurationSectionBehaviorFactory
     {
         /// <inheritdoc />
-        public IReflectExtensionProperties CreateReflectExtensionProperties()
+        public virtual IReflectExtensionProperties CreateReflectExtensionProperties()
         {
             return new ReflectExtensionPublicProperties();
         }
 
         /// <inheritdoc />
-        public IAssignExtensionProperties CreateAssignExtensionProperties()
+        public virtual IAssignExtensionProperties CreateAssignExtensionProperties()
         {
             return new AssignExtensionProperties();
         }
 
         /// <inheritdoc />
-        public IConsumeConfiguration CreateConsumeConfiguration(IExtension extension)
+        public virtual IConsumeConfiguration CreateConsumeConfiguration(IExtension extension)
         {
             return new ConsumeConfiguration(extension);
         }
 
         /// <inheritdoc />
-        public IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
+        public virtual IHaveConfigurationSectionName CreateHaveConfigurationSectionName(IExtension extension)
         {
             return new HaveConfigurationSectionName(extension);
         }
 
         /// <inheritdoc />
-        public ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
+        public virtual ILoadConfigurationSection CreateLoadConfigurationSection(IExtension extension)
         {
             return new LoadConfigurationSection(extension);
         }
 
         /// <inheritdoc />
-        public IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
+        public virtual IHaveConversionCallbacks CreateHaveConversionCallbacks(IExtension extension)
         {
             return new HaveConversionCallbacks(extension);
         }
 
         /// <inheritdoc />
-        public IHaveDefaultConversionCallback CreateHaveDefaultConversionCallback(IExtension extension)
+        public virtual IHaveDefaultConversionCallback CreateHaveDefaultConversionCallback(IExtension extension)
         {
             return new HaveDefaultConversionCallback(extension);
         }
