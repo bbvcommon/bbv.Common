@@ -36,7 +36,7 @@
   Main targets
   ========================================================= 
     -->
-  <target name="integrate" depends="clean, build_release, unittest" 
+  <target name="integrate" depends="clean, build_release, tests" 
           description="Build and exectute unit tests for developers before commit their changes.">
   </target>
   
@@ -48,7 +48,7 @@
     <call target="set_version" />  
     <call target="build_release" />
     <call target="copy_bin" />
-    <call target="unittest" />
+    <call target="tests" />
     <call target="revert_version" />
     <call target="package" />
     <call target="nuget" />
@@ -157,43 +157,53 @@
     <echo message="Completed compilation of solutions" />
   </target>
 
-  <target name="unittest" description="Execute unit tests.">
-        <echo message="---- run NUnit tests" />
-        <nunit2>
-      <formatter type="Plain" />
-      <test>
-        <assemblies basedir="${sources}">
-          <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
-          <include name="**/bin/${build_config}/*Test.dll" />
-        </assemblies>
-      </test>
+  <target name="tests" description="Execute unit tests.">
+	<call target="NunitTests" />
+	<call target="xUnitTests" />
+	<call target="MSpecTests" />
+  </target>
+  
+  <target name="NunitTests">
+	<echo message="---- run NUnit tests" />
+	<nunit2>
+		<formatter type="Plain" />
+		<test>
+			<assemblies basedir="${sources}">
+				<exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
+				<include name="**/bin/${build_config}/*Test.dll" />
+			</assemblies>
+		</test>
     </nunit2>
-
-        <echo message="---- run xUnit tests" />
-        <foreach item="File" property="filename">
-            <in>
-                <items basedir="${base_dir}">
-                    <exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
-                    <include name="**/bin/${build_config}/*Test.dll" />
-                </items>
-            </in>
-            <do>
-                <exec program="${xUnitConsole}" commandline="${filename}" />
-            </do>
-        </foreach>
-
-        <echo message="---- run MSpec" />
-        <mkdir dir="${binaries}" />
-        <foreach item="File" property="filename">
-            <in>
-                <items basedir="${base_dir}">
-                    <include name="**/bin/${build_config}/*Specification.dll" />
-                </items>
-            </in>
-            <do>
-                <exec program="${mspec}" commandline="--html ${binaries}\${path::get-file-name(filename)}.html --teamcity ${filename}" />
-            </do>
-        </foreach>
+  </target>
+  
+  <target name="xUnitTests">
+	<echo message="---- run xUnit tests" />
+	<foreach item="File" property="xunittestfilename">
+		<in>
+			<items basedir="${base_dir}">
+				<exclude name="**/bin/${build_config}/*Silverlight.Test.dll" />
+				<include name="**/bin/${build_config}/*Test.dll" />
+			</items>
+		</in>
+		<do>
+			<exec program="${xUnitConsole}" commandline="${xunittestfilename}" />
+		</do>
+	</foreach>
+  </target>
+  
+  <target name="MSpecTests">
+	<echo message="---- run MSpec" />
+	<mkdir dir="${binaries}" />
+	<foreach item="File" property="mspectestfilename">
+		<in>
+			<items basedir="${base_dir}">
+				<include name="**/bin/${build_config}/*Specification.dll" />
+			</items>
+		</in>
+		<do>
+			<exec program="${mspec}" commandline="--html ${binaries}\${path::get-file-name(mspectestfilename)}.html --teamcity ${mspectestfilename}" />
+		</do>
+	</foreach>
   </target>
 
   <target name="copy_bin" description="Copies the builded output to the top bin directory">
