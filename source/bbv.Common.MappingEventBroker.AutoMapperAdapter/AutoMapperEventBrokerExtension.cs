@@ -16,10 +16,9 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.AutoMapperEventBrokerExtension
+namespace bbv.Common.MappingEventBroker.AutoMapperAdapter
 {
-    using bbv.Common.MappingEventBrokerExtension;
-    using bbv.Common.MappingEventBrokerExtension.Conventions;
+    using bbv.Common.MappingEventBroker.Conventions;
 
     /// <summary>
     /// This extension allows to dynamically remap topics based on a convention

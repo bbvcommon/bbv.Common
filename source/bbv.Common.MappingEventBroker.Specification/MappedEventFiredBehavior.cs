@@ -22,7 +22,7 @@
 
 #pragma warning disable 169
 
-namespace bbv.Common.MappingEventBrokerExtension
+namespace bbv.Common.MappingEventBroker
 {
     using Machine.Specifications;
 

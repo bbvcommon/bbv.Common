@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.MappingEventBrokerExtension.Conventions
+namespace bbv.Common.MappingEventBroker.Conventions
 {
     using System;
 

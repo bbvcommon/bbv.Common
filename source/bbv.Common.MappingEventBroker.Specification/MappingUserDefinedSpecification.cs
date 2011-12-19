@@ -22,17 +22,18 @@
 
 #pragma warning disable 169
 
-namespace bbv.Common.MappingEventBrokerExtension
+namespace bbv.Common.MappingEventBroker
 {
     using System;
 
     using bbv.Common.EventBroker;
     using bbv.Common.EventBroker.Internals;
-    using bbv.Common.MappingEventBrokerExtension.Conventions;
 
     using Machine.Specifications;
 
     using Moq;
+
+    using bbv.Common.MappingEventBroker.Conventions;
 
     public class EventBrokerWithUserDefinedAutoMapperExtension
     {

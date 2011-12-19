@@ -16,7 +16,7 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.MappingEventBrokerExtension
+namespace bbv.Common.MappingEventBroker
 {
     using System.Collections.ObjectModel;
 

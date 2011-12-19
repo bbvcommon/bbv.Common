@@ -16,14 +16,14 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.MappingEventBrokerExtension
+namespace bbv.Common.MappingEventBroker
 {
     using System;
 
     using bbv.Common.EventBroker;
     using bbv.Common.EventBroker.Extensions;
     using bbv.Common.EventBroker.Internals;
-    using bbv.Common.MappingEventBrokerExtension.Conventions;
+    using bbv.Common.MappingEventBroker.Conventions;
 
     /// <summary>
     /// This extension allows to dynamically remap topics based on a convention

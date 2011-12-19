@@ -16,13 +16,11 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.AutoMapperEventBrokerExtension
+namespace bbv.Common.MappingEventBroker.AutoMapperAdapter
 {
     using System;
 
     using AutoMapper;
-
-    using bbv.Common.MappingEventBrokerExtension;
 
     /// <summary>
     /// Delegates the mapping to automapper.
