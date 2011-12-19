@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BbvCommonProjectName>bbv.Common.MappingEventBroker</BbvCommonProjectName>
+    <BbvCommonProjectType>Specification</BbvCommonProjectType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectGuid>{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.1.6.0\Lib\net40\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Machine.Specifications.0.5.1.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MappedEventNotFiredBehavior.cs" />
+    <Compile Include="MappingDefaultSpecification.cs" />
+    <Compile Include="MappingUserDefinedSpecification.cs" />
+    <Compile Include="Concern.cs" />
+    <Compile Include="DestinationEventArgs.cs" />
+    <Compile Include="MappedEventFiredBehavior.cs" />
+    <Compile Include="MockMapperExtensions.cs" />
+    <Compile Include="Publisher.cs" />
+    <Compile Include="SourceEventArgs.cs" />
+    <Compile Include="Subscriber.cs" />
+    <Compile Include="Topics.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bbv.Common.EventBroker\bbv.Common.EventBroker.csproj">
+      <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
+      <Name>bbv.Common.EventBroker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bbv.Common.MappingEventBroker\bbv.Common.MappingEventBroker.csproj">
+      <Project>{C36D03B8-D834-4065-89E0-6097F8F36B36}</Project>
+      <Name>bbv.Common.MappingEventBroker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)bbv.Common.msbuild" />
+</Project>
