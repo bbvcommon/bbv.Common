@@ -131,15 +131,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.DistributedEvent
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MappingEventBroker", "MappingEventBroker", "{DC42E019-422A-44F4-83D4-FE90F951DD09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension", "bbv.Common.MappingEventBrokerExtension\bbv.Common.MappingEventBrokerExtension.csproj", "{C36D03B8-D834-4065-89E0-6097F8F36B36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBroker", "bbv.Common.MappingEventBroker\bbv.Common.MappingEventBroker.csproj", "{C36D03B8-D834-4065-89E0-6097F8F36B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension.Test", "bbv.Common.MappingEventBrokerExtension.Test\bbv.Common.MappingEventBrokerExtension.Test.csproj", "{C196EF11-E897-4E33-94A1-52377DB7F25A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBroker.Test", "bbv.Common.MappingEventBroker.Test\bbv.Common.MappingEventBroker.Test.csproj", "{C196EF11-E897-4E33-94A1-52377DB7F25A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBrokerExtension.Specification", "bbv.Common.MappingEventBrokerExtension.Specification\bbv.Common.MappingEventBrokerExtension.Specification.csproj", "{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBroker.Specification", "bbv.Common.MappingEventBroker.Specification\bbv.Common.MappingEventBroker.Specification.csproj", "{50E5EDB8-9B35-431B-BB49-9BAB4D252AB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoMapper", "AutoMapper", "{74D56E70-10BF-4094-AB2B-3A98C277D04F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.AutoMapperEventBrokerExtension", "bbv.Common.AutoMapperEventBrokerExtension\bbv.Common.AutoMapperEventBrokerExtension.csproj", "{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.MappingEventBroker.AutoMapperAdapter", "bbv.Common.MappingEventBroker.AutoMapperAdapter\bbv.Common.MappingEventBroker.AutoMapperAdapter.csproj", "{CF24C4E7-D318-4947-B2CD-D1B5DDF9DCD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbv.Common.StateMachine.YEd", "bbv.Common.StateMachine.YEd\bbv.Common.StateMachine.YEd.csproj", "{50FC25B9-C6E8-4AC2-8D78-006EB923EAF2}"
 EndProject

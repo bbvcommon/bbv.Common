@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <BbvCommonProjectName>bbv.Common.MappingEventBrokerExtension</BbvCommonProjectName>
+    <BbvCommonProjectName>bbv.Common.MappingEventBroker</BbvCommonProjectName>
     <BbvCommonProjectType>Specification</BbvCommonProjectType>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,9 +50,9 @@
       <Project>{81DE807D-D637-4B10-8AE1-13EA5AC1A80D}</Project>
       <Name>bbv.Common.EventBroker</Name>
     </ProjectReference>
-    <ProjectReference Include="..\bbv.Common.MappingEventBrokerExtension\bbv.Common.MappingEventBrokerExtension.csproj">
+    <ProjectReference Include="..\bbv.Common.MappingEventBroker\bbv.Common.MappingEventBroker.csproj">
       <Project>{C36D03B8-D834-4065-89E0-6097F8F36B36}</Project>
-      <Name>bbv.Common.MappingEventBrokerExtension</Name>
+      <Name>bbv.Common.MappingEventBroker</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)bbv.Common.msbuild" />
