@@ -24,7 +24,7 @@
       <dependency id="bbv.Common" version="%bbv.Common%"/>
       <dependency id="bbv.Common.EventBroker" version="%bbv.Common.EventBroker%"/>
       <dependency id="bbv.Common.DistributedEventBroker" version="%bbv.Common.DistributedEventBroker%"/>
-      <dependency id="NServiceBus" version="2.5"/>
+      <dependency id="NServiceBus" version="2.6"/>
     </dependencies>
   </metadata>
 </package>

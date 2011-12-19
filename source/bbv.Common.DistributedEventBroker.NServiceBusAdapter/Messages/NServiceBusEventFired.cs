@@ -16,10 +16,9 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.DistributedEventBroker.NServiceBusAdapter
+namespace bbv.Common.DistributedEventBroker.NServiceBusAdapter.Messages
 {
-    using DistributedEventBroker.Messages;
-    using Messages;
+    using bbv.Common.DistributedEventBroker.Messages;
 
     /// <summary>
     /// NServiceBus specific message type.

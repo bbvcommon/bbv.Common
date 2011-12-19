@@ -21,6 +21,7 @@ namespace bbv.Common.DistributedEventBroker.NServiceBusAdapter.Factories
     using System;
     using bbv.Common.DistributedEventBroker.Factories;
     using bbv.Common.DistributedEventBroker.Messages;
+    using bbv.Common.DistributedEventBroker.NServiceBusAdapter.Messages;
 
     /// <summary>
     /// Event message factory which creates NServiceBus specific message types.

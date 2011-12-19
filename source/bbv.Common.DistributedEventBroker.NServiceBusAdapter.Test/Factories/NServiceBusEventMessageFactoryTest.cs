@@ -18,6 +18,8 @@
 
 namespace bbv.Common.DistributedEventBroker.NServiceBusAdapter.Factories
 {
+    using bbv.Common.DistributedEventBroker.NServiceBusAdapter.Messages;
+
     using Xunit;
 
     public class NServiceBusEventMessageFactoryTest

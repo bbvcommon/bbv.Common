@@ -24,6 +24,7 @@
       <dependency id="bbv.Common" version="%bbv.Common%"/>
       <dependency id="bbv.Common.EventBroker" version="%bbv.Common.EventBroker%"/>
       <dependency id="bbv.Common.DistributedEventBroker" version="%bbv.Common.DistributedEventBroker%"/>
+	  <dependency id="Magnum" version="2.0"/>
     </dependencies>
   </metadata>
 </package>
