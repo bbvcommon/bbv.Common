@@ -28,12 +28,11 @@ namespace bbv.Common.MappingEventBroker
 
     using bbv.Common.EventBroker;
     using bbv.Common.EventBroker.Internals;
+    using bbv.Common.MappingEventBroker.Conventions;
 
     using Machine.Specifications;
 
     using Moq;
-
-    using bbv.Common.MappingEventBroker.Conventions;
 
     public class EventBrokerWithUserDefinedAutoMapperExtension
     {
@@ -93,7 +92,7 @@ namespace bbv.Common.MappingEventBroker
 
         Because of = () =>
         {
-                source.Publish(sourceEventDescription);
+            source.Publish(sourceEventDescription);
         };
 
         Behaves_like<MappedEventFiredBehavior> event_argument_auto_mapper;
