@@ -51,8 +51,7 @@
     <call target="unittest" />
     <call target="revert_version" />
     <call target="package" /> 
-    <!--<call target="nuget" />-->
-    <call target="nuget_symbols" />
+    <call target="nuget" />
 
     <echo message="built version ${version}.0.${timestamp}." />
   </target>
@@ -252,50 +251,7 @@
     </zip>
   </target>
   
-  <target name="nuget" description="Copies the nuget output to the top bin directory" >
-   
-    <property name="nuget.basedir" value="${publish}\NuGet" />
-    <mkdir dir="${nuget.basedir}" />
-    
-    <foreach item="File" property="nuspec">		
-      <in>
-        <items>
-          <include name="${sources}/**/*.nuspec" />
-        </items>
-      </in>
-      <do>
-        
-        <property name="nugetFolder" value="${binaries}\${build_config}\${path::get-file-name-without-extension(nuspec)}" />
-        <property name="nugetFile" value="${nugetFolder}\${path::get-file-name(nuspec)}" />
-        
-        <loadfile file="${nuspec}" property="content" />
-        <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
-          <do>
-            <property name="content" value="${string::replace(content, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
-            <property name="content" value="${string::replace(content, '%' + projectname + 'FileVersion%', fileversion)}" />
-          </do>
-        </foreach>
-        <echo message="${content}" file="${nugetFile}" />
-
-        <copy overwrite="false" todir="${nugetFolder}">
-          <fileset basedir="${base_dir}\Scripts\">
-            <include name="License.txt" />			
-          </fileset>
-        </copy>
-		
-        <exec program="${nuget.console}" commandline="pack ${nugetFile}" />
-		
-        <move todir="${publish}\NuGet\">
-          <fileset basedir="${base_dir}\Scripts\">
-            <include name="*.nupkg" />
-          </fileset>
-        </move>
-      </do>
-    </foreach>
-  </target>
-  
-  <target name="nuget_symbols" description="Copies the nuget symbols output to the top bin directory" >  
-	<!-- NuGet Symbols -->
+  <target name="nuget" description="Copies the nuget symbols output to the top bin directory" >  
 	<foreach item="File" property="nuspec">	
       <in>
         <items>          
