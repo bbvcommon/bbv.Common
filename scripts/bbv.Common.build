@@ -50,7 +50,7 @@
     <call target="copy_bin" />
     <call target="tests" />
     <call target="revert_version" />
-    <call target="package" />
+    <call target="package" /> 
     <call target="nuget" />
 
     <echo message="built version ${version}.0.${timestamp}." />
@@ -261,47 +261,52 @@
     </zip>
   </target>
   
-  <target name="nuget" description="Copies the nuget output to the top bin directory" >
-   
-    <property name="nuget.basedir" value="${publish}\NuGet" />
-    <mkdir dir="${nuget.basedir}" />
-    
-    <foreach item="File" property="nuspec">
+  <target name="nuget" description="Copies the nuget symbols output to the top bin directory" >  
+	<foreach item="File" property="nuspec">	
       <in>
-        <items>
+        <items>          
           <include name="${sources}/**/*.nuspec" />
         </items>
       </in>
       <do>
         
-        <property name="nugetFolder" value="${binaries}\${build_config}\${path::get-file-name-without-extension(nuspec)}" />
-        <property name="nugetFile" value="${nugetFolder}\${path::get-file-name(nuspec)}" />
-        
-        <loadfile file="${nuspec}" property="content" />
+        <property name="nugetFolder" value="${binaries}\${build_config}\${path::get-file-name-without-extension(nuspec)}" /> 
+        <property name="nugetFile" value="${nugetFolder}\${path::get-file-name(nuspec)}" />       
+		
+		<property name="sourceFolder" value="${path::get-file-name-without-extension(nugetFile)}" />
+
+		<loadfile file="${nuspec}" property="content" />
+		<foreach item="Line" in="${base_dir}\scripts\nuget.symbols.txt" property="sourcefiles">
+          <do>		    
+		    <property name="sourceProjectFiles" value="${string::replace(sourcefiles, '%sourcefolder%', sourceFolder)}" />
+            <property name="content" value="${string::replace(content, '&lt;/package>', sourceProjectFiles + '&lt;/package>')}" />            
+          </do>
+        </foreach>
         <foreach item="Line" in="${publish}\versions.txt" delim="," property="projectname,projectversion,nextversion,fileversion">
           <do>
             <property name="content" value="${string::replace(content, '%' + projectname + '%', '[' + projectversion + ',' + nextversion + ')')}" />
             <property name="content" value="${string::replace(content, '%' + projectname + 'FileVersion%', fileversion)}" />
           </do>
         </foreach>
-        <echo message="${content}" file="${nugetFile}" />
-
-        <copy overwrite="false" todir="${nugetFolder}">
+		<echo message="${content}" file="${nugetFile}" />						
+		
+	    <copy overwrite="false" todir="${nugetFolder}">
           <fileset basedir="${base_dir}\Scripts\">
-            <include name="License.txt" />
+            <include name="License.txt" />			
           </fileset>
         </copy>
-
-        <exec program="${nuget.console}" commandline="pack ${nugetFile}" />
+				
+		<exec program="${nuget.console}" commandline="pack ${nugetFile} -symbols" />
+		
         <move todir="${publish}\NuGet\">
           <fileset basedir="${base_dir}\Scripts\">
             <include name="*.nupkg" />
           </fileset>
         </move>
-        
       </do>
     </foreach>
-  </target>
+  
+  </target> 
 
   <target name="set_version" description="adds the version in GlobalAssemblyInfo.cs.">
 
