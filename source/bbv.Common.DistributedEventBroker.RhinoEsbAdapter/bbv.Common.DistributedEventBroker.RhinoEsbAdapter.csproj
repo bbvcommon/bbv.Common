@@ -3,6 +3,7 @@
   <PropertyGroup>
     <BbvCommonProjectName>bbv.Common.DistributedEventBroker.RhinoEsbAdapter</BbvCommonProjectName>
     <BbvCommonProjectType>Source</BbvCommonProjectType>
+    <CodeAnalysisAdditionalOptions>/assemblycomparemode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{8D29971E-0C10-4965-8570-4793E6E8B9A8}</ProjectGuid>
@@ -13,23 +14,20 @@
     <DocumentationFile>bin\Release\bbv.Common.DistributedEventBroker.RhinoEsbAdapter\lib\Net40\bbv.Common.DistributedEventBroker.RhinoEsbAdapter.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Esent.Interop">
-      <HintPath>..\packages\Rhino.ServiceBus.References.2.2.2.0\lib\Esent.Interop.dll</HintPath>
+      <HintPath>..\packages\Rhino.ServiceBus.References.2.3.0.0\lib\Esent.Interop.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.1.2.11\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.PersistentHashTable">
       <HintPath>..\packages\Rhino.PersistentHashTable.1.7.0.0\lib\4.0\Rhino.PersistentHashTable.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Queues">
-      <HintPath>..\packages\Rhino.Queues.1.4.0.0\lib\4.0\Rhino.Queues.dll</HintPath>
+      <HintPath>..\packages\Rhino.Queues.1.4.2.0\lib\4.0\Rhino.Queues.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.ServiceBus">
-      <HintPath>..\packages\Rhino.ServiceBus.2.2.2.0\lib\4.0\Rhino.ServiceBus.dll</HintPath>
+      <HintPath>..\packages\Rhino.ServiceBus.2.3.0.0\lib\4.0\Rhino.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
