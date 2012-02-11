@@ -27,18 +27,7 @@ namespace bbv.Common.MappingEventBroker.AutoMapperAdapter
     /// </summary>
     public class AutoMapperMapper : IMapper
     {
-		/// <inheritdoc />
-        public bool HasMapping(Type sourceEventArgsType, Type destinationEventArgsType)
-        {
-            if (sourceEventArgsType == destinationEventArgsType)
-            {
-                return true;
-            }
-
-            return Mapper.FindTypeMapFor(sourceEventArgsType, destinationEventArgsType) != null;
-        }
-
-		/// <inheritdoc />
+        /// <inheritdoc />
         public EventArgs Map(Type sourceEventArgsType, Type destinationEventArgsType, EventArgs eventArgs)
         {
             return (EventArgs)Mapper.Map(eventArgs, sourceEventArgsType, destinationEventArgsType);

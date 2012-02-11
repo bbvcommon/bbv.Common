@@ -30,8 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MappedEventNotFiredBehavior.cs" />
-    <Compile Include="MappingDefaultSpecification.cs" />
-    <Compile Include="MappingUserDefinedSpecification.cs" />
+    <Compile Include="EventBrokerWithDefaultAutoMapperExtension.cs" />
+    <Compile Include="EventBrokerWithUserDefinedAutoMapperExtension.cs" />
     <Compile Include="Concern.cs" />
     <Compile Include="DestinationEventArgs.cs" />
     <Compile Include="MappedEventFiredBehavior.cs" />

@@ -21,17 +21,6 @@ namespace bbv.Common.MappingEventBroker
     using System;
 
     using bbv.Common.EventBroker;
-    using bbv.Common.EventBroker.Internals;
-
-    /// <summary>
-    /// Delegate which is called when a mapping could not be found.
-    /// </summary>
-    /// <param name="source">The source topic info.</param>
-    /// <param name="destinationTopic">The destination topic.</param>
-    /// <param name="publication">The publication.</param>
-    /// <param name="sender">The sender.</param>
-    /// <param name="eventArgs">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-    public delegate void MissingMappingAction(IEventTopicInfo source, string destinationTopic, IPublication publication, object sender, EventArgs eventArgs);
 
     /// <summary>
     /// Interface which defines an auto mapper event broker extension.
@@ -42,6 +31,6 @@ namespace bbv.Common.MappingEventBroker
         /// Sets the missing mapping action which is called when no mapping was previously defined.
         /// </summary>
         /// <param name="action">The missing mapping action.</param>
-        void SetMissingMappingAction(MissingMappingAction action);
+        void SetMissingMappingAction(Action<IMissingMappingContext> action);
     }
 }
