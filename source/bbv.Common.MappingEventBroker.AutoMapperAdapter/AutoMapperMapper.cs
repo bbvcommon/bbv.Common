@@ -27,32 +27,7 @@ namespace bbv.Common.MappingEventBroker.AutoMapperAdapter
     /// </summary>
     public class AutoMapperMapper : IMapper
     {
-        /// <summary>
-        /// Determines whether there exists a mapping from the provided
-        /// <paramref name="sourceEventArgsType"/> to the
-        /// <paramref name="destinationEventArgsType"/>.
-        /// </summary>
-        /// <param name="sourceEventArgsType">The source event argument type.</param>
-        /// <param name="destinationEventArgsType">The destination event argument type.</param>
-        /// <returns>
-        ///   <see langword="true"/> if there is a mapping; otherwise <see langword="false"/>.
-        /// </returns>
-        public bool HasMapping(Type sourceEventArgsType, Type destinationEventArgsType)
-        {
-            return Mapper.FindTypeMapFor(sourceEventArgsType, destinationEventArgsType) != null;
-        }
-
-        /// <summary>
-        /// Maps the provided event argument from the
-        /// <paramref name="sourceEventArgsType"/> to the
-        /// <paramref name="destinationEventArgsType"/>.
-        /// </summary>
-        /// <param name="sourceEventArgsType">The source event argument type.</param>
-        /// <param name="destinationEventArgsType">The destination event argument type.</param>
-        /// <param name="eventArgs">The source event argument.</param>
-        /// <returns>
-        /// The mapped event argument.
-        /// </returns>
+        /// <inheritdoc />
         public EventArgs Map(Type sourceEventArgsType, Type destinationEventArgsType, EventArgs eventArgs)
         {
             return (EventArgs)Mapper.Map(eventArgs, sourceEventArgsType, destinationEventArgsType);

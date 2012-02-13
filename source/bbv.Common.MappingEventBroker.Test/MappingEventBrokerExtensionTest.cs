@@ -129,7 +129,6 @@ namespace bbv.Common.MappingEventBroker
         public void FiringEvent_WhenTopicContained_MustRefire()
         {
             this.SetupManageEventBroker();
-            this.SetupMapping();
             this.SetupEventTopicAndConvention();
             this.SetupPublication();
             this.SetupDestinationEventArgsProvider();
@@ -159,7 +158,6 @@ namespace bbv.Common.MappingEventBroker
         public void FiringEvent_WhenTopicContained_MustMapEventArgs()
         {
             this.SetupManageEventBroker();
-            this.SetupMapping();
             this.SetupEventTopicAndConvention();
             this.SetupPublication();
             this.SetupDestinationEventArgsProvider();
@@ -175,6 +173,7 @@ namespace bbv.Common.MappingEventBroker
             this.SetupManageEventBroker();
             this.SetupEventTopicAndConvention();
             this.SetupPublication();
+            this.testee.SetMissingMappingAction(ctx => { });
 
             this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
 
@@ -190,7 +189,7 @@ namespace bbv.Common.MappingEventBroker
 
             bool wasCalled = false;
 
-            this.testee.SetMissingMappingAction((source, destination, pub, sender, args) => { wasCalled = true; });
+            this.testee.SetMissingMappingAction(ctx => { wasCalled = true; });
             this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
 
             Assert.True(wasCalled, "MissingMappingAction was not called");
@@ -203,28 +202,46 @@ namespace bbv.Common.MappingEventBroker
             this.SetupEventTopicAndConvention();
             this.SetupPublication();
 
-            IEventTopicInfo sourceTopic = null;
-            string destinationTopic = null;
-            IPublication pub = null;
-            object sender = null;
-            EventArgs eventArgs = null;
+            IMissingMappingContext context = null;
 
-            this.testee.SetMissingMappingAction((source, destination, p, s, args) =>
-                {
-                    sourceTopic = source;
-                    destinationTopic = destination;
-                    pub = p;
-                    sender = s;
-                    eventArgs = args;
-                });
+            this.testee.SetMissingMappingAction(ctx => { context = ctx; });
 
             this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
 
-            Assert.Same(this.eventTopic.Object, sourceTopic);
-            Assert.Same(MappedTopicUri, destinationTopic);
-            Assert.Same(this.publication.Object, pub);
-            Assert.Same(this, sender);
-            Assert.Same(EventArgs.Empty, eventArgs);
+            Assert.NotNull(context);
+            Assert.Same(this.eventTopic.Object, context.EventTopic);
+            Assert.Same(MappedTopicUri, context.DestinationTopic);
+            Assert.Same(this.publication.Object, context.Publication);
+            Assert.Same(this, context.Sender);
+            Assert.Same(EventArgs.Empty, context.EventArgs);
+            Assert.IsType<ArgumentException>(context.Exception);
+        }
+
+        [Fact]
+        public void FiringEvent_WhenMapperThrowsException_MustPassRequiredArgumentsToMissingMappingAction()
+        {
+            this.SetupManageEventBroker();
+            this.SetupEventTopicAndConvention();
+            this.SetupPublication();
+            this.SetupDestinationEventArgsProvider();
+
+            var exception = new InvalidOperationException();
+            this.mapper.Setup(m => m.Map(It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<EventArgs>()))
+                .Throws(exception);
+
+            IMissingMappingContext context = null;
+
+            this.testee.SetMissingMappingAction(ctx => { context = ctx; });
+
+            this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
+
+            Assert.NotNull(context);
+            Assert.Same(this.eventTopic.Object, context.EventTopic);
+            Assert.Same(MappedTopicUri, context.DestinationTopic);
+            Assert.Same(this.publication.Object, context.Publication);
+            Assert.Same(this, context.Sender);
+            Assert.Same(EventArgs.Empty, context.EventArgs);
+            Assert.Same(exception, context.Exception);
         }
 
         [Fact]
@@ -233,6 +250,7 @@ namespace bbv.Common.MappingEventBroker
             this.SetupManageEventBroker();
             this.SetupEventTopicAndConvention();
             this.SetupPublication();
+            this.SetupDestinationEventArgsProvider();
 
             this.testee.FiringEvent(this.eventTopic.Object, this.publication.Object, this, EventArgs.Empty);
 
@@ -284,11 +302,6 @@ namespace bbv.Common.MappingEventBroker
             this.publication.SetupGet(p => p.EventArgsType).Returns(typeof(EventArgs));
         }
 
-        private void SetupMapping()
-        {
-            this.mapper.Setup(m => m.HasMapping(It.Is<Type>(t => t.Equals(typeof(EventArgs))), It.Is<Type>(t => t.Equals(typeof(CancelEventArgs))))).Returns(true);
-        }
-
         private void SetupSameEventTopics()
         {
             this.SetupEventTopicAndConvention();
@@ -333,7 +346,7 @@ namespace bbv.Common.MappingEventBroker
 
         private class TestableAutoMapperEventBrokerExtension : MappingEventBrokerExtension
         {
-            public TestableAutoMapperEventBrokerExtension(IMapper mapper, ITopicConvention topicConvention, IDestinationEventArgsTypeProvider typeProvider) 
+            public TestableAutoMapperEventBrokerExtension(IMapper mapper, ITopicConvention topicConvention, IDestinationEventArgsTypeProvider typeProvider)
                 : base(mapper, topicConvention, typeProvider)
             {
             }

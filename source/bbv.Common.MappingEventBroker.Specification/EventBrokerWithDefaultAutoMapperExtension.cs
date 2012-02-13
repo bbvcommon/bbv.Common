@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="MappingUserDefinedSpecification.cs" company="bbv Software Services AG">
+// <copyright file="EventBrokerWithDefaultAutoMapperExtension.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,38 +27,29 @@ namespace bbv.Common.MappingEventBroker
     using System;
 
     using bbv.Common.EventBroker;
-    using bbv.Common.EventBroker.Internals;
-    using bbv.Common.MappingEventBroker.Conventions;
 
     using Machine.Specifications;
 
     using Moq;
 
-    public class EventBrokerWithUserDefinedAutoMapperExtension
+    public class EventBrokerWithDefaultAutoMapperExtension
     {
+        protected static Mock<IMapper> mapper;
+
+        protected static Mock<IDestinationEventArgsTypeProvider> typeProvider;
+
         protected static IEventBroker eventBroker;
 
-        protected static FuncTopicConvention convention;
+        protected static MappingEventBrokerExtension extension;
 
         protected static Publisher source;
 
-        protected static Mock<IMapper> mapper;
-        protected static Mock<IDestinationEventArgsTypeProvider> typeProvider;
-
         protected static Subscriber destination;
-
-        protected static MappingEventBrokerExtension extension;
 
         Establish context = () =>
             {
                 source = new Publisher();
                 destination = new Subscriber();
-
-                convention =
-                    new FuncTopicConvention(
-                        topic => StartsWith(topic, @"topic://") || StartsWith(topic, @"userdefined://"),
-                        s => s.Replace(@"topic://", @"userdefined://"));
-
                 mapper = new Mock<IMapper>();
                 typeProvider = new Mock<IDestinationEventArgsTypeProvider>();
 
@@ -71,53 +62,48 @@ namespace bbv.Common.MappingEventBroker
                 eventBroker.Register(source);
                 eventBroker.Register(destination);
             };
-
-        private static bool StartsWith(IEventTopicInfo eventTopic, string start)
-        {
-            return eventTopic.Uri.StartsWith(start, StringComparison.Ordinal);
-        }
     }
 
-    [Subject(Concern.MappingWithUserDefinedConvention)]
-    public class when_publishing_topic_which_matches_user_defined_convention_with_defined_mapping : EventBrokerWithUserDefinedAutoMapperExtension
+    [Subject(Concern.MappingWithDefaultConvention)]
+    public class when_publishing_topic_which_matches_default_convention_with_defined_mapping_with_destination_information : EventBrokerWithDefaultAutoMapperExtension
     {
         protected static string sourceEventDescription = "Source";
 
         Establish context = () =>
-        {
-            typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(typeof(DestinationEventArgs));
+            {
+                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(typeof(DestinationEventArgs));
 
-            mapper.SetupMapping();
-        };
+                mapper.SetupMapping();
+            };
 
         Because of = () =>
-        {
-            source.Publish(sourceEventDescription);
-        };
+            {
+                source.Publish(sourceEventDescription);
+            };
 
         Behaves_like<MappedEventFiredBehavior> event_argument_auto_mapper;
     }
 
-    [Subject(Concern.MappingWithUserDefinedConvention)]
-    public class when_publishing_topic_which_matches_user_defined_convention_with_defined_mapping_but_without_subscriber : EventBrokerWithDefaultAutoMapperExtension
+    [Subject(Concern.MappingWithDefaultConvention)]
+    public class when_publishing_topic_which_matches_default_convention_with_defined_mapping_but_without_destination_information : EventBrokerWithDefaultAutoMapperExtension
     {
         protected static bool wasCalled;
 
         protected static string sourceEventDescription = "Source";
 
         Establish context = () =>
-        {
-            typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(() => null);
+            {
+                typeProvider.Setup(p => p.GetDestinationEventArgsType(Moq.It.IsAny<string>(), Moq.It.IsAny<Type>())).Returns(() => null);
 
-            mapper.SetupMapping();
+                mapper.SetupMapping();
 
-            extension.SetMissingMappingAction((s, d, p, sender, eventArgs) => wasCalled = true);
-        };
+                extension.SetMissingMappingAction(ctx => wasCalled = true);
+            };
 
         Because of = () =>
-        {
-            source.Publish(sourceEventDescription);
-        };
+            {
+                source.Publish(sourceEventDescription);
+            };
 
         Behaves_like<MappedEventNotFiredBehavior> not_an_event_argument_auto_mapper;
     }

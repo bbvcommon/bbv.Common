@@ -200,8 +200,7 @@
     </LiveTemplates>
   </SharedSolutionTemplateManager>
   <CodeStyleSettings>
-    <ExternalPath IsNull="False">
-    </ExternalPath>
+    <ExternalPath IsNull="False" />
     <Sharing>SOLUTION</Sharing>
     <CSS>
       <FormatSettings />
@@ -266,8 +265,7 @@
       <Naming2>
         <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
         <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
-        <ExceptionName IsNull="False">
-        </ExceptionName>
+        <ExceptionName IsNull="False" />
         <OverrideDefaultSettings>True</OverrideDefaultSettings>
         <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
         <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
@@ -581,8 +579,7 @@
     <Naming2>
       <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
       <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
-      <ExceptionName IsNull="False">
-      </ExceptionName>
+      <ExceptionName IsNull="False" />
       <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
       <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
       <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
