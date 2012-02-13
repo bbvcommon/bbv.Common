@@ -8,6 +8,7 @@
     <ProjectGuid>{9C4A0037-401F-4E3A-9445-A4DA6F924C8F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <SignAssembly>false</SignAssembly>
+	<RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\bbv.Common.DistributedEventBroker.MassTransitAdapter\lib\Net40\</OutputPath>
