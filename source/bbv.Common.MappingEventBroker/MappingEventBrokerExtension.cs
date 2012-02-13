@@ -24,6 +24,7 @@ namespace bbv.Common.MappingEventBroker
     using bbv.Common.EventBroker.Extensions;
     using bbv.Common.EventBroker.Internals;
     using bbv.Common.MappingEventBroker.Conventions;
+    using bbv.Common.MappingEventBroker.Internals;
 
     /// <summary>
     /// This extension allows to dynamically remap topics based on a convention
@@ -85,7 +86,7 @@ namespace bbv.Common.MappingEventBroker
         {
             this.TopicConvention = topicConvention;
             this.Topics = new EventTopicCollection();
-            this.Action = (source, target, publication, sender, args) => { };
+            this.Action = ctx => { };
             this.Mapper = mapper;
             this.TypeProvider = typeProvider;
         }
@@ -106,7 +107,7 @@ namespace bbv.Common.MappingEventBroker
         /// Gets the missing mapping action.
         /// </summary>
         /// <value>The missing mapping action.</value>
-        protected MissingMappingAction Action { get; private set; }
+        protected Action<IMissingMappingContext> Action { get; private set; }
 
         /// <summary>
         /// Gets the mapper.
@@ -145,11 +146,8 @@ namespace bbv.Common.MappingEventBroker
             }
         }
 
-        /// <summary>
-        /// Sets the missing mapping action which is called when no mapping was previously defined.
-        /// </summary>
-        /// <param name="action">The missing mapping action.</param>
-        public void SetMissingMappingAction(MissingMappingAction action)
+        /// <inheritdoc />
+        public void SetMissingMappingAction(Action<IMissingMappingContext> action)
         {
             this.Action = action;
         }
@@ -179,16 +177,21 @@ namespace bbv.Common.MappingEventBroker
 
                 Type destinationEventArgsType = this.TypeProvider.GetDestinationEventArgsType(destinationTopicUri, sourceEventArgsType);
 
-                if (destinationEventArgsType == null || !this.Mapper.HasMapping(sourceEventArgsType, destinationEventArgsType))
+                try
                 {
-                    this.Action(eventTopic, destinationTopicUri, publication, sender, e);
+                    if (destinationEventArgsType == null)
+                    {
+                        throw new ArgumentException("Destination event argument type provider was unable to determine destination event argument type.");
+                    }
 
-                    return;
+                    var mappedEventArgs = this.Mapper.Map(sourceEventArgsType, destinationEventArgsType, e);
+
+                    this.HostedEventBroker.Fire(destinationTopicUri, publication.Publisher, publication.HandlerRestriction, sender, mappedEventArgs);
                 }
-
-                var mappedEventArgs = this.Mapper.Map(sourceEventArgsType, destinationEventArgsType, e);
-
-                this.HostedEventBroker.Fire(destinationTopicUri, publication.Publisher, publication.HandlerRestriction, sender, mappedEventArgs);
+                catch (Exception mappingException)
+                {
+                    this.Action(new MissingMappingContext(eventTopic, destinationTopicUri, publication, sender, e, mappingException));
+                }
             }
         }
 
@@ -237,7 +240,7 @@ namespace bbv.Common.MappingEventBroker
             Ensure.ArgumentNotNullOrEmpty(topic, "topic");
             Ensure.ArgumentNotNullOrEmpty(topic, "mappedTopic");
 
-            return !topic.Equals(mappedTopic, StringComparison.OrdinalIgnoreCase) 
+            return !topic.Equals(mappedTopic, StringComparison.OrdinalIgnoreCase)
                 && this.Topics.Contains(topic);
         }
 

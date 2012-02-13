@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="MockMapperExtensions.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="GlobalSuppressions.cs" company="bbv Software Services AG">
 //   Copyright (c) 2008-2011 bbv Software Services AG
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,4 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace bbv.Common.MappingEventBroker
-{
-    using System;
-
-    using Moq;
-
-    public static class MockMapperExtensions
-    {
-        public static void SetupMapping(this Mock<IMapper> mapper)
-        {
-            SourceEventArgs sourceArgs = null;
-
-            mapper.Setup(m => m.Map(It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<EventArgs>()))
-                .Callback<Type, Type, EventArgs>((s, d, e) => { sourceArgs = (SourceEventArgs)e; })
-                .Returns(() => new DestinationEventArgs(sourceArgs.Source));
-        }
-    }
-}
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "bbv.Common.MappingEventBroker.MappingEventBrokerExtension.#FiringEvent(bbv.Common.EventBroker.Internals.IEventTopicInfo,bbv.Common.EventBroker.Internals.IPublication,System.Object,System.EventArgs)")]

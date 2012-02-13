@@ -26,20 +26,12 @@ namespace bbv.Common.MappingEventBroker
     public interface IMapper
     {
         /// <summary>
-        /// Determines whether there exists a mapping from the provided
-        /// <paramref name="sourceEventArgsType"/> to the 
-        /// <paramref name="destinationEventArgsType"/>.
-        /// </summary>
-        /// <param name="sourceEventArgsType">The source event argument type.</param>
-        /// <param name="destinationEventArgsType">The destination event argument type.</param>
-        /// <returns><see langword="true"/> if there is a mapping; otherwise <see langword="false"/>.</returns>
-        bool HasMapping(Type sourceEventArgsType, Type destinationEventArgsType);
-
-        /// <summary>
         /// Maps the provided event argument from the 
         /// <paramref name="sourceEventArgsType"/> to the 
         /// <paramref name="destinationEventArgsType"/>.
         /// </summary>
+        /// <remarks>If the mapping is not possible an exception must be thrown. 
+        /// The exception is passed to the missing mapping action.</remarks>
         /// <param name="sourceEventArgsType">The source event argument type.</param>
         /// <param name="destinationEventArgsType">The destination event argument type.</param>
         /// <param name="eventArgs">The source event argument.</param>
