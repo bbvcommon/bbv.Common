@@ -388,7 +388,7 @@
   {  
    DateTime now = DateTime.UtcNow;
 
-   string gmtTime = now.ToString("yy") + now.DayOfYear + "." + now.ToString("HHmm");
+   string gmtTime = now.ToString("yy") + string.Format("{0:000}", now.DayOfYear) + "." + now.ToString("HHmm");
    
    Properties.Add(_property, gmtTime);  
   
