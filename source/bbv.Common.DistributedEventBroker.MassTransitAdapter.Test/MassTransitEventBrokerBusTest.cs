@@ -48,7 +48,7 @@ namespace bbv.Common.DistributedEventBroker.MassTransitAdapter
 
             this.testee.Publish(message.Object);
 
-            this.serviceBus.Verify(bus => bus.Publish(message.Object, It.IsAny<Action<IPublishContext<IEventFired>>>()));
+            this.serviceBus.Verify(bus => bus.Publish(message.Object));
         }
     }
 }
